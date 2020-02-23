@@ -1,9 +1,10 @@
 package com.rcjava.client;
 
-import com.rcjava.protos.Peer.*;
-import com.rcjava.rclient.ChainInfoClient;
+import com.rcjava.protos.Peer.Block;
+import com.rcjava.protos.Peer.BlockchainInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static com.google.common.truth.Truth.assertThat;
 
 

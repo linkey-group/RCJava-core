@@ -1,4 +1,4 @@
-package com.rcjava.rclient;
+package com.rcjava.client;
 
 
 import com.alibaba.fastjson.JSON;
@@ -11,7 +11,7 @@ import org.apache.commons.codec.binary.Hex;
  *
  * @author zyf
  */
-public class TranPostClient extends Client {
+public class TranPostClient extends RClient {
 
     private String host;
 

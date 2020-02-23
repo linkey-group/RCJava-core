@@ -1,10 +1,10 @@
-package com.rcjava.rclient;
+package com.rcjava.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rcjava.protos.Peer.Transaction;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class Client {
+public class RClient {
 
     private CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -35,26 +35,12 @@ public class Client {
      */
     protected JSONObject getJObject(String url) {
         HttpGet get = new HttpGet(url);
-        JSONObject result = null;
-        HttpEntity resEntity = null;
         try {
-            HttpResponse response = httpClient.execute(get);
-            resEntity = response.getEntity();
-            String str = EntityUtils.toString(response.getEntity(), "UTF-8");
-            result = JSONObject.parseObject(str);
-            result = result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+            return httpClient.execute(get, responseHandler);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
-        } finally {
-            if (resEntity != null) {
-                try {
-                    EntityUtils.consume(resEntity);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
-        return result;
+        return null;
     }
 
     /**
@@ -83,10 +69,8 @@ public class Client {
     protected JSONObject postTranJString(String url, String json) {
         HttpPost post = new HttpPost(url);
         try {
-            StringEntity reqEntity = new StringEntity(json);
-            reqEntity.setContentEncoding("UTF-8");
             //发送json数据需要设置contentType
-            reqEntity.setContentType("application/json");
+            StringEntity reqEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
             post.setEntity(reqEntity);
             return httpClient.execute(post, responseHandler);
         } catch (Exception ex) {
@@ -126,17 +110,15 @@ public class Client {
      * Create a custom response handler
      */
     ResponseHandler<JSONObject> responseHandler = response -> {
-        JSONObject result = null;
         int status = response.getStatusLine().getStatusCode();
         if (status >= 200 && status < 300) {
             HttpEntity resEntity = response.getEntity();
             String str = EntityUtils.toString(resEntity, "UTF-8");
-            result = JSONObject.parseObject(str);
-            result = result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+            JSONObject result = JSONObject.parseObject(str);
+            return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
         } else {
-            throw new ClientProtocolException("Unexpected response status: " + status);
+            throw new HttpResponseException(status, "Unexpected response status: " + status);
         }
-        return result;
     };
 
     /**

@@ -1,4 +1,4 @@
-package com.rcjava.rclient;
+package com.rcjava.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.protobuf.ByteString;
@@ -14,7 +14,7 @@ import java.io.InputStream;
 /**
  * @author zyf
  */
-public class ChainInfoClient extends Client {
+public class ChainInfoClient extends RClient {
 
     private String host;
 
