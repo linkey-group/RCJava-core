@@ -58,7 +58,7 @@ public class TranCreator {
      * @throws Exception
      */
     public Transaction createDeployTran(String tranId, CertId certId, ChaincodeId chaincodeId, String spcPackage, String legal_prose, int timeout, ChaincodeDeploy.CodeType ctype) {
-        if (null == tranId || tranId.equals("") || tranId.trim().equals("")) {
+        if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
         }
@@ -88,7 +88,7 @@ public class TranCreator {
      * @return
      */
     public Transaction createInvokeTran(String tranId, CertId certId, ChaincodeId chaincodeId, String chaincodeInputFunc, List<String> params) {
-        if (null == tranId || tranId.equals("") || tranId.trim().equals("")) {
+        if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
         }
@@ -116,7 +116,7 @@ public class TranCreator {
      * @throws Exception
      */
     public Transaction createCidStateTran(String tranId, CertId certId, ChaincodeId chaincodeId, Boolean state) throws Exception {
-        if (null == tranId || tranId.equals("") || tranId.trim().equals("")) {
+        if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
         }

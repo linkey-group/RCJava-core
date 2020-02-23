@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.security.PrivateKey;
+import java.util.UUID;
 
 /**
  * @author zyf
@@ -65,6 +66,7 @@ public class DeployTran implements RCTran {
      */
     @Override
     public Transaction getSignedTran(@Nonnull PrivateKey privateKey, @Nonnull String signAlgorithm) {
+        String localTxid = UUID.randomUUID().toString().replace("-", "");
         ChaincodeDeploy chaincodeDeploy = ChaincodeDeploy.newBuilder()
                 .setTimeout(timeout)
                 .setCodePackage(spcPackage)
@@ -72,7 +74,7 @@ public class DeployTran implements RCTran {
                 .setCtype(codeType)
                 .build();
         Transaction tranDep = Transaction.newBuilder()
-                .setId(txid)
+                .setId(txid == null ? localTxid : txid)
                 .setType(Transaction.Type.CHAINCODE_DEPLOY)
                 .setCid(chaincodeId)
                 .setSpec(chaincodeDeploy)
@@ -86,16 +88,19 @@ public class DeployTran implements RCTran {
         return this.getSignedTran(this.privateKey, this.signAlgorithm);
     }
 
+    /**
+     * 部分变量赋初值
+     */
     public static final class Builder {
-        private String txid;
-        private String signAlgorithm;
+        private String txid = null;
+        private String signAlgorithm = null;
         private CertId certId;
         private ChaincodeId chaincodeId;
         private ChaincodeDeploy.CodeType codeType;
         private String spcPackage;
-        private String legal_prose;
-        private int timeout;
-        private PrivateKey privateKey;
+        private String legal_prose = "";
+        private int timeout = 500;
+        private PrivateKey privateKey = null;
 
         private Builder() {
         }

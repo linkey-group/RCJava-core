@@ -6,6 +6,7 @@ import com.rcjava.sign.TranSigner;
 
 import javax.annotation.Nonnull;
 import java.security.PrivateKey;
+import java.util.UUID;
 
 /**
  * @author zyf
@@ -50,8 +51,9 @@ public class InvokeTran implements RCTran {
      */
     @Override
     public Transaction getSignedTran(@Nonnull PrivateKey privateKey, @Nonnull String signAlgorithm) {
+        String localTxid = UUID.randomUUID().toString().replace("-", "");
         Transaction tranInv = Transaction.newBuilder()
-                .setId(txid)
+                .setId(txid == null? localTxid : txid)
                 .setType(Transaction.Type.CHAINCODE_INVOKE)
                 .setCid(chaincodeId)
                 .setIpt(chaincodeInput)
@@ -65,13 +67,16 @@ public class InvokeTran implements RCTran {
         return this.getSignedTran(this.privateKey, this.signAlgorithm);
     }
 
+    /**
+     * 部分变量赋初值
+     */
     public static final class Builder {
-        private String txid;
-        private String signAlgorithm;
+        private String txid = null;
+        private String signAlgorithm = null;
         private CertId certId;
         private ChaincodeId chaincodeId;
         private ChaincodeInput chaincodeInput;
-        private PrivateKey privateKey;
+        private PrivateKey privateKey = null;
 
         private Builder() {
         }

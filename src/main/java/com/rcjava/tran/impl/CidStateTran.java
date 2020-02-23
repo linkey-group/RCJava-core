@@ -6,6 +6,7 @@ import com.rcjava.sign.TranSigner;
 
 import javax.annotation.Nonnull;
 import java.security.PrivateKey;
+import java.util.UUID;
 
 /**
  * @author zyf
@@ -52,8 +53,9 @@ public class CidStateTran implements RCTran {
      */
     @Override
     public Transaction getSignedTran(PrivateKey privateKey, String signAlgorithm) {
+        String localTxid = UUID.randomUUID().toString().replace("-", "");
         Transaction tranSt = Transaction.newBuilder()
-                .setId(txid)
+                .setId(txid == null ? localTxid : txid)
                 .setType(Transaction.Type.CHAINCODE_SET_STATE)
                 .setCid(chaincodeId)
                 .setState(state)
@@ -67,13 +69,16 @@ public class CidStateTran implements RCTran {
         return this.getSignedTran(this.privateKey, this.signAlgorithm);
     }
 
+    /**
+     * 部分变量赋初值
+     */
     public static final class Builder {
-        private String txid;
-        private String signAlgorithm;
+        private String txid = null;
+        private String signAlgorithm = null;
         private CertId certId;
         private ChaincodeId chaincodeId;
-        private Boolean state;
-        private PrivateKey privateKey;
+        private Boolean state = true;
+        private PrivateKey privateKey = null;
 
         private Builder() {
         }

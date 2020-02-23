@@ -40,6 +40,12 @@ public class TranSigner {
         return builder.build();
     }
 
+    /**
+     *
+     * @param privateKey
+     * @param signAlgorithm
+     * @return
+     */
     private static boolean isInitial (PrivateKey privateKey, String signAlgorithm) {
         return privateKey != null && signAlgorithm != null;
     }
