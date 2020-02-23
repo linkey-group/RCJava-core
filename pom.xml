@@ -6,7 +6,7 @@
 
     <groupId>repchain</groupId>
     <artifactId>rcjava-core</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <build>
         <plugins>
             <plugin>
