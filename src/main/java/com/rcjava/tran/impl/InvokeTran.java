@@ -18,7 +18,6 @@ public class InvokeTran implements RCTran {
     private CertId certId;
     private ChaincodeId chaincodeId;
     private ChaincodeInput chaincodeInput;
-    private Transaction invokeTran;
     private PrivateKey privateKey;
 
     private InvokeTran(Builder builder) {
@@ -58,8 +57,7 @@ public class InvokeTran implements RCTran {
                 .setCid(chaincodeId)
                 .setIpt(chaincodeInput)
                 .build();
-        this.invokeTran = TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
-        return invokeTran;
+        return TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
     }
 
     @Override
@@ -153,10 +151,6 @@ public class InvokeTran implements RCTran {
 
     public ChaincodeInput getChaincodeInput() {
         return chaincodeInput;
-    }
-
-    public Transaction getInvokeTran() {
-        return invokeTran;
     }
 
     public PrivateKey getPrivateKey() {

@@ -22,7 +22,6 @@ public class DeployTran implements RCTran {
     private CertId certId;
     private ChaincodeId chaincodeId;
     private ChaincodeDeploy.CodeType codeType;
-    private Transaction deployTran;
     private String spcPackage;
     private String legal_prose;
     private int timeout;
@@ -79,8 +78,7 @@ public class DeployTran implements RCTran {
                 .setCid(chaincodeId)
                 .setSpec(chaincodeDeploy)
                 .build();
-        this.deployTran = TranSigner.signTran(tranDep, certId, privateKey, signAlgorithm);
-        return deployTran;
+        return TranSigner.signTran(tranDep, certId, privateKey, signAlgorithm);
     }
 
     @Override
@@ -187,10 +185,6 @@ public class DeployTran implements RCTran {
 
     public ChaincodeDeploy.CodeType getCodeType() {
         return codeType;
-    }
-
-    public Transaction getDeployTran() {
-        return deployTran;
     }
 
     public String getSpcPackage() {

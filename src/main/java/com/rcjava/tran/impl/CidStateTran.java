@@ -17,7 +17,6 @@ public class CidStateTran implements RCTran {
     private String signAlgorithm;
     private CertId certId;
     private ChaincodeId chaincodeId;
-    private Transaction tranCidState;
     private Boolean state;
     private PrivateKey privateKey;
 
@@ -60,8 +59,7 @@ public class CidStateTran implements RCTran {
                 .setCid(chaincodeId)
                 .setState(state)
                 .build();
-        this.tranCidState = TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
-        return tranCidState;
+        return TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
     }
 
     @Override
@@ -143,10 +141,6 @@ public class CidStateTran implements RCTran {
 
     public ChaincodeId getChaincodeId() {
         return chaincodeId;
-    }
-
-    public Transaction getTranCidState() {
-        return tranCidState;
     }
 
     public Boolean getState() {

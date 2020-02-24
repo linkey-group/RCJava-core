@@ -23,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * @author zyf
+ */
 public class RClient {
 
     private CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -66,7 +69,7 @@ public class RClient {
      * @param json 要提交的json数据
      * @return 返回post结果
      */
-    protected JSONObject postTranJString(String url, String json) {
+    protected JSONObject postJString(String url, String json) {
         HttpPost post = new HttpPost(url);
         try {
             //发送json数据需要设置contentType

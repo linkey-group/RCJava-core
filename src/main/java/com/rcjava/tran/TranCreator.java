@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.security.PrivateKey;
 import java.util.List;
 import java.util.UUID;
@@ -45,8 +46,6 @@ public class TranCreator {
     }
 
     /**
-     * TODO 构造deploy交易
-     *
      * @param tranId
      * @param certId
      * @param chaincodeId
@@ -57,7 +56,7 @@ public class TranCreator {
      * @return
      * @throws Exception
      */
-    public Transaction createDeployTran(String tranId, CertId certId, ChaincodeId chaincodeId, String spcPackage, String legal_prose, int timeout, ChaincodeDeploy.CodeType ctype) {
+    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage, @Nullable String legal_prose, @Nullable int timeout, @Nonnull ChaincodeDeploy.CodeType ctype) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
@@ -78,8 +77,6 @@ public class TranCreator {
     }
 
     /**
-     * TODO 构造invoke交易
-     *
      * @param tranId
      * @param certId
      * @param chaincodeId
@@ -87,14 +84,40 @@ public class TranCreator {
      * @param params
      * @return
      */
-    public Transaction createInvokeTran(String tranId, CertId certId, ChaincodeId chaincodeId, String chaincodeInputFunc, List<String> params) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc, @Nonnull List<String> params) {
+        ChaincodeInput ipt = ChaincodeInput.newBuilder()
+                .setFunction(chaincodeInputFunc)
+                .addAllArgs(params).build();
+        return createInvokeTran(tranId, certId, chaincodeId, ipt);
+    }
+
+    /**
+     * @param tranId
+     * @param certId
+     * @param chaincodeId
+     * @param chaincodeInputFunc
+     * @param param
+     * @return
+     */
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc, @Nonnull String param) {
+        ChaincodeInput ipt = ChaincodeInput.newBuilder()
+                .setFunction(chaincodeInputFunc)
+                .addArgs(param).build();
+        return createInvokeTran(tranId, certId, chaincodeId, ipt);
+    }
+
+    /**
+     * @param tranId
+     * @param certId
+     * @param chaincodeId
+     * @param ipt
+     * @return
+     */
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
         }
-        ChaincodeInput ipt = ChaincodeInput.newBuilder()
-                .setFunction(chaincodeInputFunc)
-                .addAllArgs(params).build();
         Transaction tranInv = Transaction.newBuilder()
                 .setId(tranId)
                 .setType(Transaction.Type.CHAINCODE_INVOKE)
@@ -106,8 +129,6 @@ public class TranCreator {
 
 
     /**
-     * TODO 构造改变合约状态的交易
-     *
      * @param tranId
      * @param certId
      * @param chaincodeId
@@ -115,7 +136,7 @@ public class TranCreator {
      * @return
      * @throws Exception
      */
-    public Transaction createCidStateTran(String tranId, CertId certId, ChaincodeId chaincodeId, Boolean state) throws Exception {
+    public Transaction createCidStateTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull Boolean state) throws Exception {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);

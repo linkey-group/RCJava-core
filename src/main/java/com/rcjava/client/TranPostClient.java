@@ -26,7 +26,7 @@ public class TranPostClient extends RClient {
     public JSONObject postTranByString(Transaction tran) {
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         String url = "http://" + host + "/transaction/postTranByString";
-        return postTranJString(url, JSON.toJSONString(tranHex));
+        return postJString(url, JSON.toJSONString(tranHex));
     }
 
     /**
