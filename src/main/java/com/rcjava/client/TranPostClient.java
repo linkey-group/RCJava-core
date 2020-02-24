@@ -4,7 +4,6 @@ package com.rcjava.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rcjava.protos.Peer.Transaction;
-import org.apache.commons.codec.binary.Hex;
 
 /**
  * 构造交易，提交交易
@@ -20,22 +19,23 @@ public class TranPostClient extends RClient {
     }
 
     /**
+     * 提交签名交易，以十六进制字符串
      *
-     * @param tran
+     * @param tranHexString 签名交易的十六进制字符串
      */
-    public JSONObject postTranByString(Transaction tran) {
-        String tranHex = Hex.encodeHexString(tran.toByteArray());
+    public JSONObject postSignedTran(String tranHexString) {
         String url = "http://" + host + "/transaction/postTranByString";
-        return postJString(url, JSON.toJSONString(tranHex));
+        return postJString(url, JSON.toJSONString(tranHexString));
     }
 
     /**
+     * 提交签名交易，以字节方式
      *
-     * @param tran
+     * @param tran 签名交易
      */
-    public JSONObject postTranByStream(Transaction tran) {
+    public JSONObject postSignedTran(Transaction tran) {
         String url = "http://" + host + "/transaction/postTranStream";
-        return postTranStream(url, tran);
+        return postBytes(url, "signedTrans", tran.toByteArray(), "tranByteArray");
     }
 
 

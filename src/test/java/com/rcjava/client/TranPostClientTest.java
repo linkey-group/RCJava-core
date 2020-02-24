@@ -8,8 +8,11 @@ import com.rcjava.protos.Peer.ChaincodeId;
 import com.rcjava.protos.Peer.Transaction;
 import com.rcjava.tran.TranCreator;
 import com.rcjava.util.CertUtil;
+import org.apache.commons.codec.binary.Hex;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.security.PrivateKey;
@@ -24,35 +27,40 @@ import static com.google.common.truth.Truth.assertThat;
  */
 public class TranPostClientTest {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     private TranPostClient tranPostClient = new TranPostClient("localhost:8081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
+    private CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build(); // 签名ID
+    //这个是给转账交易示范用的，此ID需要与repchain合约部署的一致
+    private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
+
+    private PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
+            new File("jks/121000005l35120456.node1.jks"),
+            "123",
+            "121000005l35120456.node1").getPrivateKey();
+
+    private TranCreator tranCreator = TranCreator.newBuilder()
+            .setPrivateKey(privateKey)
+            .setSignAlgorithm("sha1withecdsa")
+            .build();
+
     @Test
     @DisplayName("测试提交交易-流式")
     void testPostTranByStream() {
-
-        CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build(); // 签名ID
-        //这个是给转账交易示范用的，此ID需要与repchain合约部署的一致
-        ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
-
-        PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
-                new File("jks/121000005l35120456.node1.jks"),
-                "123",
-                "121000005l35120456.node1").getPrivateKey();
-        TranCreator tranCreator = TranCreator.newBuilder()
-                .setPrivateKey(privateKey)
-                .setSignAlgorithm("sha1withecdsa")
-                .build();
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
         Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
-        JSONObject res = tranPostClient.postTranByStream(tran);
+        JSONObject res = tranPostClient.postSignedTran(tran);
 
         assertThat(res).containsKey("txid");
+
+        logger.info("测试日志文件");
     }
 
     // TODO 测试字符串提交交易的方法
@@ -60,5 +68,13 @@ public class TranPostClientTest {
     @DisplayName("测试提交交易-字符串")
     void testPostTranByString() {
 
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+
+        JSONObject res = tranPostClient.postSignedTran(tranHex);
+
+        assertThat(res.getString("txid")).isEqualTo(tran.getId());
     }
 }

@@ -85,11 +85,13 @@ public class RClient {
     /**
      * 提交交易
      *
-     * @param url  请求路径
-     * @param tran 交易字节流
+     * @param url      请求路径
+     * @param name     参数名(fieldName/paramName)，服务端通过该参数获取相应的字节
+     * @param bytes    要post的字节数组
+     * @param fileName 文件名
      * @return 返回post的结果（该方法用于流式提交交易）
      */
-    protected JSONObject postTranStream(String url, Transaction tran) {
+    protected JSONObject postBytes(String url, String name, byte[] bytes, String fileName) {
         HttpPost post = new HttpPost(url);
         try {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -99,7 +101,7 @@ public class RClient {
             // *******************************************************************
             HttpEntity reqEntity = builder
                     .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                    .addBinaryBody("signedTrans", tran.toByteArray(), ContentType.APPLICATION_OCTET_STREAM, "tranByteArray")
+                    .addBinaryBody(name, bytes, ContentType.DEFAULT_BINARY, fileName)
                     .build();
             post.setEntity(reqEntity);
             return httpClient.execute(post, responseHandler);
