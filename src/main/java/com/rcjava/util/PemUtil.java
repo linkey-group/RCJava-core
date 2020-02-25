@@ -22,30 +22,62 @@ public class PemUtil {
     }
 
     /**
-     * 将byte[]转为PEM字符串      pkcs8(私钥)
-     * convert byte[] to pemString
+     * 将privateKey转为pemString(PKCS8)
      *
-     * @param type      类型，PRIVATE KEY、PUBLIC KEY、CERTIFICATE
-     * @param byteArray
-     * @return
+     * @param key PrivateKey
      * @throws IOException
      */
-    public static String toPemString(String type, byte[] byteArray) throws IOException {
-        Writer writer = new StringWriter();
-        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
-        pemWriter.writeObject(new PemObject(type, byteArray));
-        String pemString = writer.toString();
-        pemWriter.flush();
+    public static String toPKCS8PemString(PrivateKey key) throws IOException {
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+        JcaPEMWriter pemWriter = new JcaPEMWriter(new OutputStreamWriter(bOut));
+        PKCS8Generator pkcs8 = new JcaPKCS8Generator(key, null);
+        pemWriter.writeObject(pkcs8);
         pemWriter.close();
-        writer.close();
-        // pem字符串
-        return pemString;
+        bOut.close();
+        return bOut.toString();
     }
 
     /**
-     * 转为pemString             PKCS1(如果是私钥)
+     * 将Der编码转为PEM编码
+     * convert byte[] to pemString
      *
-     * @param object 只能privateKey，publicKey，certificate
+     * @param type            类型，i.e., PRIVATE KEY、PUBLIC KEY、CERTIFICATE
+     * @param encodeByteArray Der编码的字节数组
+     * @return
+     * @throws IOException
+     */
+    public static String toPemString(String type, byte[] encodeByteArray) throws IOException {
+        Writer writer = new StringWriter();
+        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
+        pemWriter.writeObject(new PemObject(type, encodeByteArray));
+        pemWriter.close();
+        writer.close();
+        // pem字符串
+        return writer.toString();
+    }
+
+    /**
+     * 将Der编码转为PEM编码
+     * 输出PEM字符串到文件中
+     * export byte[] to File by pemString
+     *
+     * @param pemFile         文件路径
+     * @param type            类型，PRIVATE KEY、PUBLIC KEY、CERTIFICATE
+     * @param encodeByteArray Der编码的字节数组
+     * @throws IOException
+     */
+    public static void exportToPemFile(File pemFile, String type, byte[] encodeByteArray) throws IOException {
+        Writer writer = new FileWriter(pemFile);
+        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
+        pemWriter.writeObject(new PemObject(type, encodeByteArray));
+        pemWriter.close();
+        writer.close();
+    }
+
+    /**
+     * 转为PEM字符串，PKCS1(if object instanceof PrivateKey == true)
+     *
+     * @param object 类型，i.e.,privateKey，publicKey，certificate
      * @return
      * @throws IOException
      */
@@ -60,50 +92,16 @@ public class PemUtil {
     }
 
     /**
-     * 将privateKey转为pemString(PKCS8)
+     * 输出PEM字符串到文件中，PKCS1(if object instanceof PrivateKey == true)
      *
-     * @param key PrivateKey
+     * @param pemFile 文件路径
+     * @param object  类型，i.e.,privateKey，publicKey，certificate
      * @throws IOException
      */
-    public static String toPkcs8PemString(PrivateKey key) throws IOException {
-        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-        JcaPEMWriter pWrt = new JcaPEMWriter(new OutputStreamWriter(bOut));
-        PKCS8Generator pkcs8 = new JcaPKCS8Generator(key, null);
-        pWrt.writeObject(pkcs8);
-        pWrt.close();
-        return bOut.toString();
-    }
-
-    /**
-     * 输出PEM字符串到文件中     PKCS1(如果是私钥)
-     *
-     * @param path   文件路径
-     * @param object 只能privateKey，publicKey，certificate
-     * @throws IOException
-     */
-    public static void exportToPemFile(String path, Object object) throws IOException {
-        File file = new File(path);
-        Writer writer = new FileWriter(file);
+    public static void exportToPemFile(File pemFile, Object object) throws IOException {
+        Writer writer = new FileWriter(pemFile);
         JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
         pemWriter.writeObject(object);
-        pemWriter.close();
-        writer.close();
-    }
-
-    /**
-     * 输出PEM字符串到文件中     PKCS8(如果是私钥)
-     * export byte[] to File by pemString
-     *
-     * @param path      文件路径
-     * @param type      类型，PRIVATE KEY、PUBLIC KEY、CERTIFICATE
-     * @param byteArray
-     * @throws IOException
-     */
-    public static void exportToPemFile(String path, String type, byte[] byteArray) throws IOException {
-        File file = new File(path);
-        Writer writer = new FileWriter(file);
-        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
-        pemWriter.writeObject(new PemObject(type, byteArray));
         pemWriter.close();
         writer.close();
     }

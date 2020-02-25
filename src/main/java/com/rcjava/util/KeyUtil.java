@@ -1,5 +1,6 @@
 package com.rcjava.util;
 
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
@@ -7,23 +8,23 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 import org.bouncycastle.math.ec.ECPoint;
-import org.bouncycastle.openssl.PEMKeyPair;
-import org.bouncycastle.openssl.PEMParser;
-import org.bouncycastle.openssl.PKCS8Generator;
-import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
-import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator;
-import org.bouncycastle.openssl.jcajce.JceOpenSSLPKCS8DecryptorProviderBuilder;
-import org.bouncycastle.openssl.jcajce.JceOpenSSLPKCS8EncryptorBuilder;
+import org.bouncycastle.openssl.*;
+import org.bouncycastle.openssl.jcajce.*;
 import org.bouncycastle.operator.InputDecryptorProvider;
+import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
+import org.bouncycastle.pkcs.PKCSException;
+import org.bouncycastle.util.io.pem.PemGenerationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Security;
+import java.io.Writer;
+import java.security.*;
 
 /**
  * 该类以后主要放key相关的工具
@@ -32,56 +33,98 @@ import java.security.Security;
  */
 public class KeyUtil {
 
+    private static Logger keyLogger = LoggerFactory.getLogger(KeyUtil.class);
+
     static {
         Security.addProvider(new BouncyCastleProvider());
     }
 
 
     /**
-     * 暂时不支持设置SecureRandom与iterationCount
      * convert privateKey to pem and encrypt
      *
-     * @param privateKey 私钥
-     * @param pass       密码
-     * @return encryptPrivateKeyPem
-     * @throws Exception
+     * @param opensslLegacyFormat 是否是标准openssl格式,true:pkcs1, false:pkcs8
+     * @param privateKey          私钥
+     * @param encryptAlg          算法
+     * @param pass                密码
+     * @return
+     * @throws IOException
+     * @throws OperatorCreationException
+     * @throws PemGenerationException
      */
-    public static String generateEncryptPemString(@Nonnull PrivateKey privateKey, String pass) throws Exception {
-        JceOpenSSLPKCS8EncryptorBuilder encryptorBuilder = new JceOpenSSLPKCS8EncryptorBuilder(JcaPKCS8Generator.DES3_CBC);
-        encryptorBuilder.setProvider("BC");
-        encryptorBuilder.setPasssword(pass.toCharArray());
-        encryptorBuilder.setPRF(JcaPKCS8Generator.PRF_HMACSHA1);
-        PKCS8Generator pkcs8 = new JcaPKCS8Generator(privateKey, encryptorBuilder.build());
-        return PemUtil.toPemString(pkcs8);
+    public static void generateEncryptPemString(@Nonnull JcaPEMWriter privateKeyPEMWriter, @Nonnull PrivateKey privateKey, @Nonnull Boolean opensslLegacyFormat, @Nullable String encryptAlg, @Nullable String pass)
+            throws IOException, OperatorCreationException, PemGenerationException {
+        if (null != encryptAlg && "" != encryptAlg) {
+            if (!opensslLegacyFormat) {
+                JceOpenSSLPKCS8EncryptorBuilder encryptorBuilder = new JceOpenSSLPKCS8EncryptorBuilder(new ASN1ObjectIdentifier(encryptAlg));
+                encryptorBuilder.setProvider("BC");
+                encryptorBuilder.setPasssword(pass.toCharArray());
+                PKCS8Generator pkcs8 = new JcaPKCS8Generator(privateKey, encryptorBuilder.build());
+                privateKeyPEMWriter.writeObject(pkcs8);
+
+            } else {
+                JcePEMEncryptorBuilder encryptorBuilder = new JcePEMEncryptorBuilder(encryptAlg);
+                encryptorBuilder.setProvider("BC");
+                encryptorBuilder.setSecureRandom(new SecureRandom());
+                PEMEncryptor encryptor = encryptorBuilder.build(pass.toCharArray());
+                MiscPEMGenerator pkcs1 = new JcaMiscPEMGenerator(privateKey, encryptor);
+                privateKeyPEMWriter.writeObject(pkcs1);
+            }
+        } else {
+            if (!opensslLegacyFormat) {
+                PKCS8Generator pkcs8 = new JcaPKCS8Generator(privateKey, null);
+                privateKeyPEMWriter.writeObject(pkcs8);
+            } else {
+                MiscPEMGenerator pkcs1 = new JcaMiscPEMGenerator(privateKey);
+                privateKeyPEMWriter.writeObject(pkcs1);
+            }
+        }
+
     }
 
     /**
      * decrypt priPemString and convert it to privateKey
      *
-     * @param priPemString priPem是pem文件路径或读取pem私钥文件得到的字符串
-     * @param pass         密码
+     * @param privateKeyPEMParser 用来读取pem文件
+     * @param opensslLegacyFormat 是否是标准openssl格式，true:pkcs1,false:pkcs8
+     * @param pass                密码
      * @return PrivateKey
-     * @throws Exception
+     * @throws IOException
+     * @throws OperatorCreationException
+     * @throws PKCSException
      */
-    public static PrivateKey generatePrivateKey(@Nonnull String priPemString, String pass) throws Exception {
-        PEMParser pemParser = new PEMParser(new StringReader(priPemString));
-        Object object = pemParser.readObject();
-        PrivateKey privateKey;
-        if (null == pass || "".equals(pass.trim())) {
-            if (object instanceof PEMKeyPair) {
-                PEMKeyPair kp = (PEMKeyPair) object;
-                privateKey = new JcaPEMKeyConverter().setProvider("BC").getPrivateKey(kp.getPrivateKeyInfo());
-            } else if (object instanceof PrivateKeyInfo) {
-                privateKey = new JcaPEMKeyConverter().setProvider("BC").getPrivateKey((PrivateKeyInfo) object);
-            } else {
-                throw new IOException("unrecognised private key pemFile or pemString");
+    public static PrivateKey generatePrivateKey(@Nonnull PEMParser privateKeyPEMParser, @Nonnull Boolean opensslLegacyFormat, @Nullable String pass)
+            throws IOException, OperatorCreationException, PKCSException {
+        Object object = null;
+        try {
+            object = privateKeyPEMParser.readObject();
+            if (null == object) {
+                keyLogger.error("Can not load the private key: no input data");
+                throw new IOException("Can not load the private key: no input data");
             }
-        } else {
-            InputDecryptorProvider decProv = new JceOpenSSLPKCS8DecryptorProviderBuilder().setProvider("BC").build(pass.toCharArray());
-            PKCS8EncryptedPrivateKeyInfo pInfo = (PKCS8EncryptedPrivateKeyInfo) object;
-            privateKey = new JcaPEMKeyConverter().setProvider("BC").getPrivateKey(pInfo.decryptPrivateKeyInfo(decProv));
+        } catch (IOException ioEx) {
+            keyLogger.error("Can not load the private key: {}", ioEx);
+            throw new IOException(String.format("Can not load the private key: %s", ioEx));
         }
-        return privateKey;
+        if (object instanceof PEMKeyPair) {
+            PEMKeyPair kp = (PEMKeyPair) object;
+            return new JcaPEMKeyConverter().setProvider("BC").getPrivateKey(kp.getPrivateKeyInfo());
+        } else if (object instanceof PrivateKeyInfo) {
+            return new JcaPEMKeyConverter().setProvider("BC").getPrivateKey((PrivateKeyInfo) object);
+        } else if (object instanceof PEMEncryptedKeyPair) {
+            JcePEMDecryptorProviderBuilder provBuilder = new JcePEMDecryptorProviderBuilder().setProvider("BC");
+            PEMDecryptorProvider decProvider = provBuilder.build(pass.toCharArray());
+            PEMKeyPair kp = ((PEMEncryptedKeyPair) object).decryptKeyPair(decProvider);
+            return new JcaPEMKeyConverter().setProvider("BC").getPrivateKey(kp.getPrivateKeyInfo());
+        } else if (object instanceof PKCS8EncryptedPrivateKeyInfo) {
+            JceOpenSSLPKCS8DecryptorProviderBuilder proBuilder = new JceOpenSSLPKCS8DecryptorProviderBuilder().setProvider("BC");
+            InputDecryptorProvider decProv = proBuilder.build(pass.toCharArray());
+            PKCS8EncryptedPrivateKeyInfo pInfo = (PKCS8EncryptedPrivateKeyInfo) object;
+            return new JcaPEMKeyConverter().setProvider("BC").getPrivateKey(pInfo.decryptPrivateKeyInfo(decProv));
+        } else {
+            keyLogger.error("Can not load the private key");
+            throw new IOException("Can not load the private key, unknown format");
+        }
     }
 
     /**

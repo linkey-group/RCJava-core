@@ -2,7 +2,11 @@ package com.rcjava.tran;
 
 
 import com.rcjava.protos.Peer.*;
+import com.rcjava.sign.RCTranSigner;
 import com.rcjava.sign.TranSigner;
+import com.rcjava.tran.impl.CidStateTran;
+import com.rcjava.tran.impl.DeployTran;
+import com.rcjava.tran.impl.InvokeTran;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +81,15 @@ public class TranCreator {
     }
 
     /**
+     *
+     * @param deployTran
+     * @return
+     */
+    public Transaction createDeployTran(@Nonnull DeployTran deployTran) {
+        return RCTranSigner.getSignedTran(deployTran, privateKey, signAlgorithm);
+    }
+
+    /**
      * @param tranId
      * @param certId
      * @param chaincodeId
@@ -127,6 +140,15 @@ public class TranCreator {
         return TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
     }
 
+    /**
+     *
+     * @param invokeTran
+     * @return
+     */
+    public Transaction createInvokeTran(@Nonnull InvokeTran invokeTran) {
+        return RCTranSigner.getSignedTran(invokeTran, privateKey, signAlgorithm);
+    }
+
 
     /**
      * @param tranId
@@ -148,6 +170,15 @@ public class TranCreator {
                 .setState(state)
                 .build();
         return TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
+    }
+
+    /**
+     *
+     * @param cidStateTran
+     * @return
+     */
+    public Transaction createCidStateTran(@Nonnull CidStateTran cidStateTran) {
+        return RCTranSigner.getSignedTran(cidStateTran, privateKey, signAlgorithm);
     }
 
     public PrivateKey getPrivateKey() {
