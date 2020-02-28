@@ -3,6 +3,7 @@ package com.rcjava.tran.impl;
 import com.alibaba.fastjson.JSON;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
+import com.rcjava.sign.RCTranSigner;
 import com.rcjava.util.CertUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,12 +47,20 @@ public class InvokeTranTest {
                 .setSignAlgorithm("SHA1withECDSA")
                 .build();
 
+        assertThat(invokeTran.getTxid()).isNull();
+
         Peer.Transaction transaction = invokeTran.getSignedTran();
         Peer.Transaction transaction_1 = invokeTran.getSignedTran();
+        Peer.Transaction transaction_2 = invokeTran.getSignedTran(privateKey, "sha1withecdsa");
+        Peer.Transaction transaction_3 = invokeTran.toBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build().getSignedTran();
+        Peer.Transaction transaction_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha1withecdsa");
 
         assertThat(transaction_1.getSignature().getTmLocal().getNanos())
                 .isNotEqualTo(transaction.getSignature().getTmLocal().getNanos());
         assertThat(transaction_1.getId()).isNotEqualTo(transaction.getId());
+        assertThat(transaction_2.getId()).isNotEqualTo(transaction_1.getId());
+        assertThat(transaction_3.getId()).isNotEqualTo(transaction_2.getId());
+        assertThat(transaction_4.getId()).isNotEqualTo(transaction_3.getId());
 
         InvokeTran invokeTran_1 = invokeTran.toBuilder().setTxid("123456789").build();
         assertThat(invokeTran_1.getTxid()).isEqualTo("123456789");
