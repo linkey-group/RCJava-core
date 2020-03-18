@@ -11,6 +11,16 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -23,9 +33,9 @@ import java.util.Arrays;
 public class HttpsClientTest {
 
     @Test
-    void testHttpsRequest() throws Exception{
+    void testHttpsRequest() throws Exception {
         SSLContext sslContext = SSLContexts.custom()
-                .loadTrustMaterial(new File("jks/ssl/serverr1.jks"), "123".toCharArray(),new TrustSelfSignedStrategy()) // use null as second param if you don't have a separate key password
+                .loadTrustMaterial(new File("jks/ssl/serverr1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy()) // use null as second param if you don't have a separate key password
                 .loadKeyMaterial(new File("jks/ssl/clientr1.jks"), "123".toCharArray(), "123".toCharArray())
                 .build();
 //        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER)
@@ -39,4 +49,28 @@ public class HttpsClientTest {
         JSONObject result = JSONObject.parseObject(str);
         System.out.println(result);
     }
+
+    @Test
+    void testHttpsRequestBySelenium() throws InterruptedException {
+
+//        System.setProperty("webdriver.chrome.driver", "/Users/zyf/IdeaProjects/RCJava-core/chrome/chromedriver");
+//        System.setProperty("webdriver.chrome.driver", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+        System.setProperty("webdriver.chrome.driver", "chrome/chromedriver");
+
+        ChromeOptions opts = new ChromeOptions();
+        opts.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        opts.setCapability(CapabilityType.SUPPORTS_ALERTS, true);
+
+        ChromeDriver driver = new ChromeDriver(opts);
+        driver.get("https://localhost:8888");
+
+        String text = driver.findElement(By.cssSelector("body > pre")).getText();
+
+        System.out.println(text.equals("Connected"));
+
+        Thread.sleep(50000);  // Let the user actually see something!
+
+        driver.quit();
+    }
+
 }
