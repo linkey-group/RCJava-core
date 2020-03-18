@@ -1,0 +1,12 @@
+subscription transactionSub {
+  transaction {
+    mutation
+    node {
+      id
+      txid
+    }
+    previousValues {
+      id
+    }
+  }
+}

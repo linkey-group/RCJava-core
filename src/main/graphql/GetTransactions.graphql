@@ -1,0 +1,9 @@
+query transaction($where: TransactionWhereUniqueInput!) {
+  transaction(where: $where) {
+    id
+    txid
+    chaincodeID {
+      chaincodeName
+    }
+  }
+}
