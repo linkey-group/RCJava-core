@@ -60,7 +60,7 @@ public class TranCreator {
      * @return
      * @throws Exception
      */
-    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage, @Nullable String legal_prose, @Nullable int timeout, @Nonnull ChaincodeDeploy.CodeType ctype) {
+    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage, @Nonnull String legal_prose, int timeout, @Nonnull ChaincodeDeploy.CodeType ctype) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
