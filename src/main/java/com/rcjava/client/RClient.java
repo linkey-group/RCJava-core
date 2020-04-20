@@ -33,7 +33,7 @@ public class RClient {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * @param url
+     * @param url pathParam
      * @return
      */
     protected JSONObject getJObject(String url) {
@@ -47,7 +47,7 @@ public class RClient {
     }
 
     /**
-     * @param url
+     * @param url pathParam
      * @return
      */
     protected HttpResponse getResponse(String url) {

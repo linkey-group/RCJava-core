@@ -54,7 +54,7 @@ public class ChainInfoClient extends RClient {
      * @param height 区块高度
      * @return Block
      */
-    public Block getBlockByHeight(int height) {
+    public Block getBlockByHeight(long height) {
         // 根据高度获取块数据
         JSONObject result = getJObject("http://" + host + "/block/" + height);
         String json = result.toJSONString();
@@ -74,7 +74,7 @@ public class ChainInfoClient extends RClient {
      * @param height 区块高度
      * @return 返回对应高度的块（流式获取）
      */
-    public Block getBlockStreamByHeight(int height) {
+    public Block getBlockStreamByHeight(long height) {
         HttpResponse response = getResponse("http://" + host + "/block/stream/" + height);
         InputStream inputStream = null;
         Block block = null;

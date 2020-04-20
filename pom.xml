@@ -8,6 +8,22 @@
     <artifactId>rcjava-core</artifactId>
     <version>0.2</version>
     <description>Java sdk for RepChain</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.sourceEncoding>UTF-8</maven.compiler.sourceEncoding>
+
+        <version.junit5>5.4.0</version.junit5>
+        <version.truth>1.0.1</version.truth>
+        <version.protobuf-util>3.11.4</version.protobuf-util>
+        <version.httpmime>4.5.5</version.httpmime>
+        <version.bcpkix>1.5.9</version.bcpkix>
+        <version.fastjson>1.2.47</version.fastjson>
+        <version.slf4j-api>1.8.0-beta4</version.slf4j-api>
+        <version.slf4j-log4j12>1.8.0-beta4</version.slf4j-log4j12>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -15,9 +31,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${maven.compiler.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -81,14 +97,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.4.0</version>
+            <version>${version.junit5}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
         <dependency>
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
-            <version>1.0.1</version>
+            <version>${version.truth}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
