@@ -1,0 +1,98 @@
+package com.rcjava.client;
+
+
+import com.neovisionaries.ws.client.*;
+import com.rcjava.ws.BlockListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+/**
+ * webSocket 订阅
+ *
+ * @author zyf
+ */
+public class RSubClient {
+
+    private String host = "localhost:8081";
+    private BlockListener blkListener;
+    private WebSocket ws;
+
+    private static WebSocketFactory factory = new WebSocketFactory();
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public RSubClient(String host, BlockListener blkListener) {
+        this.host = host;
+        this.blkListener = blkListener;
+    }
+
+    /**
+     * 链接socket，开启订阅
+     *
+     * @throws IOException
+     */
+    public void connect() throws IOException {
+        ws = factory
+                .setConnectionTimeout(10000)
+                .createSocket(String.format("ws://%s/event", host))
+                .addListener(blkListener);
+
+        try {
+            ws.connect();
+        } catch (OpeningHandshakeException e) {
+            // Status line.
+            StatusLine sl = e.getStatusLine();
+            String httpVersion = sl.getHttpVersion();
+            int statusCode = sl.getStatusCode();
+            String reason = sl.getReasonPhrase();
+            logger.error(String.format("httpVesion: %s, status code: %s, reason: %s\n", httpVersion, statusCode, reason), e);
+        } catch (WebSocketException e) {
+            // Failed to establish a WebSocket connection.
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 断掉链接
+     */
+    public void disconnect() {
+        ws.disconnect();
+    }
+
+    public boolean isopen() {
+        return ws.isOpen();
+    }
+
+    /**
+     * 判断是否已连接
+     *
+     * @return
+     */
+    public boolean isclosed() {
+        return ws.getSocket().isClosed();
+    }
+
+    /**
+     * 重连链接
+     *
+     * @throws IOException
+     * @throws WebSocketException
+     */
+    public void reconnect() throws IOException, WebSocketException {
+        ws = ws.recreate().connect();
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public BlockListener getBlkListener() {
+        return blkListener;
+    }
+
+    public WebSocket getWs() {
+        return ws;
+    }
+}
