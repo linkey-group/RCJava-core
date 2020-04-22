@@ -6,6 +6,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -14,6 +15,8 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +31,26 @@ import java.io.OutputStream;
  */
 public class RClient {
 
-    private CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    private static RequestConfig requestConfig;
+
+    private static PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+
+    static {
+        requestConfig = RequestConfig.custom()
+                .setConnectTimeout(5000)
+                .setConnectionRequestTimeout(5000)
+                .setSocketTimeout(5000)
+                .build();
+        // 设置最大连接数
+        connManager.setMaxTotal(200);
+        // 设置每个连接的路由数
+        connManager.setDefaultMaxPerRoute(20);
+    }
+
+    private static CloseableHttpClient httpClient = HttpClients.custom()
+            .setDefaultRequestConfig(requestConfig)
+            .setConnectionManager(connManager)
+            .build();
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
