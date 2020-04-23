@@ -1,5 +1,6 @@
 package com.rcjava.sync;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketState;
 import com.rcjava.client.ChainInfoClient;
@@ -31,16 +32,20 @@ public class SyncService implements BlockObserver {
     private ChainInfoClient cInfoClient;
     private BlockListener blkListener;
 
-    // 使用队列保存Block
+    /**
+     * 使用队列保存Block
+     */
     private ConcurrentLinkedQueue<Peer.Block> blockQueue = new ConcurrentLinkedQueue<>();
 
-    private ScheduledExecutorService pullService = Executors.newSingleThreadScheduledExecutor();
-    private ScheduledExecutorService blockService = Executors.newSingleThreadScheduledExecutor();
-    private ScheduledExecutorService wsService = Executors.newSingleThreadScheduledExecutor();
+    private ThreadFactory pullServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockPull-pool-%d").build();
+    private ScheduledExecutorService pullService = Executors.newSingleThreadScheduledExecutor(pullServiceFactory);
+    private ThreadFactory wsServiceFactory = new ThreadFactoryBuilder().setNameFormat("wsMonitor-pool-%d").build();
+    private ScheduledExecutorService wsService = Executors.newSingleThreadScheduledExecutor(wsServiceFactory);
+    private ThreadFactory blkServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockQueue-pool-%d").build();
+    private ScheduledExecutorService blockService = Executors.newSingleThreadScheduledExecutor(blkServiceFactory);
 
     private volatile boolean isSubing = false;
     private volatile boolean isSyncing = false;
-    private volatile boolean isPolling = false;
 
     private volatile boolean stopPull = false;
     private volatile boolean stopPoll = false;
@@ -77,11 +82,11 @@ public class SyncService implements BlockObserver {
         // 首先打开订阅，每隔60s检查一次socket状态
         wsService.scheduleAtFixedRate(this::startSub, 1, 60, TimeUnit.SECONDS);
 
-        // 定时推送block
-        blockService.scheduleAtFixedRate(this::pollBlock, 2, 10, TimeUnit.SECONDS);
+        // 推送block，固定间隔时间10s
+        blockService.scheduleWithFixedDelay(this::pollBlock, 2, 10, TimeUnit.SECONDS);
 
-        // 然后打开定时pull，每隔30s进行检查是否需要pull
-        pullService.scheduleAtFixedRate(this::startPull, 7, 20, TimeUnit.SECONDS);
+        // 打开定时pull，固定间隔时间20s，检查是否需要pull
+        pullService.scheduleWithFixedDelay(this::startPull, 7, 20, TimeUnit.SECONDS);
 
     }
 
@@ -193,24 +198,20 @@ public class SyncService implements BlockObserver {
      * 通知SyncListener，输出block数据
      */
     private void pollBlock() {
-        if (!isPolling) {
-            logger.info("PollBlock to BlockListener，开始poll...，blockQueue's size is {}", blockQueue.size());
-            onBlock();
-        }
+        logger.info("PollBlock to BlockListener，开始poll...，blockQueue's size is {}", blockQueue.size());
+        onBlock();
     }
 
     /**
      * BlockQueue pollBlock to BlockListener
      */
     private void onBlock() {
-        isPolling = true;
         while (!blockQueue.isEmpty()) {
             syncListener.onBlock(blockQueue.poll());
             if (stopPoll) {
                 break;
             }
         }
-        isPolling = false;
         if (stopPoll) {
             logger.info("已触发stop，停止poll服务...");
         }

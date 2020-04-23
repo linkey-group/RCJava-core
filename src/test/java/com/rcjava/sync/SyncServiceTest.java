@@ -25,7 +25,7 @@ public class SyncServiceTest implements SyncListener {
 
         String host = "192.168.2.69:8081";
 
-        long locHeight = 1;
+        long locHeight = 1L;
         String locBlkHash = new ChainInfoClient(host).getBlockByHeight(1).getHashOfBlock().toStringUtf8();
 
         SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
