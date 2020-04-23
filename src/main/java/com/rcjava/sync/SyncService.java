@@ -198,12 +198,12 @@ public class SyncService implements BlockObserver {
      * 通知SyncListener，输出block数据
      */
     private void pollBlock() {
-        logger.info("PollBlock to BlockListener，开始poll...，blockQueue's size is {}", blockQueue.size());
+        logger.info("PollBlock to SyncListener，开始poll...，blockQueue's size is {}", blockQueue.size());
         onBlock();
     }
 
     /**
-     * BlockQueue pollBlock to BlockListener
+     * BlockQueue pollBlock to SyncListener
      */
     private void onBlock() {
         while (!blockQueue.isEmpty()) {
