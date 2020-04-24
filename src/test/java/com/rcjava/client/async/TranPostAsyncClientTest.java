@@ -1,0 +1,95 @@
+package com.rcjava.client.async;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.rcjava.model.Transfer;
+import com.rcjava.protos.Peer.CertId;
+import com.rcjava.protos.Peer.ChaincodeId;
+import com.rcjava.protos.Peer.Transaction;
+import com.rcjava.tran.TranCreator;
+import com.rcjava.util.CertUtil;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.http.HttpResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.security.PrivateKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Future;
+
+import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Thread.sleep;
+
+/**
+ * @author zyf
+ */
+public class TranPostAsyncClientTest {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("192.168.2.69:8081");
+
+    private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+
+    private CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build(); // 签名ID
+    //这个是给转账交易示范用的，此ID需要与repchain合约部署的一致
+    private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
+
+    private PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
+            new File("jks/121000005l35120456.node1.jks"),
+            "123",
+            "121000005l35120456.node1").getPrivateKey();
+
+    private TranCreator tranCreator = TranCreator.newBuilder()
+            .setPrivateKey(privateKey)
+            .setSignAlgorithm("sha1withecdsa")
+            .build();
+
+    @Test
+    @DisplayName("测试提交交易-流式")
+    void testPostTranByStream() throws InterruptedException {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        List<String> params = new ArrayList<>();
+        params.add(JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tran);
+
+        sleep(5000);
+
+        JSONObject result = TranPostAsyncClient.resolveHttpResponseFuture(responseFuture);
+
+        System.out.println(result);
+
+        assertThat(result).containsKey("txid");
+
+    }
+
+    @Test
+    @DisplayName("测试提交交易-字符串")
+    void testPostTranByString() throws InterruptedException {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+
+        Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tranHex);
+
+        sleep(5000);
+
+        JSONObject result = TranPostAsyncClient.resolveHttpResponseFuture(responseFuture);
+
+        System.out.println(result);
+
+        assertThat(result.getString("txid")).isEqualTo(tran.getId());
+
+    }
+
+}
