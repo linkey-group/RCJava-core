@@ -10,7 +10,7 @@ public interface BlockObserver {
     /**
      * 回调Message-->Block
      *
-     * @param block
+     * @param block 回调的块数据
      */
     void onMessage(Peer.Block block);
 }

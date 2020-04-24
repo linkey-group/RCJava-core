@@ -43,11 +43,11 @@ public class KeyUtil {
     /**
      * convert privateKey to pem and encrypt
      *
-     * @param opensslLegacyFormat 是否是标准openssl格式,true:pkcs1, false:pkcs8
+     * @param privateKeyPEMWriter
      * @param privateKey          私钥
+     * @param opensslLegacyFormat 是否是标准openssl格式,true:pkcs1, false:pkcs8
      * @param encryptAlg          算法
      * @param pass                密码
-     * @return
      * @throws IOException
      * @throws OperatorCreationException
      * @throws PemGenerationException

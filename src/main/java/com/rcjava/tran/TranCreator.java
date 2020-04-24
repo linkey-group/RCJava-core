@@ -58,7 +58,6 @@ public class TranCreator {
      * @param timeout
      * @param ctype
      * @return
-     * @throws Exception
      */
     public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage, @Nonnull String legal_prose, int timeout, @Nonnull ChaincodeDeploy.CodeType ctype) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {

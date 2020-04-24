@@ -43,7 +43,7 @@ public class PemUtil {
      *
      * @param type            类型，i.e., PRIVATE KEY、PUBLIC KEY、CERTIFICATE
      * @param encodeByteArray Der编码的字节数组
-     * @return
+     * @return pem字符串
      * @throws IOException
      */
     public static String toPemString(String type, byte[] encodeByteArray) throws IOException {
@@ -78,7 +78,7 @@ public class PemUtil {
      * 转为PEM字符串，PKCS1(if object instanceof PrivateKey == true)
      *
      * @param object 类型，i.e.,privateKey，publicKey，certificate
-     * @return
+     * @return pem字符串
      * @throws IOException
      */
     public static String toPemString(Object object) throws IOException {

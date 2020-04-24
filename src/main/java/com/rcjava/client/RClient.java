@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.rcjava.protos.Peer.Transaction;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
@@ -138,7 +139,7 @@ public class RClient {
      */
     ResponseHandler<JSONObject> responseHandler = response -> {
         int status = response.getStatusLine().getStatusCode();
-        if (status >= 200 && status < 300) {
+        if (status >= HttpStatus.SC_OK && status < HttpStatus.SC_MULTIPLE_CHOICES) {
             HttpEntity resEntity = response.getEntity();
             String str = EntityUtils.toString(resEntity, "UTF-8");
             JSONObject result = JSONObject.parseObject(str);
