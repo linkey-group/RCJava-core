@@ -57,15 +57,7 @@ public class ChainInfoClient extends RClient {
     public Block getBlockByHeight(long height) {
         // 根据高度获取块数据
         JSONObject result = getJObject("http://" + host + "/block/" + height);
-        String json = result.toJSONString();
-        Block.Builder builder = Block.newBuilder();
-        try {
-            JsonFormat.parser().merge(json, builder);
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
-        }
-        Block block = builder.build();
-        return block;
+        return genBlockFromJobject(result);
     }
 
     /**
@@ -103,10 +95,20 @@ public class ChainInfoClient extends RClient {
      */
     public Block getBlockByBlockHash(String blockHash) {
         JSONObject result = getJObject("http://" + host + "/block/hash/" + blockHash);
-        if (result.isEmpty()) {
+        return genBlockFromJobject(result);
+    }
+
+    /**
+     * 从请求返回来的JsonObject构建Block
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Block genBlockFromJobject(JSONObject jsonObject) {
+        if (jsonObject.isEmpty()) {
             return null;
         }
-        String json = result.toJSONString();
+        String json = jsonObject.toJSONString();
         Block.Builder builder = Block.newBuilder();
         try {
             JsonFormat.parser().merge(json, builder);
