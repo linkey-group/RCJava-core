@@ -46,7 +46,7 @@ public class RAsyncClient {
     private static CloseableHttpAsyncClient httpAsyncClient;
 
     static {
-        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(5000).setSocketTimeout(5000).build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(10000).setSocketTimeout(5000).build();
         //配置io线程
         IOReactorConfig ioReactorConfig = IOReactorConfig.custom().setIoThreadCount(Runtime.getRuntime().availableProcessors()).setSoKeepAlive(true).build();
         try {
@@ -176,7 +176,7 @@ public class RAsyncClient {
 
         @Override
         public void failed(Exception e) {
-            logger.error("request's url is {}, errorMsg is {}", e.getMessage(), e);
+            logger.error("request's url is {}, errorMsg is {}", url, e.getMessage(), e);
         }
 
         @Override
@@ -207,9 +207,6 @@ public class RAsyncClient {
             }
         } catch (InterruptedException | ExecutionException | TimeoutException | IOException e) {
             staticLogger.error("errMsg is {}", e.getMessage(), e);
-        } finally {
-            final HttpEntity entity = httpResponse.getEntity();
-            EntityUtils.consumeQuietly(entity);
         }
         return null;
     }
