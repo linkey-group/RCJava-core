@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -27,6 +29,7 @@ public class SyncService implements BlockObserver {
     private String host;
     private SyncInfo syncInfo;
     private SyncListener syncListener;
+    private SyncEndPoint syncEndPoint;
 
     private RSubClient rSubClient;
     private ChainInfoClient cInfoClient;
@@ -57,6 +60,7 @@ public class SyncService implements BlockObserver {
         host = builder.host;
         syncInfo = builder.syncInfo;
         syncListener = builder.syncListener;
+        syncEndPoint = builder.syncEndPoint;
     }
 
     public static Builder newBuilder() {
@@ -100,10 +104,10 @@ public class SyncService implements BlockObserver {
         wsService.shutdownNow();
         // 停掉pull服务
         setStopPull();
-        pullService.shutdownNow();
+        pullService.shutdown();
         // 停掉block推送服务
         setStopPoll();
-        blockService.shutdownNow();
+        blockService.shutdown();
     }
 
     /**
@@ -134,11 +138,35 @@ public class SyncService implements BlockObserver {
                 blockQueue.add(block);
                 localHeight = tempHeight;
             } else {
-                syncListener.onError(new SyncBlockException("RepChain可能回滚块，或者块未保存到磁盘上，请纠正数据库等，然后重启服务==> shutdown ==> start"));
                 logger.error("pull: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，pullHeight：{}， pullBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
-                // 跳出本次循环
-                break;
+                syncListener.onError(new SyncBlockException("RepChain可能回滚块或者块未保存到磁盘上，启动数据修正"),
+                        block.getHeight(), block.getPreviousBlockHash().toStringUtf8());
+                logger.info("将目前同步到缓存里的数据块，都处理完毕后启动数据修正...");
+                // 将块都poll完，然后再进行数据修正，blkQueue线程安全
+                pollBlock();
+                // 倒着与本地数据库进行遍历比较
+                String currentRemoteBlockPrevHash = block.getPreviousBlockHash().toStringUtf8();
+                for (long height = localHeight; height > 1; height--) {
+                    String localBlockHash= syncEndPoint.queryBlockHash(height);
+                    if (localBlockHash.equals(currentRemoteBlockPrevHash)) {
+                        logger.info("根据业务方提供的接口，检查本地最后的正确块高为: {}，远端当前块高为: {}", height, tempHeight);
+                        final List<Peer.Block> blockList = new ArrayList<>();
+                        // 从本地最后的正确高度，拉取块到tempHeight高度
+                        for (long i = height; i <= tempHeight; i++) {
+                            blockList.add(cInfoClient.getBlockByHeight(i));
+                        }
+                        logger.info("根据业务方提供的接口，更新本地数据库...");
+                        // 更新本地数据库
+                        syncEndPoint.update(height, tempHeight, blockList);
+                        // 更新syncInfo
+                        syncInfo.setLocalHeight(tempHeight);
+                        syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+                        localHeight = tempHeight;
+                        // 跳出修正循环
+                        break;
+                    }
+                }
             }
             if (stopPull) {
                 break;
@@ -235,6 +263,7 @@ public class SyncService implements BlockObserver {
         private String host;
         private SyncInfo syncInfo;
         private SyncListener syncListener;
+        private SyncEndPoint syncEndPoint;
 
         private Builder() {
         }
@@ -254,6 +283,12 @@ public class SyncService implements BlockObserver {
         @Nonnull
         public Builder setSyncListener(@Nonnull SyncListener syncListener) {
             this.syncListener = syncListener;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setSyncEndPoint(@Nonnull SyncEndPoint syncEndPoint) {
+            this.syncEndPoint = syncEndPoint;
             return this;
         }
 

@@ -314,7 +314,19 @@
 
   > 使用sync/SyncService构建同步服务，从指定高度开始同步，一直到最新高度
   >
-  > 1. 使用host、syncInfo、syncListener初始化Service
+  > 1. 使用host、syncInfo、syncListener、syncEndPoint初始化Service
+  >
+  >    > **注意**两个接口SyncListener与<u>SyncEndPoint</u>（**用来错误修正** >>> 因RepChain块回滚或意外宕机导致的落盘失败而引起的区块衔接不上），具体说明参考JavaDoc与Test用例<br>
+  >    >
+  >    > * SyncEndPoint包含两个方法：
+  >    >
+  >    >   1.  根据高度查询数据库中已保存的块Hash
+  >    >
+  >    >   2.  更新数据库中从高度`localLastCorrectHeight`到`currentRemoteHeight`的相关数据
+  >    >
+  >    >      > 高度为currentRemoteHeight的数据块是从RepChain新拉取的
+  >    >
+  >
   > 2. 初始化之后，就可以start了，服务需要挂起
 
   ```java
@@ -324,6 +336,7 @@
   			.setHost("localhost:8081")
               .setSyncInfo(syncInfo)
               .setSyncListener("SyncListener实例")
+      		.setSyncEndPoint("SyncEndPoint实例")
               .build();
   Thread thread = new Thread(syncService::start);
   thread.start();

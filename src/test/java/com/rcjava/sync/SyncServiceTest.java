@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static java.lang.Thread.sleep;
 
 /**
  * @author zyf
  */
-public class SyncServiceTest implements SyncListener {
+public class SyncServiceTest implements SyncListener, SyncEndPoint{
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,6 +36,7 @@ public class SyncServiceTest implements SyncListener {
                 .setHost(host)
                 .setSyncInfo(syncInfo)
                 .setSyncListener(this)
+                .setSyncEndPoint(this)
                 .build();
 
         Thread thread = new Thread(syncService::start);
@@ -64,8 +67,19 @@ public class SyncServiceTest implements SyncListener {
     }
 
     @Override
-    public void onError(SyncBlockException syncBlockException) {
+    public void onError(SyncBlockException syncBlockException, long currentRemoteBlockHeight, String currentRemoteBlockPrevHash) {
         System.out.println(syncBlockException.getMessage());
+    }
+
+    @Override
+    public String queryBlockHash(long blockHeight) {
+        // TODO 业务端需提供根据高度获取本地已经保存的块Hash
+        return null;
+    }
+
+    @Override
+    public void update(long localLastCorrectHeight, long currentRemoteHeight, List<Peer.Block> correctBlockList) {
+        // TODO 业务端使用正确的块列表，更新数据库
     }
 
     public static void main(String[] args) throws InterruptedException {
