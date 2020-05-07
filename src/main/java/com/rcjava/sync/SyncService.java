@@ -48,7 +48,8 @@ public class SyncService implements BlockObserver {
     private ScheduledExecutorService blockService = Executors.newSingleThreadScheduledExecutor(blkServiceFactory);
 
     private volatile boolean isSubing = false;
-    private volatile boolean isSyncing = false;
+    private volatile boolean pullSyncing = false;
+    private volatile boolean subSyncing = false;
 
     private volatile boolean stopPull = false;
     private volatile boolean stopPoll = false;
@@ -114,9 +115,14 @@ public class SyncService implements BlockObserver {
      * 开始定时pull
      */
     private void startPull() {
-        if (!isSyncing) {
-            logger.info("执行同步，开始pull...，execPull");
+        if (subSyncing || pullSyncing) {
+            return;
+        }
+        logger.info("执行同步，开始pull...，execPull");
+        try {
             execPull();
+        } catch (Exception e) {
+            logger.error("errMsg: {}", e.getMessage());
         }
     }
 
@@ -124,6 +130,7 @@ public class SyncService implements BlockObserver {
      * 执行pull
      */
     private void execPull() {
+        pullSyncing = true;
         long localHeight = syncInfo.getLocalHeight();
         long remoteHeight = cInfoClient.getChainInfo().getHeight();
         while (localHeight < remoteHeight) {
@@ -134,7 +141,6 @@ public class SyncService implements BlockObserver {
                 continue;
             }
             if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
-                isSyncing = true;
                 logger.info("pullBlock，localHeight：{}，localBlockHash：{}，pullHeight：{}，pullBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
                 syncInfo.setLocalHeight(tempHeight);
@@ -168,7 +174,7 @@ public class SyncService implements BlockObserver {
         } else {
             logger.info("localHeight: {} = remoteHeight: {}, pull结束或者无需pull, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
         }
-        isSyncing = false;
+        pullSyncing = false;
         if (stopPull) {
             logger.info("已触发stop，停止pull服务...");
         }
@@ -217,6 +223,9 @@ public class SyncService implements BlockObserver {
                 logger.info("rSubClient's state is {}.", rSubClient.getWs().getState().name());
                 if (!rSubClient.isopen() || rSubClient.getWs().getState() == WebSocketState.CLOSED) {
                     logger.info("rSubClient's state is {}, rSubClient 正在重新连接...", rSubClient.getWs().getState().name());
+                    // 如果连接断掉，要将pullSyncing与subSyncing分别置为false，这样startPull()可以继续工作
+                    pullSyncing = false;
+                    subSyncing = false;
                     // 非open状态，重连一下
                     rSubClient.reconnect();
                 }
@@ -233,15 +242,18 @@ public class SyncService implements BlockObserver {
 
     @Override
     public void onMessage(Peer.Block block) {
+        if (pullSyncing) {
+            return;
+        }
         if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
-            isSyncing = true;
+            subSyncing = true;
             logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                     syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
             syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
             syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
             blockQueue.add(block);
         } else {
-            isSyncing = false;
+            subSyncing = false;
             logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                     syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
             logger.info("切换sub为pull，开始pull...");
@@ -260,7 +272,7 @@ public class SyncService implements BlockObserver {
     /**
      * BlockQueue pollBlock to SyncListener
      */
-    private void onBlock() {
+    synchronized private void onBlock() {
         while (!blockQueue.isEmpty()) {
             syncListener.onBlock(blockQueue.poll());
             if (stopPoll) {
