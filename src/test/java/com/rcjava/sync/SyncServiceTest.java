@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
 
@@ -39,17 +40,20 @@ public class SyncServiceTest implements SyncListener, SyncEndPoint{
                 .setSyncEndPoint(this)
                 .build();
 
+        CountDownLatch latch = new CountDownLatch(1);
+
         Thread thread = new Thread(syncService::start);
 
         thread.start();
 
+        latch.await();
         // 使用main的时候挂起就好了
 //        thread.join();
 
         // 该测试方法里使用
 //        sleep(60000);
 //        syncService.stop();
-        sleep(7200000);
+//        sleep(7200000); // 使用latch代替
     }
 
     @Override

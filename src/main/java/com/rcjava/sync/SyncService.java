@@ -95,7 +95,7 @@ public class SyncService implements BlockObserver {
     }
 
     /**
-     * 停止同步服务
+     * 停止同步服务，非立即停止
      */
     public void stop() {
         // 断开socket连接
@@ -129,6 +129,10 @@ public class SyncService implements BlockObserver {
         while (localHeight < remoteHeight) {
             long tempHeight = localHeight + 1;
             Peer.Block block = cInfoClient.getBlockStreamByHeight(tempHeight);
+            // 由于出现块回滚，可能远端实际高度已经变低，因此可能出现空块
+            if (block == null) {
+                continue;
+            }
             if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
                 isSyncing = true;
                 logger.info("pullBlock，localHeight：{}，localBlockHash：{}，pullHeight：{}，pullBlockHash：{}",
@@ -146,38 +150,61 @@ public class SyncService implements BlockObserver {
                 // 将块都poll完，然后再进行数据修正，blkQueue线程安全
                 pollBlock();
                 // 倒着与本地数据库进行遍历比较
-                String currentRemoteBlockPrevHash = block.getPreviousBlockHash().toStringUtf8();
-                for (long height = localHeight; height > 1; height--) {
-                    String localBlockHash= syncEndPoint.queryBlockHash(height);
-                    if (localBlockHash.equals(currentRemoteBlockPrevHash)) {
-                        logger.info("根据业务方提供的接口，检查本地最后的正确块高为: {}，远端当前块高为: {}", height, tempHeight);
-                        final List<Peer.Block> blockList = new ArrayList<>();
-                        // 从本地最后的正确高度，拉取块到tempHeight高度
-                        for (long i = height; i <= tempHeight; i++) {
-                            blockList.add(cInfoClient.getBlockByHeight(i));
-                        }
-                        logger.info("根据业务方提供的接口，更新本地数据库...");
-                        // 更新本地数据库
-                        syncEndPoint.update(height, tempHeight, blockList);
-                        // 更新syncInfo
-                        syncInfo.setLocalHeight(tempHeight);
-                        syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
-                        localHeight = tempHeight;
-                        // 跳出修正循环
-                        break;
-                    }
-                }
+                long lTempHeight = localHeight;
+                // 需要修正已同步的块
+                localHeight = reviseBlock4Roll(lTempHeight);
             }
             if (stopPull) {
                 break;
             }
         }
+        if (localHeight > remoteHeight) {
+            logger.error("本地高度：{} 大于 远端高度：{}，将目前同步到缓存里的数据块，都处理完毕后启动数据修正...", localHeight, remoteHeight);
+            syncListener.onError(new SyncBlockException("RepChain可能回滚块或者块未保存到磁盘上，启动数据修正"),
+                    remoteHeight, cInfoClient.getBlockByHeight(remoteHeight).getPreviousBlockHash().toStringUtf8());
+            // 将块都poll完，然后再进行数据修正，blkQueue线程安全
+            pollBlock();
+            reviseBlock4Roll(localHeight);
+        } else {
+            logger.info("localHeight: {} = remoteHeight: {}, pull结束或者无需pull, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
+        }
         isSyncing = false;
         if (stopPull) {
             logger.info("已触发stop，停止pull服务...");
-        } else {
-            logger.info("localHeight: {} >= remoteHeight: {}, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
         }
+    }
+
+    /**
+     * 从当前块高度，开始倒着订正因回滚而废弃的块
+     *
+     * @param currentLocalHeight
+     * @return
+     */
+    private long reviseBlock4Roll(long currentLocalHeight) {
+        long localHeight = currentLocalHeight;
+        long rTempHeight = cInfoClient.getChainInfo().getHeight();
+        for (long height = Math.min(currentLocalHeight, rTempHeight); height > 1; height--) {
+            String localBlockHash = syncEndPoint.queryBlockHash(height);
+            String remoteBlockHash = cInfoClient.getBlockStreamByHeight(height).getHashOfBlock().toStringUtf8();
+            if (localBlockHash.equals(remoteBlockHash)) {
+                logger.info("根据业务方提供的接口，检查本地最后的正确块高为: {}，远端当前块高为: {}", height, rTempHeight);
+                final List<Peer.Block> blockList = new ArrayList<>();
+                // 从本地最后的正确高度，拉取块到tempHeight高度
+                for (long i = height + 1; i <= rTempHeight; i++) {
+                    blockList.add(cInfoClient.getBlockByHeight(i));
+                }
+                logger.info("根据业务方提供的接口，更新本地数据库...");
+                // 更新本地数据库
+                syncEndPoint.update(height, rTempHeight, blockList);
+                // 更新syncInfo
+                syncInfo.setLocalHeight(rTempHeight);
+                syncInfo.setLocBlkHash(blockList.get(blockList.size() - 1).getHashOfBlock().toStringUtf8());
+                localHeight = rTempHeight;
+                // 跳出修正循环
+                break;
+            }
+        }
+        return localHeight;
     }
 
     /**
