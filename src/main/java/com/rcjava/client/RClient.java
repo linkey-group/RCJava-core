@@ -26,11 +26,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.UUID;
 
 /**
  * @author zyf
  */
-public class RClient {
+public class RClient extends BaseClient {
 
     private static RequestConfig requestConfig;
 
@@ -59,6 +60,7 @@ public class RClient {
      * @param url pathParam
      * @return
      */
+    @Override
     protected JSONObject getJObject(String url) {
         HttpGet get = new HttpGet(url);
         try {
@@ -89,9 +91,10 @@ public class RClient {
      * post交易到RepChain
      *
      * @param url  请求路径
-     * @param json 要提交的json数据
+     * @param json 要提交的交易json数据
      * @return 返回post结果
      */
+    @Override
     protected JSONObject postJString(String url, String json) {
         HttpPost post = new HttpPost(url);
         try {
@@ -103,6 +106,19 @@ public class RClient {
             logger.error(ex.getMessage(), ex);
         }
         return null;
+    }
+
+    /**
+     * 提交交易
+     *
+     * @param url   请求路径
+     * @param bytes 要post的交易字节数组
+     * @return 返回post的结果（该方法用于流式提交交易）
+     */
+    @Override
+    protected JSONObject postBytes(String url, byte[] bytes) {
+        String fileNameSuffix = UUID.randomUUID().toString();
+        return this.postBytes(url, "signedTrans", bytes, "tranByteArray" + fileNameSuffix);
     }
 
     /**

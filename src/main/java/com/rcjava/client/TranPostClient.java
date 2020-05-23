@@ -10,9 +10,14 @@ import com.rcjava.protos.Peer.Transaction;
  *
  * @author zyf
  */
-public class TranPostClient extends RClient {
+public class TranPostClient {
 
     private String host;
+
+    private boolean useJavaImpl = false;
+
+    private RClient rClient = new RClient();
+    private RCJavaClient rcJavaClient = new RCJavaClient();
 
     public TranPostClient(String host) {
         this.host = host;
@@ -25,7 +30,8 @@ public class TranPostClient extends RClient {
      */
     public JSONObject postSignedTran(String tranHexString) {
         String url = "http://" + host + "/transaction/postTranByString";
-        return postJString(url, JSON.toJSONString(tranHexString));
+        BaseClient client = useJavaImpl ? rcJavaClient : rClient;
+        return client.postJString(url, JSON.toJSONString(tranHexString));
     }
 
     /**
@@ -35,7 +41,8 @@ public class TranPostClient extends RClient {
      */
     public JSONObject postSignedTran(Transaction tran) {
         String url = "http://" + host + "/transaction/postTranStream";
-        return postBytes(url, "signedTrans", tran.toByteArray(), "tranByteArray");
+        BaseClient client = useJavaImpl ? rcJavaClient : rClient;
+        return client.postBytes(url, tran.toByteArray());
     }
 
 
@@ -45,5 +52,13 @@ public class TranPostClient extends RClient {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public boolean isUseJavaImpl() {
+        return useJavaImpl;
+    }
+
+    public void setUseJavaImpl(boolean useJavaImpl) {
+        this.useJavaImpl = useJavaImpl;
     }
 }
