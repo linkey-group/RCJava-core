@@ -41,4 +41,22 @@ public class ChainInfoClientTest {
         ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("123");
         assertThat(tranInfoAndHeight).isNull();
     }
+
+    @Test
+    @DisplayName("测试根据高度获取块，使用Java实现")
+    void testGetBlockByHeightUseJavaImpl() {
+        chainInfoClient.setUseJavaImpl(true);
+        Block block = chainInfoClient.getBlockByHeight(5);
+        assertThat(block.getHeight()).isEqualTo(5);
+        chainInfoClient.setUseJavaImpl(false);
+    }
+
+    @Test
+    @DisplayName("测试根据高度获取块，使用Java实现")
+    void testGetBlockStreamByHeightUseJavaImpl() {
+        chainInfoClient.setUseJavaImpl(true);
+        Block block = chainInfoClient.getBlockStreamByHeight(0);
+        assertThat(block.getHeight()).isEqualTo(0);
+        chainInfoClient.setUseJavaImpl(false);
+    }
 }

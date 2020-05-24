@@ -63,7 +63,6 @@ public class TranPostClientTest {
         logger.info("测试日志文件");
     }
 
-    // TODO 测试字符串提交交易的方法
     @Test
     @DisplayName("测试提交交易-字符串")
     void testPostTranByString() {
@@ -74,6 +73,39 @@ public class TranPostClientTest {
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         JSONObject res = tranPostClient.postSignedTran(tranHex);
+
+        assertThat(res.getString("txid")).isEqualTo(tran.getId());
+    }
+
+    @Test
+    @DisplayName("测试提交交易-流式，使用Java实现")
+    void testPostTranByStreamUseJavaImpl() {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        List params = new ArrayList<String>();
+        params.add(JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        tranPostClient.setUseJavaImpl(true);
+        JSONObject res = tranPostClient.postSignedTran(tran);
+        tranPostClient.setUseJavaImpl(false);
+
+        assertThat(res).containsKey("txid");
+
+        logger.info("测试日志文件");
+    }
+
+    @Test
+    @DisplayName("测试提交交易-字符串，使用Java实现")
+    void testPostTranByStringUseJavaImpl() {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+        tranPostClient.setUseJavaImpl(true);
+        JSONObject res = tranPostClient.postSignedTran(tranHex);
+        tranPostClient.setUseJavaImpl(false);
 
         assertThat(res.getString("txid")).isEqualTo(tran.getId());
     }
