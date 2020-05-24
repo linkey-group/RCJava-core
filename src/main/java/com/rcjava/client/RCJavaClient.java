@@ -45,7 +45,7 @@ public class RCJavaClient extends BaseClient {
      * @param httpUrl request url
      * @return HttpURLConnection 对象
      */
-    private static HttpURLConnection getHttpConnection(String httpUrl) {
+    public static HttpURLConnection getHttpConnection(String httpUrl) {
 
         try {
             URI uri = new URI(httpUrl);
@@ -88,6 +88,36 @@ public class RCJavaClient extends BaseClient {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     *
+     * @param url
+     * @return
+     */
+    @Override
+    InputStream getInputStream(String url) {
+
+        HttpURLConnection urlConnection = getHttpConnection(url);
+        InputStream inputStream = null;
+
+        try {
+
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setConnectTimeout(5000);
+
+            urlConnection.connect();
+
+            inputStream = urlConnection.getInputStream();
+
+            int code = urlConnection.getResponseCode();
+            if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
+                return inputStream;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
     }
 
     /**

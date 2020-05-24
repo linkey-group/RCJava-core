@@ -22,10 +22,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.UUID;
 
 /**
@@ -69,6 +66,32 @@ public class RClient extends BaseClient {
             logger.error(ex.getMessage(), ex);
         }
         return null;
+    }
+
+    /**
+     *
+     * @param url
+     * @return
+     */
+    @Override
+    protected InputStream getInputStream(String url) {
+        HttpGet get = new HttpGet(url);
+        InputStream inputStream = null;
+        try {
+            HttpResponse response = httpClient.execute(get);
+            inputStream = response.getEntity().getContent();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return inputStream;
     }
 
     /**

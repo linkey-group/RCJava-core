@@ -14,12 +14,24 @@ import java.io.InputStream;
 /**
  * @author zyf
  */
-public class ChainInfoClient extends RClient {
+public class ChainInfoClient {
 
     private String host;
+    private boolean useJavaImpl = false;
+
+    private BaseClient rClient = new RClient();
+    private BaseClient rcJavaClient = new RCJavaClient();
+
+    private BaseClient client = rClient;
 
     public ChainInfoClient(String host) {
         this.host = host;
+    }
+
+    public ChainInfoClient(String host, boolean useJavaImpl) {
+        this.host = host;
+        this.useJavaImpl = useJavaImpl;
+        this.client = useJavaImpl ? rcJavaClient : rClient;
     }
 
     /**
@@ -28,7 +40,7 @@ public class ChainInfoClient extends RClient {
      * @return 当前区块链高度、总共交易数、currentBlockHash、previousBlockHash等信息
      */
     public BlockchainInfo getChainInfo() {
-        JSONObject result = getJObject("http://" + host + "/chaininfo");
+        JSONObject result = client.getJObject("http://" + host + "/chaininfo");
         BlockchainInfo.Builder chainInfoBuilder = BlockchainInfo.newBuilder();
         String json = result.toJSONString();
         try {
@@ -40,9 +52,13 @@ public class ChainInfoClient extends RClient {
         return blockchainInfo;
     }
 
-
+    /**
+     * 获取总节点数以及共识节点数
+     *
+     * @return
+     */
     public NodesNum getChainInfoNode() {
-        JSONObject jsonObject = getJObject("http://" + host + "/chaininfo/node");
+        JSONObject jsonObject = client.getJObject("http://" + host + "/chaininfo/node");
         NodesNum nodesNum = new NodesNum(jsonObject.getInteger("consensusnodes"), jsonObject.getInteger("nodes"));
         return nodesNum;
     }
@@ -56,7 +72,7 @@ public class ChainInfoClient extends RClient {
      */
     public Block getBlockByHeight(long height) {
         // 根据高度获取块数据
-        JSONObject result = getJObject("http://" + host + "/block/" + height);
+        JSONObject result = client.getJObject("http://" + host + "/block/" + height);
         return genBlockFromJobject(result);
     }
 
@@ -67,11 +83,9 @@ public class ChainInfoClient extends RClient {
      * @return 返回对应高度的块（流式获取）
      */
     public Block getBlockStreamByHeight(long height) {
-        HttpResponse response = getResponse("http://" + host + "/block/stream/" + height);
-        InputStream inputStream = null;
-        Block block = null;
+        InputStream inputStream = client.getInputStream("http://" + host + "/block/stream/" + height);
+        Block block = Block.getDefaultInstance();
         try {
-            inputStream = response.getEntity().getContent();
             block = Block.parseFrom(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,7 +108,7 @@ public class ChainInfoClient extends RClient {
      * @return Block 返回检索到的块
      */
     public Block getBlockByBlockHash(String blockHash) {
-        JSONObject result = getJObject("http://" + host + "/block/hash/" + blockHash);
+        JSONObject result = client.getJObject("http://" + host + "/block/hash/" + blockHash);
         return genBlockFromJobject(result);
     }
 
@@ -105,7 +119,7 @@ public class ChainInfoClient extends RClient {
      * @return
      */
     private Block genBlockFromJobject(JSONObject jsonObject) {
-        if (jsonObject.isEmpty()) {
+        if (jsonObject == null || jsonObject.isEmpty()) {
             return null;
         }
         String json = jsonObject.toJSONString();
@@ -137,7 +151,7 @@ public class ChainInfoClient extends RClient {
      * @return 返回检索到的交易
      */
     public Transaction getTranByTranId(String tranId) {
-        JSONObject result = getJObject("http://" + host + "/transaction/" + tranId);
+        JSONObject result = client.getJObject("http://" + host + "/transaction/" + tranId);
         if (result == null || result.isEmpty()) {
             return null;
         }
@@ -158,11 +172,9 @@ public class ChainInfoClient extends RClient {
      * @return 返回检索到的交易（流式获取）
      */
     public Transaction getTranStreamByTranId(String tranId) {
-        HttpResponse response = getResponse("http://" + host + "/transaction/stream/" + tranId);
-        InputStream inputStream = null;
-        Transaction transaction = null;
+        InputStream inputStream = client.getInputStream("http://" + host + "/transaction/stream/" + tranId);
+        Transaction transaction = Transaction.getDefaultInstance();
         try {
-            inputStream = response.getEntity().getContent();
             transaction = Transaction.parseFrom(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,7 +197,7 @@ public class ChainInfoClient extends RClient {
      * @return 返回检索到的交易
      */
     public TranInfoAndHeight getTranInfoAndHeightByTranId(String tranId) {
-        JSONObject result = getJObject("http://" + host + "/transaction/tranInfoAndHeight/" + tranId);
+        JSONObject result = client.getJObject("http://" + host + "/transaction/tranInfoAndHeight/" + tranId);
         if (result == null || result.isEmpty()) {
             return null;
         }
@@ -211,6 +223,15 @@ public class ChainInfoClient extends RClient {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public boolean isUseJavaImpl() {
+        return useJavaImpl;
+    }
+
+    public void setUseJavaImpl(boolean useJavaImpl) {
+        this.useJavaImpl = useJavaImpl;
+        this.client = useJavaImpl ? rcJavaClient : rClient;
     }
 
     /**
