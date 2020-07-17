@@ -38,6 +38,21 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
@@ -155,5 +170,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
+    <distributionManagement>
+        <repository>
+            <id>repchain-release</id>
+            <name>Release Repository of RepChain</name>
+            <url>http://192.168.2.86:8081/repository/repchain-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>repchain-snapshot</id>
+            <name>Snapshot Repository of RepChain</name>
+            <url>http://192.168.2.86:8081/repository/repchain-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
