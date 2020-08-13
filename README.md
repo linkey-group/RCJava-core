@@ -1,5 +1,6 @@
 # **RCJava-core**
-![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-v0.3-orange)
+![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-v0.3-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
+
 ***
 ### 目录
 
@@ -96,6 +97,31 @@
    > 	<version>0.3</version>
    > </dependency>
    > ```
+
+***
+
+#### 使用JitPack安装
+
+* step1：
+
+  ```xml
+  <repositories>
+  	<repository>
+  		<id>jitpack.io</id>
+  		<url>https://jitpack.io</url>
+  	</repository>
+  </repositories>
+  ```
+
+* step2：
+
+  ```xml
+  <dependency>
+  	<groupId>com.gitee.BTAJL</groupId>
+  	<artifactId>RCJava-core</artifactId>
+  	<version>0.3</version>
+  </dependency>
+  ```
 
 ***
 
