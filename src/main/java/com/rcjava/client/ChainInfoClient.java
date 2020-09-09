@@ -173,7 +173,7 @@ public class ChainInfoClient {
      */
     public Transaction getTranStreamByTranId(String tranId) {
         InputStream inputStream = client.getInputStream("http://" + host + "/transaction/stream/" + tranId);
-        Transaction transaction = Transaction.getDefaultInstance();
+        Transaction transaction = null;
         try {
             transaction = Transaction.parseFrom(inputStream);
         } catch (IOException e) {
