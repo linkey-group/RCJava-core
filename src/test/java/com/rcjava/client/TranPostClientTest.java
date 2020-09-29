@@ -3,18 +3,24 @@ package com.rcjava.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rcjava.model.Transfer;
+import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.CertId;
 import com.rcjava.protos.Peer.ChaincodeId;
 import com.rcjava.protos.Peer.Transaction;
 import com.rcjava.tran.TranCreator;
+import com.rcjava.tran.impl.DeployTran;
 import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,5 +114,25 @@ public class TranPostClientTest {
         tranPostClient.setUseJavaImpl(false);
 
         assertThat(res.getString("txid")).isEqualTo(tran.getId());
+    }
+
+    @Test
+    @DisplayName("测试部署合约")
+    void testDeployContractTplT() throws IOException {
+        // CustomTPL.scala 是事先编写好的合约文件
+        Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("CustomProofTPL").setVersion(1).build();
+        String tplString = FileUtils.readFileToString(new File("tpl/CustomProofTPL.scala"), StandardCharsets.UTF_8);
+        DeployTran deployTran = DeployTran.newBuilder()
+                .setTxid(DigestUtils.sha256Hex(tplString))
+                .setCertId(certId)
+                .setChaincodeId(customTplId)
+                .setSpcPackage(tplString)
+                .setLegal_prose("")
+                .setTimeout(5000)
+                .setCodeType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .build();
+        Peer.Transaction signedDeployTran = tranCreator.createDeployTran(deployTran);
+        JSONObject deployRes = tranPostClient.postSignedTran(signedDeployTran);
+        System.out.println(deployRes);
     }
 }
