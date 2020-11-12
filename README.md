@@ -28,6 +28,7 @@
     com
       └── rcjava
           ├── client
+          ├── contract
           ├── exception
           ├── protos
           ├── sign
@@ -37,6 +38,8 @@
           └── ws
     ```
     * **`com.rcjava.client`** 主要用来构造与RepChain交互的客户端，客户端可以用来提交签名交易、获取交易或块数据、订阅出块事件
+
+    * **`com.rcjava.contract`** 主要用来构造与RepChain交互的客户端，客户端可以用来部署升级合约、修改合约状态、调用合约
 
     * **`com.rcjava.exception`** 自定义的一些异常
 
@@ -293,6 +296,19 @@
       JSONObject result = TranPostAsyncClient
           		.resolveHttpResponseFuture(responseFuture);
       ```
+* 使用ContractClient
+  > 使用ContractClient部署升级合约、修改合约状态、调用合约，可选用具体方法，下面例子中的方法只是其中之一
+  ```java
+  CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
+  // 这个是给转账交易示范用的，此ID需要与RepChain合约部署的一致
+  ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
+  // privateKey是与certId标识的证书对应的用户私钥
+  ContractUser user = new ContracUser(certId, privateKey);
+  ContractClient contractClient = new ContractClient("localhost:8081", contractAssetsId, user);
+  Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+  contractClient.invokeContract("transfer", JSON.toJSONString(transfer));
+  
+  ```
 
 * 查询交易数据
 
