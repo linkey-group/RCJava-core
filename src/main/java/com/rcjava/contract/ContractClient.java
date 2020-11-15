@@ -14,7 +14,10 @@ import com.rcjava.tran.impl.DeployTran;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.Objects;
 import java.util.UUID;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * 部署升级合约、调用合约、修改合约状态客户端
@@ -36,6 +39,9 @@ public class ContractClient {
     public ContractClient(String host, ContractUser contractUser) {
         this.host = host;
         this.contractUser = contractUser;
+        this.certId = contractUser.getCertId();
+        this.tranCreator = new TranCreator(contractUser.getPrivateKey(), contractUser.getSignAlgorithm());
+        this.tranPostClient = new TranPostClient(host);
     }
 
     public ContractClient(String host, ChaincodeId chaincodeId, ContractUser contractUser) {
@@ -54,7 +60,7 @@ public class ContractClient {
      * @param contractCode 合约代码
      */
     public JSONObject deployContract(String contractCode) {
-        JSONObject deployRes = this.deployContract(this.chaincodeId, contractCode);
+        JSONObject deployRes = this.deployContract(requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), contractCode);
         return deployRes;
     }
 
@@ -68,7 +74,7 @@ public class ContractClient {
         DeployTran deployTran = DeployTran.newBuilder()
                 .setTxid(DigestUtils.sha256Hex(contractCode))
                 .setCertId(this.certId)
-                .setChaincodeId(chaincodeId)
+                .setChaincodeId(requireNonNull(chaincodeId, "ChaincodeId不能为空"))
                 .setSpcPackage(contractCode)
                 .setLegal_prose("")
                 .setTimeout(5000)
@@ -98,7 +104,7 @@ public class ContractClient {
      * @param state  合约状态
      */
     public JSONObject setContractState(String tranId, boolean state) {
-        JSONObject setStateRes = this.setContractState(tranId, this.chaincodeId, state);
+        JSONObject setStateRes = this.setContractState(tranId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), state);
         return setStateRes;
     }
 
@@ -113,7 +119,7 @@ public class ContractClient {
         CidStateTran cidStateTran = CidStateTran.newBuilder()
                 .setTxid(tranId)
                 .setCertId(this.certId)
-                .setChaincodeId(chaincodeId)
+                .setChaincodeId(requireNonNull(chaincodeId, "ChaincodeId不能为空"))
                 .setState(state)
                 .setPrivateKey(this.contractUser.getPrivateKey())
                 .setSignAlgorithm(this.contractUser.getSignAlgorithm())
@@ -140,7 +146,7 @@ public class ContractClient {
      * @param contractCode 合约代码
      */
     public JSONObject updateContractVersion(ChaincodeId chaincodeId, String contractCode) {
-        JSONObject updateRes = this.deployContract(chaincodeId, contractCode);
+        JSONObject updateRes = this.deployContract(requireNonNull(chaincodeId, "ChaincodeId不能为空"), contractCode);
         return updateRes;
     }
 
@@ -151,7 +157,7 @@ public class ContractClient {
      */
     public JSONObject invokeContract(ChaincodeInput chaincodeInput) {
         String tranId = UUID.randomUUID().toString().replace("-", "");
-        Transaction signedInvokeTran = this.tranCreator.createInvokeTran(tranId, this.certId, this.chaincodeId, chaincodeInput);
+        Transaction signedInvokeTran = this.tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), chaincodeInput);
         String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
         JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
         return invokeRes;
@@ -177,7 +183,7 @@ public class ContractClient {
      * @param args     方法参数
      */
     public JSONObject invokeContract(String tranId, String function, String args) {
-        JSONObject invokeRes = this.invokeContract(tranId, this.chaincodeId, function, args);
+        JSONObject invokeRes = this.invokeContract(tranId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), function, args);
         return invokeRes;
     }
 
@@ -189,10 +195,21 @@ public class ContractClient {
      * @param args     方法参数
      */
     public JSONObject invokeContract(String tranId, ChaincodeId chaincodeId, String function, String args) {
-        Transaction signedInvokeTran = tranCreator.createInvokeTran(tranId, this.certId, chaincodeId, function, args);
+        Transaction signedInvokeTran = tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(chaincodeId, "ChaincodeId不能为空"), function, args);
         String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
         JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
         return invokeRes;
+    }
+
+    /**
+     * 对chainCodeId做判空
+     *
+     * @param chaincodeId
+     */
+    private void checkNull(ChaincodeId chaincodeId) {
+        if (Objects.isNull(chaincodeId)) {
+            throw new RuntimeException("ChaincodeId不能为空");
+        }
     }
 
     public String getHost() {

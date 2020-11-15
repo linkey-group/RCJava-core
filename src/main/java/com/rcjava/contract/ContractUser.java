@@ -24,6 +24,12 @@ public class ContractUser {
      */
     private String signAlgorithm = "SHA1withECDSA";
 
+    /**
+     * 签名算法使用默认即可，如果RepChain那边有改动，这边可以set一个新的算法
+     *
+     * @param certId
+     * @param privateKey
+     */
     public ContractUser(Peer.CertId certId, PrivateKey privateKey) {
         this.certId = certId;
         this.privateKey = privateKey;
