@@ -32,7 +32,7 @@ public class TranSigner {
                 .setCertId(certId)
                 .setTmLocal(Timestamp.newBuilder()
                         .setSeconds(millis / 1000)
-                        .setNanos((int) (millis % 1000) * 1000000))
+                        .setNanos((int) ((millis % 1000) * 1000000)))
                 .setSignature(ByteString.copyFrom(sig))
                 .build();
         Transaction.Builder builder = tranWithOutSign.toBuilder();
