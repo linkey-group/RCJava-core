@@ -6,7 +6,7 @@
 
     <groupId>repchain</groupId>
     <artifactId>rcjava-core</artifactId>
-    <version>0.4</version>
+    <version>0.4.1</version>
     <description>Java sdk for RepChain</description>
     <url>https://gitee.com/BTAJL/RCJava-core</url>
 
