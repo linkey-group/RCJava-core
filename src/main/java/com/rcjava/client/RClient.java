@@ -82,14 +82,6 @@ public class RClient extends BaseClient {
             inputStream = response.getEntity().getContent();
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return inputStream;
     }
