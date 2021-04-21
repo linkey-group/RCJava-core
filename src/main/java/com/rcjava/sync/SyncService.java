@@ -111,9 +111,9 @@ public class SyncService implements BlockObserver {
             execPull();
         } catch (Exception e) {
             logger.error("errMsg: {}", e.getMessage(), e);
-            // 置为false是为了在websocket监测到出块事件时，更快的响应，如果不置为false，可能最长需要等待20s（pullService的设置）
-            pullSyncing = false;
         }
+        // 置为false是为了在websocket监测到出块事件时，更快的响应(进入onMessage逻辑)，如果不置为false，可能最长需要等待20s（pullService的设置）
+        pullSyncing = false;
     }
 
     /**
@@ -136,7 +136,7 @@ public class SyncService implements BlockObserver {
             } else {
                 logger.error("pull: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，pullHeight：{}， pullBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
-                syncListener.onError(new SyncBlockException(String.format("块Hash衔接不上，localHeight：%s，localBlockHash：%s，pullHeight：%s， pullBlockHash：%s， 重启服务==> shutdown ==> start",
+                syncListener.onError(new SyncBlockException(String.format("块Hash衔接不上，localHeight：%s，localBlockHash：%s，pullHeight：%s， pullBlockHash：%s， 不必惊慌",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8())));
                 break;
             }
@@ -147,9 +147,8 @@ public class SyncService implements BlockObserver {
         if (stopPull) {
             logger.info("已触发stop，停止pull服务...");
         } else {
-            logger.info("localHeight: {} = remoteHeight: {}, pull结束或者无需pull, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
+            logger.info("localHeight: {}, remoteHeight: {}, pull结束或者无需pull, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
         }
-        pullSyncing = false;
     }
 
     /**
@@ -168,6 +167,8 @@ public class SyncService implements BlockObserver {
                     // 非open状态，重连一下
                     rSubClient.reconnect();
                 }
+                // 60s---ping
+                // rSubClient.getWs().sendPing("keep alive");
             } else {
                 // 连接ws，开启订阅
                 rSubClient.connect();
@@ -184,20 +185,20 @@ public class SyncService implements BlockObserver {
         if (pullSyncing) {
             return;
         }
+        subSyncing = true;
         if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
-            subSyncing = true;
             logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                     syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
             syncListener.onSuccess(block);
             syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
             syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
         } else {
-            subSyncing = false;
             logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                     syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
             logger.info("切换sub为pull，开始pull...");
             startPull();
         }
+        subSyncing = false;
     }
 
     /**

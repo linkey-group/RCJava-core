@@ -4,6 +4,7 @@ import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFrame;
+import com.rcjava.exception.SyncBlockException;
 import com.rcjava.protos.Peer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.function.Consumer;
 
 /**
  * 事件监听
@@ -66,8 +68,23 @@ public class BlockListener extends WebSocketAdapter {
         Peer.Event event = Peer.Event.parseFrom(message);
         int newBlock = 2;
         if (event.hasBlk() && event.getActionValue() == newBlock) {
-            blkObserverList.forEach(blockObserver -> blockObserver.onMessage(event.getBlk()));
+            blkObserverList.forEach(messageWrapper(blockObserver -> blockObserver.onMessage(event.getBlk())));
         }
+    }
+
+    /**
+     *
+     * @param consumer
+     * @return
+     */
+    private Consumer<BlockObserver> messageWrapper(Consumer<BlockObserver> consumer) {
+        return blockObserver -> {
+            try {
+                consumer.accept(blockObserver);
+            } catch (SyncBlockException e) {
+                logger.error("SyncBlock error, syncErrorMsg is {}", e.getMessage(), e);
+            }
+        };
     }
 
     @Override
@@ -93,7 +110,17 @@ public class BlockListener extends WebSocketAdapter {
     @Override
     public void onUnexpectedError(WebSocket websocket, WebSocketException cause) throws Exception {
         logger.error("webSocket unExpectedError: {}", cause.getMessage(), cause.getCause());
-        throw cause;
+    }
+
+    @Override
+    public void onPongFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+        logger.info("webSocket onPongFrame: {}", frame.getPayloadText());
+
+    }
+
+    @Override
+    public void handleCallbackError(WebSocket websocket, Throwable cause) throws Exception {
+        logger.error("webSocket unExpectedError: {}", cause.getMessage(), cause.getCause());
     }
 
 }

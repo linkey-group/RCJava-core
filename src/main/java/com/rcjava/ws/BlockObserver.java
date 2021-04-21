@@ -7,6 +7,8 @@ import com.rcjava.protos.Peer;
  */
 public interface BlockObserver {
 
+    // TODO 改为抽象类，可设置一个name
+
     /**
      * 回调Message-->Block
      *

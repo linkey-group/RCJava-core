@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -62,7 +63,11 @@ public class RSubClient {
                 .addListener(blkListener);
 
         try {
-            ws.connect();
+            // set pingInterval to socket keepAlive
+            ws.setPingInterval(30 * 1000).setPingSenderName("RSubClient").setPingPayloadGenerator(() -> {
+                // The string representation of the current date.
+                return new Date().toString().getBytes();
+            }).connect();
         } catch (OpeningHandshakeException e) {
             // Status line.
             StatusLine sl = e.getStatusLine();
