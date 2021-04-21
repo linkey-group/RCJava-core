@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
- * 同步服务
+ * 区块同步服务
  *
  * @author zyf
  */
@@ -99,13 +99,13 @@ public class SyncService implements BlockObserver {
     }
 
     /**
-     * 开始定时pull
+     * 开始定时pull，使用pull的方式拉取区块
      */
-    private synchronized void startPull() {
-        if (subSyncing) {
+    private void startPull() {
+        // 防止极端情况下websocket断了
+        if (subSyncing && rSubClient.getWs().isOpen()) {
             return;
         }
-        logger.info("执行同步，开始pull...，execPull");
         pullSyncing = true;
         try {
             execPull();
@@ -119,7 +119,8 @@ public class SyncService implements BlockObserver {
     /**
      * 使用pull的方式拉取区块
      */
-    private void execPull() {
+    private synchronized void execPull() {
+        logger.info("执行同步，开始pull...，execPull");
         long localHeight = syncInfo.getLocalHeight();
         long remoteHeight = cInfoClient.getChainInfo().getHeight();
         while (localHeight < remoteHeight) {
@@ -186,17 +187,21 @@ public class SyncService implements BlockObserver {
             return;
         }
         subSyncing = true;
-        if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
-            logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                    syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
-            syncListener.onSuccess(block);
-            syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
-            syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
-        } else {
-            logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                    syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
-            logger.info("切换sub为pull，开始pull...");
-            startPull();
+        synchronized (this) {
+            logger.info("执行同步，开始sub...，execSub");
+            if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
+                logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                // 加锁是为了保证 onSuccess 线程安全正确
+                syncListener.onSuccess(block);
+                syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
+                syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+            } else {
+                logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                logger.info("切换sub为pull，开始pull...");
+                execPull();
+            }
         }
         subSyncing = false;
     }
