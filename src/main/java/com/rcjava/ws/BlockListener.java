@@ -27,7 +27,8 @@ public class BlockListener extends WebSocketAdapter {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected BlockListener() { }
+    protected BlockListener() {
+    }
 
 
     /**
@@ -54,6 +55,8 @@ public class BlockListener extends WebSocketAdapter {
     }
 
     /**
+     * event 监听，并回调给具体BlockObserver的实现类
+     *
      * @param websocket
      * @param message
      * @throws Exception
@@ -69,7 +72,7 @@ public class BlockListener extends WebSocketAdapter {
 
     @Override
     public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
-        logger.info("webSocket connected {}", websocket);
+        logger.info("rSubClient 已连接 {}", websocket);
     }
 
     @Override

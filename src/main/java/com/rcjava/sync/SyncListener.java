@@ -9,18 +9,17 @@ import com.rcjava.protos.Peer;
 public interface SyncListener {
 
     /**
-     * 正确同步时，推送块给同步者
+     * 正确同步时，推送区块给订阅者
      *
      * @param block 区块
+     * @throws SyncBlockException 如果业务端未成功将区块数据写入数据库，则须抛出异常
      */
-    void onBlock(Peer.Block block);
+    void onSuccess(Peer.Block block) throws SyncBlockException;
 
     /**
-     * 同步异常，如：RepChain某个块回滚了或者落盘失败，这个时候需要纠正数据库，重新开始，目前交给业务端来实现（业务端需实现SyncEndPoint接口）
+     * 同步异常
      *
-     * @param syncBlockException         同步异常
-     * @param currentRemoteBlockHeight   当前远端块高度
-     * @param currentRemoteBlockPrevHash 当前远端块previousHash
+     * @param syncBlockException 同步异常
      */
-    void onError(SyncBlockException syncBlockException, long currentRemoteBlockHeight, String currentRemoteBlockPrevHash);
+    void onError(SyncBlockException syncBlockException);
 }

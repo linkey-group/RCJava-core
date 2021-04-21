@@ -57,7 +57,7 @@ public class RSubClient {
      */
     public void connect() throws IOException {
         ws = factory
-                .setConnectionTimeout(10000)
+                .setConnectionTimeout(10 * 1000)
                 .createSocket(String.format("ws://%s/event", host))
                 .addListener(blkListener);
 

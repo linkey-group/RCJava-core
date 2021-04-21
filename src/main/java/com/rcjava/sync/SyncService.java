@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -29,30 +27,26 @@ public class SyncService implements BlockObserver {
     private String host;
     private SyncInfo syncInfo;
     private SyncListener syncListener;
-    private SyncEndPoint syncEndPoint;
 
     private RSubClient rSubClient;
     private ChainInfoClient cInfoClient;
     private BlockListener blkListener;
 
-    /**
-     * 使用队列保存Block
-     */
-    private ConcurrentLinkedQueue<Peer.Block> blockQueue = new ConcurrentLinkedQueue<>();
-
     private ThreadFactory pullServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockPull-pool-%d").build();
     private ScheduledExecutorService pullService = Executors.newSingleThreadScheduledExecutor(pullServiceFactory);
     private ThreadFactory wsServiceFactory = new ThreadFactoryBuilder().setNameFormat("wsMonitor-pool-%d").build();
     private ScheduledExecutorService wsService = Executors.newSingleThreadScheduledExecutor(wsServiceFactory);
-    private ThreadFactory blkServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockQueue-pool-%d").build();
-    private ScheduledExecutorService blockService = Executors.newSingleThreadScheduledExecutor(blkServiceFactory);
 
-    private volatile boolean isSubing = false;
+    // socket是否已经创建过的标志位
+    private volatile boolean isWScreated = false;
+
+    // 正在pull
     private volatile boolean pullSyncing = false;
+    // 正在sub
     private volatile boolean subSyncing = false;
 
+    // 停止pull
     private volatile boolean stopPull = false;
-    private volatile boolean stopPoll = false;
 
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -61,7 +55,6 @@ public class SyncService implements BlockObserver {
         host = builder.host;
         syncInfo = builder.syncInfo;
         syncListener = builder.syncListener;
-        syncEndPoint = builder.syncEndPoint;
     }
 
     public static Builder newBuilder() {
@@ -85,13 +78,9 @@ public class SyncService implements BlockObserver {
         rSubClient = new RSubClient(host, blkListener);
 
         // 首先打开订阅，每隔60s检查一次socket状态
-        wsService.scheduleAtFixedRate(this::startSub, 1, 60, TimeUnit.SECONDS);
-
-        // 推送block，固定间隔时间10s
-        blockService.scheduleWithFixedDelay(this::pollBlock, 2, 10, TimeUnit.SECONDS);
-
+        wsService.scheduleAtFixedRate(this::startSub, 5, 60, TimeUnit.SECONDS);
         // 打开定时pull，固定间隔时间20s，检查是否需要pull
-        pullService.scheduleWithFixedDelay(this::startPull, 7, 20, TimeUnit.SECONDS);
+        pullService.scheduleWithFixedDelay(this::startPull, 15, 20, TimeUnit.SECONDS);
 
     }
 
@@ -99,118 +88,68 @@ public class SyncService implements BlockObserver {
      * 停止同步服务，非立即停止
      */
     public void stop() {
+        // 停掉pull服务
+        setStopPull();
         // 断开socket连接
         rSubClient.disconnect();
         // 停掉socket监测服务
         wsService.shutdownNow();
         // 停掉pull服务
-        setStopPull();
         pullService.shutdown();
-        // 停掉block推送服务
-        setStopPoll();
-        blockService.shutdown();
     }
 
     /**
      * 开始定时pull
      */
-    private void startPull() {
-        if (subSyncing || pullSyncing) {
+    private synchronized void startPull() {
+        if (subSyncing) {
             return;
         }
         logger.info("执行同步，开始pull...，execPull");
+        pullSyncing = true;
         try {
             execPull();
         } catch (Exception e) {
-            logger.error("errMsg: {}", e.getMessage());
+            logger.error("errMsg: {}", e.getMessage(), e);
+            // 置为false是为了在websocket监测到出块事件时，更快的响应，如果不置为false，可能最长需要等待20s（pullService的设置）
+            pullSyncing = false;
         }
     }
 
     /**
-     * 执行pull
+     * 使用pull的方式拉取区块
      */
     private void execPull() {
-        pullSyncing = true;
         long localHeight = syncInfo.getLocalHeight();
         long remoteHeight = cInfoClient.getChainInfo().getHeight();
         while (localHeight < remoteHeight) {
             long tempHeight = localHeight + 1;
             Peer.Block block = cInfoClient.getBlockStreamByHeight(tempHeight);
-            // 由于出现块回滚，可能远端实际高度已经变低，因此可能出现空块
-            if (block == null) {
-                continue;
-            }
-            if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
+            // block的hash是否可以衔接
+            if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash()) || block.getPreviousBlockHash().isEmpty()) {
                 logger.info("pullBlock，localHeight：{}，localBlockHash：{}，pullHeight：{}，pullBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                syncListener.onSuccess(block);
                 syncInfo.setLocalHeight(tempHeight);
                 syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
-                blockQueue.add(block);
                 localHeight = tempHeight;
             } else {
                 logger.error("pull: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，pullHeight：{}， pullBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
-                syncListener.onError(new SyncBlockException("RepChain可能回滚块或者块未保存到磁盘上，启动数据修正"),
-                        block.getHeight(), block.getPreviousBlockHash().toStringUtf8());
-                logger.info("将目前同步到缓存里的数据块，都处理完毕后启动数据修正...");
-                // 将块都poll完，然后再进行数据修正，blkQueue线程安全
-                pollBlock();
-                // 倒着与本地数据库进行遍历比较
-                long lTempHeight = localHeight;
-                // 需要修正已同步的块
-                localHeight = reviseBlock4Roll(lTempHeight);
+                syncListener.onError(new SyncBlockException(String.format("块Hash衔接不上，localHeight：%s，localBlockHash：%s，pullHeight：%s， pullBlockHash：%s， 重启服务==> shutdown ==> start",
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8())));
+                break;
             }
             if (stopPull) {
                 break;
             }
         }
-        if (localHeight > remoteHeight) {
-            logger.error("本地高度：{} 大于 远端高度：{}，将目前同步到缓存里的数据块，都处理完毕后启动数据修正...", localHeight, remoteHeight);
-            syncListener.onError(new SyncBlockException("RepChain可能回滚块或者块未保存到磁盘上，启动数据修正"),
-                    remoteHeight, cInfoClient.getBlockByHeight(remoteHeight).getPreviousBlockHash().toStringUtf8());
-            // 将块都poll完，然后再进行数据修正，blkQueue线程安全
-            pollBlock();
-            reviseBlock4Roll(localHeight);
+        if (stopPull) {
+            logger.info("已触发stop，停止pull服务...");
         } else {
             logger.info("localHeight: {} = remoteHeight: {}, pull结束或者无需pull, 切换pull为sub, 开始sub...", localHeight, remoteHeight);
         }
         pullSyncing = false;
-        if (stopPull) {
-            logger.info("已触发stop，停止pull服务...");
-        }
-    }
-
-    /**
-     * 从当前块高度，开始倒着订正因回滚而废弃的块
-     *
-     * @param currentLocalHeight
-     * @return
-     */
-    private long reviseBlock4Roll(long currentLocalHeight) {
-        long localHeight = currentLocalHeight;
-        long rTempHeight = cInfoClient.getChainInfo().getHeight();
-        for (long height = Math.min(currentLocalHeight, rTempHeight); height > 1; height--) {
-            String localBlockHash = syncEndPoint.queryBlockHash(height);
-            String remoteBlockHash = cInfoClient.getBlockStreamByHeight(height).getHashOfBlock().toStringUtf8();
-            if (localBlockHash.equals(remoteBlockHash)) {
-                logger.info("根据业务方提供的接口，检查本地最后的正确块高为: {}，远端当前块高为: {}", height, rTempHeight);
-                final List<Peer.Block> blockList = new ArrayList<>();
-                // 从本地最后的正确高度，拉取块到tempHeight高度
-                for (long i = height + 1; i <= rTempHeight; i++) {
-                    blockList.add(cInfoClient.getBlockByHeight(i));
-                }
-                logger.info("根据业务方提供的接口，更新本地数据库...");
-                // 更新本地数据库
-                syncEndPoint.update(height, rTempHeight, blockList);
-                // 更新syncInfo
-                syncInfo.setLocalHeight(rTempHeight);
-                syncInfo.setLocBlkHash(blockList.get(blockList.size() - 1).getHashOfBlock().toStringUtf8());
-                localHeight = rTempHeight;
-                // 跳出修正循环
-                break;
-            }
-        }
-        return localHeight;
     }
 
     /**
@@ -219,7 +158,7 @@ public class SyncService implements BlockObserver {
     private void startSub() {
         try {
             // 已经连接过了
-            if (isSubing) {
+            if (isWScreated) {
                 logger.info("rSubClient's state is {}.", rSubClient.getWs().getState().name());
                 if (!rSubClient.isopen() || rSubClient.getWs().getState() == WebSocketState.CLOSED) {
                     logger.info("rSubClient's state is {}, rSubClient 正在重新连接...", rSubClient.getWs().getState().name());
@@ -232,7 +171,7 @@ public class SyncService implements BlockObserver {
             } else {
                 // 连接ws，开启订阅
                 rSubClient.connect();
-                isSubing = true;
+                isWScreated = true;
                 logger.info("rSubClient 正在连接...");
             }
         } catch (WebSocketException | IOException e) {
@@ -249,9 +188,9 @@ public class SyncService implements BlockObserver {
             subSyncing = true;
             logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                     syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+            syncListener.onSuccess(block);
             syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
             syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
-            blockQueue.add(block);
         } else {
             subSyncing = false;
             logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
@@ -262,39 +201,9 @@ public class SyncService implements BlockObserver {
     }
 
     /**
-     * 通知SyncListener，输出block数据
-     */
-    private void pollBlock() {
-        logger.info("PollBlock to SyncListener，开始poll...，blockQueue's size is {}", blockQueue.size());
-        onBlock();
-    }
-
-    /**
-     * BlockQueue pollBlock to SyncListener
-     */
-    synchronized private void onBlock() {
-        while (!blockQueue.isEmpty()) {
-            syncListener.onBlock(blockQueue.poll());
-            if (stopPoll) {
-                break;
-            }
-        }
-        if (stopPoll) {
-            logger.info("已触发stop，停止poll服务...");
-        }
-    }
-
-    /**
      * 修改pull标识位
      */
     private void setStopPull() {
-        this.stopPull = true;
-    }
-
-    /**
-     * 修改poll标志位
-     */
-    private void setStopPoll() {
         this.stopPull = true;
     }
 
@@ -302,7 +211,6 @@ public class SyncService implements BlockObserver {
         private String host;
         private SyncInfo syncInfo;
         private SyncListener syncListener;
-        private SyncEndPoint syncEndPoint;
 
         private Builder() {
         }
@@ -322,12 +230,6 @@ public class SyncService implements BlockObserver {
         @Nonnull
         public Builder setSyncListener(@Nonnull SyncListener syncListener) {
             this.syncListener = syncListener;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setSyncEndPoint(@Nonnull SyncEndPoint syncEndPoint) {
-            this.syncEndPoint = syncEndPoint;
             return this;
         }
 

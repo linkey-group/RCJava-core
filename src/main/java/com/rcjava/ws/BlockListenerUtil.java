@@ -15,7 +15,7 @@ public class BlockListenerUtil {
     private final static ConcurrentHashMap<String, BlockListener> HOST_LISTENER = new ConcurrentHashMap<>();
 
     /**
-     * 每个host只给一个listener
+     * 使用 host 获取一个监听，每个 host 对应一个listener
      *
      * @param host
      * @return
