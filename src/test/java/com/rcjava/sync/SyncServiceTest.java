@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -27,12 +28,14 @@ public class SyncServiceTest implements SyncListener {
 
         String host = "192.168.2.69:8081";
 
-        long locHeight = 0L;
-        // 本地高度为0时，设置locBlkHash为""或者null
-        SyncInfo syncInfo = new SyncInfo(locHeight, "");
+//        long locHeight = 0L;
+//        // 本地高度为0时，设置locBlkHash为""或者null
+//        String locBlkHash = "";
 
-//        long locHeight = 1L;
-//        String locBlkHash = new ChainInfoClient(host).getBlockByHeight(locHeight).getHashOfBlock().toStringUtf8();
+        long locHeight = 10L;
+        String locBlkHash = new ChainInfoClient(host).getBlockByHeight(locHeight).getHashOfBlock().toStringUtf8();
+
+        SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
 
         SyncService syncService = SyncService.newBuilder()
                 .setHost(host)
@@ -40,20 +43,22 @@ public class SyncServiceTest implements SyncListener {
                 .setSyncListener(this)
                 .build();
 
-        CountDownLatch latch = new CountDownLatch(1);
+//        syncService.start();
 
+//        CountDownLatch latch = new CountDownLatch(1);
         Thread thread = new Thread(syncService::start);
-
         thread.start();
+//        latch.await();
 
-        latch.await();
         // 使用main的时候挂起就好了
 //        thread.join();
 
         // 该测试方法里使用
-//        sleep(60000);
-//        syncService.stop();
-//        sleep(7200000); // 使用latch代替
+        TimeUnit.SECONDS.sleep(60);
+        syncService.restart();
+        TimeUnit.SECONDS.sleep(60);
+        syncService.restart();
+
     }
 
     @Override
@@ -63,7 +68,7 @@ public class SyncServiceTest implements SyncListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (block.getHeight() == 100) {
+        if (block.getHeight() == 1000) {
             throw new SyncBlockException("模拟数据库写入异常");
         }
         logger.error(Thread.currentThread().getName() + " : " + String.format("当前块高度为：%s, 当前块Hash为：%s, 前块Hash为：%s",

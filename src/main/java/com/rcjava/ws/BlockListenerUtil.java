@@ -28,6 +28,16 @@ public class BlockListenerUtil {
         return HOST_LISTENER.get(host);
     }
 
+    /**
+     * 移除listener
+     *
+     * @param host
+     * @return
+     */
+    public static void removeListener(String host) {
+        HOST_LISTENER.remove(host);
+    }
+
 }
 
 

@@ -18,11 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RSubClient {
 
-    private String host = "localhost:8081";
+    private String host;
     private BlockListener blkListener;
     private WebSocket ws = null;
 
-    private static WebSocketFactory factory = new WebSocketFactory();
+    private WebSocketFactory factory = new WebSocketFactory().setConnectionTimeout(10 * 1000);
 
     private static ConcurrentHashMap<String, RSubClient> staticSubClient = new ConcurrentHashMap<>();
 
@@ -56,29 +56,14 @@ public class RSubClient {
      *
      * @throws IOException
      */
-    public void connect() throws IOException {
-        ws = factory
-                .setConnectionTimeout(10 * 1000)
-                .createSocket(String.format("ws://%s/event", host))
-                .addListener(blkListener);
-
-        try {
-            // set pingInterval to socket keepAlive
-            ws.setPingInterval(30 * 1000).setPingSenderName("RSubClient").setPingPayloadGenerator(() -> {
-                // The string representation of the current date.
-                return new Date().toString().getBytes();
-            }).connect();
-        } catch (OpeningHandshakeException e) {
-            // Status line.
-            StatusLine sl = e.getStatusLine();
-            String httpVersion = sl.getHttpVersion();
-            int statusCode = sl.getStatusCode();
-            String reason = sl.getReasonPhrase();
-            logger.error(String.format("httpVesion: %s, status code: %s, reason: %s\n", httpVersion, statusCode, reason), e);
-        } catch (WebSocketException e) {
-            // Failed to establish a WebSocket connection.
-            logger.error(e.getMessage(), e);
-        }
+    public void connect() throws IOException, WebSocketException {
+        ws = factory.createSocket(String.format("ws://%s/event", host)).addListener(blkListener)
+                .setPingSenderName("RSubClient")
+                // set pingInterval to socket keepAlive
+                .setPingInterval(30 * 1000).setPingPayloadGenerator(() -> {
+                    // The string representation of the current date.
+                    return new Date().toString().getBytes();
+                }).connect();
     }
 
     /**

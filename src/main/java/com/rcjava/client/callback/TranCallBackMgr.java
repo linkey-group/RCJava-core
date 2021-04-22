@@ -69,7 +69,7 @@ public class TranCallBackMgr implements BlockObserver {
                         }
                         rSubClient.getBlkListener().registerBlkObserver(instance);
                         instance.startMonitor();
-                    } catch (IOException e) {
+                    } catch (WebSocketException | IOException e) {
                         logger_static.error("getInstance error, errorMsg is {}", e.getMessage(), e);
                         e.printStackTrace();
                     }

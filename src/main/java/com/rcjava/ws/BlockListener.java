@@ -4,7 +4,6 @@ import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFrame;
-import com.rcjava.exception.SyncBlockException;
 import com.rcjava.protos.Peer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +80,7 @@ public class BlockListener extends WebSocketAdapter {
         return blockObserver -> {
             try {
                 consumer.accept(blockObserver);
-            } catch (SyncBlockException e) {
+            } catch (Exception e) {
                 logger.error("SyncBlock error, syncErrorMsg is {}", e.getMessage(), e);
             }
         };

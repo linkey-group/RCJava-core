@@ -1,6 +1,9 @@
 package com.rcjava.exception;
 
-public class SyncBlockException extends RuntimeException{
+/**
+ * @author zyf
+ */
+public class SyncBlockException extends Exception {
 
     public SyncBlockException() {
         super();
