@@ -1,5 +1,5 @@
 # **RCJava-core**
-![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-v0.4.1-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
+![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-v0.4.2SNAPSHOT-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
 
 ***
 ### 目录
@@ -97,7 +97,7 @@
    > <dependency>
    > 	<groupId>repchain</groupId>
    > 	<artifactId>rcjava-core</artifactId>
-   > 	<version>0.4.1</version>
+   > 	<version>0.4.2-SNAPSHOT</version>
    > </dependency>
    > ```
 
@@ -122,7 +122,7 @@
   <dependency>
   	<groupId>com.gitee.BTAJL</groupId>
   	<artifactId>RCJava-core</artifactId>
-  	<version>0.4.1</version>
+  	<version>0.4.2-SNAPSHOT</version>
   </dependency>
   ```
 
@@ -134,7 +134,7 @@
 
 * **准备工作**
   * 搭建好RepChain
-  * 使用`secp256k1`生成密钥对，并向管理员（组网节点）申请注册账户和证书到RepChain
+  * 使用`secp256r1`生成密钥对，并向管理员（组网节点）申请注册账户和证书到RepChain
 
 * 构建签名交易
 
@@ -354,10 +354,11 @@
 
 * 同步块数据
 
-  > 使用sync/SyncService构建同步服务，从指定高度开始同步，一直到最新高度
+  > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，示例请参考SyncServiceTest。
   >
-  > 1. 使用host、syncInfo、syncListener初始化Service
-  > 2. 初始化之后，就可以start了，服务需要挂起
+  > 1. 使用host、syncInfo、syncListener（<u>实现该接口，可将区块存储到数据库中</u>）初始化
+  > 2. 初始化之后，就可以启动同步服务
+  > 3. SyncListener中，如果保存区块出现问题，要throw SyncBlockException
 
   ```java
   SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);

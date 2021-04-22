@@ -44,7 +44,7 @@ public class TranPostClientTest {
     private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
 
     private PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
-            new File("jks/121000005l35120456.node1.jks"),
+            new File("jks/jdk13/121000005l35120456.node1.jks"),
             "123",
             "121000005l35120456.node1").getPrivateKey();
 

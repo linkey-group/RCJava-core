@@ -221,6 +221,11 @@ public class SyncService implements BlockObserver {
         }
     }
 
+    /**
+     * 通过订阅服务，得到的区块
+     *
+     * @param block 回调的块数据
+     */
     @Override
     public void onMessage(Peer.Block block) {
         if (pullSyncing) {
