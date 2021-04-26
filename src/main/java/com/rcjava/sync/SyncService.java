@@ -25,11 +25,13 @@ import java.util.concurrent.*;
 public class SyncService implements BlockObserver {
 
     private String host;
+    private String wsHost;
     private SyncInfo syncInfo;
     private SyncListener syncListener;
 
     private RSubClient rSubClient;
-    private ChainInfoClient cInfoClient;
+    private ChainInfoClient cInfoClient_pull;
+    private ChainInfoClient cInfoClient_sub;
     private BlockListener blkListener;
 
     private ThreadFactory pullServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockPull-pool-%d").build();
@@ -53,6 +55,7 @@ public class SyncService implements BlockObserver {
 
     private SyncService(Builder builder) {
         host = builder.host;
+        wsHost = builder.wsHost;
         syncInfo = builder.syncInfo;
         syncListener = builder.syncListener;
     }
@@ -74,15 +77,19 @@ public class SyncService implements BlockObserver {
         this.pullSyncing = false;
         this.subSyncing = false;
 
+        this.wsHost = "".equals(wsHost) ? host : wsHost;
+
         // 获取block监听，使用 host 获取一个监听，每个 host 对应一个监听
-        blkListener = BlockListenerUtil.getListener(host);
+        blkListener = BlockListenerUtil.getListener(wsHost);
         // event 监听，并回调给具体的实现类
         blkListener.registerBlkObserver(this);
 
-        // pull用
-        cInfoClient = new ChainInfoClient(host);
+        // pull用，使用 cInfoClient_pull 来定时 pull 区块
+        cInfoClient_pull = new ChainInfoClient(host);
         // sub用
-        rSubClient = new RSubClient(host, blkListener);
+        rSubClient = new RSubClient(wsHost, blkListener);
+        // sub 与 pull 结合时，使用 cInfoClient_sub 来 pull 区块
+        cInfoClient_sub = wsHost.equals(host) ? cInfoClient_pull : new ChainInfoClient(wsHost);
 
         wsService = Executors.newSingleThreadScheduledExecutor(wsServiceFactory);
         // 首先打开订阅，每隔60s检查一次socket状态
@@ -103,7 +110,7 @@ public class SyncService implements BlockObserver {
         // 跳出execPull中可能正在进行的while循环
         this.stopPull = true;
 
-        BlockListenerUtil.removeListener(host);
+        BlockListenerUtil.removeListener(wsHost);
         blkListener.removeBlkObserver(this);
 
         // 断开socket连接
@@ -142,7 +149,7 @@ public class SyncService implements BlockObserver {
             return;
         }
         pullSyncing = true;
-        execPull();
+        execPull(cInfoClient_pull);
         // 置为false是为了在websocket监测到出块事件时，更快的响应(进入onMessage逻辑)，如果不置为false，可能最长需要等待20s（pullService的设置）
         pullSyncing = false;
     }
@@ -150,8 +157,8 @@ public class SyncService implements BlockObserver {
     /**
      * 使用pull的方式拉取区块
      */
-    private synchronized void execPull() {
-        logger.info("执行同步，开始pull...，execPull");
+    private synchronized void execPull(ChainInfoClient cInfoClient) {
+        logger.info("执行同步，开始pull {}...，execPull", cInfoClient.getHost());
         try {
             long localHeight = syncInfo.getLocalHeight();
             long remoteHeight = cInfoClient.getChainInfo().getHeight();
@@ -200,7 +207,7 @@ public class SyncService implements BlockObserver {
             if (isWScreated) {
                 logger.info("rSubClient's state is {}.", rSubClient.getWs().getState().name());
                 if (!rSubClient.isopen() || rSubClient.getWs().getState() == WebSocketState.CLOSED) {
-                    logger.info("rSubClient's state is {}, rSubClient 正在重新连接...", rSubClient.getWs().getState().name());
+                    logger.info("rSubClient's state is {}, rSubClient 正在重新连接 {}...", rSubClient.getWs().getState().name(), rSubClient.getHost());
                     // 如果连接断掉，要将pullSyncing与subSyncing分别置为false，这样startPull()可以继续工作
                     pullSyncing = false;
                     subSyncing = false;
@@ -213,7 +220,7 @@ public class SyncService implements BlockObserver {
                 // 连接ws，开启订阅
                 rSubClient.connect();
                 isWScreated = true;
-                logger.info("rSubClient 正在连接...");
+                logger.info("rSubClient 正在连接 {}...", rSubClient.getHost());
             }
         } catch (WebSocketException | IOException e) {
             logger.error("startSub error, rSubClient connect server error, errorMsg: {}", e.getMessage(), e.getCause());
@@ -233,7 +240,7 @@ public class SyncService implements BlockObserver {
         }
         subSyncing = true;
         synchronized (this) {
-            logger.info("执行同步，开始sub...，execSub");
+            logger.info("执行同步，开始sub {}...，execSub", rSubClient.getHost());
             if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
                 logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
@@ -250,7 +257,7 @@ public class SyncService implements BlockObserver {
                 logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
                         syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
                 logger.info("切换sub为pull，开始pull...");
-                execPull();
+                execPull(cInfoClient_sub);
             }
         }
         subSyncing = false;
@@ -266,6 +273,7 @@ public class SyncService implements BlockObserver {
 
     public static final class Builder {
         private String host;
+        private String wsHost = "";
         private SyncInfo syncInfo;
         private SyncListener syncListener;
 
@@ -275,6 +283,12 @@ public class SyncService implements BlockObserver {
         @Nonnull
         public Builder setHost(@Nonnull String host) {
             this.host = host;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setWsHost(@Nonnull String wsHost) {
+            this.wsHost = wsHost;
             return this;
         }
 

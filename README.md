@@ -296,6 +296,7 @@
       JSONObject result = TranPostAsyncClient
           		.resolveHttpResponseFuture(responseFuture);
       ```
+  
 * 使用ContractClient
   > 使用ContractClient部署升级合约、修改合约状态、调用合约，可选用具体方法，下面例子中的方法只是其中之一
   ```java
@@ -354,7 +355,7 @@
 
 * 同步块数据
 
-  > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，示例请参考SyncServiceTest。
+  > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，思路是：定时**“拉“**（基于http服务）和**“推拉”**结合（基于ws+http服务）的方式来同步区块，即订阅（基于ws）与拉取（基于http）相结合的方案来保证区块同步的实时性，该方案可以防止相应节点ws服务崩溃，使用示例请参考SyncServiceTest
   >
   > 1. 使用host、syncInfo、syncListener（<u>实现该接口，可将区块存储到数据库中</u>）初始化
   > 2. 初始化之后，就可以启动同步服务
@@ -365,6 +366,20 @@
   
   SyncService syncService = SyncService.newBuilder()
   			  .setHost("localhost:8081")
+              .setSyncInfo(syncInfo)
+              .setSyncListener("SyncListener实例")
+              .build();
+  Thread thread = new Thread(syncService::start);
+  thread.start();
+  ```
+
+  > 使用示例2：可以多设置一个host地址----wsHost，host用来定时的**“拉”**的方式来同步区块，wsHost用来**“推拉”**结合的同步区块。和上面方案不同的地方在于：上面的方案只设置一个host只能预防相应节点的ws服务崩溃，不能预防节点宕机；下面的方案是指向了两个节点，如果一个节点崩溃，仍然可以向另外一个节点同步区块数据
+
+  ```java
+  SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
+  
+  SyncService syncService = SyncService.newBuilder()
+  			  .setHost(节点1的地址).setWsHost(节点2的地址)
               .setSyncInfo(syncInfo)
               .setSyncListener("SyncListener实例")
               .build();
