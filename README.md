@@ -134,8 +134,18 @@
 
 * **准备工作**
   * 搭建好RepChain
-  * 使用`secp256r1`生成密钥对，并向管理员（组网节点）申请注册账户和证书到RepChain
-
+  
+* 推荐使用`secp256r1`生成密钥对（当然也可以使用其他[curves](https://docs.oracle.com/en/java/javase/13/security/oracle-providers.html#GUID-091BF58C-82AB-4C9C-850F-1660824D5254)），并向管理员（组网节点）申请注册账户和证书到RepChain
+  
+    > ```java
+    > // 打印出Jdk可支持的曲线
+    > // --add-exports=java.base/sun.security.util=ALL-UNNAMED
+    > public static void printSunCurves() {
+    >     Collection curves = CurveDB.getSupportedCurves();
+    >     curves.forEach(System.out::println);
+    > }
+    > ```
+  
 * 构建签名交易
 
   * 使用tran/impl下的具体类
