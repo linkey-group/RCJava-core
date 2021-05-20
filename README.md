@@ -1,5 +1,5 @@
 # **RCJava-core**
-![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-v0.4.2SNAPSHOT-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
+![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-0.4.2-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
 
 ***
 ### 目录
@@ -97,7 +97,7 @@
    > <dependency>
    > 	<groupId>repchain</groupId>
    > 	<artifactId>rcjava-core</artifactId>
-   > 	<version>0.4.2-SNAPSHOT</version>
+   > 	<version>0.4.2</version>
    > </dependency>
    > ```
 
@@ -122,7 +122,7 @@
   <dependency>
   	<groupId>com.gitee.BTAJL</groupId>
   	<artifactId>RCJava-core</artifactId>
-  	<version>0.4.2-SNAPSHOT</version>
+  	<version>0.4.2</version>
   </dependency>
   ```
 
