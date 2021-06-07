@@ -1,0 +1,149 @@
+package com.rcjava.util;
+
+import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.jcajce.spec.SM2ParameterSpec;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import java.security.*;
+import java.security.spec.ECGenParameterSpec;
+
+/**
+ * 使用国密算法生成密钥对、证书、签名验签；默认使用BouncyCastle
+ *
+ * @author zyf
+ */
+public class GmUtil {
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
+
+    /**
+     * 计算sm3摘要
+     *
+     * @param input 需要计算摘要的数据
+     * @return
+     */
+    public static byte[] getBytesWithSM3(byte[] input) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SM3", "BC");
+            return messageDigest.digest(input);
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 计算sm3摘要
+     *
+     * @param input 需要计算摘要的数据
+     * @return
+     */
+    public static String getHexStringWithSM3(byte[] input) {
+        byte[] digestRes = getBytesWithSM3(input);
+        if (digestRes != null) {
+            return Hex.encodeHexString(digestRes);
+        }
+        return null;
+    }
+
+    /**
+     * 生成sm2密钥对，使用sm2p256v1
+     *
+     * @return
+     */
+    public static KeyPair getKeyPairWithSM2() {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC", "BC");
+            keyPairGenerator.initialize(new ECGenParameterSpec("sm2p256v1"));
+            return keyPairGenerator.generateKeyPair();
+        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 使用SM3withSM2签名
+     *
+     * @param privateKey sm2生成的私钥
+     * @param input      原始数据
+     * @return
+     */
+    public static byte[] signWithSM2(PrivateKey privateKey, byte[] input) {
+        try {
+            Signature sigEngine = Signature.getInstance("SM3withSM2", "BC");
+            sigEngine.initSign(privateKey);
+            sigEngine.update(input);
+            return sigEngine.sign();
+        } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
+    /**
+     * 使用SM3withSM2签名
+     *
+     * @param privateKey       sm2生成的私钥
+     * @param input            原始数据
+     * @param sm2ParameterSpec ID参数
+     * @return
+     */
+    public static byte[] signWithSM2(PrivateKey privateKey, byte[] input, SM2ParameterSpec sm2ParameterSpec) {
+        try {
+            Signature sigEngine = Signature.getInstance("SM3withSM2", "BC");
+            sigEngine.setParameter(sm2ParameterSpec);
+            sigEngine.initSign(privateKey);
+            sigEngine.update(input);
+            return sigEngine.sign();
+        } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
+    /**
+     * 验证SM3withSM2签名
+     *
+     * @param publicKey sm2生成的公钥
+     * @param input     原始数据
+     * @param signature 签名数据
+     * @return
+     */
+    public static boolean verifyWithSm2(PublicKey publicKey, byte[] input, byte[] signature) {
+        try {
+            Signature sigEngine = Signature.getInstance("SM3withSM2", "BC");
+            sigEngine.initVerify(publicKey);
+            sigEngine.update(input);
+            return sigEngine.verify(signature);
+        } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 验证SM3withSM2签名
+     *
+     * @param publicKey        sm2生成的公钥
+     * @param input            原始数据
+     * @param signature        签名数据
+     * @param sm2ParameterSpec ID参数
+     * @return
+     */
+    public static boolean verifyWithSm2(PublicKey publicKey, byte[] input, byte[] signature, SM2ParameterSpec sm2ParameterSpec) {
+        try {
+            Signature sigEngine = Signature.getInstance("SM3withSM2", "BC");
+            sigEngine.setParameter(sm2ParameterSpec);
+            sigEngine.initVerify(publicKey);
+            sigEngine.update(input);
+            return sigEngine.verify(signature);
+        } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+}

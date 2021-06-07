@@ -1,6 +1,8 @@
 package com.rcjava.sign.impl;
 
 import com.rcjava.sign.SignFunc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -13,10 +15,11 @@ import java.security.Signature;
  */
 public class ECDSASign implements SignFunc {
 
-
-
-    // 默认算法
+    /**
+     * 默认算法
+     */
     private String signAlgorithm = "SHA1withECDSA";
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public ECDSASign() {
 
@@ -59,10 +62,10 @@ public class ECDSASign implements SignFunc {
             Signature s1 = Signature.getInstance(signAlgorithm);
             s1.initSign(privateKey);
             s1.update(message);
-            byte[] sign = s1.sign();
-            return sign;
+            return s1.sign();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.error("签名出现错误：{}", e.getMessage(), e);
         }
         return new byte[0];
     }
@@ -98,8 +101,9 @@ public class ECDSASign implements SignFunc {
             return s2.verify(signature);
         } catch (Exception ex) {
             ex.printStackTrace();
+            logger.error("验签出现错误：{}", ex.getMessage(), ex);
         }
-        return null;
+        return false;
     }
 
     public String getSignAlgorithm() {

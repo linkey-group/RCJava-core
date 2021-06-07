@@ -1,21 +1,26 @@
 package com.rcjava.util;
 
+import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.Security;
+import java.math.BigInteger;
+import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 
 /**
  * 相关证书，私钥等操作工具类
@@ -174,5 +179,41 @@ public class CertUtil {
         public PrivateKey getPrivateKey() {
             return privateKey;
         }
+    }
+
+
+    /**
+     * 生成自签名证书
+     *
+     * @param keyPair  密钥对
+     * @param x500Name issuer与subject的x500Name（因为是自签名，因此一致）
+     * @param sigAlg   使用sigAlg来签名证书（签名算法）
+     * @param hours    有效时间
+     * @return
+     */
+    public static X509Certificate createX509Certificate(X500Name x500Name, KeyPair keyPair, String sigAlg, int hours) throws OperatorCreationException, CertificateException {
+
+        X509v3CertificateBuilder certificateBuilder = new JcaX509v3CertificateBuilder(
+                x500Name,
+                BigInteger.valueOf(System.currentTimeMillis()),
+                new Date(),
+                calculateDate(hours),
+                x500Name,
+                keyPair.getPublic()
+        );
+
+        ContentSigner contentSigner = new JcaContentSignerBuilder(sigAlg).setProvider("BC").build(keyPair.getPrivate());
+        X509CertificateHolder x509CertificateHolder = certificateBuilder.build(contentSigner);
+
+        return new JcaX509CertificateConverter().setProvider("BC").getCertificate(x509CertificateHolder);
+    }
+
+    /**
+     * @param hoursInFuture
+     * @return
+     */
+    private static Date calculateDate(int hoursInFuture) {
+        long secondsNow = System.currentTimeMillis() / 1000;
+        return new Date((secondsNow + (hoursInFuture * 60 * 60)) * 1000);
     }
 }
