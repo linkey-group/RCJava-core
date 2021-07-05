@@ -159,6 +159,21 @@
             <version>1.2.47</version>
         </dependency>
         <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_2.12</artifactId>
+            <version>3.6.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thesamet.scalapb</groupId>
+            <artifactId>scalapb-runtime_2.12</artifactId>
+            <version>0.10.0-M2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>chill-bijection_2.12</artifactId>
+            <version>0.9.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.neovisionaries</groupId>
             <artifactId>nv-websocket-client</artifactId>
             <version>2.14</version>
