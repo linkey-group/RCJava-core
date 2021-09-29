@@ -20,7 +20,7 @@
         <version.truth>1.0.1</version.truth>
         <version.protobuf-util>3.11.4</version.protobuf-util>
         <version.httpmime>4.5.5</version.httpmime>
-        <version.bcpkix>1.5.9</version.bcpkix>
+        <version.bcpkix>1.6.3</version.bcpkix>
         <version.fastjson>1.2.47</version.fastjson>
         <version.slf4j-api>1.8.0-beta4</version.slf4j-api>
         <version.slf4j-log4j12>1.8.0-beta4</version.slf4j-log4j12>

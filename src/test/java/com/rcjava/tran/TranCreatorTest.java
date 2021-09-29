@@ -40,7 +40,7 @@ public class TranCreatorTest {
     @DisplayName("test TranCreator, test Builder、toBuilder and methods")
     void testCreateInvokeTran() {
 
-        // Builder的测试
+        // Builder的测试, 交易的签名算法根据对应RepChain版本进行设置
         TranCreator tranCreator = TranCreator.newBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build();
         Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
 
@@ -70,15 +70,19 @@ public class TranCreatorTest {
                 .setChaincodeInput(chaincodeInput)
                 .setCertId(certId)
                 .build();
-        TranCreator tranCreator = TranCreator.newBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build();
+        // 交易的签名算法根据对应RepChain版本进行设置
+        TranCreator tranCreator = TranCreator.newBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha256withecdsa").build();
 
         Peer.Transaction invoke_1 = tranCreator.createInvokeTran(invokeTran);
 
-        Peer.Transaction invoke_2 = invokeTran.getSignedTran(privateKey, "sha1withecdsa");
+        // 交易的签名算法根据对应RepChain版本进行设置
+        Peer.Transaction invoke_2 = invokeTran.getSignedTran(privateKey, "sha256withecdsa");
 
-        Peer.Transaction invoke_3 = invokeTran.toBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build().getSignedTran();
+        // 交易的签名算法根据对应RepChain版本进行设置
+        Peer.Transaction invoke_3 = invokeTran.toBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha256withecdsa").build().getSignedTran();
 
-        Peer.Transaction invoke_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha1withecdsa");
+        // 交易的签名算法根据对应RepChain版本进行设置
+        Peer.Transaction invoke_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha256withecdsa");
 
         assertThat(invoke_1.getId()).isEqualTo(invoke_2.getId());
         assertThat(invoke_2.getId()).isEqualTo(invoke_3.getId());

@@ -22,7 +22,7 @@ public class ContractUser {
     /**
      * 签名算法，使用默认，和RepChain那边一致
      */
-    private String signAlgorithm = "SHA1withECDSA";
+    private String signAlgorithm = "SHA256withECDSA";
 
     /**
      * 签名算法使用默认即可，如果RepChain那边有改动，这边可以set一个新的算法

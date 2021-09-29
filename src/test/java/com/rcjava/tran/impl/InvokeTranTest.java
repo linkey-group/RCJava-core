@@ -39,21 +39,22 @@ public class InvokeTranTest {
                 .setFunction("transfer")
                 .addArgs(JSON.toJSONString(transfer))
                 .build();
+        // 交易的签名算法根据对应RepChain版本进行设置
         InvokeTran invokeTran = builder
                 .setChaincodeInput(chaincodeInput)
                 .setCertId(certId)
                 .setChaincodeId(contractAssetsId)
                 .setPrivateKey(privateKey)
-                .setSignAlgorithm("SHA1withECDSA")
+                .setSignAlgorithm("SHA256withECDSA")
                 .build();
 
         assertThat(invokeTran.getTxid()).isNull();
 
         Peer.Transaction transaction = invokeTran.getSignedTran();
         Peer.Transaction transaction_1 = invokeTran.getSignedTran();
-        Peer.Transaction transaction_2 = invokeTran.getSignedTran(privateKey, "sha1withecdsa");
-        Peer.Transaction transaction_3 = invokeTran.toBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build().getSignedTran();
-        Peer.Transaction transaction_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha1withecdsa");
+        Peer.Transaction transaction_2 = invokeTran.getSignedTran(privateKey, "sha256withecdsa");
+        Peer.Transaction transaction_3 = invokeTran.toBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha256withecdsa").build().getSignedTran();
+        Peer.Transaction transaction_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha256withecdsa");
 
         assertThat(transaction_1.getSignature().getTmLocal().getNanos())
                 .isNotEqualTo(transaction.getSignature().getTmLocal().getNanos());

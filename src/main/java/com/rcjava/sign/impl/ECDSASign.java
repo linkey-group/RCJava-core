@@ -18,7 +18,7 @@ public class ECDSASign implements SignFunc {
     /**
      * 默认算法
      */
-    private String signAlgorithm = "SHA1withECDSA";
+    private String signAlgorithm = "SHA256withECDSA";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public ECDSASign() {

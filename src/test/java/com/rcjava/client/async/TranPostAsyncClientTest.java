@@ -45,9 +45,10 @@ public class TranPostAsyncClientTest {
             "123",
             "121000005l35120456.node1").getPrivateKey();
 
+    // 交易的签名算法根据对应RepChain版本进行设置
     private TranCreator tranCreator = TranCreator.newBuilder()
             .setPrivateKey(privateKey)
-            .setSignAlgorithm("sha1withecdsa")
+            .setSignAlgorithm("sha256withecdsa")
             .build();
 
     @Test

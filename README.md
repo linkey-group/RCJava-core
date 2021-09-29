@@ -133,6 +133,7 @@
 #### 使用说明
 
 * **准备工作**
+  
   * 搭建好RepChain
   
 * 推荐使用`secp256r1`生成密钥对（当然也可以使用其他[curves](https://docs.oracle.com/en/java/javase/13/security/oracle-providers.html#GUID-091BF58C-82AB-4C9C-850F-1660824D5254)），并向管理员（组网节点）申请注册账户和证书到RepChain
@@ -147,6 +148,10 @@
     > ```
   
 * 构建签名交易
+
+  > <font color=#ff00><b>交易的签名算法根据对应RepChain版本进行设置</b></font>
+  >
+  > 1. `RepChain-V1.1.0`及之前版本使用`SHA1withECDSA`，之后使用`SHA256withECDSA`
 
   * 使用tran/impl下的具体类
     * InvokeTran
@@ -177,7 +182,7 @@
                       .setCertId(certId)
                       .setChaincodeId(contractAssetsId)
                       .setPrivateKey(privateKey)
-                      .setSignAlgorithm("SHA1withECDSA")
+                      .setSignAlgorithm("SHA256withECDSA")
                       .build();
        Peer.Transaction transaction = invokeTran.getSignedTran();
       ```
@@ -191,6 +196,10 @@
       > 参考InvokeTran的构建
 
   * 使用TranCreator构建具体的交易
+
+    > <font color=#ff00><b>交易的签名算法根据对应RepChain版本进行设置</b></font>
+    >
+    > 1. `RepChain-V1.1.0`及之前版本使用`SHA1withECDSA`，之后使用`SHA256withECDSA`
 
     * 构建InvokeTran
 
@@ -214,17 +223,17 @@
                       .build();
       TranCreator tranCreator = TranCreator.newBuilder()
           			.setPrivateKey(privateKey)
-          			.setSignAlgorithm("sha1withecdsa")
+          			.setSignAlgorithm("SHA256withECDSA")
           			.build();
       Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
       ```
       
     * CidStateTran
-    
+
       > 参考InvokeTran的构建
-    
+
     * DeployTran
-    
+
       > 参考InvokeTran的构建
 
 * 提交签名交易
@@ -416,4 +425,3 @@
   RSubClient rSubClient = new RSubClient(host, blkListener);
   rSubClient.connect();
   ```
-  
