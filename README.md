@@ -197,10 +197,6 @@
 
   * 使用TranCreator构建具体的交易
 
-    > <font color=#ff00><b>交易的签名算法根据对应RepChain版本进行设置</b></font>
-    >
-    > 1. `RepChain-V1.1.0`及之前版本使用`SHA1withECDSA`，之后使用`SHA256withECDSA`
-
     * 构建InvokeTran
 
       ```java

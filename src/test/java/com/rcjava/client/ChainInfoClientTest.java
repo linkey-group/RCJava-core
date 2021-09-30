@@ -1,9 +1,15 @@
 package com.rcjava.client;
 
+import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
+import com.rcjava.sign.impl.ECDSASign;
+import com.rcjava.util.CertUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.security.PublicKey;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -58,5 +64,18 @@ public class ChainInfoClientTest {
         Block block = chainInfoClient.getBlockStreamByHeight(0);
         assertThat(block.getHeight()).isEqualTo(0);
         chainInfoClient.setUseJavaImpl(false);
+    }
+
+    @Test
+    @DisplayName("测试验签，使用与签名交易对应的证书或公钥来验签即可")
+    void testVerify() {
+        Peer.Transaction tran = chainInfoClient.getTranByTranId("542a1649-d74c-4696-8aa8-f37050b05b69");
+        byte[] sigData = tran.getSignature().getSignature().toByteArray();
+        Peer.Transaction tranWithOutSig = tran.toBuilder().clearSignature().build();
+        PublicKey publicKey = CertUtil.genX509CertPrivateKey(
+                new File("jks/jdk13/951002007l78123233.super_admin.jks"),
+                "super_admin",
+                "951002007l78123233.super_admin").getCertificate().getPublicKey();
+        System.out.println(new ECDSASign("sha256withecdsa").verify(sigData, tranWithOutSig.toByteArray(), publicKey));
     }
 }
