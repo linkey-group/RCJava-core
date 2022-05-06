@@ -86,14 +86,13 @@ public class KeyUtil {
      * decrypt priPemString and convert it to privateKey
      *
      * @param privateKeyPEMParser 用来读取pem文件
-     * @param opensslLegacyFormat 是否是标准openssl格式，true:pkcs1,false:pkcs8
-     * @param pass                密码
+     * @param pass                密码, 如果没有密码则 设置为空字符串 ""
      * @return PrivateKey
      * @throws IOException
      * @throws OperatorCreationException
      * @throws PKCSException
      */
-    public static PrivateKey generatePrivateKey(@Nonnull PEMParser privateKeyPEMParser, @Nonnull Boolean opensslLegacyFormat, @Nullable String pass)
+    public static PrivateKey generatePrivateKey(@Nonnull PEMParser privateKeyPEMParser, @Nullable String pass)
             throws IOException, OperatorCreationException, PKCSException {
         Object object = null;
         try {

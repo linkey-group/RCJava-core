@@ -1,5 +1,5 @@
 # **RCJava-core**
-![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-0.4.3.SNAPSHOT-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
+![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-0.4.3-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
 
 ***
 ### 目录
@@ -97,7 +97,7 @@
    > <dependency>
    > 	<groupId>repchain</groupId>
    > 	<artifactId>rcjava-core</artifactId>
-   > 	<version>0.4.3-SNAPSHOT</version>
+   > 	<version>0.4.3</version>
    > </dependency>
    > ```
 
@@ -122,7 +122,7 @@
   <dependency>
   	<groupId>com.gitee.BTAJL</groupId>
   	<artifactId>RCJava-core</artifactId>
-  	<version>0.4.3-SNAPSHOT</version>
+  	<version>0.4.3</version>
   </dependency>
   ```
 
@@ -151,7 +151,7 @@
 
   > <font color=#ff00><b>交易的签名算法根据对应RepChain版本进行设置</b></font>
   >
-  > 1. `RepChain-V1.1.0`及之前版本使用`SHA1withECDSA`，之后使用`SHA256withECDSA`
+  > 1. `RepChain-V1.1.1`及之前版本使用`SHA1withECDSA`，之后使用`SHA256withECDSA`
 
   * 使用tran/impl下的具体类
     * InvokeTran
