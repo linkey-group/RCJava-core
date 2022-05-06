@@ -70,7 +70,7 @@ public class DeployTran implements RCTran {
                 .setTimeout(timeout)
                 .setCodePackage(spcPackage)
                 .setLegalProse(legal_prose)
-                .setCtype(codeType)
+                .setCType(codeType)
                 .build();
         Transaction tranDep = Transaction.newBuilder()
                 .setId(txid == null ? localTxid : txid)

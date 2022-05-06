@@ -165,20 +165,21 @@ public class SyncService implements BlockObserver {
             while (localHeight < remoteHeight) {
                 long tempHeight = localHeight + 1;
                 Peer.Block block = cInfoClient.getBlockStreamByHeight(tempHeight);
+                Peer.BlockHeader blockHeader = block.getHeader();
                 // block的hash是否可以衔接
-                if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash()) || block.getPreviousBlockHash().isEmpty()) {
+                if (blockHeader.getHashPrevious().toStringUtf8().equals(syncInfo.getLocBlkHash()) || blockHeader.getHashPrevious().isEmpty()) {
                     logger.info("pullBlock, localHeight：{}, localBlockHash：{}, pullHeight：{}, pullBlockHash：{}",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                     syncListener.onSuccess(block);
                     logger.info("save block {} successfully", tempHeight);
                     syncInfo.setLocalHeight(tempHeight);
-                    syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+                    syncInfo.setLocBlkHash(blockHeader.getHashPresent().toStringUtf8());
                     localHeight = tempHeight;
                 } else {
                     logger.error("pull: 块Hash衔接不上, localHeight：{}, localBlockHash：{}, pullHeight：{}, pullBlockHash：{}",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                     syncListener.onError(new SyncBlockException(String.format("块Hash衔接不上, localHeight：%s, localBlockHash：%s, pullHeight：%s, pullBlockHash：%s, please restart syncService",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8())));
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8())));
                     break;
                 }
                 if (stopPull) {
@@ -241,21 +242,22 @@ public class SyncService implements BlockObserver {
         subSyncing = true;
         synchronized (this) {
             logger.info("执行同步，开始sub {}...，execSub", rSubClient.getHost());
-            if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
+            Peer.BlockHeader blockHeader = block.getHeader();
+            if (blockHeader.getHashPrevious().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
                 logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                 // 加锁是为了保证 onSuccess 线程安全正确
                 try {
                     syncListener.onSuccess(block);
-                    logger.info("save block {} successfully", block.getHeight());
+                    logger.info("save block {} successfully", blockHeader.getHeight());
                     syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
-                    syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+                    syncInfo.setLocBlkHash(blockHeader.getHashPresent().toStringUtf8());
                 } catch (SyncBlockException syncEx) {
                     logger.error("-----订阅端发生区块处理异常-----", syncEx);
                 }
             } else {
                 logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                 logger.info("切换sub为pull，开始pull...");
                 execPull(cInfoClient_sub);
             }

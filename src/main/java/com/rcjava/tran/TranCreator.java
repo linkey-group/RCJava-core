@@ -68,7 +68,7 @@ public class TranCreator {
                 .setTimeout(timeout)
                 .setCodePackage(spcPackage)
                 .setLegalProse(legal_prose)
-                .setCtype(ctype)
+                .setCType(ctype)
                 .build();
         Transaction tranDep = Transaction.newBuilder()
                 .setId(tranId)
