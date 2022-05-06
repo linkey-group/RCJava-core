@@ -238,7 +238,11 @@ public class RCJavaClient extends BaseClient {
         String str = br.lines().collect(Collectors.joining(System.lineSeparator()));
         inputStream.close();
         JSONObject result = JSONObject.parseObject(str);
-        return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+        try {
+            return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+        } catch (ClassCastException ce) {
+            return result;
+        }
     }
 
     /**

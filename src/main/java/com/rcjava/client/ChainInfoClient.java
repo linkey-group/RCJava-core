@@ -145,6 +145,22 @@ public class ChainInfoClient {
     }
 
     /**
+     * 返回交易入块时间
+     *
+     * @param tranId
+     * @return
+     */
+    public CreateTime getBlockTimeByTranId(String tranId) {
+        JSONObject result = client.getJObject("http://" + host + "/block/blocktimeoftran/" + tranId);
+        if (result == null || result.isEmpty()) {
+            return null;
+        } else {
+            CreateTime createTime = new CreateTime(result.getString("createTime"), result.getString("createTimeUtc"));
+            return createTime;
+        }
+    }
+
+    /**
      * 根据tranId查询交易
      *
      * @param tranId tranId
@@ -216,6 +232,26 @@ public class ChainInfoClient {
 
     // TODO 通过post获取相关信息
 
+    /**
+     * 查询leveldb中的数据
+     *
+     * @param chainCodeName
+     * @param key
+     * @return
+     */
+    public Object queryLevelDB(String chainCodeName, String key) {
+        String url = "http://" + host + "/leveldb/query";
+        JSONObject query = new JSONObject();
+        query.fluentPut("chainCodeName", chainCodeName);
+        query.fluentPut("key", key);
+        JSONObject result = client.postJString(url, query.toJSONString());
+        if (result == null || result.isEmpty()) {
+            return null;
+        } else {
+            return result.get("result");
+        }
+    }
+
 
     public String getHost() {
         return host;
@@ -232,6 +268,28 @@ public class ChainInfoClient {
     public void setUseJavaImpl(boolean useJavaImpl) {
         this.useJavaImpl = useJavaImpl;
         this.client = useJavaImpl ? rcJavaClient : rClient;
+    }
+
+    /**
+     * 交易入块时间
+     */
+    public class CreateTime {
+
+        private String createTime;
+        private String createTimeUtc;
+
+        public CreateTime(String createTime, String createTimeUtc) {
+            this.createTime = createTime;
+            this.createTimeUtc = createTimeUtc;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public String getCreateTimeUtc() {
+            return createTimeUtc;
+        }
     }
 
     /**
