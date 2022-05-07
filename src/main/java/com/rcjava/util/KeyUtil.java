@@ -4,7 +4,6 @@ import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 import org.bouncycastle.math.ec.ECPoint;
@@ -31,13 +30,9 @@ import java.security.*;
  *
  * @author zyf
  */
-public class KeyUtil {
+public class KeyUtil extends ProviderUtil {
 
     private static Logger keyLogger = LoggerFactory.getLogger(KeyUtil.class);
-
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-    }
 
 
     /**

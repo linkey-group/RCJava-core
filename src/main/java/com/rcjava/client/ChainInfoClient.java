@@ -7,6 +7,8 @@ import com.google.protobuf.util.JsonFormat;
 import com.rcjava.protos.Peer.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,8 @@ public class ChainInfoClient {
         this.client = useJavaImpl ? rcJavaClient : rClient;
     }
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * 获取区块链信息
      *
@@ -46,7 +50,7 @@ public class ChainInfoClient {
         try {
             JsonFormat.parser().merge(json, chainInfoBuilder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct ChainInfo occurs error, errorMsg is {}", e.getMessage(), e);
         }
         BlockchainInfo blockchainInfo = chainInfoBuilder.build();
         return blockchainInfo;
@@ -88,7 +92,7 @@ public class ChainInfoClient {
         try {
             block = Block.parseFrom(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("construct Block occurs error, errorMsg is {}", e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
@@ -127,7 +131,7 @@ public class ChainInfoClient {
         try {
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Block occurs error, errorMsg is {}", e.getMessage(), e);
         }
         return builder.build();
     }
@@ -176,7 +180,7 @@ public class ChainInfoClient {
             String json = result.toJSONString();
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         }
         return builder.build();
     }
@@ -193,7 +197,7 @@ public class ChainInfoClient {
         try {
             transaction = Transaction.parseFrom(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
@@ -221,9 +225,8 @@ public class ChainInfoClient {
         try {
             String json = result.getString("tranInfo");
             JsonFormat.parser().merge(json, tranBuilder);
-
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         }
         Long height = result.getLong("height");
         TranInfoAndHeight tranInfoAndHeight = new TranInfoAndHeight(tranBuilder.build(), height);

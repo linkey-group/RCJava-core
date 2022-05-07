@@ -5,6 +5,7 @@ import com.google.protobuf.Timestamp;
 import com.rcjava.exception.ConstructTranException;
 import com.rcjava.protos.Peer.*;
 import com.rcjava.sign.impl.ECDSASign;
+import com.rcjava.sign.impl.GMSign;
 
 import java.security.PrivateKey;
 
@@ -26,7 +27,12 @@ public class TranSigner {
         if (!isInitial(privateKey, signAlgorithm)) {
             throw new ConstructTranException("私钥或者算法为空");
         }
-        byte[] sig = new ECDSASign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
+        byte[] sig;
+        if (signAlgorithm.equalsIgnoreCase("SM3withSM2")) {
+            sig = new GMSign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
+        } else {
+            sig = new ECDSASign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
+        }
         long millis = System.currentTimeMillis() + 8 * 3600 * 1000;
         Signature signature = Signature.newBuilder()
                 .setCertId(certId)
