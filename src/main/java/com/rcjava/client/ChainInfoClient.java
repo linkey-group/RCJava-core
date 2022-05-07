@@ -7,6 +7,8 @@ import com.google.protobuf.util.JsonFormat;
 import com.rcjava.protos.Peer.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,8 @@ public class ChainInfoClient {
         this.client = useJavaImpl ? rcJavaClient : rClient;
     }
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * 获取区块链信息
      *
@@ -46,7 +50,7 @@ public class ChainInfoClient {
         try {
             JsonFormat.parser().merge(json, chainInfoBuilder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct ChainInfo occurs error, errorMsg is {}", e.getMessage(), e);
         }
         BlockchainInfo blockchainInfo = chainInfoBuilder.build();
         return blockchainInfo;
@@ -88,7 +92,7 @@ public class ChainInfoClient {
         try {
             block = Block.parseFrom(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("construct Block occurs error, errorMsg is {}", e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
@@ -127,7 +131,7 @@ public class ChainInfoClient {
         try {
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Block occurs error, errorMsg is {}", e.getMessage(), e);
         }
         return builder.build();
     }
@@ -142,6 +146,22 @@ public class ChainInfoClient {
         String hash = Base64.encodeBase64String(blockHash.toByteArray());
         Block block = getBlockByBlockHash(hash);
         return block;
+    }
+
+    /**
+     * 返回交易入块时间
+     *
+     * @param tranId
+     * @return
+     */
+    public CreateTime getBlockTimeByTranId(String tranId) {
+        JSONObject result = client.getJObject("http://" + host + "/block/blocktimeoftran/" + tranId);
+        if (result == null || result.isEmpty()) {
+            return null;
+        } else {
+            CreateTime createTime = new CreateTime(result.getString("createTime"), result.getString("createTimeUtc"));
+            return createTime;
+        }
     }
 
     /**
@@ -160,7 +180,7 @@ public class ChainInfoClient {
             String json = result.toJSONString();
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         }
         return builder.build();
     }
@@ -177,7 +197,7 @@ public class ChainInfoClient {
         try {
             transaction = Transaction.parseFrom(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
@@ -205,9 +225,8 @@ public class ChainInfoClient {
         try {
             String json = result.getString("tranInfo");
             JsonFormat.parser().merge(json, tranBuilder);
-
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
         }
         Long height = result.getLong("height");
         TranInfoAndHeight tranInfoAndHeight = new TranInfoAndHeight(tranBuilder.build(), height);
@@ -215,6 +234,26 @@ public class ChainInfoClient {
     }
 
     // TODO 通过post获取相关信息
+
+    /**
+     * 查询leveldb中的数据
+     *
+     * @param chainCodeName
+     * @param key
+     * @return
+     */
+    public Object queryLevelDB(String chainCodeName, String key) {
+        String url = "http://" + host + "/leveldb/query";
+        JSONObject query = new JSONObject();
+        query.fluentPut("chainCodeName", chainCodeName);
+        query.fluentPut("key", key);
+        JSONObject result = client.postJString(url, query.toJSONString());
+        if (result == null || result.isEmpty()) {
+            return null;
+        } else {
+            return result.get("result");
+        }
+    }
 
 
     public String getHost() {
@@ -232,6 +271,28 @@ public class ChainInfoClient {
     public void setUseJavaImpl(boolean useJavaImpl) {
         this.useJavaImpl = useJavaImpl;
         this.client = useJavaImpl ? rcJavaClient : rClient;
+    }
+
+    /**
+     * 交易入块时间
+     */
+    public class CreateTime {
+
+        private String createTime;
+        private String createTimeUtc;
+
+        public CreateTime(String createTime, String createTimeUtc) {
+            this.createTime = createTime;
+            this.createTimeUtc = createTimeUtc;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public String getCreateTimeUtc() {
+            return createTimeUtc;
+        }
     }
 
     /**

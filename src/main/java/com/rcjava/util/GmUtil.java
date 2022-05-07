@@ -2,7 +2,8 @@ package com.rcjava.util;
 
 import org.apache.commons.codec.binary.Hex;
 import org.bouncycastle.jcajce.spec.SM2ParameterSpec;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
@@ -12,11 +13,9 @@ import java.security.spec.ECGenParameterSpec;
  *
  * @author zyf
  */
-public class GmUtil {
+public class GmUtil extends ProviderUtil{
 
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-    }
+    private static Logger logger = LoggerFactory.getLogger(GmUtil.class);
 
     /**
      * 计算sm3摘要
@@ -29,7 +28,7 @@ public class GmUtil {
             MessageDigest messageDigest = MessageDigest.getInstance("SM3", "BC");
             return messageDigest.digest(input);
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            e.printStackTrace();
+            logger.error("计算SM3摘要错误：{}", e.getMessage(), e);
         }
         return null;
     }
@@ -59,7 +58,7 @@ public class GmUtil {
             keyPairGenerator.initialize(new ECGenParameterSpec("sm2p256v1"));
             return keyPairGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
+            logger.error("生成SM2密钥对错误：{}", e.getMessage(), e);
         }
         return null;
     }
@@ -78,7 +77,7 @@ public class GmUtil {
             sigEngine.update(input);
             return sigEngine.sign();
         } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error("使用SM3withSM2签名错误：{}", e.getMessage(), e);
         }
         return new byte[0];
     }
@@ -99,7 +98,7 @@ public class GmUtil {
             sigEngine.update(input);
             return sigEngine.sign();
         } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
+            logger.error("使用SM3withSM2签名错误：{}", e.getMessage(), e);
         }
         return new byte[0];
     }
@@ -119,7 +118,7 @@ public class GmUtil {
             sigEngine.update(input);
             return sigEngine.verify(signature);
         } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error("验证SM3withSM2签名错误：{}", e.getMessage(), e);
         }
         return false;
     }
@@ -141,7 +140,7 @@ public class GmUtil {
             sigEngine.update(input);
             return sigEngine.verify(signature);
         } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
+            logger.error("验证SM3withSM2签名错误：{}", e.getMessage(), e);
         }
         return false;
     }

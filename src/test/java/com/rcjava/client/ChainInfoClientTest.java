@@ -36,6 +36,20 @@ public class ChainInfoClientTest {
     }
 
     @Test
+    @DisplayName("测试根据交易ID获取入块时间")
+    void testGetBlockTimeByTranId() {
+        ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("92687fb7-f379-4f55-a39c-cb8fe7102aa4");
+        System.out.println(createTime.getCreateTimeUtc());
+    }
+
+    @Test
+    @DisplayName("查询leveldb中的数据")
+    void testQueryLevelDb() {
+        Integer res = (Integer) chainInfoClient.queryLevelDB("ContractAssetsTPL", "121000005l35120456");
+        System.out.println(res);
+    }
+
+    @Test
     @DisplayName("测试获取nodes数量")
     void testGetNodesNum() {
         assertThat(chainInfoClient.getChainInfoNode().getNodes()).isEqualTo(5);

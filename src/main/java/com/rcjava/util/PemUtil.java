@@ -1,6 +1,5 @@
 package com.rcjava.util;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PKCS8Generator;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator;
@@ -8,18 +7,14 @@ import org.bouncycastle.util.io.pem.PemObject;
 
 import java.io.*;
 import java.security.PrivateKey;
-import java.security.Security;
 
 /**
  * 主要是PEM相关操作工具类
  *
  * @author zyf
  */
-public class PemUtil {
+public class PemUtil extends ProviderUtil{
 
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-    }
 
     /**
      * 将privateKey转为pemString(PKCS8)

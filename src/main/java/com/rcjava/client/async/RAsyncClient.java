@@ -158,7 +158,7 @@ public class RAsyncClient {
                     Peer.Transaction tran = Peer.Transaction.parseFrom(bytes);
                     logger.info("request's url is {}, Transaction id is {}", url, tran.getId());
                 } catch (InvalidProtocolBufferException e) {
-                    e.printStackTrace();
+                    logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
                 }
             } else if (data instanceof byte[]) {
                 logger.info("request's url is {}, byte[] is {}", url, Arrays.toString((byte[]) data));
@@ -167,7 +167,7 @@ public class RAsyncClient {
                     Peer.Transaction tran = Peer.Transaction.parseFrom(bytes);
                     logger.info("request's url is {}, Transaction id is {}", url, tran.getId());
                 } catch (InvalidProtocolBufferException e) {
-                    e.printStackTrace();
+                    logger.error("construct Transaction occurs error, errorMsg is {}", e.getMessage(), e);
                 }
             } else {
                 logger.info("request's url is {}, data is {}", url, data);

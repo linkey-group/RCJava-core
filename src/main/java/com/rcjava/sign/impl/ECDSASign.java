@@ -1,5 +1,6 @@
 package com.rcjava.sign.impl;
 
+import com.rcjava.exception.ConstructTranException;
 import com.rcjava.sign.SignFunc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,8 +65,8 @@ public class ECDSASign implements SignFunc {
             s1.update(message);
             return s1.sign();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             logger.error("签名出现错误：{}", e.getMessage(), e);
+            // throw new ConstructTranException(String.format("签名出现错误：%s", e.getMessage()));
         }
         return new byte[0];
     }
@@ -100,7 +101,6 @@ public class ECDSASign implements SignFunc {
             s2.update(message);
             return s2.verify(signature);
         } catch (Exception ex) {
-            ex.printStackTrace();
             logger.error("验签出现错误：{}", ex.getMessage(), ex);
         }
         return false;

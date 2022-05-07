@@ -71,7 +71,6 @@ public class TranCallBackMgr implements BlockObserver {
                         instance.startMonitor();
                     } catch (WebSocketException | IOException e) {
                         logger_static.error("getInstance error, errorMsg is {}", e.getMessage(), e);
-                        e.printStackTrace();
                     }
                 }
             }
@@ -180,7 +179,6 @@ public class TranCallBackMgr implements BlockObserver {
                 rSubClient.reconnect();
             } catch (IOException | WebSocketException e) {
                 logger.error("checkWebSocket error, errorMsg is {}", e.getMessage(), e);
-                e.printStackTrace();
             }
         }
     }

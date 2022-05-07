@@ -125,7 +125,6 @@ public class SyncService implements BlockObserver {
             boolean stopPullService = pullService.awaitTermination(5, TimeUnit.SECONDS);
             logger.info("stop wsService {}, stop pullService {}", stopWsService, stopPullService);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             logger.error("shutdown wsService or pullService occurs error, errorMsg is {}", e.getMessage(), e);
         }
 

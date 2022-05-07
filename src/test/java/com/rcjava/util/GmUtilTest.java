@@ -5,7 +5,6 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,11 +16,8 @@ import java.security.spec.ECGenParameterSpec;
 /**
  * @author zyf
  */
-public class GmUtilTest {
+public class GmUtilTest extends ProviderUtil {
 
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-    }
 
     /**
      * 测试

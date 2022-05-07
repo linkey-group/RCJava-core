@@ -174,7 +174,11 @@ public class RClient extends BaseClient {
             HttpEntity resEntity = response.getEntity();
             String str = EntityUtils.toString(resEntity, "UTF-8");
             JSONObject result = JSONObject.parseObject(str);
-            return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+            try {
+                return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
+            } catch (ClassCastException ce) {
+                return result;
+            }
         } else {
             throw new HttpResponseException(status, "Unexpected response status: " + status);
         }

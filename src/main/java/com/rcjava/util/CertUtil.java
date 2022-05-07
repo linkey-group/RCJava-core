@@ -5,7 +5,6 @@ import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
@@ -27,14 +26,9 @@ import java.util.Date;
  *
  * @author zyf
  */
-public class CertUtil {
+public class CertUtil extends ProviderUtil {
 
-    private static Logger logger;
-
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-        logger = LoggerFactory.getLogger(CertUtil.class);
-    }
+    private static Logger logger = LoggerFactory.getLogger(CertUtil.class);
 
     /**
      * @param jksFile  jks文件路径
