@@ -27,7 +27,7 @@ public class TranCallBackPostTest implements TranCallBack {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostClient tranPostClient = new TranPostClient("localhost:8081");
+    private TranPostClient tranPostClient = new TranPostClient("localhost:9081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -54,7 +54,7 @@ public class TranCallBackPostTest implements TranCallBack {
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         // 超时时间为1分钟
         tranPostClient.postSignedTran(tran, this, 1);
 //        assertThat(res).containsKey("txid");

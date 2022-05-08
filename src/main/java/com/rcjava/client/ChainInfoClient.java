@@ -236,12 +236,13 @@ public class ChainInfoClient {
     // TODO 通过post获取相关信息
 
     /**
-     * 查询leveldb中的数据
+     * 查询leveldb中的数据, 当前RepChain-2.0.0版本不可用
      *
      * @param chainCodeName
      * @param key
      * @return
      */
+    @Deprecated
     public Object queryLevelDB(String chainCodeName, String key) {
         String url = "http://" + host + "/leveldb/query";
         JSONObject query = new JSONObject();

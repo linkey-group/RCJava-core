@@ -32,7 +32,7 @@ public class TranPostAsyncClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("192.168.2.69:8081");
+    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -41,7 +41,7 @@ public class TranPostAsyncClientTest {
     private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
 
     private PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
-            new File("jks/121000005l35120456.node1.jks"),
+            new File("jks/jdk13/121000005l35120456.node1.jks"),
             "123",
             "121000005l35120456.node1").getPrivateKey();
 
@@ -59,7 +59,7 @@ public class TranPostAsyncClientTest {
 
         List<String> params = new ArrayList<>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tran);
 
         sleep(5000);
@@ -78,7 +78,7 @@ public class TranPostAsyncClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tranHex);

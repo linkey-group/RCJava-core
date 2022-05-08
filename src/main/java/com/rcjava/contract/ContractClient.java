@@ -35,6 +35,8 @@ public class ContractClient {
     private TranCreator tranCreator;
     private TranPostClient tranPostClient;
 
+    private int gasLimit = 0;
+    private String oid = "";
 
     public ContractClient(String host, ContractUser contractUser) {
         this.host = host;
@@ -60,7 +62,7 @@ public class ContractClient {
      * @param contractCode 合约代码
      */
     public JSONObject deployContract(String contractCode) {
-        JSONObject deployRes = this.deployContract(requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), contractCode);
+        JSONObject deployRes = this.deployContract(chaincodeId, contractCode);
         return deployRes;
     }
 
@@ -73,12 +75,14 @@ public class ContractClient {
     public JSONObject deployContract(ChaincodeId chaincodeId, String contractCode) {
         DeployTran deployTran = DeployTran.newBuilder()
                 .setTxid(DigestUtils.sha256Hex(contractCode))
-                .setCertId(this.certId)
+                .setCertId(certId)
                 .setChaincodeId(requireNonNull(chaincodeId, "ChaincodeId不能为空"))
                 .setSpcPackage(contractCode)
                 .setLegal_prose("")
                 .setTimeout(5000)
                 .setCodeType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         Peer.Transaction signedDeployTran = this.tranCreator.createDeployTran(deployTran);
         JSONObject deployRes = tranPostClient.postSignedTran(signedDeployTran);
@@ -104,7 +108,7 @@ public class ContractClient {
      * @param state  合约状态
      */
     public JSONObject setContractState(String tranId, boolean state) {
-        JSONObject setStateRes = this.setContractState(tranId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), state);
+        JSONObject setStateRes = this.setContractState(tranId, chaincodeId, state);
         return setStateRes;
     }
 
@@ -123,6 +127,8 @@ public class ContractClient {
                 .setState(state)
                 .setPrivateKey(this.contractUser.getPrivateKey())
                 .setSignAlgorithm(this.contractUser.getSignAlgorithm())
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         Transaction signedCidStateTran = cidStateTran.getSignedTran();
         JSONObject setStateRes = tranPostClient.postSignedTran(signedCidStateTran);
@@ -146,7 +152,7 @@ public class ContractClient {
      * @param contractCode 合约代码
      */
     public JSONObject updateContractVersion(ChaincodeId chaincodeId, String contractCode) {
-        JSONObject updateRes = this.deployContract(requireNonNull(chaincodeId, "ChaincodeId不能为空"), contractCode);
+        JSONObject updateRes = this.deployContract(chaincodeId, contractCode);
         return updateRes;
     }
 
@@ -157,7 +163,7 @@ public class ContractClient {
      */
     public JSONObject invokeContract(ChaincodeInput chaincodeInput) {
         String tranId = UUID.randomUUID().toString().replace("-", "");
-        Transaction signedInvokeTran = this.tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), chaincodeInput);
+        Transaction signedInvokeTran = this.tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), chaincodeInput, gasLimit, oid);
         String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
         JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
         return invokeRes;
@@ -195,7 +201,7 @@ public class ContractClient {
      * @param args     方法参数
      */
     public JSONObject invokeContract(String tranId, ChaincodeId chaincodeId, String function, String args) {
-        Transaction signedInvokeTran = tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(chaincodeId, "ChaincodeId不能为空"), function, args);
+        Transaction signedInvokeTran = tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(chaincodeId, "ChaincodeId不能为空"), function, args, gasLimit, oid);
         String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
         JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
         return invokeRes;
@@ -242,5 +248,21 @@ public class ContractClient {
 
     public void setCertId(CertId certId) {
         this.certId = certId;
+    }
+
+    public int getGasLimit() {
+        return gasLimit;
+    }
+
+    public void setGasLimit(int gasLimit) {
+        this.gasLimit = gasLimit;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
     }
 }

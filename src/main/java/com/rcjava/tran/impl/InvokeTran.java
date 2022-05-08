@@ -18,6 +18,8 @@ public class InvokeTran implements RCTran {
     private CertId certId;
     private ChaincodeId chaincodeId;
     private ChaincodeInput chaincodeInput;
+    private int gasLimit;
+    private String oid;
     private PrivateKey privateKey;
 
     private InvokeTran(Builder builder) {
@@ -26,11 +28,26 @@ public class InvokeTran implements RCTran {
         certId = builder.certId;
         chaincodeId = builder.chaincodeId;
         chaincodeInput = builder.chaincodeInput;
+        gasLimit = builder.gasLimit;
+        oid = builder.oid;
         privateKey = builder.privateKey;
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public static Builder newBuilder(@Nonnull InvokeTran copy) {
+        Builder builder = new Builder();
+        builder.txid = copy.getTxid();
+        builder.signAlgorithm = copy.getSignAlgorithm();
+        builder.certId = copy.getCertId();
+        builder.chaincodeId = copy.getChaincodeId();
+        builder.chaincodeInput = copy.getChaincodeInput();
+        builder.gasLimit = copy.getGasLimit();
+        builder.oid = copy.getOid();
+        builder.privateKey = copy.getPrivateKey();
+        return builder;
     }
 
     public Builder toBuilder() {
@@ -40,6 +57,8 @@ public class InvokeTran implements RCTran {
                 .setCertId(certId)
                 .setChaincodeId(chaincodeId)
                 .setChaincodeInput(chaincodeInput)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .setPrivateKey(privateKey);
     }
 
@@ -56,6 +75,8 @@ public class InvokeTran implements RCTran {
                 .setType(Transaction.Type.CHAINCODE_INVOKE)
                 .setCid(chaincodeId)
                 .setIpt(chaincodeInput)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         return TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
     }
@@ -69,49 +90,63 @@ public class InvokeTran implements RCTran {
      * 部分变量赋初值
      */
     public static final class Builder {
-        private String txid = null;
-        private String signAlgorithm = null;
+        private String txid;
+        private String signAlgorithm;
         private CertId certId;
         private ChaincodeId chaincodeId;
         private ChaincodeInput chaincodeInput;
-        private PrivateKey privateKey = null;
+        private int gasLimit = 0;
+        private String oid = "";
+        private PrivateKey privateKey;
 
         private Builder() {
         }
 
         @Nonnull
-        public Builder setTxid(@Nonnull String txid) {
-            this.txid = txid;
+        public Builder setTxid(@Nonnull String val) {
+            txid = val;
             return this;
         }
 
         @Nonnull
-        public Builder setSignAlgorithm(@Nonnull String signAlgorithm) {
-            this.signAlgorithm = signAlgorithm;
+        public Builder setSignAlgorithm(@Nonnull String val) {
+            signAlgorithm = val;
             return this;
         }
 
         @Nonnull
-        public Builder setCertId(@Nonnull CertId certId) {
-            this.certId = certId;
+        public Builder setCertId(@Nonnull CertId val) {
+            certId = val;
             return this;
         }
 
         @Nonnull
-        public Builder setChaincodeId(@Nonnull ChaincodeId chaincodeId) {
-            this.chaincodeId = chaincodeId;
+        public Builder setChaincodeId(@Nonnull ChaincodeId val) {
+            chaincodeId = val;
             return this;
         }
 
         @Nonnull
-        public Builder setChaincodeInput(@Nonnull ChaincodeInput chaincodeInput) {
-            this.chaincodeInput = chaincodeInput;
+        public Builder setChaincodeInput(@Nonnull ChaincodeInput val) {
+            chaincodeInput = val;
             return this;
         }
 
         @Nonnull
-        public Builder setPrivateKey(@Nonnull PrivateKey privateKey) {
-            this.privateKey = privateKey;
+        public Builder setGasLimit(@Nonnull int val) {
+            gasLimit = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setOid(@Nonnull String val) {
+            oid = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setPrivateKey(@Nonnull PrivateKey val) {
+            privateKey = val;
             return this;
         }
 
@@ -121,24 +156,12 @@ public class InvokeTran implements RCTran {
         }
     }
 
-    public void setTxid(String txid) {
-        this.txid = txid;
-    }
-
-    public void setChaincodeInput(ChaincodeInput chaincodeInput) {
-        this.chaincodeInput = chaincodeInput;
-    }
-
     public String getTxid() {
         return txid;
     }
 
     public String getSignAlgorithm() {
         return signAlgorithm;
-    }
-
-    public void setSignAlgorithm(String signAlgorithm) {
-        this.signAlgorithm = signAlgorithm;
     }
 
     public CertId getCertId() {
@@ -153,11 +176,16 @@ public class InvokeTran implements RCTran {
         return chaincodeInput;
     }
 
+    public int getGasLimit() {
+        return gasLimit;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
     public PrivateKey getPrivateKey() {
         return privateKey;
     }
 
-    public void setPrivateKey(PrivateKey privateKey) {
-        this.privateKey = privateKey;
-    }
 }

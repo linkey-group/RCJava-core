@@ -59,7 +59,8 @@ public class TranCreator {
      * @param ctype
      * @return
      */
-    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage, @Nonnull String legal_prose, int timeout, @Nonnull ChaincodeDeploy.CodeType ctype) {
+    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage,
+                                        @Nonnull String legal_prose, int timeout, @Nonnull ChaincodeDeploy.CodeType ctype, @Nonnull int gasLimit, @Nonnull String oid) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
@@ -75,12 +76,13 @@ public class TranCreator {
                 .setType(Transaction.Type.CHAINCODE_DEPLOY)
                 .setCid(chaincodeId)
                 .setSpec(chaincodeDeploy)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         return TranSigner.signTran(tranDep, certId, privateKey, signAlgorithm);
     }
 
     /**
-     *
      * @param deployTran
      * @return
      */
@@ -96,11 +98,12 @@ public class TranCreator {
      * @param params
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc, @Nonnull List<String> params) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc,
+                                        @Nonnull List<String> params, @Nonnull int gasLimit, @Nonnull String oid) {
         ChaincodeInput ipt = ChaincodeInput.newBuilder()
                 .setFunction(chaincodeInputFunc)
                 .addAllArgs(params).build();
-        return createInvokeTran(tranId, certId, chaincodeId, ipt);
+        return createInvokeTran(tranId, certId, chaincodeId, ipt, gasLimit, oid);
     }
 
     /**
@@ -111,11 +114,12 @@ public class TranCreator {
      * @param param
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc, @Nonnull String param) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc,
+                                        @Nonnull String param, @Nonnull int gasLimit, @Nonnull String oid) {
         ChaincodeInput ipt = ChaincodeInput.newBuilder()
                 .setFunction(chaincodeInputFunc)
                 .addArgs(param).build();
-        return createInvokeTran(tranId, certId, chaincodeId, ipt);
+        return createInvokeTran(tranId, certId, chaincodeId, ipt, gasLimit, oid);
     }
 
     /**
@@ -125,7 +129,8 @@ public class TranCreator {
      * @param ipt
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
@@ -135,12 +140,13 @@ public class TranCreator {
                 .setType(Transaction.Type.CHAINCODE_INVOKE)
                 .setCid(chaincodeId)
                 .setIpt(ipt)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         return TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
     }
 
     /**
-     *
      * @param invokeTran
      * @return
      */
@@ -157,7 +163,8 @@ public class TranCreator {
      * @return
      * @throws Exception
      */
-    public Transaction createCidStateTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull Boolean state) throws Exception {
+    public Transaction createCidStateTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull Boolean state,
+                                          @Nonnull int gasLimit, @Nonnull String oid) throws Exception {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
@@ -167,12 +174,13 @@ public class TranCreator {
                 .setType(Transaction.Type.CHAINCODE_SET_STATE)
                 .setCid(chaincodeId)
                 .setState(state)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         return TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
     }
 
     /**
-     *
      * @param cidStateTran
      * @return
      */

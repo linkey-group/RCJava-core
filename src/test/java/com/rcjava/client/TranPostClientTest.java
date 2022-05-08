@@ -35,7 +35,7 @@ public class TranPostClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostClient tranPostClient = new TranPostClient("localhost:8081");
+    private TranPostClient tranPostClient = new TranPostClient("localhost:9081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -62,12 +62,13 @@ public class TranPostClientTest {
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         JSONObject res = tranPostClient.postSignedTran(tran);
 
         assertThat(res).containsKey("txid");
+        assertThat(res.getString("txid")).isEqualTo(tran.getId());
 
-        logger.info("测试日志文件");
+        logger.info("txid: {}", tran.getId());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class TranPostClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer),  0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         JSONObject res = tranPostClient.postSignedTran(tranHex);
@@ -92,14 +93,14 @@ public class TranPostClientTest {
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         tranPostClient.setUseJavaImpl(true);
         JSONObject res = tranPostClient.postSignedTran(tran);
         tranPostClient.setUseJavaImpl(false);
 
         assertThat(res).containsKey("txid");
 
-        logger.info("测试日志文件");
+        logger.info("txid: {}", tran.getId());
     }
 
     @Test
@@ -108,7 +109,7 @@ public class TranPostClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         tranPostClient.setUseJavaImpl(true);
         JSONObject res = tranPostClient.postSignedTran(tranHex);

@@ -33,7 +33,7 @@ public class SyncServiceTest implements SyncListener {
 //        String locBlkHash = "";
 
         long locHeight = 10L;
-        String locBlkHash = new ChainInfoClient(host).getBlockByHeight(locHeight).getHashOfBlock().toStringUtf8();
+        String locBlkHash = new ChainInfoClient(host).getBlockByHeight(locHeight).getHeader().getHashPresent().toStringUtf8();
 
         SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
 
@@ -68,13 +68,14 @@ public class SyncServiceTest implements SyncListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (block.getHeight() == 1000) {
+        Peer.BlockHeader header = block.getHeader();
+        if (header.getHeight() == 1000) {
             throw new SyncBlockException("模拟数据库写入异常");
         }
         logger.error(Thread.currentThread().getName() + " : " + String.format("当前块高度为：%s, 当前块Hash为：%s, 前块Hash为：%s",
-                block.getHeight(),
-                block.getHashOfBlock().toStringUtf8(),
-                block.getPreviousBlockHash().toStringUtf8())
+                header.getHeight(),
+                header.getHashPresent().toStringUtf8(),
+                header.getHashPrevious().toStringUtf8())
         );
     }
 

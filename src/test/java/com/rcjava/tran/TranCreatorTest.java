@@ -42,7 +42,7 @@ public class TranCreatorTest {
 
         // Builder的测试, 交易的签名算法根据对应RepChain版本进行设置
         TranCreator tranCreator = TranCreator.newBuilder().setPrivateKey(privateKey).setSignAlgorithm("sha1withecdsa").build();
-        Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
 
         assertThat(tran.getId()).isEqualTo(tranId);
         assertThat(tran.getSignature().getCertId().getCertName()).isEqualTo("node1");
@@ -51,7 +51,7 @@ public class TranCreatorTest {
 
         // toBuilder的测试
         TranCreator tranCreator_1 = tranCreator.toBuilder().setSignAlgorithm("sha256withecdsa").build();
-        Peer.Transaction tran_1 = tranCreator_1.createInvokeTran(tranId, certId, contractAssetsId, chaincodeInput);
+        Peer.Transaction tran_1 = tranCreator_1.createInvokeTran(tranId, certId, contractAssetsId, chaincodeInput, 0, "");
 
         assertThat(tran_1.getId()).isEqualTo(tranId);
         // toBuilder测试的断言
