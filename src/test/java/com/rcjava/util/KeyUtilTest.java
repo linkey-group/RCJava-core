@@ -1,6 +1,11 @@
 package com.rcjava.util;
 
+import org.bouncycastle.asn1.nist.NISTObjectIdentifiers;
+import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.PKCS8Generator;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import org.bouncycastle.openssl.jcajce.JceOpenSSLPKCS8EncryptorBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -42,5 +47,18 @@ public class KeyUtilTest<T> {
         File pemFile = new File("jks/jdk13/node1.pkcs8");
         PrivateKey privateKey = new KeyUtilTest<File>().generatePrivateKey(pemFile, "123");
         System.out.println(privateKey);
+    }
+
+    @Test
+    @DisplayName("生成加密Pem字符串")
+    void testGenerateEncryptPemString() throws Exception{
+        File pemFile = new File("jks/jdk13/node1.pkcs8");
+        PrivateKey privateKey = new KeyUtilTest<File>().generatePrivateKey(pemFile, "123");
+        JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(new File("jks/jdk13/encryptPem.key")));
+        // PKCS8
+        KeyUtil.generateEncryptPemString(pemWriter, privateKey, false, JceOpenSSLPKCS8EncryptorBuilder.AES_256_CBC,"123");
+        // openssl
+        KeyUtil.generateEncryptPemString(pemWriter, privateKey, true, "AES-256-CBC","123");
+        pemWriter.close();
     }
 }
