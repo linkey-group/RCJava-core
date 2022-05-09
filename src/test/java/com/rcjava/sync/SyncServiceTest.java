@@ -26,7 +26,7 @@ public class SyncServiceTest implements SyncListener {
     @DisplayName("测试同步区块服务")
     void testSyncBlock() throws InterruptedException {
 
-        String host = "192.168.2.69:8081";
+        String host = "localhost:9081";
 
 //        long locHeight = 0L;
 //        // 本地高度为0时，设置locBlkHash为""或者null

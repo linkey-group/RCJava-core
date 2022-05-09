@@ -7,6 +7,7 @@ import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.CertId;
 import com.rcjava.protos.Peer.ChaincodeId;
 import com.rcjava.protos.Peer.ChaincodeInput;
+import com.rcjava.protos.Peer.ChaincodeDeploy;
 import com.rcjava.protos.Peer.Transaction;
 import com.rcjava.tran.TranCreator;
 import com.rcjava.tran.impl.CidStateTran;
@@ -38,14 +39,6 @@ public class ContractClient {
     private int gasLimit = 0;
     private String oid = "";
 
-    public ContractClient(String host, ContractUser contractUser) {
-        this.host = host;
-        this.contractUser = contractUser;
-        this.certId = contractUser.getCertId();
-        this.tranCreator = new TranCreator(contractUser.getPrivateKey(), contractUser.getSignAlgorithm());
-        this.tranPostClient = new TranPostClient(host);
-    }
-
     public ContractClient(String host, ChaincodeId chaincodeId, ContractUser contractUser) {
         this.host = host;
         this.chaincodeId = chaincodeId;
@@ -57,30 +50,36 @@ public class ContractClient {
     }
 
     /**
-     * 部署合约
+     * 部署合约, 默认: CODE_SCALA RUN_SERIAL STATE_BLOCK CONTRACT_CUSTOM
      *
      * @param contractCode 合约代码
      */
     public JSONObject deployContract(String contractCode) {
-        JSONObject deployRes = this.deployContract(chaincodeId, contractCode);
+        ChaincodeDeploy chaincodeDeploy = ChaincodeDeploy.newBuilder()
+                .setTimeout(5000)
+                .setCodePackage(contractCode)
+                .setLegalProse("")
+                .setCType(ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setRType(ChaincodeDeploy.RunType.RUN_SERIAL)
+                .setSType(ChaincodeDeploy.StateType.STATE_BLOCK)
+                .setInitParameter("")
+                .setCclassification(ChaincodeDeploy.ContractClassification.CONTRACT_CUSTOM)
+                .build();
+        JSONObject deployRes = deployContract(chaincodeDeploy);
         return deployRes;
     }
 
     /**
      * 部署合约
      *
-     * @param chaincodeId  链码
-     * @param contractCode 合约代码
+     * @param chaincodeDeploy 合约代码信息
      */
-    public JSONObject deployContract(ChaincodeId chaincodeId, String contractCode) {
+    public JSONObject deployContract(ChaincodeDeploy chaincodeDeploy) {
         DeployTran deployTran = DeployTran.newBuilder()
-                .setTxid(DigestUtils.sha256Hex(contractCode))
+                .setTxid(DigestUtils.sha256Hex(chaincodeDeploy.getCodePackage()))
                 .setCertId(certId)
                 .setChaincodeId(requireNonNull(chaincodeId, "ChaincodeId不能为空"))
-                .setSpcPackage(contractCode)
-                .setLegal_prose("")
-                .setTimeout(5000)
-                .setCodeType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setChaincodeDeploy(chaincodeDeploy)
                 .setGasLimit(gasLimit)
                 .setOid(oid)
                 .build();
@@ -108,18 +107,6 @@ public class ContractClient {
      * @param state  合约状态
      */
     public JSONObject setContractState(String tranId, boolean state) {
-        JSONObject setStateRes = this.setContractState(tranId, chaincodeId, state);
-        return setStateRes;
-    }
-
-    /**
-     * 设置合约状态，比如设置为false，就禁用合约
-     *
-     * @param tranId      用户自定义交易ID
-     * @param chaincodeId 链码
-     * @param state       合约状态
-     */
-    public JSONObject setContractState(String tranId, ChaincodeId chaincodeId, boolean state) {
         CidStateTran cidStateTran = CidStateTran.newBuilder()
                 .setTxid(tranId)
                 .setCertId(this.certId)
@@ -138,21 +125,24 @@ public class ContractClient {
     /**
      * 升级合约
      *
+     * @param version      新的合约对应的版本号
      * @param contractCode 合约代码
      */
-    public JSONObject updateContractVersion(String contractCode) {
-        JSONObject updateRes = this.deployContract(contractCode);
+    public JSONObject updateContractVersion(int version, String contractCode) {
+        ContractClient updateClient = new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+        JSONObject updateRes = updateClient.deployContract(contractCode);
         return updateRes;
     }
 
     /**
      * 升级合约
      *
-     * @param chaincodeId  链码
-     * @param contractCode 合约代码
+     * @param version         新的合约对应的版本号
+     * @param chaincodeDeploy 合约代码信息
      */
-    public JSONObject updateContractVersion(ChaincodeId chaincodeId, String contractCode) {
-        JSONObject updateRes = this.deployContract(chaincodeId, contractCode);
+    public JSONObject updateContractVersion(int version, ChaincodeDeploy chaincodeDeploy) {
+        ContractClient updateClient = new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+        JSONObject updateRes = updateClient.deployContract(chaincodeDeploy);
         return updateRes;
     }
 
@@ -163,6 +153,17 @@ public class ContractClient {
      */
     public JSONObject invokeContract(ChaincodeInput chaincodeInput) {
         String tranId = UUID.randomUUID().toString().replace("-", "");
+        JSONObject invokeRes = this.invokeContract(tranId, chaincodeInput);
+        return invokeRes;
+    }
+
+    /**
+     * 调用合约
+     *
+     * @param tranId         用户自定义交易ID
+     * @param chaincodeInput 合约中的函数名(方法名) + 参数
+     */
+    public JSONObject invokeContract(String tranId, ChaincodeInput chaincodeInput) {
         Transaction signedInvokeTran = this.tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), chaincodeInput, gasLimit, oid);
         String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
         JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
@@ -189,21 +190,8 @@ public class ContractClient {
      * @param args     方法参数
      */
     public JSONObject invokeContract(String tranId, String function, String args) {
-        JSONObject invokeRes = this.invokeContract(tranId, requireNonNull(this.chaincodeId, "ChaincodeId不能为空"), function, args);
-        return invokeRes;
-    }
-
-    /**
-     * 调用合约
-     *
-     * @param tranId   用户自定义交易ID
-     * @param function 合约中的函数名(方法名)
-     * @param args     方法参数
-     */
-    public JSONObject invokeContract(String tranId, ChaincodeId chaincodeId, String function, String args) {
-        Transaction signedInvokeTran = tranCreator.createInvokeTran(tranId, this.certId, requireNonNull(chaincodeId, "ChaincodeId不能为空"), function, args, gasLimit, oid);
-        String tranHex = Hex.encodeHexString(signedInvokeTran.toByteArray());
-        JSONObject invokeRes = tranPostClient.postSignedTran(tranHex);
+        ChaincodeInput chaincodeInput = ChaincodeInput.newBuilder().setFunction(function).addArgs(args).build();
+        JSONObject invokeRes = this.invokeContract(tranId, chaincodeInput);
         return invokeRes;
     }
 

@@ -77,7 +77,7 @@ public class TranPostClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer),  0, "");
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         JSONObject res = tranPostClient.postSignedTran(tranHex);
@@ -124,14 +124,21 @@ public class TranPostClientTest {
         // CustomTPL.scala 是事先编写好的合约文件
         Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("CustomProofTPL").setVersion(1).build();
         String tplString = FileUtils.readFileToString(new File("tpl/CustomProofTPL.scala"), StandardCharsets.UTF_8);
+        Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
+                .setTimeout(5000)
+                .setCodePackage(tplString)
+                .setLegalProse("")
+                .setCType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setRType(Peer.ChaincodeDeploy.RunType.RUN_SERIAL)
+                .setSType(Peer.ChaincodeDeploy.StateType.STATE_BLOCK)
+                .setInitParameter("")
+                .setCclassification(Peer.ChaincodeDeploy.ContractClassification.CONTRACT_CUSTOM)
+                .build();
         DeployTran deployTran = DeployTran.newBuilder()
                 .setTxid(DigestUtils.sha256Hex(tplString))
                 .setCertId(certId)
                 .setChaincodeId(customTplId)
-                .setSpcPackage(tplString)
-                .setLegal_prose("")
-                .setTimeout(5000)
-                .setCodeType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setChaincodeDeploy(chaincodeDeploy)
                 .build();
         Peer.Transaction signedDeployTran = tranCreator.createDeployTran(deployTran);
         JSONObject deployRes = tranPostClient.postSignedTran(signedDeployTran);

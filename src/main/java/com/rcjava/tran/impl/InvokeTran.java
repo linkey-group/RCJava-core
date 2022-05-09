@@ -14,23 +14,23 @@ import java.util.UUID;
 public class InvokeTran implements RCTran {
 
     private String txid;
-    private String signAlgorithm;
-    private CertId certId;
     private ChaincodeId chaincodeId;
     private ChaincodeInput chaincodeInput;
     private int gasLimit;
     private String oid;
+    private CertId certId;
     private PrivateKey privateKey;
+    private String signAlgorithm;
 
     private InvokeTran(Builder builder) {
         txid = builder.txid;
-        signAlgorithm = builder.signAlgorithm;
-        certId = builder.certId;
         chaincodeId = builder.chaincodeId;
         chaincodeInput = builder.chaincodeInput;
         gasLimit = builder.gasLimit;
         oid = builder.oid;
+        certId = builder.certId;
         privateKey = builder.privateKey;
+        signAlgorithm = builder.signAlgorithm;
     }
 
     public static Builder newBuilder() {
@@ -40,31 +40,31 @@ public class InvokeTran implements RCTran {
     public static Builder newBuilder(@Nonnull InvokeTran copy) {
         Builder builder = new Builder();
         builder.txid = copy.getTxid();
-        builder.signAlgorithm = copy.getSignAlgorithm();
-        builder.certId = copy.getCertId();
         builder.chaincodeId = copy.getChaincodeId();
         builder.chaincodeInput = copy.getChaincodeInput();
         builder.gasLimit = copy.getGasLimit();
         builder.oid = copy.getOid();
+        builder.certId = copy.getCertId();
         builder.privateKey = copy.getPrivateKey();
+        builder.signAlgorithm = copy.getSignAlgorithm();
         return builder;
     }
 
     public Builder toBuilder() {
         return new Builder()
                 .setTxid(txid)
-                .setSignAlgorithm(signAlgorithm)
-                .setCertId(certId)
                 .setChaincodeId(chaincodeId)
                 .setChaincodeInput(chaincodeInput)
                 .setGasLimit(gasLimit)
                 .setOid(oid)
-                .setPrivateKey(privateKey);
+                .setCertId(certId)
+                .setPrivateKey(privateKey)
+                .setSignAlgorithm(signAlgorithm);
     }
 
     /**
-     * @param privateKey
-     * @param signAlgorithm
+     * @param privateKey    私钥
+     * @param signAlgorithm 签名算法
      * @return
      */
     @Override
@@ -91,13 +91,13 @@ public class InvokeTran implements RCTran {
      */
     public static final class Builder {
         private String txid;
-        private String signAlgorithm;
-        private CertId certId;
         private ChaincodeId chaincodeId;
         private ChaincodeInput chaincodeInput;
         private int gasLimit = 0;
         private String oid = "";
+        private CertId certId;
         private PrivateKey privateKey;
+        private String signAlgorithm;
 
         private Builder() {
         }
@@ -105,18 +105,6 @@ public class InvokeTran implements RCTran {
         @Nonnull
         public Builder setTxid(@Nonnull String val) {
             txid = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setSignAlgorithm(@Nonnull String val) {
-            signAlgorithm = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setCertId(@Nonnull CertId val) {
-            certId = val;
             return this;
         }
 
@@ -145,8 +133,20 @@ public class InvokeTran implements RCTran {
         }
 
         @Nonnull
+        public Builder setCertId(@Nonnull CertId val) {
+            certId = val;
+            return this;
+        }
+
+        @Nonnull
         public Builder setPrivateKey(@Nonnull PrivateKey val) {
             privateKey = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setSignAlgorithm(@Nonnull String val) {
+            signAlgorithm = val;
             return this;
         }
 
@@ -158,14 +158,6 @@ public class InvokeTran implements RCTran {
 
     public String getTxid() {
         return txid;
-    }
-
-    public String getSignAlgorithm() {
-        return signAlgorithm;
-    }
-
-    public CertId getCertId() {
-        return certId;
     }
 
     public ChaincodeId getChaincodeId() {
@@ -184,8 +176,15 @@ public class InvokeTran implements RCTran {
         return oid;
     }
 
+    public CertId getCertId() {
+        return certId;
+    }
+
     public PrivateKey getPrivateKey() {
         return privateKey;
     }
 
+    public String getSignAlgorithm() {
+        return signAlgorithm;
+    }
 }

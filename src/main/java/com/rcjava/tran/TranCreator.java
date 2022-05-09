@@ -43,6 +43,13 @@ public class TranCreator {
         return new Builder();
     }
 
+    public static TranCreator.Builder newBuilder(@Nonnull TranCreator copy) {
+        Builder builder = new Builder();
+        builder.signAlgorithm = copy.getSignAlgorithm();
+        builder.privateKey = copy.getPrivateKey();
+        return builder;
+    }
+
     public Builder toBuilder() {
         return new Builder()
                 .setPrivateKey(privateKey)
@@ -50,27 +57,34 @@ public class TranCreator {
     }
 
     /**
-     * @param tranId
-     * @param certId
-     * @param chaincodeId
-     * @param spcPackage
-     * @param legal_prose
-     * @param timeout
-     * @param ctype
+     * @param certId          用户证书标识
+     * @param chaincodeId     合约ID
+     * @param chaincodeDeploy 部署合约时的一些描述信息
+     * @param gasLimit        可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid             重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      */
-    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String spcPackage,
-                                        @Nonnull String legal_prose, int timeout, @Nonnull ChaincodeDeploy.CodeType ctype, @Nonnull int gasLimit, @Nonnull String oid) {
+    public Transaction createDeployTran(@Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeDeploy chaincodeDeploy,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+        return createDeployTran(tranId, certId, chaincodeId, chaincodeDeploy, gasLimit, oid);
+    }
+
+    /**
+     * @param tranId          交易ID
+     * @param certId          用户证书标识
+     * @param chaincodeId     合约ID
+     * @param chaincodeDeploy 部署合约时的一些描述信息
+     * @param gasLimit        可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid             重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
+     * @return
+     */
+    public Transaction createDeployTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeDeploy chaincodeDeploy,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
         if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
             tranId = UUID.randomUUID().toString().replace("-", "");
             logger.info("参数tranId为空，生成随机tranId：{}", tranId);
         }
-        ChaincodeDeploy chaincodeDeploy = ChaincodeDeploy.newBuilder()
-                .setTimeout(timeout)
-                .setCodePackage(spcPackage)
-                .setLegalProse(legal_prose)
-                .setCType(ctype)
-                .build();
         Transaction tranDep = Transaction.newBuilder()
                 .setId(tranId)
                 .setType(Transaction.Type.CHAINCODE_DEPLOY)
@@ -91,50 +105,55 @@ public class TranCreator {
     }
 
     /**
-     * @param tranId
-     * @param certId
-     * @param chaincodeId
-     * @param chaincodeInputFunc
-     * @param params
+     * @param tranId      交易ID
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param function    所调用的合约方法
+     * @param params      传递给合约方法的实参
+     * @param gasLimit    可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc,
-                                        @Nonnull List<String> params, @Nonnull int gasLimit, @Nonnull String oid) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String function, @Nonnull List<String> params,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
         ChaincodeInput ipt = ChaincodeInput.newBuilder()
-                .setFunction(chaincodeInputFunc)
+                .setFunction(function)
                 .addAllArgs(params).build();
         return createInvokeTran(tranId, certId, chaincodeId, ipt, gasLimit, oid);
     }
 
     /**
-     * @param tranId
-     * @param certId
-     * @param chaincodeId
-     * @param chaincodeInputFunc
-     * @param param
+     * @param tranId      交易ID
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param function    所调用的合约方法
+     * @param param       传递给合约方法的实参
+     * @param gasLimit    可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String chaincodeInputFunc,
-                                        @Nonnull String param, @Nonnull int gasLimit, @Nonnull String oid) {
+    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull String function, @Nonnull String param,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
         ChaincodeInput ipt = ChaincodeInput.newBuilder()
-                .setFunction(chaincodeInputFunc)
+                .setFunction(function)
                 .addArgs(param).build();
         return createInvokeTran(tranId, certId, chaincodeId, ipt, gasLimit, oid);
     }
 
     /**
-     * @param tranId
-     * @param certId
-     * @param chaincodeId
-     * @param ipt
+     * 使用用户指定的id
+     *
+     * @param tranId      交易ID
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param ipt         要调用的合约方法和参数描述
+     * @param gasLimit    可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      */
     public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt,
                                         @Nonnull int gasLimit, @Nonnull String oid) {
-        if (null == tranId || "".equals(tranId) || "".equals(tranId.trim())) {
-            tranId = UUID.randomUUID().toString().replace("-", "");
-            logger.info("参数tranId为空，生成随机tranId：{}", tranId);
-        }
+        logger.info("指定tranId：{}", tranId);
         Transaction tranInv = Transaction.newBuilder()
                 .setId(tranId)
                 .setType(Transaction.Type.CHAINCODE_INVOKE)
@@ -144,6 +163,23 @@ public class TranCreator {
                 .setOid(oid)
                 .build();
         return TranSigner.signTran(tranInv, certId, privateKey, signAlgorithm);
+    }
+
+    /**
+     * 默认使用java-uuid
+     *
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param ipt         要调用的合约方法和参数描述
+     * @param gasLimit    可选，如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
+     * @return
+     */
+    public Transaction createInvokeTran(@Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt,
+                                        @Nonnull int gasLimit, @Nonnull String oid) {
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+        logger.info("生成随机tranId：{}", tranId);
+        return createInvokeTran(tranId, certId, chaincodeId, ipt, gasLimit, oid);
     }
 
     /**

@@ -18,29 +18,23 @@ public class DeployTran implements RCTran {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String txid;
-    private String signAlgorithm;
-    private CertId certId;
     private ChaincodeId chaincodeId;
-    private ChaincodeDeploy.CodeType codeType;
-    private String spcPackage;
-    private String legal_prose;
-    private int timeout;
+    private ChaincodeDeploy chaincodeDeploy;
     private int gasLimit;
     private String oid;
+    private CertId certId;
     private PrivateKey privateKey;
+    private String signAlgorithm;
 
     private DeployTran(Builder builder) {
         txid = builder.txid;
-        signAlgorithm = builder.signAlgorithm;
-        certId = builder.certId;
         chaincodeId = builder.chaincodeId;
-        codeType = builder.codeType;
-        spcPackage = builder.spcPackage;
-        legal_prose = builder.legal_prose;
-        timeout = builder.timeout;
+        chaincodeDeploy = builder.chaincodeDeploy;
         gasLimit = builder.gasLimit;
         oid = builder.oid;
+        certId = builder.certId;
         privateKey = builder.privateKey;
+        signAlgorithm = builder.signAlgorithm;
     }
 
     public static Builder newBuilder() {
@@ -50,51 +44,40 @@ public class DeployTran implements RCTran {
     public static Builder newBuilder(@Nonnull DeployTran copy) {
         Builder builder = new Builder();
         builder.txid = copy.getTxid();
-        builder.signAlgorithm = copy.getSignAlgorithm();
-        builder.certId = copy.getCertId();
         builder.chaincodeId = copy.getChaincodeId();
-        builder.codeType = copy.getCodeType();
-        builder.spcPackage = copy.getSpcPackage();
-        builder.legal_prose = copy.getLegal_prose();
-        builder.timeout = copy.getTimeout();
+        builder.chaincodeDeploy = copy.getChaincodeDeploy();
         builder.gasLimit = copy.getGasLimit();
         builder.oid = copy.getOid();
+        builder.certId = copy.getCertId();
         builder.privateKey = copy.getPrivateKey();
+        builder.signAlgorithm = copy.getSignAlgorithm();
         return builder;
     }
+
 
     public Builder toBuilder() {
         return new Builder()
                 .setTxid(txid)
-                .setSignAlgorithm(signAlgorithm)
                 .setCertId(certId)
                 .setChaincodeId(chaincodeId)
-                .setCodeType(codeType)
-                .setSpcPackage(spcPackage)
-                .setLegal_prose(legal_prose)
-                .setTimeout(timeout)
+                .setChaincodeDeploy(chaincodeDeploy)
                 .setGasLimit(gasLimit)
                 .setOid(oid)
-                .setPrivateKey(privateKey);
+                .setPrivateKey(privateKey)
+                .setSignAlgorithm(signAlgorithm);
     }
 
 
     /**
      * 使用privateKey和相应算法进行签名
      *
-     * @param privateKey
-     * @param signAlgorithm
+     * @param privateKey    私钥
+     * @param signAlgorithm 签名算法
      * @return
      */
     @Override
     public Transaction getSignedTran(@Nonnull PrivateKey privateKey, @Nonnull String signAlgorithm) {
         String localTxid = UUID.randomUUID().toString().replace("-", "");
-        ChaincodeDeploy chaincodeDeploy = ChaincodeDeploy.newBuilder()
-                .setTimeout(timeout)
-                .setCodePackage(spcPackage)
-                .setLegalProse(legal_prose)
-                .setCType(codeType)
-                .build();
         Transaction tranDep = Transaction.newBuilder()
                 .setId(txid == null ? localTxid : txid)
                 .setType(Transaction.Type.CHAINCODE_DEPLOY)
@@ -116,16 +99,13 @@ public class DeployTran implements RCTran {
      */
     public static final class Builder {
         private String txid;
-        private String signAlgorithm;
-        private CertId certId;
         private ChaincodeId chaincodeId;
-        private ChaincodeDeploy.CodeType codeType;
-        private String spcPackage;
-        private String legal_prose = "";
-        private int timeout = 500;
+        private ChaincodeDeploy chaincodeDeploy;
         private int gasLimit = 0;
         private String oid = "";
+        private CertId certId;
         private PrivateKey privateKey;
+        private String signAlgorithm;
 
         private Builder() {
         }
@@ -137,49 +117,19 @@ public class DeployTran implements RCTran {
         }
 
         @Nonnull
-        public Builder setSignAlgorithm(@Nonnull String val) {
-            signAlgorithm = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setCertId(@Nonnull CertId val) {
-            certId = val;
-            return this;
-        }
-
-        @Nonnull
         public Builder setChaincodeId(@Nonnull ChaincodeId val) {
             chaincodeId = val;
             return this;
         }
 
         @Nonnull
-        public Builder setCodeType(@Nonnull ChaincodeDeploy.CodeType val) {
-            codeType = val;
+        public Builder setChaincodeDeploy(@Nonnull ChaincodeDeploy val) {
+            chaincodeDeploy = val;
             return this;
         }
 
         @Nonnull
-        public Builder setSpcPackage(@Nonnull String val) {
-            spcPackage = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setLegal_prose(@Nonnull String val) {
-            legal_prose = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setTimeout(int val) {
-            timeout = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setGasLimit(@Nonnull int val) {
+        public Builder setGasLimit(int val) {
             gasLimit = val;
             return this;
         }
@@ -191,8 +141,20 @@ public class DeployTran implements RCTran {
         }
 
         @Nonnull
+        public Builder setCertId(@Nonnull CertId val) {
+            certId = val;
+            return this;
+        }
+
+        @Nonnull
         public Builder setPrivateKey(@Nonnull PrivateKey val) {
             privateKey = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setSignAlgorithm(@Nonnull String val) {
+            signAlgorithm = val;
             return this;
         }
 
@@ -206,32 +168,12 @@ public class DeployTran implements RCTran {
         return txid;
     }
 
-    public String getSignAlgorithm() {
-        return signAlgorithm;
-    }
-
-    public CertId getCertId() {
-        return certId;
-    }
-
     public ChaincodeId getChaincodeId() {
         return chaincodeId;
     }
 
-    public ChaincodeDeploy.CodeType getCodeType() {
-        return codeType;
-    }
-
-    public String getSpcPackage() {
-        return spcPackage;
-    }
-
-    public String getLegal_prose() {
-        return legal_prose;
-    }
-
-    public int getTimeout() {
-        return timeout;
+    public ChaincodeDeploy getChaincodeDeploy() {
+        return chaincodeDeploy;
     }
 
     public int getGasLimit() {
@@ -242,7 +184,15 @@ public class DeployTran implements RCTran {
         return oid;
     }
 
+    public CertId getCertId() {
+        return certId;
+    }
+
     public PrivateKey getPrivateKey() {
         return privateKey;
+    }
+
+    public String getSignAlgorithm() {
+        return signAlgorithm;
     }
 }
