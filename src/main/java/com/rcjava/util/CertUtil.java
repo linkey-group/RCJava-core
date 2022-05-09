@@ -31,7 +31,9 @@ public class CertUtil extends ProviderUtil {
     private static Logger logger = LoggerFactory.getLogger(CertUtil.class);
 
     /**
-     * @param jksFile  jks文件路径
+     * 返回证书和私钥
+     *
+     * @param jksFile  jks文件路径, 包含私钥和证书的jks文件
      * @param password 密码
      * @param alias    别名
      * @return X509CertPrivateKey
@@ -48,7 +50,9 @@ public class CertUtil extends ProviderUtil {
     }
 
     /**
-     * @param jksStream jks输入流
+     * 返回证书和私钥
+     *
+     * @param jksStream jks输入流, 包含私钥和证书的jks文件
      * @param password  密码
      * @param alias     别名
      * @return X509CertPrivateKey
@@ -71,6 +75,35 @@ public class CertUtil extends ProviderUtil {
                     jksStream.close();
                 }
             } catch (IOException e) {
+                logger.error("Could not close input stream: {}", e.getMessage(), e);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param certJksFile jks文件路径, 只包含证书的jks文件
+     * @param password    密码
+     * @param alias       别名
+     * @return X509Certificate
+     */
+    public static X509Certificate generateX509Cert(File certJksFile, String password, String alias) {
+        FileInputStream jksStream = null;
+        try {
+            KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
+            jksStream = new FileInputStream(certJksFile);
+            store.load(jksStream, password.toCharArray());
+            X509Certificate cert = (X509Certificate) store.getCertificate(alias);
+            return cert;
+        } catch (Exception e) {
+            logger.error("从JKS文件中获取cert异常：{}", e.getMessage(), e);
+        } finally {
+            // close the input stream
+            try {
+                if (jksStream != null) {
+                    jksStream.close();
+                }
+            } catch (IOException e) {
                 logger.error("Could not close input stream", e.getMessage(), e);
             }
         }
@@ -80,16 +113,16 @@ public class CertUtil extends ProviderUtil {
     /**
      * 获取本地证书，得到证书类和其序列化的字节序列
      *
-     * @param certPath 证书路径
+     * @param certFile 证书文件
      * @return
      */
-    public static X509Certificate readX509Cert(String certPath) {
+    public static X509Certificate generateX509Cert(File certFile) {
         try {
-            FileInputStream fis = new FileInputStream(certPath);
-            X509Certificate x509Cert = readX509Cert(fis);
+            FileInputStream fis = new FileInputStream(certFile);
+            X509Certificate x509Cert = generateX509Cert(fis);
             return x509Cert;
         } catch (FileNotFoundException e) {
-            logger.error("文件没找到", e.getMessage(), e);
+            logger.error("文件没找到: {}", e.getMessage(), e);
         }
         return null;
     }
@@ -98,7 +131,7 @@ public class CertUtil extends ProviderUtil {
      * @param certStream 证书流
      * @return
      */
-    public static X509Certificate readX509Cert(InputStream certStream) {
+    public static X509Certificate generateX509Cert(InputStream certStream) {
         try {
             CertificateFactory certF = CertificateFactory.getInstance("X.509");
             X509Certificate x509Cert = (X509Certificate) certF.generateCertificate(certStream);
@@ -110,29 +143,11 @@ public class CertUtil extends ProviderUtil {
                 try {
                     certStream.close();
                 } catch (IOException e) {
-                    logger.error("Could not close input stream", e.getMessage(), e);
+                    logger.error("Could not close input stream: {}", e.getMessage(), e);
                 }
             }
         }
         return null;
-    }
-
-    /**
-     * 根据证书pem字符串，构造证书，construct certificate by pemString
-     *
-     * @param certPem cerPem是读取pem证书文件得到的字符串
-     * @return X509Certificate
-     * @throws Exception
-     */
-    public static X509Certificate generateX509CertByBC(String certPem) throws Exception {
-        StringReader stringReader = new StringReader(certPem);
-        PEMParser pemParser = new PEMParser(stringReader);
-        Object object = pemParser.readObject();
-        X509CertificateHolder x509Holder = (X509CertificateHolder) object;
-        X509Certificate x509Cert = new JcaX509CertificateConverter().setProvider("BC").getCertificate(x509Holder);
-        pemParser.close();
-        stringReader.close();
-        return x509Cert;
     }
 
     /**
@@ -149,6 +164,24 @@ public class CertUtil extends ProviderUtil {
         byte[] certByte = pemReader.readPemObject().getContent();
         X509Certificate x509Cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certByte));
         pemReader.close();
+        stringReader.close();
+        return x509Cert;
+    }
+
+    /**
+     * 根据证书pem字符串，构造证书，construct certificate by pemString
+     *
+     * @param certPem cerPem是读取pem证书文件得到的字符串
+     * @return X509Certificate
+     * @throws Exception
+     */
+    private static X509Certificate generateX509CertByBC(String certPem) throws Exception {
+        StringReader stringReader = new StringReader(certPem);
+        PEMParser pemParser = new PEMParser(stringReader);
+        Object object = pemParser.readObject();
+        X509CertificateHolder x509Holder = (X509CertificateHolder) object;
+        X509Certificate x509Cert = new JcaX509CertificateConverter().setProvider("BC").getCertificate(x509Holder);
+        pemParser.close();
         stringReader.close();
         return x509Cert;
     }

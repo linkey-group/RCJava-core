@@ -1,7 +1,9 @@
 package com.rcjava.util;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
 import org.bouncycastle.jce.spec.ECParameterSpec;
@@ -36,12 +38,12 @@ public class KeyUtil extends ProviderUtil {
 
 
     /**
-     * convert privateKey to pem and encrypt
+     * convert privateKey to pem and encrypt, 用法请参考KeyUtilTest.java
      *
-     * @param privateKeyPEMWriter
+     * @param privateKeyPEMWriter Wrap StringWriter or FileWriter
      * @param privateKey          私钥
      * @param opensslLegacyFormat 是否是标准openssl格式,true:pkcs1, false:pkcs8
-     * @param encryptAlg          算法
+     * @param encryptAlg          算法: 如果是PKCS8格式{@link JceOpenSSLPKCS8EncryptorBuilder#AES_256_CBC}，如果是openssl格式，请查阅：<openssl list-cipher-algorithms> or < openssl enc -help>, 注意要大写
      * @param pass                密码
      * @throws IOException
      * @throws OperatorCreationException
@@ -54,6 +56,7 @@ public class KeyUtil extends ProviderUtil {
                 JceOpenSSLPKCS8EncryptorBuilder encryptorBuilder = new JceOpenSSLPKCS8EncryptorBuilder(new ASN1ObjectIdentifier(encryptAlg));
                 encryptorBuilder.setProvider("BC");
                 encryptorBuilder.setPasssword(pass.toCharArray());
+                encryptorBuilder.setPRF(PKCS8Generator.PRF_HMACSHA1);
                 PKCS8Generator pkcs8 = new JcaPKCS8Generator(privateKey, encryptorBuilder.build());
                 privateKeyPEMWriter.writeObject(pkcs8);
 
@@ -74,6 +77,7 @@ public class KeyUtil extends ProviderUtil {
                 privateKeyPEMWriter.writeObject(pkcs1);
             }
         }
+        privateKeyPEMWriter.flush();
 
     }
 
