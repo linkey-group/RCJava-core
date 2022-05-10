@@ -39,7 +39,10 @@ public class ChainInfoClientTest {
     @DisplayName("测试根据交易ID获取入块时间")
     void testGetBlockTimeByTranId() {
         ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("92687fb7-f379-4f55-a39c-cb8fe7102aa4");
-        System.out.println(createTime.getCreateTimeUtc());
+        if (null != createTime) {
+            System.out.println(createTime.getCreateTime());
+            System.out.println(createTime.getCreateTimeUtc());
+        }
     }
 
     @Test
