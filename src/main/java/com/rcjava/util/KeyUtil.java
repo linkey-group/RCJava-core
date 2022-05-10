@@ -22,9 +22,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.security.*;
 
 /**
@@ -43,7 +41,12 @@ public class KeyUtil extends ProviderUtil {
      * @param privateKeyPEMWriter Wrap StringWriter or FileWriter
      * @param privateKey          私钥
      * @param opensslLegacyFormat 是否是标准openssl格式,true:pkcs1, false:pkcs8
-     * @param encryptAlg          算法: 如果是PKCS8格式{@link JceOpenSSLPKCS8EncryptorBuilder#AES_256_CBC}，如果是openssl格式，请查阅：<openssl list-cipher-algorithms> or < openssl enc -help>, 注意要大写
+     * @param encryptAlg          算法:
+     *                            <p>
+     *                            如果是PKCS8格式{@link JceOpenSSLPKCS8EncryptorBuilder#AES_256_CBC}<br>
+     *                            * 如果是openssl格式，请查阅：< openssl list-cipher-algorithms > or < openssl enc -help >, 注意要大写<br>
+     *                            * 如果加密算法为空，则不加密
+     *                            </p>
      * @param pass                密码
      * @throws IOException
      * @throws OperatorCreationException
@@ -127,13 +130,13 @@ public class KeyUtil extends ProviderUtil {
 
     /**
      * 根据给定的私钥返回公钥
-     * {@link #getPublicKeyFromPrivateKey(PrivateKey) "均利用了BC，二者实现略微不同"}
+     * {@link #generatePublicKey(PrivateKey) "均利用了BC，二者实现略微不同"}
      *
      * @param bcecPrivateKey
      * @return PublicKey
      * @throws Exception
      */
-    public static PublicKey getPublicKeyFromPrivateKey(@Nonnull BCECPrivateKey bcecPrivateKey) throws Exception {
+    public static PublicKey generatePublicKey(@Nonnull BCECPrivateKey bcecPrivateKey) throws Exception {
         ECParameterSpec ecSpec = bcecPrivateKey.getParameters();
         ECPoint Q = ecSpec.getG().multiply(bcecPrivateKey.getD());
         byte[] publicDerBytes = Q.getEncoded(false);
@@ -145,13 +148,13 @@ public class KeyUtil extends ProviderUtil {
 
     /**
      * 根据给定的私钥返回公钥
-     * {@link #getPublicKeyFromPrivateKey(BCECPrivateKey) "均利用了BC，二者实现略微不同"}
+     * {@link #generatePublicKey(BCECPrivateKey) "均利用了BC，二者实现略微不同"}
      *
-     * @param privateKey
-     * @return PublicKey
+     * @param privateKey PrivateKey实例
+     * @return PublicKey PublicKey实例
      * @throws Exception
      */
-    public static PublicKey getPublicKeyFromPrivateKey(@Nonnull PrivateKey privateKey) throws Exception {
+    public static PublicKey generatePublicKey(@Nonnull PrivateKey privateKey) throws Exception {
         ECPrivateKey ecPrivateKey = (ECPrivateKey) privateKey;
         ECParameterSpec ecSpec = ecPrivateKey.getParameters();
         ECPoint Q = ecSpec.getG().multiply(ecPrivateKey.getD());
@@ -161,18 +164,19 @@ public class KeyUtil extends ProviderUtil {
     }
 
     /**
-     * 通过privateKey生成PEMKeyPair，进而可以获得publicKey
+     * 通过privateKey生成KeyPair，进而可以获得publicKey
      *
      * @param privateKey PrivateKey实例
-     * @return
+     * @return KeyPair KeyPair实例
      * @throws Exception
      */
-    public static PEMKeyPair generateKPbyPrivateKey(@Nonnull PrivateKey privateKey) throws Exception {
+    public static KeyPair generateKeyPair(@Nonnull PrivateKey privateKey) throws Exception {
         // pkcs1
         String priPemString = PemUtil.toPemString(privateKey);
         PEMParser pemParser = new PEMParser(new StringReader(priPemString));
         PEMKeyPair pemKeyPair = (PEMKeyPair) pemParser.readObject();
-        return pemKeyPair;
+        KeyPair keyPair = new JcaPEMKeyConverter().setProvider("BC").getKeyPair(pemKeyPair);
+        return keyPair;
     }
 
 }

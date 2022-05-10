@@ -4,6 +4,7 @@ import com.rcjava.sign.impl.ECDSASign;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.junit.jupiter.api.Assertions;
 import org.bouncycastle.jce.ECNamedCurveTable;
 
 import java.io.File;
@@ -77,10 +78,14 @@ public class GmUtilTest extends ProviderUtil {
         System.out.println(res_1);
 
         // 转pemString-pkcs8
-        String privateKeyPemPkcs8String = PemUtil.toPKCS8PemString(privateKey);
+        String privateKeyPemPkcs8String = PemUtil.toPemString(privateKey, false);
         // 转pemString-openssl
-        String privateKeyPemString = PemUtil.toPemString(privateKey);
+        String privateKeyPemString = PemUtil.toPemString(privateKey, true);
+        // 转pemString-openssl
+        String privateKeyPemString_1 = PemUtil.toPemString(privateKey);
 
+        Assertions.assertNotEquals(privateKeyPemPkcs8String, privateKeyPemString);
+        Assertions.assertEquals(privateKeyPemString, privateKeyPemString_1);
     }
 
 }

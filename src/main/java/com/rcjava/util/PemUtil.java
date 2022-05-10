@@ -1,9 +1,11 @@
 package com.rcjava.util;
 
 import org.bouncycastle.openssl.PKCS8Generator;
+import org.bouncycastle.openssl.jcajce.JcaMiscPEMGenerator;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator;
 import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemWriter;
 
 import java.io.*;
 import java.security.PrivateKey;
@@ -13,20 +15,26 @@ import java.security.PrivateKey;
  *
  * @author zyf
  */
-public class PemUtil extends ProviderUtil{
+public class PemUtil extends ProviderUtil {
 
 
     /**
-     * 将privateKey转为pemString(PKCS8)
+     * 将privateKey转为pemString
      *
-     * @param key PrivateKey
+     * @param key                 PrivateKey
+     * @param opensslLegacyFormat 是否是openssl格式, true：是， false：否（PKCS8）
      * @throws IOException
      */
-    public static String toPKCS8PemString(PrivateKey key) throws IOException {
+    public static String toPemString(PrivateKey key, Boolean opensslLegacyFormat) throws IOException {
         ByteArrayOutputStream bOut = new ByteArrayOutputStream();
         JcaPEMWriter pemWriter = new JcaPEMWriter(new OutputStreamWriter(bOut));
-        PKCS8Generator pkcs8 = new JcaPKCS8Generator(key, null);
-        pemWriter.writeObject(pkcs8);
+        if (opensslLegacyFormat) {
+            JcaMiscPEMGenerator misc = new JcaMiscPEMGenerator(key);
+            pemWriter.writeObject(misc);
+        } else {
+            PKCS8Generator pkcs8 = new JcaPKCS8Generator(key, null);
+            pemWriter.writeObject(pkcs8);
+        }
         pemWriter.close();
         bOut.close();
         return bOut.toString();
@@ -52,6 +60,45 @@ public class PemUtil extends ProviderUtil{
     }
 
     /**
+     * 转为PEM字符串，PKCS1(if object instanceof PrivateKey == true)
+     *
+     * @param object 类型，i.e.,privateKey，publicKey，certificate
+     * @return pem字符串
+     * @throws IOException
+     */
+    public static String toPemString(Object object) throws IOException {
+        Writer writer = new StringWriter();
+        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
+        pemWriter.writeObject(object);
+        pemWriter.close();
+        writer.close();
+        // pem字符串
+        return writer.toString();
+    }
+
+    /**
+     * 将私钥导出到PEM文件中
+     *
+     * @param pemFile             要输出的文件
+     * @param privateKey          只能是私钥
+     * @param opensslLegacyFormat 是否是openssl格式, true：是， false：否（PKCS8）
+     * @throws IOException
+     */
+    public static void exportToPemFile(File pemFile, PrivateKey privateKey, Boolean opensslLegacyFormat) throws IOException {
+        Writer writer = new FileWriter(pemFile);
+        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
+        if (opensslLegacyFormat) {
+            JcaMiscPEMGenerator pemGenerator = new JcaMiscPEMGenerator(privateKey);
+            pemWriter.writeObject(pemGenerator);
+        } else {
+            JcaPKCS8Generator pkcs8Generator = new JcaPKCS8Generator(privateKey, null);
+            pemWriter.writeObject(pkcs8Generator);
+        }
+        pemWriter.close();
+        writer.close();
+    }
+
+    /**
      * 将Der编码转为PEM编码
      * 输出PEM字符串到文件中
      * export byte[] to File by pemString
@@ -67,23 +114,6 @@ public class PemUtil extends ProviderUtil{
         pemWriter.writeObject(new PemObject(type, encodeByteArray));
         pemWriter.close();
         writer.close();
-    }
-
-    /**
-     * 转为PEM字符串，PKCS1(if object instanceof PrivateKey == true)
-     *
-     * @param object 类型，i.e.,privateKey，publicKey，certificate
-     * @return pem字符串
-     * @throws IOException
-     */
-    public static String toPemString(Object object) throws IOException {
-        Writer writer = new StringWriter();
-        JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
-        pemWriter.writeObject(object);
-        pemWriter.close();
-        writer.close();
-        // pem字符串
-        return writer.toString();
     }
 
     /**
