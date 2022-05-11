@@ -174,9 +174,10 @@ public class RClient extends BaseClient {
             HttpEntity resEntity = response.getEntity();
             String str = EntityUtils.toString(resEntity, "UTF-8");
             JSONObject result = JSONObject.parseObject(str);
-            try {
-                return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
-            } catch (ClassCastException ce) {
+            Object resObj = result.get("result");
+            if (resObj instanceof JSONObject) {
+                return (JSONObject) resObj;
+            } else {
                 return result;
             }
         } else {

@@ -47,9 +47,9 @@ public class ChainInfoClientTest {
     }
 
     @Test
-    @DisplayName("查询leveldb中的数据, 当前RepChain-2.0.0版本不可用")
-    void testQueryLevelDb() {
-        Integer res = (Integer) chainInfoClient.queryLevelDB("ContractAssetsTPL", "121000005l35120456");
+    @DisplayName("查询RepChain的leveldb/rocksdb中的数据")
+    void testQueryDB() {
+        Object res = chainInfoClient.queryDB("net1", "ContractAssetsTPL", "", "121000005l35120456");
         System.out.println(res);
     }
 

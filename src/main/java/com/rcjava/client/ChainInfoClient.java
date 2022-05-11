@@ -236,17 +236,20 @@ public class ChainInfoClient {
     // TODO 通过post获取相关信息
 
     /**
-     * 查询leveldb中的数据, 当前RepChain-2.0.0版本不可用
+     * 查询RepChain的leveldb/rocksdb中的数据
      *
-     * @param chainCodeName
-     * @param key
+     * @param netId         网络ID
+     * @param chainCodeName 合约名
+     * @param oid           交易实例ID
+     * @param key           数据库中的key
      * @return
      */
-    @Deprecated
-    public Object queryLevelDB(String chainCodeName, String key) {
-        String url = "http://" + host + "/leveldb/query";
+    public Object queryDB(String netId, String chainCodeName, String oid, String key) {
+        String url = "http://" + host + "/db/query";
         JSONObject query = new JSONObject();
+        query.fluentPut("netId", netId);
         query.fluentPut("chainCodeName", chainCodeName);
+        query.fluentPut("oid", oid);
         query.fluentPut("key", key);
         JSONObject result = client.postJString(url, query.toJSONString());
         if (result == null || result.isEmpty()) {
