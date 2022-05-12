@@ -1,6 +1,8 @@
 package com.rcjava.util;
 
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.X500NameBuilder;
+import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -16,9 +18,11 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.ECGenParameterSpec;
 import java.util.Date;
 
 /**
@@ -206,6 +210,34 @@ public class CertUtil extends ProviderUtil {
         public PrivateKey getPrivateKey() {
             return privateKey;
         }
+    }
+
+    /**
+     * 生成自签名Jks
+     *
+     * @param jksFile  jks文件
+     * @param alias    别名
+     * @param password 密码
+     * @throws Exception
+     */
+    public static void genJksFile(File jksFile, String alias, String password) throws Exception {
+        // 使用secp256r1初始化
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC", "BC");
+        keyPairGenerator.initialize(new ECGenParameterSpec("P-256"));
+        // 生成keypair
+        KeyPair keyPair = keyPairGenerator.genKeyPair();
+        // 初始化Jks
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, null);
+        // 生成证书
+        X500NameBuilder x500NameBuilder = new X500NameBuilder(BCStyle.INSTANCE);
+        X500Name x500Name = x500NameBuilder.addRDN(BCStyle.CN, alias).build();
+        X509Certificate x509Certificate = createX509Certificate(x500Name, keyPair, "SHA256withECDSA", 24 * 365 * 5);
+        // 将密钥对与证书保存到jks
+        keyStore.setKeyEntry(alias, keyPair.getPrivate(), password.toCharArray(), new Certificate[]{x509Certificate});
+        FileOutputStream fileOutputStream = new FileOutputStream(jksFile);
+        keyStore.store(fileOutputStream, password.toCharArray());
+        fileOutputStream.close();
     }
 
 
