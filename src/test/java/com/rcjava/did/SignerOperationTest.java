@@ -44,8 +44,8 @@ class SignerOperationTest extends DidTest {
     String user0_cert = new String(Files.readAllBytes(new File(String.format("jks/did/%s_0.cer", user0_creditCode)).toPath()));
     String user1_cert = new String(Files.readAllBytes(new File(String.format("jks/did/%s_0.cer", user1_creditCode)).toPath()));
 
-    SignerCert usr0_signer_cert = genCertSigner(user0_creditCode, user0_cert, "0");
-    SignerCert usr1_signer_cert = genCertSigner(user1_creditCode, user1_cert, "0");
+    SignerCert usr0_signer_cert = getCertSigner(user0_creditCode, user0_cert, "0");
+    SignerCert usr1_signer_cert = getCertSigner(user1_creditCode, user1_cert, "0");
 
     Peer.Signer usr0_signer = usr0_signer_cert.getSigner();
     Peer.Signer usr1_signer = usr1_signer_cert.getSigner();
@@ -279,7 +279,7 @@ class SignerOperationTest extends DidTest {
 
     @Test
     @Order(11)
-    @DisplayName("测试注册账户-证书已存在, 账户2包含了账户1的证书")
+    @DisplayName("测试注册账户-证书已存在, 账户2包含了账户1的证书，删除之后，即可注册usr1的账户成功")
     void testSignUpAuthCertExists() throws InvalidProtocolBufferException, InterruptedException {
         Peer.Certificate usr0_cert = usr0_signer_cert.getCertificate();
         String tranId = UUID.randomUUID().toString();
@@ -294,6 +294,14 @@ class SignerOperationTest extends DidTest {
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
         Assertions.assertEquals(12005, errMsg.getInteger("code"), String.format("Signer中的身份证书%s已存在", usr0_cert.getCertHash()));
+
+        String tranId_1 = UUID.randomUUID().toString();
+        signer_1 = usr1_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        postClient.postSignedTran(tran_1);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，注册成功");
     }
 
     @Test
@@ -360,6 +368,15 @@ class SignerOperationTest extends DidTest {
         Peer.ActionResult actionResult = tranResult_1.getErr();
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         Assertions.assertEquals("实体账户已经失效", actionResult.getReason());
+
+        String tranId_2 = UUID.randomUUID().toString();
+        status.fluentPut("state", true);
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        postClient.postSignedTran(tran_2);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
+        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
     }
 
 }
