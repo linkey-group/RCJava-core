@@ -11,6 +11,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileReader;
@@ -55,6 +57,59 @@ public class DidTest {
 
     static String signUpOperate = "signUpOperate";
     static String updateOperateStatus = "updateOperateStatus";
+
+    static PrivateKey super_pri = null;
+    static Peer.CertId superCertId = null;
+    static TranCreator superCreator = null;
+
+    static PrivateKey node1_pri = null;
+    static Peer.CertId node1CertId = null;
+    static TranCreator node1Creator = null;
+
+    static String user0_creditCode = "usr_0";
+    static String user1_creditCode = "usr_1";
+    static String user2_creditCode = "usr_2";
+
+    // 身份证书
+    static String user0_cert_0 = "0";
+    // 普通证书
+    static String user0_cert_1 = "1";
+    // 身份证书
+    static String user1_cert_0 = "0";
+    // 普通证书
+    static String user1_cert_1 = "1";
+    // 身份证书
+    static String user2_cert_0 = "0";
+    // 普通证书
+    static String user2_cert_1 = "1";
+
+//    DidTest.SignerCert usr0_signer_cert_1 = genCertSigner(user0_creditCode, user0_pem_1, user0_cert_1);
+//    DidTest.SignerCert usr1_signer_cert_1 = genCertSigner(user1_creditCode, user1_pem_1, user1_cert_1);
+
+    String user0_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user0_creditCode, user0_cert_0)).toPath()));
+    String user1_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user1_creditCode, user1_cert_0)).toPath()));
+    String user2_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user2_creditCode, user2_cert_0)).toPath()));
+
+    SignerCert usr0_signer_cert = getCertSigner(user0_creditCode, user0_pem_0, user0_cert_0);
+    SignerCert usr1_signer_cert = getCertSigner(user1_creditCode, user1_pem_0, user1_cert_0);
+    SignerCert usr2_signer_cert = getCertSigner(user0_creditCode, user2_pem_0, user2_cert_0);
+
+    Peer.Signer usr0_signer = usr0_signer_cert.getSigner();
+    Peer.Signer usr1_signer = usr1_signer_cert.getSigner();
+    Peer.Signer usr2_signer = usr2_signer_cert.getSigner();
+
+    @Test
+    @BeforeAll
+    static void init() {
+        super_pri = CertUtil.genX509CertPrivateKey(new File("jks/jdk13/951002007l78123233.super_admin.jks"),
+                "super_admin", "951002007l78123233.super_admin").getPrivateKey();
+        superCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
+        superCertId = Peer.CertId.newBuilder().setCreditCode("951002007l78123233").setCertName("super_admin").build();
+        node1_pri = CertUtil.genX509CertPrivateKey(new File("jks/jdk13/121000005l35120456.node1.jks"),
+                "123", "121000005l35120456.node1").getPrivateKey();
+        node1CertId = Peer.CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
+        node1Creator = TranCreator.newBuilder().setPrivateKey(node1_pri).setSignAlgorithm("SHA256withECDSA").build();
+    }
 
     public DidTest() throws IOException {
     }

@@ -7,18 +7,12 @@ import com.google.protobuf.util.JsonFormat;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
 import com.rcjava.tran.TranCreator;
-import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.security.PrivateKey;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.truth.Truth.assertThat;
 
 /**
  * @author zyf
@@ -28,39 +22,6 @@ import static com.google.common.truth.Truth.assertThat;
 class SignerOperationTest extends DidTest {
 
     public SignerOperationTest() throws Exception {
-    }
-
-    static PrivateKey super_pri = null;
-    static Peer.CertId superCertId = null;
-    static TranCreator superCreator = null;
-
-    static PrivateKey node1_pri = null;
-    static Peer.CertId node1CertId = null;
-    static TranCreator node1Creator = null;
-
-    String user0_creditCode = "usr_0";
-    String user1_creditCode = "usr_1";
-
-    String user0_cert = new String(Files.readAllBytes(new File(String.format("jks/did/%s_0.cer", user0_creditCode)).toPath()));
-    String user1_cert = new String(Files.readAllBytes(new File(String.format("jks/did/%s_0.cer", user1_creditCode)).toPath()));
-
-    SignerCert usr0_signer_cert = getCertSigner(user0_creditCode, user0_cert, "0");
-    SignerCert usr1_signer_cert = getCertSigner(user1_creditCode, user1_cert, "0");
-
-    Peer.Signer usr0_signer = usr0_signer_cert.getSigner();
-    Peer.Signer usr1_signer = usr1_signer_cert.getSigner();
-
-    @Test
-    @BeforeAll
-    static void init() {
-        super_pri = CertUtil.genX509CertPrivateKey(new File("jks/jdk13/951002007l78123233.super_admin.jks"),
-                "super_admin", "951002007l78123233.super_admin").getPrivateKey();
-        superCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
-        superCertId = Peer.CertId.newBuilder().setCreditCode("951002007l78123233").setCertName("super_admin").build();
-        node1_pri = CertUtil.genX509CertPrivateKey(new File("jks/jdk13/121000005l35120456.node1.jks"),
-                "123", "121000005l35120456.node1").getPrivateKey();
-        node1CertId = Peer.CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
-        node1Creator = TranCreator.newBuilder().setPrivateKey(node1_pri).setSignAlgorithm("SHA256withECDSA").build();
     }
 
     @Test
@@ -130,7 +91,7 @@ class SignerOperationTest extends DidTest {
     @DisplayName("测试注册账户-存在Hash为空的身份证书")
     void testSignUpSignerAuthCertHashEmpty() throws Exception {
         Peer.Certificate usr_1_cer = Peer.Certificate.newBuilder()
-                .setCertificate(user1_cert)
+                .setCertificate(user1_pem_0)
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
@@ -156,12 +117,12 @@ class SignerOperationTest extends DidTest {
     @DisplayName("测试注册账户-存在非身份证书")
     void testSignUpSignerCustomCertExists() throws Exception {
         Peer.Certificate usr_1_cer = Peer.Certificate.newBuilder()
-                .setCertificate(user1_cert)
+                .setCertificate(user1_pem_0)
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_cert))
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -182,12 +143,12 @@ class SignerOperationTest extends DidTest {
     @DisplayName("测试注册账户-身份证书的creditCode与signer的creditCode不一致")
     void testSignUpSignerCreditCodeNotMatch() throws Exception {
         Peer.Certificate usr_1_cer = Peer.Certificate.newBuilder()
-                .setCertificate(user1_cert)
+                .setCertificate(user1_pem_0)
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_cert))
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -208,12 +169,12 @@ class SignerOperationTest extends DidTest {
     @DisplayName("测试注册账户-Certificate中hash字段与certificate字段计算得到的Hash不相等")
     void testSignUpSignerHashNotMatch() throws Exception {
         Peer.Certificate usr_1_cer = Peer.Certificate.newBuilder()
-                .setCertificate(user1_cert)
+                .setCertificate(user1_pem_0)
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_cert) + "test")
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0) + "test")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
