@@ -66,9 +66,9 @@ public class DidTest {
     static Peer.CertId node1CertId = null;
     static TranCreator node1Creator = null;
 
-    static String user0_creditCode = "usr_0";
-    static String user1_creditCode = "usr_1";
-    static String user2_creditCode = "usr_2";
+    static String user0_creditCode = "usr-0";
+    static String user1_creditCode = "usr-1";
+    static String user2_creditCode = "usr-2";
 
     // 身份证书
     static String user0_cert_0 = "0";

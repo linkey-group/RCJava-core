@@ -153,7 +153,7 @@ public class CertOpeartionTest extends DidTest {
         TranCreator usr0_tranCreator = genUsrTranCreator(user0_creditCode, user0_cert_0);
         Peer.CertId usr0_certId = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         JSONObject certStatus = new JSONObject();
-        certStatus.fluentPut("creditCode", "usr_xxx").fluentPut("certName", user0_cert_1).fluentPut("state", false);
+        certStatus.fluentPut("creditCode", "usr-xxx").fluentPut("certName", user0_cert_1).fluentPut("state", false);
         Peer.Transaction tran = usr0_tranCreator.createInvokeTran(tranId, usr0_certId, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);

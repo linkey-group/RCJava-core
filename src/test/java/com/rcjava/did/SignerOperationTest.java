@@ -235,7 +235,7 @@ class SignerOperationTest extends DidTest {
         Assertions.assertEquals(tranId, tranResult.getTxId());
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
-        Assertions.assertEquals("余额不足", actionResult.getReason());
+        Assertions.assertEquals("只允许从本人账户转出", actionResult.getReason());
     }
 
     @Test
@@ -290,7 +290,7 @@ class SignerOperationTest extends DidTest {
     void testUpdateSignerStatus_1() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
         JSONObject status = new JSONObject();
-        status.fluentPut("creditCode", "not_exists");
+        status.fluentPut("creditCode", "not-exists");
         status.fluentPut("state", false);
         Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
