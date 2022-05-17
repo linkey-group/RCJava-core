@@ -34,6 +34,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId, tranResult.getTxId());
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -50,6 +51,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -61,6 +63,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
         Peer.ActionResult actionResult_2 = tranResult_2.getErr();
         Assertions.assertEquals(102, actionResult_2.getCode(), "错误码为102");
         JSONObject errMsg_2 = JSONObject.parseObject(actionResult_2.getReason());
@@ -79,6 +82,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -104,6 +108,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -131,6 +136,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -157,6 +163,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -183,6 +190,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
@@ -200,6 +208,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，注册成功");
 
     }
@@ -262,6 +271,7 @@ class SignerOperationTest extends DidTest {
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
         Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，注册成功");
     }
 
