@@ -380,7 +380,8 @@ public class CertOpeartionTest extends DidTest {
 
         // step3: node1 为usr2注册账户实体
         String tranId_3 = UUID.randomUUID().toString();
-        Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, chaincodeId, signUpSigner, JsonFormat.printer().print(usr2_signer), 0, "");
+        Peer.Signer signer_1 = usr2_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
+        Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_3);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_3 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);

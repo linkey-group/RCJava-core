@@ -92,7 +92,7 @@ public class DidTest {
 
     SignerCert usr0_signer_cert = getCertSigner(user0_creditCode, user0_pem_0, user0_cert_0);
     SignerCert usr1_signer_cert = getCertSigner(user1_creditCode, user1_pem_0, user1_cert_0);
-    SignerCert usr2_signer_cert = getCertSigner(user0_creditCode, user2_pem_0, user2_cert_0);
+    SignerCert usr2_signer_cert = getCertSigner(user2_creditCode, user2_pem_0, user2_cert_0);
 
     Peer.Signer usr0_signer = usr0_signer_cert.getSigner();
     Peer.Signer usr1_signer = usr1_signer_cert.getSigner();
