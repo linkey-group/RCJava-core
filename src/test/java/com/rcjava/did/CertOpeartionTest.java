@@ -246,11 +246,7 @@ public class CertOpeartionTest extends DidTest {
         postClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
-        Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
-        Assertions.assertEquals("余额不足", actionResult_1.getReason());
-
+        Assertions.assertEquals(tranId, tranResult_1.getTxId(), "本交易不会出块，因此不会出现在区块中，本次拿到的区块仍然是上一个交易");
 
         String tranId_2 = UUID.randomUUID().toString();
         // 修改身份证书状态
