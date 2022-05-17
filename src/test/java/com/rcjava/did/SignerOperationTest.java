@@ -271,7 +271,7 @@ class SignerOperationTest extends DidTest {
     void testUpdateSignerStatus_0() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
         JSONObject status = new JSONObject();
-        status.fluentPut("creditCode", "951002007l78123233");
+        status.fluentPut("creditCode", super_creditCode);
         status.fluentPut("state", false);
         Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
@@ -309,7 +309,7 @@ class SignerOperationTest extends DidTest {
     void testUpdateSignerStatus_2() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
         JSONObject status = new JSONObject();
-        status.fluentPut("creditCode", "121000005l35120456");
+        status.fluentPut("creditCode", node1_creditCode);
         status.fluentPut("state", false);
         Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
@@ -319,7 +319,7 @@ class SignerOperationTest extends DidTest {
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
 
         String tranId_1 = UUID.randomUUID().toString();
-        Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+        Transfer transfer = new Transfer(node1_creditCode, "12110107bi45jh675g", 5);
         Peer.Transaction tran_1 = node1Creator.createInvokeTran(tranId_1, node1CertId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
