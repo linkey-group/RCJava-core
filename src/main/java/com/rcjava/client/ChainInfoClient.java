@@ -241,6 +241,9 @@ public class ChainInfoClient {
      */
     TransactionResult getTranResultByTranId(String tranId) {
         ChainInfoClient.TranInfoAndHeight infoAndHeight = getTranInfoAndHeightByTranId(tranId);
+        if (infoAndHeight == null) {
+            return null;
+        }
         Block block = getBlockByHeight(infoAndHeight.getHeight());
         return block.getTransactionResultsList().stream()
                 .filter(tranResult -> tranResult.getTxId().equals(tranId))

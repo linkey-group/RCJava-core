@@ -13,6 +13,8 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,6 +29,8 @@ import java.util.Collections;
  * @author zyf
  */
 public class DidTest {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     String host = "localhost:9081";
     TranPostClient postClient = new TranPostClient(host);
@@ -276,6 +280,10 @@ public class DidTest {
      */
     Peer.TransactionResult getTransactionResult(String txid) {
         ChainInfoClient.TranInfoAndHeight infoAndHeight = infoClient.getTranInfoAndHeightByTranId(txid);
+        if (infoAndHeight == null) {
+            return null;
+        }
+        logger.info("\ntxid:{}, \nheight:{}", txid, infoAndHeight.getHeight());
         Peer.Block block = infoClient.getBlockByHeight(infoAndHeight.getHeight());
         return block.getTransactionResultsList().stream()
                 .filter(tranResult -> tranResult.getTxId().equals(txid))
