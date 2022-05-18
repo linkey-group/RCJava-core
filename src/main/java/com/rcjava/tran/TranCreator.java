@@ -101,6 +101,7 @@ public class TranCreator {
      * @return
      */
     public Transaction createDeployTran(@Nonnull DeployTran deployTran) {
+        logger.info("指定tranId：{}", deployTran.getTxid());
         return RCTranSigner.getSignedTran(deployTran, privateKey, signAlgorithm);
     }
 
@@ -187,6 +188,7 @@ public class TranCreator {
      * @return
      */
     public Transaction createInvokeTran(@Nonnull InvokeTran invokeTran) {
+        logger.info("指定tranId：{}", invokeTran.getTxid());
         return RCTranSigner.getSignedTran(invokeTran, privateKey, signAlgorithm);
     }
 
@@ -221,6 +223,7 @@ public class TranCreator {
      * @return
      */
     public Transaction createCidStateTran(@Nonnull CidStateTran cidStateTran) {
+        logger.info("指定tranId：{}", cidStateTran.getTxid());
         return RCTranSigner.getSignedTran(cidStateTran, privateKey, signAlgorithm);
     }
 

@@ -27,6 +27,7 @@ import static com.google.common.truth.Truth.assertThat;
  */
 @Tags({@Tag("注册普通证书"), @Tag("修改普通证书状态"), @Tag("注册任何证书"), @Tag("修改任何证书状态")})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CertOpeartionTest extends DidTest {
 
     public CertOpeartionTest() throws IOException {
@@ -45,9 +46,8 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr1_cert_0), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
-        Assertions.assertEquals(tranId, tranResult.getTxId());
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
         Assertions.assertEquals(13002, errMsg.getInteger("code"), "creditCode不匹配");
@@ -65,8 +65,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -86,8 +85,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -109,9 +107,8 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
-        Assertions.assertEquals(tranId, tranResult.getTxId());
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
         Assertions.assertEquals(13001, errMsg.getInteger("code"), "该方法不能被注册身份校验证书，请通过 signUpAllTypeCertificate");
@@ -131,8 +128,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，注册成功");
         // step2: 使用注册好的证书对应的私钥提交签名交易
         String tranId_1 = UUID.randomUUID().toString();
@@ -142,8 +138,7 @@ public class CertOpeartionTest extends DidTest {
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         Assertions.assertEquals("余额不足", actionResult_1.getReason());
@@ -163,8 +158,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -185,8 +179,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_1.createInvokeTran(tranId, usr0_certId_1, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -208,8 +201,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
@@ -231,8 +223,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
 
@@ -245,8 +236,8 @@ public class CertOpeartionTest extends DidTest {
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult_1.getTxId(), "本交易不会出块，因此不会出现在区块中，本次拿到的区块仍然是上一个交易");
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
+        Assertions.assertNull(tranResult_1, "本交易不会出块，因此不会出现在区块中");
 
         String tranId_2 = UUID.randomUUID().toString();
         // 修改身份证书状态
@@ -254,8 +245,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
+        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
         Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
     }
 
@@ -273,8 +263,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr1_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         Assertions.assertEquals("没有找到授权的操作", actionResult.getReason());
@@ -303,8 +292,7 @@ public class CertOpeartionTest extends DidTest {
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，授权成功");
 
@@ -316,8 +304,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr1_cert_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，修改成功");
     }
@@ -336,8 +323,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr2_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         Assertions.assertEquals("没有找到授权的操作", actionResult.getReason());
@@ -361,8 +347,7 @@ public class CertOpeartionTest extends DidTest {
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，授权成功");
 
@@ -371,8 +356,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran_2 = usr1_tranCreator_0.createInvokeTran(tranId_2, usr1_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr2_cert_1), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
+        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
         Peer.ActionResult actionResult_2 = tranResult_2.getErr();
         Assertions.assertEquals(102, actionResult_2.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult_2.getReason());
@@ -384,8 +368,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_3);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_3, tranResult_3.getTxId());
+        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
         Assertions.assertEquals(0, tranResult_3.getErr().getCode(), "没有错误，注册成功");
 
         // step4: 注册证书, usr1为usr2注册身份证书
@@ -395,8 +378,7 @@ public class CertOpeartionTest extends DidTest {
                 JsonFormat.printer().print(usr2_cert_1.toBuilder().setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION).build()), 0, "");
         postClient.postSignedTran(tran_4);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_4, tranResult_4.getTxId());
+        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
         Peer.ActionResult actionResult_4 = tranResult_4.getErr();
         Assertions.assertEquals(0, tranResult_4.getErr().getCode(), "没有错误，修改成功");
 
@@ -409,8 +391,7 @@ public class CertOpeartionTest extends DidTest {
                 JsonFormat.printer().print(usr2_cert_1.toBuilder().setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION).build()), 0, "");
         postClient.postSignedTran(tran_5);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_5 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_5, tranResult_5.getTxId());
+        Peer.TransactionResult tranResult_5 = getTransactionResult(tranId_5);
         Peer.ActionResult actionResult_5 = tranResult_5.getErr();
         Assertions.assertEquals(102, actionResult_5.getCode(), "错误码为102");
         JSONObject errMsg_5 = JSONObject.parseObject(actionResult_5.getReason());
@@ -444,8 +425,7 @@ public class CertOpeartionTest extends DidTest {
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，授权成功");
 
@@ -458,8 +438,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran_1 = usr1_tranCreator_1.createInvokeTran(tranId_1, usr1_certId_1, chaincodeId, updateAllTypeCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId_1, tranResult_1.getTxId());
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，修改成功");
     }
 
@@ -479,8 +458,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, chaincodeId, updateAllTypeCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
-        Assertions.assertEquals(tranId, tranResult.getTxId());
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());

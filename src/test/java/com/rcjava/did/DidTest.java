@@ -83,6 +83,16 @@ public class DidTest {
     // 普通证书
     static String user2_cert_1 = "1";
 
+    Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
+    Peer.CertId usr0_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_1).build();
+
+    Peer.CertId usr1_certId_0 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_0).build();
+    Peer.CertId usr1_certId_1 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_1).build();
+
+    Peer.CertId usr2_certId_0 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode).setCertName(user2_cert_0).build();
+    Peer.CertId usr2_certId_1 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode).setCertName(user2_cert_1).build();
+
+
 //    DidTest.SignerCert usr0_signer_cert_1 = genCertSigner(user0_creditCode, user0_pem_1, user0_cert_1);
 //    DidTest.SignerCert usr1_signer_cert_1 = genCertSigner(user1_creditCode, user1_pem_1, user1_cert_1);
 
@@ -115,7 +125,7 @@ public class DidTest {
     }
 
     public static void main(String[] args) throws Exception {
-        genCertPriKeyJks();
+//        genCertPriKeyJks();
     }
 
     /**
@@ -126,13 +136,13 @@ public class DidTest {
     static void genCertPriKeyJks() throws Exception {
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j < 2; j++) {
-                String usr_alias = "usr_" + i + "_" + j;
+                String usr_alias = "usr-" + i + "_" + j;
                 CertUtil.genJksFile(new File("jks/did/" + usr_alias + ".jks"), usr_alias, "123");
             }
         }
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j < 2; j++) {
-                String usr_alias = "usr_" + i + "_" + j;
+                String usr_alias = "usr-" + i + "_" + j;
                 CertUtil.X509CertPrivateKey certPrivateKey = CertUtil.genX509CertPrivateKey(new File("jks/did/" + usr_alias + ".jks"), "123", usr_alias);
                 PemUtil.exportToPemFile(new File("jks/did/" + usr_alias + ".cer"), certPrivateKey.getCertificate());
                 PemUtil.exportToPemFile(new File("jks/did/" + usr_alias + ".pkcs8"), certPrivateKey.getPrivateKey(), false);
@@ -172,7 +182,6 @@ public class DidTest {
     }
 
     /**
-     *
      * @param creditCode
      * @param certName
      * @return
@@ -195,7 +204,6 @@ public class DidTest {
     }
 
     /**
-     *
      * @param creditCode
      * @param certName
      * @return
@@ -219,7 +227,6 @@ public class DidTest {
     }
 
     /**
-     *
      * @param creditCode
      * @param certName
      * @return
@@ -245,7 +252,6 @@ public class DidTest {
     }
 
     /**
-     *
      * @param creditCode
      * @param certName
      * @return
@@ -260,6 +266,21 @@ public class DidTest {
                 .setPrivateKey(privateKey)
                 .build();
         return tranCreator;
+    }
+
+    /**
+     * 根据交易ID获取对应的交易结果
+     *
+     * @param txid 交易id
+     * @return
+     */
+    Peer.TransactionResult getTransactionResult(String txid) {
+        ChainInfoClient.TranInfoAndHeight infoAndHeight = infoClient.getTranInfoAndHeightByTranId(txid);
+        Peer.Block block = infoClient.getBlockByHeight(infoAndHeight.getHeight());
+        return block.getTransactionResultsList().stream()
+                .filter(tranResult -> tranResult.getTxId().equals(txid))
+                .findAny()
+                .orElse(null);
     }
 
     class SignerCert {

@@ -233,6 +233,21 @@ public class ChainInfoClient {
         return tranInfoAndHeight;
     }
 
+    /**
+     * 根据交易ID获取对应的交易结果
+     *
+     * @param tranId 交易ID
+     * @return 返回本条交易的执行结果
+     */
+    TransactionResult getTranResultByTranId(String tranId) {
+        ChainInfoClient.TranInfoAndHeight infoAndHeight = getTranInfoAndHeightByTranId(tranId);
+        Block block = getBlockByHeight(infoAndHeight.getHeight());
+        return block.getTransactionResultsList().stream()
+                .filter(tranResult -> tranResult.getTxId().equals(tranId))
+                .findAny()
+                .orElse(null);
+    }
+
     // TODO 通过post获取相关信息
 
     /**
