@@ -15,9 +15,13 @@
  */
 
 syntax = "proto3";
+
 package com.rcjava.protos;
+
 option java_package = "com.rcjava.protos";
+
 import "timestamp.proto";
+
 /*
 */
 //Event 用于图形展示的事件
@@ -46,117 +50,117 @@ message Event {
 }
 
 //账户
-message Signer{
-    string 	name = 1;//注册者的名称或者昵称
-    string 	credit_code = 2;//社会信用代码（个人或机构）或者DID，推荐使用DID
-    string 	mobile = 3;  // 手机号码,用于接收通知
-    repeated 	string 	cert_names  = 4;//存放用户所有证书的名称，用户具体的证书单独存放，方便证书的操作，用户在增加证书的时候，在这个列表中增加证书的名称，did_certname。
-    repeated 	string 	authorize_ids  = 5;//存放用户所有授权的操作id。
-    repeated 	string 	operate_ids  = 6;//存放用户所有注册的操作id。
-    repeated 	string 	credential_metadata_ids  = 7;//存放用户凭据id。
-    repeated    Certificate authentication_certs = 8;//存放身份验证证书
-    string	signer_info = 9;//存放用户身份的详细信息，采用json格式。通常不用存储，由身份管理者存储
-    google.protobuf.Timestamp 	create_time = 10; //建立时间
-    google.protobuf.Timestamp 	disable_time = 11; //禁用时间
-    bool    signer_valid = 12;//是否有效，默认有效，否则为禁用，值=false
-    string	version=13 ;//默认1.0
+message Signer {
+    string name = 1;//注册者的名称或者昵称
+    string credit_code = 2;//社会信用代码（个人或机构）或者DID，推荐使用DID
+    string mobile = 3;  // 手机号码,用于接收通知
+    repeated string cert_names = 4;//存放用户所有证书的名称，用户具体的证书单独存放，方便证书的操作，用户在增加证书的时候，在这个列表中增加证书的名称，did_certname。
+    repeated string authorize_ids = 5;//存放用户所有授权的操作id。
+    repeated string operate_ids = 6;//存放用户所有注册的操作id。
+    repeated string credential_metadata_ids = 7;//存放用户凭据id。
+    repeated Certificate authentication_certs = 8;//存放身份验证证书
+    string signer_info = 9;//存放用户身份的详细信息，采用json格式。通常不用存储，由身份管理者存储
+    google.protobuf.Timestamp create_time = 10; //建立时间
+    google.protobuf.Timestamp disable_time = 11; //禁用时间
+    bool signer_valid = 12;//是否有效，默认有效，否则为禁用，值=false
+    string version = 13;//默认1.0
 }
 
 //账户证书标示
 message CertId {
-    string 	credit_code = 1;//社会信用代码（个人或机构）或者DID，推荐使用DID
-    string 	cert_name = 2;//当前用户注册证书的名称
-    string	version=3;//默认1.0
+    string credit_code = 1;//社会信用代码（个人或机构）或者DID，推荐使用DID
+    string cert_name = 2;//当前用户注册证书的名称
+    string version = 3;//默认1.0
 }
 
 //账户证书标示
 message Certificate {
-    string 	certificate = 1; //内含签发机构
-    string 	alg_type = 2;//直接填写具体算法，如:ECDSA下的SHA1withECDSA,SHA512withECDSA等
-    bool   	cert_valid = 3;//证书是否有效，true 有效；false 无效；protobuf默认该值为false
-    google.protobuf.Timestamp 	reg_Time = 4; //注册时间
-    google.protobuf.Timestamp 	unreg_Time = 5; //注销时间
+    string certificate = 1; //内含签发机构
+    string alg_type = 2;//直接填写具体算法，如:ECDSA下的SHA1withECDSA,SHA512withECDSA等
+    bool cert_valid = 3;//证书是否有效，true 有效；false 无效；protobuf默认该值为false
+    google.protobuf.Timestamp reg_Time = 4; //注册时间
+    google.protobuf.Timestamp unreg_Time = 5; //注销时间
     enum CertType {
         CERT_UNDEFINED = 0;
         CERT_AUTHENTICATION = 1;
         CERT_CUSTOM = 2;
     }
-    CertType 	cert_type = 6; //1=普通证书，2=身份验证证书，
-    CertId 	id = 7; //证书名称
-    string 	cert_hash = 8;//证书的SHA256
-    string	version=9;//默认1.0
+    CertType cert_type = 6; //1=普通证书，2=身份验证证书，
+    CertId id = 7; //证书名称
+    string cert_hash = 8;//证书的SHA256
+    string version = 9;//默认1.0
 }
 
-message	Operate{
-    string 	op_id = 1;//操作的id，通过uuid自动生成，合约需要查重
-    string	description = 2;//操作的描述，用于显示
-    string	register = 3;//操作的注册者，使用credit code或者rdid
-    bool	is_publish = 4;//操作是否属于公开，公开表示不需要授权，只要拥有rdid就可以调用；不公开，需要授权；默认false
+message Operate {
+    string op_id = 1;//操作的id，通过uuid自动生成，合约需要查重
+    string description = 2;//操作的描述，用于显示
+    string register = 3;//操作的注册者，使用credit code或者rdid
+    bool is_publish = 4;//操作是否属于公开，公开表示不需要授权，只要拥有rdid就可以调用；不公开，需要授权；默认false
     enum OperateType {
         OPERATE_UNDEFINED = 0;
         OPERATE_CONTRACT = 1;
         OPERATE_SERVICE = 2;
     }
     OperateType operate_type = 5;//操作类型表示是否属于服务类型，服务类型只需要提供服务器和服务名就可以；如果是合约方式，需要提供合约方法的访问；
-    repeated    string	operate_service_name = 6;//服务名称
-    string	operate_endpoint = 7;//服务器地址
-    string	auth_full_name = 8;//限制内容，具体操作限制，如访问的链的合约的方法
-    google.protobuf.Timestamp 	create_time = 9; //建立时间
-    google.protobuf.Timestamp 	disable_time = 10; //禁用时间
-    bool    op_valid = 11;//是否有效，默认有效，否则为禁用，值=false
-    string	version=12;//默认1.0
+    repeated string operate_service_name = 6;//服务名称
+    string operate_endpoint = 7;//服务器地址
+    string auth_full_name = 8;//限制内容，具体操作限制，如访问的链的合约的方法
+    google.protobuf.Timestamp create_time = 9; //建立时间
+    google.protobuf.Timestamp disable_time = 10; //禁用时间
+    bool op_valid = 11;//是否有效，默认有效，否则为禁用，值=false
+    string version = 12;//默认1.0
 }
 
-message Authorize{
-    string 	id = 1;//权限id
-    string	grant = 2;//授权者，credit code或者rdid
-    repeated    string 	granted = 3;//操作权限的被授予者,credit code或者rdid
-    repeated    string	op_id = 4;//操作id
+message Authorize {
+    string id = 1;//权限id
+    string grant = 2;//授权者，credit code或者rdid
+    repeated string granted = 3;//操作权限的被授予者,credit code或者rdid
+    repeated string op_id = 4;//操作id
     enum TransferType {
         TRANSFER_DISABLE = 0;
         TRANSFER_ONCE = 1;
         TRANSFER_REPEATEDLY = 2;
     }
-    TransferType 	is_transfer = 5;//TRANSFER_DISABLE 不能让渡；TRANSFER_ONCE 让渡一次；TRANSFER_REPEATEDLY 可以无限让渡
-    google.protobuf.Timestamp 	create_time = 6; //建立时间
-    google.protobuf.Timestamp 	disable_time = 7; //禁用时间
-    bool    authorize_valid = 8;//是否有效，默认有效，否则为禁用，值=false
-    string	version=9;//默认1.0
+    TransferType is_transfer = 5;//TRANSFER_DISABLE 不能让渡；TRANSFER_ONCE 让渡一次；TRANSFER_REPEATEDLY 可以无限让渡
+    google.protobuf.Timestamp create_time = 6; //建立时间
+    google.protobuf.Timestamp disable_time = 7; //禁用时间
+    bool authorize_valid = 8;//是否有效，默认有效，否则为禁用，值=false
+    string version = 9;//默认1.0
 }
 
-message BindCertToAuthorize{
-    string authorize_id = 1 ;//权限id
+message BindCertToAuthorize {
+    string authorize_id = 1;//权限id
     CertId granted = 2;//
-    string	version=3;//默认1.0
+    string version = 3;//默认1.0
 }
 
 // 可验证凭据属性结构(CCS, Credential Claim Struct)
 message CreClaStruct {
-  string version = 1; // 本数据结构的版本
-  string id = 2; // CCS唯一标识
-  string name = 3; // CCS名称
-  string ccs_version = 4; // CCS版本
-  string description = 5; // CCS描述信息
-  string creator = 6; // CCS创建者did标识
-  string created = 7; // CCS创建时间
-  bool valid = 8; // CCS有效性状态
-  repeated CreAttr attributes = 9; // CCS属性
+    string version = 1; // 本数据结构的版本
+    string id = 2; // CCS唯一标识
+    string name = 3; // CCS名称
+    string ccs_version = 4; // CCS版本
+    string description = 5; // CCS描述信息
+    string creator = 6; // CCS创建者did标识
+    string created = 7; // CCS创建时间
+    bool valid = 8; // CCS有效性状态
+    repeated CreAttr attributes = 9; // CCS属性
 }
 
 message CreAttr {
-  string name = 1; // 凭据属性名称
-  string type = 2; // 凭据属性值类型
-  bool required = 3; // 凭据是否必需包含该属性
-  string description = 4; // 凭据属性描述
+    string name = 1; // 凭据属性名称
+    string type = 2; // 凭据属性值类型
+    bool required = 3; // 凭据是否必需包含该属性
+    string description = 4; // 凭据属性描述
 }
 
 // 可验证凭据状态(Verifiable Credential, VC)
-message VerCreStatus  {
-  string version = 1; // 本数据结构的版本
-  string id = 2; // VC唯一标识
-  string status = 3; // VC所处状态，使用者自行定义
-  repeated string revokedClaimIndex = 4; // VC中已被撤销的凭据属性编号
-  string creator = 5; // VC签发者的did标识，用于更新操作的权限控制
+message VerCreStatus {
+    string version = 1; // 本数据结构的版本
+    string id = 2; // VC唯一标识
+    string status = 3; // VC所处状态，使用者自行定义
+    repeated string revokedClaimIndex = 4; // VC中已被撤销的凭据属性编号
+    string creator = 5; // VC签发者的did标识，用于更新操作的权限控制
 }
 
 //背书，可用于Transaction和Block
@@ -171,7 +175,7 @@ message Signature {
 //合约方法调用及实际参数
 message ChaincodeInput {
     string function = 1;
-    repeated string args  = 2;
+    repeated string args = 2;
 }
 //指定合约名称和版本,确定唯一的合约代码
 message ChaincodeId {
@@ -180,7 +184,7 @@ message ChaincodeId {
 }
 message Block {
     //区块头
-    BlockHeader header=1;
+    BlockHeader header = 1;
     //顺序排列的交易
     repeated Transaction transactions = 3;
     //错误交易类型及原因
@@ -218,7 +222,7 @@ message BlockHeader {
     //过期区块高度
     uint64 height_expired = 9;
     //背书签名集合,必须包含出块人签名,不参与hashOfBlock
-    repeated Signature endorsements=10;
+    repeated Signature endorsements = 10;
 }
 
 //异常交易出错描述
@@ -238,7 +242,9 @@ message TransactionResult {
     map<string, bytes> states_get = 2;
     //交易写入/迁移状态集合
     map<string, bytes> states_set = 3;
-    ActionResult err = 4;
+    //交易删除状态集合
+    map<string, bytes> states_del = 4;
+    ActionResult err = 5;
 }
 
 //签名交易
@@ -279,7 +285,7 @@ message ChaincodeDeploy {
     //完整的代码内容
     string code_package = 2;
     //合约规则的法律描述文本
-    string legal_prose =3;
+    string legal_prose = 3;
     //合约类型
     enum CodeType {
         CODE_UNDEFINED = 0;
@@ -302,7 +308,7 @@ message ChaincodeDeploy {
         //指定串行执行
         RUN_SERIAL = 1;
         //指定并行执行
-        RUN_PARALLEL= 2;
+        RUN_PARALLEL = 2;
         //由调度模块决定
         RUN_OPTIONAL = 3;
     }
@@ -312,20 +318,20 @@ message ChaincodeDeploy {
     enum StateType {
         STATE_UNDEFINED = 0;
         STATE_BLOCK = 1;
-        STATE_GLOBAL= 2;
+        STATE_GLOBAL = 2;
     }
     StateType s_type = 6;
-    string init_parameter=7;
+    string init_parameter = 7;
     //合约分级 系统合约 用户合约
     enum ContractClassification {
         CONTRACT_UNDEFINED = 0;
         CONTRACT_SYSTEM = 1;
         CONTRACT_CUSTOM = 2;
     }
-    ContractClassification  cclassification = 8;
+    ContractClassification cclassification = 8;
 }
 //合约方法返回
-message ActionResult{
+message ActionResult {
     //异常编号
     int32 code = 1;
     //异常原因
@@ -333,18 +339,18 @@ message ActionResult{
 }
 
 // 状态存在性证明
-message StateProof{
-    string key=1;
-    bytes value=2;
-    bytes proof=3;
+message StateProof {
+    string key = 1;
+    bytes value = 2;
+    bytes proof = 3;
 }
 
 message BlockchainInfo {
     uint64 height = 1;
     uint64 totalTransactions = 2;
-    bytes  currentBlockHash = 3;
-    bytes  previousBlockHash = 4;
-    bytes  currentStateHash = 5;
+    bytes currentBlockHash = 3;
+    bytes previousBlockHash = 4;
+    bytes currentStateHash = 5;
 }
 
 
@@ -365,8 +371,8 @@ message BlockchainInfo {
 //    Signature signature = 2;
 //}
 
- //交易执行日志及输出指令，只保存出错的交易结果，并且忽略OperLog
-  //  repeated TransactionResult transactionResults = 4;
+//交易执行日志及输出指令，只保存出错的交易结果，并且忽略OperLog
+ //  repeated TransactionResult transactionResults = 4;
 
 //状态存在于区块证明：可用于存证类合约，只写入一次，无需在全局State树中维护
 //交易存在于区块及正确执行证明：用于跨链互操作下，条件满足验证
@@ -375,4 +381,3 @@ message BlockchainInfo {
 
 //在创世区块中一次性调用chainInfo合约，将链信息：链Id、平台Id、平台版本、共识算法等信息写入状态，
 //跨链互操作需要确认链Id、区块合法性、交易存在性、交易执行正常、
-

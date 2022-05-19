@@ -26563,17 +26563,71 @@ public final class Peer {
         java.lang.String key);
 
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    int getStatesDelCount();
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    boolean containsStatesDel(
+        java.lang.String key);
+    /**
+     * Use {@link #getStatesDelMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+    getStatesDel();
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+    getStatesDelMap();
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+
+    com.google.protobuf.ByteString getStatesDelOrDefault(
+        java.lang.String key,
+        com.google.protobuf.ByteString defaultValue);
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+
+    com.google.protobuf.ByteString getStatesDelOrThrow(
+        java.lang.String key);
+
+    /**
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      * @return Whether the err field is set.
      */
     boolean hasErr();
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      * @return The err.
      */
     com.rcjava.protos.Peer.ActionResult getErr();
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      */
     com.rcjava.protos.Peer.ActionResultOrBuilder getErrOrBuilder();
   }
@@ -26661,6 +26715,19 @@ public final class Peer {
               break;
             }
             case 34: {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                statesDel_ = com.google.protobuf.MapField.newMapField(
+                    StatesDelDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000004;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
+              statesDel__ = input.readMessage(
+                  StatesDelDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              statesDel_.getMutableMap().put(
+                  statesDel__.getKey(), statesDel__.getValue());
+              break;
+            }
+            case 42: {
               com.rcjava.protos.Peer.ActionResult.Builder subBuilder = null;
               if (err_ != null) {
                 subBuilder = err_.toBuilder();
@@ -26706,6 +26773,8 @@ public final class Peer {
           return internalGetStatesGet();
         case 3:
           return internalGetStatesSet();
+        case 4:
+          return internalGetStatesDel();
         default:
           throw new RuntimeException(
               "Invalid map field number: " + number);
@@ -26959,10 +27028,107 @@ public final class Peer {
       return map.get(key);
     }
 
-    public static final int ERR_FIELD_NUMBER = 4;
+    public static final int STATES_DEL_FIELD_NUMBER = 4;
+    private static final class StatesDelDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, com.google.protobuf.ByteString> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, com.google.protobuf.ByteString>newDefaultInstance(
+                  com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.BYTES,
+                  com.google.protobuf.ByteString.EMPTY);
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, com.google.protobuf.ByteString> statesDel_;
+    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+    internalGetStatesDel() {
+      if (statesDel_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            StatesDelDefaultEntryHolder.defaultEntry);
+      }
+      return statesDel_;
+    }
+
+    public int getStatesDelCount() {
+      return internalGetStatesDel().getMap().size();
+    }
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+
+    @java.lang.Override
+    public boolean containsStatesDel(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetStatesDel().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getStatesDelMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDel() {
+      return getStatesDelMap();
+    }
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    @java.lang.Override
+
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDelMap() {
+      return internalGetStatesDel().getMap();
+    }
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    @java.lang.Override
+
+    public com.google.protobuf.ByteString getStatesDelOrDefault(
+        java.lang.String key,
+        com.google.protobuf.ByteString defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+          internalGetStatesDel().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     *交易删除状态集合
+     * </pre>
+     *
+     * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+     */
+    @java.lang.Override
+
+    public com.google.protobuf.ByteString getStatesDelOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+          internalGetStatesDel().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public static final int ERR_FIELD_NUMBER = 5;
     private com.rcjava.protos.Peer.ActionResult err_;
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      * @return Whether the err field is set.
      */
     @java.lang.Override
@@ -26970,7 +27136,7 @@ public final class Peer {
       return err_ != null;
     }
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      * @return The err.
      */
     @java.lang.Override
@@ -26978,7 +27144,7 @@ public final class Peer {
       return err_ == null ? com.rcjava.protos.Peer.ActionResult.getDefaultInstance() : err_;
     }
     /**
-     * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+     * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      */
     @java.lang.Override
     public com.rcjava.protos.Peer.ActionResultOrBuilder getErrOrBuilder() {
@@ -27014,8 +27180,14 @@ public final class Peer {
           internalGetStatesSet(),
           StatesSetDefaultEntryHolder.defaultEntry,
           3);
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetStatesDel(),
+          StatesDelDefaultEntryHolder.defaultEntry,
+          4);
       if (err_ != null) {
-        output.writeMessage(4, getErr());
+        output.writeMessage(5, getErr());
       }
       unknownFields.writeTo(output);
     }
@@ -27049,9 +27221,19 @@ public final class Peer {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(3, statesSet__);
       }
+      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.ByteString> entry
+           : internalGetStatesDel().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
+        statesDel__ = StatesDelDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, statesDel__);
+      }
       if (err_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getErr());
+          .computeMessageSize(5, getErr());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -27074,6 +27256,8 @@ public final class Peer {
           other.internalGetStatesGet())) return false;
       if (!internalGetStatesSet().equals(
           other.internalGetStatesSet())) return false;
+      if (!internalGetStatesDel().equals(
+          other.internalGetStatesDel())) return false;
       if (hasErr() != other.hasErr()) return false;
       if (hasErr()) {
         if (!getErr()
@@ -27099,6 +27283,10 @@ public final class Peer {
       if (!internalGetStatesSet().getMap().isEmpty()) {
         hash = (37 * hash) + STATES_SET_FIELD_NUMBER;
         hash = (53 * hash) + internalGetStatesSet().hashCode();
+      }
+      if (!internalGetStatesDel().getMap().isEmpty()) {
+        hash = (37 * hash) + STATES_DEL_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetStatesDel().hashCode();
       }
       if (hasErr()) {
         hash = (37 * hash) + ERR_FIELD_NUMBER;
@@ -27223,6 +27411,8 @@ public final class Peer {
             return internalGetStatesGet();
           case 3:
             return internalGetStatesSet();
+          case 4:
+            return internalGetStatesDel();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -27236,6 +27426,8 @@ public final class Peer {
             return internalGetMutableStatesGet();
           case 3:
             return internalGetMutableStatesSet();
+          case 4:
+            return internalGetMutableStatesDel();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -27271,6 +27463,7 @@ public final class Peer {
 
         internalGetMutableStatesGet().clear();
         internalGetMutableStatesSet().clear();
+        internalGetMutableStatesDel().clear();
         if (errBuilder_ == null) {
           err_ = null;
         } else {
@@ -27309,6 +27502,8 @@ public final class Peer {
         result.statesGet_.makeImmutable();
         result.statesSet_ = internalGetStatesSet();
         result.statesSet_.makeImmutable();
+        result.statesDel_ = internalGetStatesDel();
+        result.statesDel_.makeImmutable();
         if (errBuilder_ == null) {
           result.err_ = err_;
         } else {
@@ -27370,6 +27565,8 @@ public final class Peer {
             other.internalGetStatesGet());
         internalGetMutableStatesSet().mergeFrom(
             other.internalGetStatesSet());
+        internalGetMutableStatesDel().mergeFrom(
+            other.internalGetStatesDel());
         if (other.hasErr()) {
           mergeErr(other.getErr());
         }
@@ -27811,18 +28008,174 @@ public final class Peer {
         return this;
       }
 
+      private com.google.protobuf.MapField<
+          java.lang.String, com.google.protobuf.ByteString> statesDel_;
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+      internalGetStatesDel() {
+        if (statesDel_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              StatesDelDefaultEntryHolder.defaultEntry);
+        }
+        return statesDel_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+      internalGetMutableStatesDel() {
+        onChanged();;
+        if (statesDel_ == null) {
+          statesDel_ = com.google.protobuf.MapField.newMapField(
+              StatesDelDefaultEntryHolder.defaultEntry);
+        }
+        if (!statesDel_.isMutable()) {
+          statesDel_ = statesDel_.copy();
+        }
+        return statesDel_;
+      }
+
+      public int getStatesDelCount() {
+        return internalGetStatesDel().getMap().size();
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+
+      @java.lang.Override
+      public boolean containsStatesDel(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetStatesDel().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getStatesDelMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDel() {
+        return getStatesDelMap();
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+      @java.lang.Override
+
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDelMap() {
+        return internalGetStatesDel().getMap();
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+      @java.lang.Override
+
+      public com.google.protobuf.ByteString getStatesDelOrDefault(
+          java.lang.String key,
+          com.google.protobuf.ByteString defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+            internalGetStatesDel().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+      @java.lang.Override
+
+      public com.google.protobuf.ByteString getStatesDelOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+            internalGetStatesDel().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearStatesDel() {
+        internalGetMutableStatesDel().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+
+      public Builder removeStatesDel(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableStatesDel().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+      getMutableStatesDel() {
+        return internalGetMutableStatesDel().getMutableMap();
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+      public Builder putStatesDel(
+          java.lang.String key,
+          com.google.protobuf.ByteString value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableStatesDel().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       *交易删除状态集合
+       * </pre>
+       *
+       * <code>map&lt;string, bytes&gt; states_del = 4;</code>
+       */
+
+      public Builder putAllStatesDel(
+          java.util.Map<java.lang.String, com.google.protobuf.ByteString> values) {
+        internalGetMutableStatesDel().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+
       private com.rcjava.protos.Peer.ActionResult err_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.ActionResult, com.rcjava.protos.Peer.ActionResult.Builder, com.rcjava.protos.Peer.ActionResultOrBuilder> errBuilder_;
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        * @return Whether the err field is set.
        */
       public boolean hasErr() {
         return errBuilder_ != null || err_ != null;
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        * @return The err.
        */
       public com.rcjava.protos.Peer.ActionResult getErr() {
@@ -27833,7 +28186,7 @@ public final class Peer {
         }
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public Builder setErr(com.rcjava.protos.Peer.ActionResult value) {
         if (errBuilder_ == null) {
@@ -27849,7 +28202,7 @@ public final class Peer {
         return this;
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public Builder setErr(
           com.rcjava.protos.Peer.ActionResult.Builder builderForValue) {
@@ -27863,7 +28216,7 @@ public final class Peer {
         return this;
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public Builder mergeErr(com.rcjava.protos.Peer.ActionResult value) {
         if (errBuilder_ == null) {
@@ -27881,7 +28234,7 @@ public final class Peer {
         return this;
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public Builder clearErr() {
         if (errBuilder_ == null) {
@@ -27895,7 +28248,7 @@ public final class Peer {
         return this;
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public com.rcjava.protos.Peer.ActionResult.Builder getErrBuilder() {
         
@@ -27903,7 +28256,7 @@ public final class Peer {
         return getErrFieldBuilder().getBuilder();
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       public com.rcjava.protos.Peer.ActionResultOrBuilder getErrOrBuilder() {
         if (errBuilder_ != null) {
@@ -27914,7 +28267,7 @@ public final class Peer {
         }
       }
       /**
-       * <code>.com.rcjava.protos.ActionResult err = 4;</code>
+       * <code>.com.rcjava.protos.ActionResult err = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.ActionResult, com.rcjava.protos.Peer.ActionResult.Builder, com.rcjava.protos.Peer.ActionResultOrBuilder> 
@@ -34627,6 +34980,11 @@ public final class Peer {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_rcjava_protos_TransactionResult_StatesSetEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_rcjava_protos_Transaction_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -34742,51 +35100,55 @@ public final class Peer {
       "\022\026\n\016height_expired\030\t \001(\004\0222\n\014endorsements" +
       "\030\n \003(\0132\034.com.rcjava.protos.Signature\">\n\020" +
       "TransactionError\022\014\n\004txId\030\001 \001(\t\022\014\n\004code\030\002" +
-      " \001(\005\022\016\n\006reason\030\003 \001(\t\"\305\002\n\021TransactionResu" +
+      " \001(\005\022\016\n\006reason\030\003 \001(\t\"\300\003\n\021TransactionResu" +
       "lt\022\014\n\004txId\030\001 \001(\t\022G\n\nstates_get\030\002 \003(\01323.c" +
       "om.rcjava.protos.TransactionResult.State" +
       "sGetEntry\022G\n\nstates_set\030\003 \003(\01323.com.rcja" +
       "va.protos.TransactionResult.StatesSetEnt" +
-      "ry\022,\n\003err\030\004 \001(\0132\037.com.rcjava.protos.Acti" +
-      "onResult\0320\n\016StatesGetEntry\022\013\n\003key\030\001 \001(\t\022" +
-      "\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016StatesSetEntry\022\013\n\003" +
-      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\245\003\n\013Transac" +
-      "tion\022\n\n\002id\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.com.rcj" +
-      "ava.protos.Transaction.Type\022+\n\003cid\030\003 \001(\013" +
-      "2\036.com.rcjava.protos.ChaincodeId\0222\n\004spec" +
-      "\030\004 \001(\0132\".com.rcjava.protos.ChaincodeDepl" +
-      "oyH\000\0220\n\003ipt\030\005 \001(\0132!.com.rcjava.protos.Ch" +
-      "aincodeInputH\000\022\017\n\005state\030\006 \001(\010H\000\022\021\n\tgas_l" +
-      "imit\030\007 \001(\r\022\013\n\003oid\030\010 \001(\t\022/\n\tsignature\030\t \001" +
-      "(\0132\034.com.rcjava.protos.Signature\"Z\n\004Type" +
-      "\022\r\n\tUNDEFINED\020\000\022\024\n\020CHAINCODE_DEPLOY\020\001\022\024\n" +
-      "\020CHAINCODE_INVOKE\020\002\022\027\n\023CHAINCODE_SET_STA" +
-      "TE\020\003B\006\n\004para\"\357\005\n\017ChaincodeDeploy\022\017\n\007time" +
-      "out\030\001 \001(\005\022\024\n\014code_package\030\002 \001(\t\022\023\n\013legal" +
-      "_prose\030\003 \001(\t\022;\n\006c_type\030\004 \001(\0162+.com.rcjav" +
-      "a.protos.ChaincodeDeploy.CodeType\022:\n\006r_t" +
-      "ype\030\005 \001(\0162*.com.rcjava.protos.ChaincodeD" +
-      "eploy.RunType\022<\n\006s_type\030\006 \001(\0162,.com.rcja" +
-      "va.protos.ChaincodeDeploy.StateType\022\026\n\016i" +
-      "nit_parameter\030\007 \001(\t\022R\n\017cclassification\030\010" +
-      " \001(\01629.com.rcjava.protos.ChaincodeDeploy" +
-      ".ContractClassification\"\211\001\n\010CodeType\022\022\n\016" +
-      "CODE_UNDEFINED\020\000\022\023\n\017CODE_JAVASCRIPT\020\001\022\016\n" +
-      "\nCODE_SCALA\020\002\022\020\n\014CODE_VCL_DLL\020\003\022\020\n\014CODE_" +
-      "VCL_EXE\020\004\022\021\n\rCODE_VCL_WASM\020\005\022\r\n\tCODE_WAS" +
-      "M\020\006\"P\n\007RunType\022\021\n\rRUN_UNDEFINED\020\000\022\016\n\nRUN" +
-      "_SERIAL\020\001\022\020\n\014RUN_PARALLEL\020\002\022\020\n\014RUN_OPTIO" +
-      "NAL\020\003\"C\n\tStateType\022\023\n\017STATE_UNDEFINED\020\000\022" +
-      "\017\n\013STATE_BLOCK\020\001\022\020\n\014STATE_GLOBAL\020\002\"Z\n\026Co" +
-      "ntractClassification\022\026\n\022CONTRACT_UNDEFIN" +
-      "ED\020\000\022\023\n\017CONTRACT_SYSTEM\020\001\022\023\n\017CONTRACT_CU" +
-      "STOM\020\002\",\n\014ActionResult\022\014\n\004code\030\001 \001(\005\022\016\n\006" +
-      "reason\030\002 \001(\t\"7\n\nStateProof\022\013\n\003key\030\001 \001(\t\022" +
-      "\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001(\014\"\212\001\n\016Blockc" +
-      "hainInfo\022\016\n\006height\030\001 \001(\004\022\031\n\021totalTransac" +
-      "tions\030\002 \001(\004\022\030\n\020currentBlockHash\030\003 \001(\014\022\031\n" +
-      "\021previousBlockHash\030\004 \001(\014\022\030\n\020currentState" +
-      "Hash\030\005 \001(\014B\023\n\021com.rcjava.protosb\006proto3"
+      "ry\022G\n\nstates_del\030\004 \003(\01323.com.rcjava.prot" +
+      "os.TransactionResult.StatesDelEntry\022,\n\003e" +
+      "rr\030\005 \001(\0132\037.com.rcjava.protos.ActionResul" +
+      "t\0320\n\016StatesGetEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu" +
+      "e\030\002 \001(\014:\0028\001\0320\n\016StatesSetEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016StatesDelEntry\022" +
+      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\245\003\n\013Tran" +
+      "saction\022\n\n\002id\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.com." +
+      "rcjava.protos.Transaction.Type\022+\n\003cid\030\003 " +
+      "\001(\0132\036.com.rcjava.protos.ChaincodeId\0222\n\004s" +
+      "pec\030\004 \001(\0132\".com.rcjava.protos.ChaincodeD" +
+      "eployH\000\0220\n\003ipt\030\005 \001(\0132!.com.rcjava.protos" +
+      ".ChaincodeInputH\000\022\017\n\005state\030\006 \001(\010H\000\022\021\n\tga" +
+      "s_limit\030\007 \001(\r\022\013\n\003oid\030\010 \001(\t\022/\n\tsignature\030" +
+      "\t \001(\0132\034.com.rcjava.protos.Signature\"Z\n\004T" +
+      "ype\022\r\n\tUNDEFINED\020\000\022\024\n\020CHAINCODE_DEPLOY\020\001" +
+      "\022\024\n\020CHAINCODE_INVOKE\020\002\022\027\n\023CHAINCODE_SET_" +
+      "STATE\020\003B\006\n\004para\"\357\005\n\017ChaincodeDeploy\022\017\n\007t" +
+      "imeout\030\001 \001(\005\022\024\n\014code_package\030\002 \001(\t\022\023\n\013le" +
+      "gal_prose\030\003 \001(\t\022;\n\006c_type\030\004 \001(\0162+.com.rc" +
+      "java.protos.ChaincodeDeploy.CodeType\022:\n\006" +
+      "r_type\030\005 \001(\0162*.com.rcjava.protos.Chainco" +
+      "deDeploy.RunType\022<\n\006s_type\030\006 \001(\0162,.com.r" +
+      "cjava.protos.ChaincodeDeploy.StateType\022\026" +
+      "\n\016init_parameter\030\007 \001(\t\022R\n\017cclassificatio" +
+      "n\030\010 \001(\01629.com.rcjava.protos.ChaincodeDep" +
+      "loy.ContractClassification\"\211\001\n\010CodeType\022" +
+      "\022\n\016CODE_UNDEFINED\020\000\022\023\n\017CODE_JAVASCRIPT\020\001" +
+      "\022\016\n\nCODE_SCALA\020\002\022\020\n\014CODE_VCL_DLL\020\003\022\020\n\014CO" +
+      "DE_VCL_EXE\020\004\022\021\n\rCODE_VCL_WASM\020\005\022\r\n\tCODE_" +
+      "WASM\020\006\"P\n\007RunType\022\021\n\rRUN_UNDEFINED\020\000\022\016\n\n" +
+      "RUN_SERIAL\020\001\022\020\n\014RUN_PARALLEL\020\002\022\020\n\014RUN_OP" +
+      "TIONAL\020\003\"C\n\tStateType\022\023\n\017STATE_UNDEFINED" +
+      "\020\000\022\017\n\013STATE_BLOCK\020\001\022\020\n\014STATE_GLOBAL\020\002\"Z\n" +
+      "\026ContractClassification\022\026\n\022CONTRACT_UNDE" +
+      "FINED\020\000\022\023\n\017CONTRACT_SYSTEM\020\001\022\023\n\017CONTRACT" +
+      "_CUSTOM\020\002\",\n\014ActionResult\022\014\n\004code\030\001 \001(\005\022" +
+      "\016\n\006reason\030\002 \001(\t\"7\n\nStateProof\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001(\014\"\212\001\n\016Blo" +
+      "ckchainInfo\022\016\n\006height\030\001 \001(\004\022\031\n\021totalTran" +
+      "sactions\030\002 \001(\004\022\030\n\020currentBlockHash\030\003 \001(\014" +
+      "\022\031\n\021previousBlockHash\030\004 \001(\014\022\030\n\020currentSt" +
+      "ateHash\030\005 \001(\014B\023\n\021com.rcjava.protosb\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -34894,7 +35256,7 @@ public final class Peer {
     internal_static_com_rcjava_protos_TransactionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_rcjava_protos_TransactionResult_descriptor,
-        new java.lang.String[] { "TxId", "StatesGet", "StatesSet", "Err", });
+        new java.lang.String[] { "TxId", "StatesGet", "StatesSet", "StatesDel", "Err", });
     internal_static_com_rcjava_protos_TransactionResult_StatesGetEntry_descriptor =
       internal_static_com_rcjava_protos_TransactionResult_descriptor.getNestedTypes().get(0);
     internal_static_com_rcjava_protos_TransactionResult_StatesGetEntry_fieldAccessorTable = new
@@ -34906,6 +35268,12 @@ public final class Peer {
     internal_static_com_rcjava_protos_TransactionResult_StatesSetEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_rcjava_protos_TransactionResult_StatesSetEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_descriptor =
+      internal_static_com_rcjava_protos_TransactionResult_descriptor.getNestedTypes().get(2);
+    internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_rcjava_protos_TransactionResult_StatesDelEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_com_rcjava_protos_Transaction_descriptor =
       getDescriptor().getMessageTypes().get(17);
