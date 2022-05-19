@@ -96,6 +96,15 @@ public class DidTest {
     Peer.CertId usr2_certId_0 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode).setCertName(user2_cert_0).build();
     Peer.CertId usr2_certId_1 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode).setCertName(user2_cert_1).build();
 
+    TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
+    TranCreator usr0_tranCreator_1 = genUsrTranCreator(user0_creditCode, user0_cert_1);
+
+    TranCreator usr1_tranCreator_0 = genUsrTranCreator(user1_creditCode, user1_cert_0);
+    TranCreator usr1_tranCreator_1 = genUsrTranCreator(user1_creditCode, user1_cert_1);
+
+    TranCreator usr2_tranCreator_0 = genUsrTranCreator(user2_creditCode, user2_cert_0);
+    TranCreator usr2_tranCreator_1 = genUsrTranCreator(user2_creditCode, user2_cert_1);
+
 
 //    DidTest.SignerCert usr0_signer_cert_1 = genCertSigner(user0_creditCode, user0_pem_1, user0_cert_1);
 //    DidTest.SignerCert usr1_signer_cert_1 = genCertSigner(user1_creditCode, user1_pem_1, user1_cert_1);

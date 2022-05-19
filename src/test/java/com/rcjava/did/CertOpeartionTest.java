@@ -41,8 +41,6 @@ public class CertOpeartionTest extends DidTest {
         // usr0为自己注册普通证书(credtiCode为usr1的), 会失败
         Peer.Certificate usr1_cert_0 = getUsrCert(user1_creditCode, user1_cert_0);
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr1_cert_0), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -60,8 +58,6 @@ public class CertOpeartionTest extends DidTest {
     void testSignUpCert_2() throws IOException, InterruptedException {
         Peer.Certificate usr0_cert = getUsrCert(user0_creditCode, user0_cert_0);
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -80,8 +76,6 @@ public class CertOpeartionTest extends DidTest {
         // 构造一个不同的证书
         Peer.Certificate usr0_cert_1 = getUsrCert(user0_creditCode, user0_cert_1).toBuilder().setCertHash("test").build();
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -102,8 +96,6 @@ public class CertOpeartionTest extends DidTest {
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .build();
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -123,8 +115,6 @@ public class CertOpeartionTest extends DidTest {
         // step1: 注册证书
         Peer.Certificate usr0_cert_1 = getUsrCert(user0_creditCode, user0_cert_1);
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpCertificate, JsonFormat.printer().print(usr0_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -151,8 +141,6 @@ public class CertOpeartionTest extends DidTest {
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus修改一个不存在的证书状态")
     void testUpdateCertificateStatus_1() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         JSONObject certStatus = new JSONObject();
         certStatus.fluentPut("creditCode", "usr-xxx").fluentPut("certName", user0_cert_1).fluentPut("state", false);
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
@@ -172,8 +160,6 @@ public class CertOpeartionTest extends DidTest {
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus，普通证书不能调用该方法")
     void testUpdateCertificateStatus_2() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_1 = genUsrTranCreator(user0_creditCode, user0_cert_1);
-        Peer.CertId usr0_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_1).build();
         JSONObject certStatus = new JSONObject();
         certStatus.fluentPut("creditCode", user0_creditCode).fluentPut("certName", user0_cert_1).fluentPut("state", false);
         Peer.Transaction tran = usr0_tranCreator_1.createInvokeTran(tranId, usr0_certId_1, chaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
@@ -193,8 +179,6 @@ public class CertOpeartionTest extends DidTest {
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus，不能调用该方法修改身份证书")
     void testUpdateCertificateStatus_3() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         JSONObject certStatus = new JSONObject();
         // 修改身份证书状态
         certStatus.fluentPut("creditCode", user0_creditCode).fluentPut("certName", user0_cert_0).fluentPut("state", false);
@@ -215,8 +199,6 @@ public class CertOpeartionTest extends DidTest {
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus, 修改成功")
     void testUpdateCertificateStatus_4() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         JSONObject certStatus = new JSONObject();
         // 修改身份证书状态
         certStatus.fluentPut("creditCode", user0_creditCode).fluentPut("certName", user0_cert_1).fluentPut("state", false);
@@ -229,8 +211,6 @@ public class CertOpeartionTest extends DidTest {
 
         // step2: 使用注册好的证书对应的私钥提交签名交易 TODO 待完成,有问题需要解决, 下划线或者 . 分隔符不能正确解析， 且证书拿出来之后并未验证valid的有效性
         String tranId_1 = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_1 = genUsrTranCreator(user0_creditCode, user0_cert_1);
-        Peer.CertId usr0_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_1).build();
         Transfer transfer = new Transfer(user0_creditCode, "12110107bi45jh675g", 5);
         Peer.Transaction tran_1 = usr0_tranCreator_1.createInvokeTran(tranId_1, usr0_certId_1, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
@@ -258,8 +238,6 @@ public class CertOpeartionTest extends DidTest {
         // step1: usr0为usr1注册普通证书, 没有权限, 会失败
         Peer.Certificate usr1_cert_1 = getUsrCert(user1_creditCode, user1_cert_1);
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr1_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -299,8 +277,6 @@ public class CertOpeartionTest extends DidTest {
         // step2: usr0为usr1 注册普通证书
         Peer.Certificate usr1_cert_1 = getUsrCert(user1_creditCode, user1_cert_1);
         String tranId_1 = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode, user0_cert_0);
-        Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_0).build();
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr1_cert_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
@@ -318,8 +294,6 @@ public class CertOpeartionTest extends DidTest {
         // step1: 注册证书, usr1为usr2注册普通证书, 没有权限调用
         Peer.Certificate usr2_cert_1 = getUsrCert(user2_creditCode, user2_cert_1);
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr1_tranCreator_0 = genUsrTranCreator(user1_creditCode, user1_cert_0);
-        Peer.CertId usr1_certId_0 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_0).build();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, chaincodeId, signUpAllTypeCertificate, JsonFormat.printer().print(usr2_cert_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -341,8 +315,6 @@ public class CertOpeartionTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
-        TranCreator usr0_tranCreator_1 = genUsrTranCreator(user0_creditCode, user0_cert_1);
-        Peer.CertId usr0_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName(user0_cert_1).build();
         Peer.Transaction tran_1 = usr0_tranCreator_1.createInvokeTran(tranId_1, usr0_certId_1, chaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran_1);
@@ -384,8 +356,6 @@ public class CertOpeartionTest extends DidTest {
 
         // step5: 注册证书, usr1为usr2注册身份证书, 证书已存在
         String tranId_5 = UUID.randomUUID().toString();
-        TranCreator usr1_tranCreator_1 = genUsrTranCreator(user1_creditCode, user1_cert_1);
-        Peer.CertId usr1_certId_1 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_1).build();
         // 构造一个身份证书
         Peer.Transaction tran_5 = usr1_tranCreator_1.createInvokeTran(tranId_5, usr1_certId_1, chaincodeId, signUpAllTypeCertificate,
                 JsonFormat.printer().print(usr2_cert_1.toBuilder().setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION).build()), 0, "");
@@ -431,8 +401,6 @@ public class CertOpeartionTest extends DidTest {
 
         // usr1为usr2更新证书(身份证书)状态
         String tranId_1 = UUID.randomUUID().toString();
-        TranCreator usr1_tranCreator_1 = genUsrTranCreator(user1_creditCode, user1_cert_1);
-        Peer.CertId usr1_certId_1 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_1).build();
         JSONObject certStatus = new JSONObject();
         certStatus.fluentPut("creditCode", user2_creditCode).fluentPut("certName", user2_cert_1).fluentPut("state", true);
         Peer.Transaction tran_1 = usr1_tranCreator_1.createInvokeTran(tranId_1, usr1_certId_1, chaincodeId, updateAllTypeCertificateStatus, certStatus.toJSONString(), 0, "");
@@ -451,8 +419,6 @@ public class CertOpeartionTest extends DidTest {
 
         // usr1为superAdmin更新证书状态, 会失败
         String tranId = UUID.randomUUID().toString();
-        TranCreator usr1_tranCreator_0 = genUsrTranCreator(user1_creditCode, user1_cert_0);
-        Peer.CertId usr1_certId_0 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName(user1_cert_0).build();
         JSONObject certStatus = new JSONObject();
         certStatus.fluentPut("creditCode", super_creditCode).fluentPut("certName", "super_admin").fluentPut("state", false);
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, chaincodeId, updateAllTypeCertificateStatus, certStatus.toJSONString(), 0, "");
