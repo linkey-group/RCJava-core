@@ -23,6 +23,10 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
+ * 本轮结束后
+ * 1. usr0拥有的auth: signUpAllTypeCertificate
+ * 2. usr1拥有的auth: signUpAllTypeCertificate, updateAllTypeCertificateStatus
+ *
  * @author zyf
  */
 @Tags({@Tag("注册普通证书"), @Tag("修改普通证书状态"), @Tag("注册任何证书"), @Tag("修改任何证书状态")})

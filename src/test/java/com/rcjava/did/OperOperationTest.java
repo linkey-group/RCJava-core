@@ -26,6 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
+ * 本轮结束后
+ * 1. usr0拥有的auth: signUpAllTypeCertificate, CredenceTPL.deploy; 拥有的oper: CredenceTPL.creProof
+ * 2. usr1拥有的auth: signUpAllTypeCertificate, updateAllTypeCertificateStatus
+ *
  * @author zyf
  */
 @Tags({@Tag("注册Operate"), @Tag("修改Operate状态")})
@@ -332,7 +336,7 @@ public class OperOperationTest extends DidTest {
                 .setOpId(DigestUtils.sha256Hex("CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
                 .setRegister(user0_creditCode)
-                .setIsPublish(true)
+                .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))

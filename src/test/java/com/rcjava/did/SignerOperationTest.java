@@ -298,7 +298,7 @@ class SignerOperationTest extends DidTest {
         Assertions.assertEquals(12003, errMsg.getInteger("code"), "Signer账户实体不存在");
     }
 
-    @Test
+    @RepeatedTest(name = "重复修改状态", value =  2)
     @Order(14)
     @DisplayName("修改账户状态-管理员修改node1的账户状态")
     void testUpdateSignerStatus_2() throws InterruptedException {
