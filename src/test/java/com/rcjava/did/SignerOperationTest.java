@@ -277,7 +277,7 @@ class SignerOperationTest extends DidTest {
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
-        Assertions.assertEquals(12011, errMsg.getInteger("code"), "非super_admin不能修改super_admin的signer的状态");
+        Assertions.assertEquals(12011, errMsg.getInteger("code"), "非super_admin不能修改super_admin的signer的信息或状态");
     }
 
     @Test
@@ -331,6 +331,45 @@ class SignerOperationTest extends DidTest {
         Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
         Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
         Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
+    }
+
+    @RepeatedTest(name = "重复修改账户", value =  2)
+    @Order(15)
+    @DisplayName("修改账户-有权限的可调用updateSigner修改账户")
+    void testUpdateSigner_1() throws InterruptedException, InvalidProtocolBufferException {
+        // step1: node1不能修改superAdmin的账户信息
+        Peer.Signer signer_1 = Peer.Signer.newBuilder().setCreditCode(super_creditCode).setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_1), 0, "");
+        postClient.postSignedTran(tran);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult = getTransactionResult(tranId);
+        Peer.ActionResult actionResult = tranResult.getErr();
+        Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
+        JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
+        Assertions.assertEquals(12011, errMsg.getInteger("code"), "非super_admin不能修改super_admin的signer的信息状态");
+
+        // step2: node1为node2修改账户信息
+        String tranId_2 = UUID.randomUUID().toString();
+        Peer.Signer signer_2 = Peer.Signer.newBuilder().setCreditCode(node2_creditCode).setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
+        Peer.Transaction tran_2 = node1Creator.createInvokeTran(tranId_2, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_2), 0, "");
+        postClient.postSignedTran(tran_2);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
+        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
+
+        // step3: 要修改的账户不存在
+        String tranId_3 = UUID.randomUUID().toString();
+        Peer.Signer signer_3 = Peer.Signer.newBuilder().setCreditCode("not-exists").setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
+        Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_3), 0, "");
+        postClient.postSignedTran(tran_3);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
+        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Assertions.assertEquals(102, actionResult_3.getCode(), "错误码为102");
+        JSONObject errMsg_3 = JSONObject.parseObject(actionResult_3.getReason());
+        Assertions.assertEquals(12003, errMsg_3.getInteger("code"), "Signer账户实体不存在");
     }
 
 }
