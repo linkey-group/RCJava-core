@@ -30,7 +30,7 @@ class SignerOperationTest extends DidTest {
     void testSignUpSignerCreditCodeBlank() throws Exception {
         String tranId = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCreditCode().build();
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -46,7 +46,7 @@ class SignerOperationTest extends DidTest {
     void testSignUpSignerSomeFieldsBlank() throws Exception {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -57,7 +57,7 @@ class SignerOperationTest extends DidTest {
 
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Signer signer_2 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().build();
-        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_2), 0, "");
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_2), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
@@ -75,7 +75,7 @@ class SignerOperationTest extends DidTest {
     void testSignUpSignerAuthCertEmpty() throws Exception {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().clearAuthenticationCerts().build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -100,7 +100,7 @@ class SignerOperationTest extends DidTest {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
                 .addAuthenticationCerts(usr_1_cer).build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -127,7 +127,7 @@ class SignerOperationTest extends DidTest {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
                 .addAuthenticationCerts(usr_1_cer).build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -153,7 +153,7 @@ class SignerOperationTest extends DidTest {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
                 .addAuthenticationCerts(usr_1_cer).build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -179,7 +179,7 @@ class SignerOperationTest extends DidTest {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
                 .addAuthenticationCerts(usr_1_cer).build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -196,7 +196,7 @@ class SignerOperationTest extends DidTest {
     void testSignUpSigner() throws Exception {
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -209,7 +209,7 @@ class SignerOperationTest extends DidTest {
     @DisplayName("测试注册账户-账户已存在")
     void testSignUpSignerExists() throws InvalidProtocolBufferException, InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(usr0_signer), 0, "");
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(usr0_signer), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -244,7 +244,7 @@ class SignerOperationTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr1_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
                 .addAuthenticationCerts(usr0_cert).build();
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -255,7 +255,7 @@ class SignerOperationTest extends DidTest {
 
         String tranId_1 = UUID.randomUUID().toString();
         signer_1 = usr1_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -270,7 +270,7 @@ class SignerOperationTest extends DidTest {
         JSONObject status = new JSONObject();
         status.fluentPut("creditCode", super_creditCode);
         status.fluentPut("state", false);
-        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -288,7 +288,7 @@ class SignerOperationTest extends DidTest {
         JSONObject status = new JSONObject();
         status.fluentPut("creditCode", "not-exists");
         status.fluentPut("state", false);
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -306,7 +306,7 @@ class SignerOperationTest extends DidTest {
         JSONObject status = new JSONObject();
         status.fluentPut("creditCode", node1_creditCode);
         status.fluentPut("state", false);
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -325,7 +325,7 @@ class SignerOperationTest extends DidTest {
 
         String tranId_2 = UUID.randomUUID().toString();
         status.fluentPut("state", true);
-        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, chaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = infoClient.getBlockByHeight(infoClient.getChainInfo().getHeight()).getTransactionResults(0);
@@ -340,7 +340,7 @@ class SignerOperationTest extends DidTest {
         // step1: node1不能修改superAdmin的账户信息
         Peer.Signer signer_1 = Peer.Signer.newBuilder().setCreditCode(super_creditCode).setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_1), 0, "");
+        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, didChaincodeId, updateSigner, JsonFormat.printer().print(signer_1), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -352,7 +352,7 @@ class SignerOperationTest extends DidTest {
         // step2: node1为node2修改账户信息
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Signer signer_2 = Peer.Signer.newBuilder().setCreditCode(node2_creditCode).setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
-        Peer.Transaction tran_2 = node1Creator.createInvokeTran(tranId_2, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_2), 0, "");
+        Peer.Transaction tran_2 = node1Creator.createInvokeTran(tranId_2, node1CertId, didChaincodeId, updateSigner, JsonFormat.printer().print(signer_2), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
@@ -362,7 +362,7 @@ class SignerOperationTest extends DidTest {
         // step3: 要修改的账户不存在
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Signer signer_3 = Peer.Signer.newBuilder().setCreditCode("not-exists").setMobile("modify-Mobile").setSignerInfo("modify-signerInfo").build();
-        Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, chaincodeId, updateSigner, JsonFormat.printer().print(signer_3), 0, "");
+        Peer.Transaction tran_3 = node1Creator.createInvokeTran(tranId_3, node1CertId, didChaincodeId, updateSigner, JsonFormat.printer().print(signer_3), 0, "");
         postClient.postSignedTran(tran_3);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);

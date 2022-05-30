@@ -5,9 +5,7 @@ import com.google.common.truth.Truth;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.JsonFormat;
-import com.rcjava.client.ChainInfoClient;
 import com.rcjava.protos.Peer;
-import com.rcjava.tran.TranCreator;
 import com.rcjava.tran.impl.DeployTran;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -59,7 +57,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = node1Creator.createInvokeTran(tranId, node1CertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -71,7 +69,7 @@ public class OperOperationTest extends DidTest {
 
         // step2: superAdmin成功
         String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -101,7 +99,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_1.createInvokeTran(tranId, usr0_certId_1, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_1.createInvokeTran(tranId, usr0_certId_1, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -161,7 +159,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, chaincodeId, grantOperate,
+        Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
@@ -187,7 +185,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId_2 = UUID.randomUUID().toString();
-        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
@@ -200,7 +198,7 @@ public class OperOperationTest extends DidTest {
         // step4: superAdmin授权给usr0部署合约A的权限
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Authorize authorize_1 = authorize.toBuilder().clearOpId().addOpId(DigestUtils.sha256Hex("CredenceTPL.deploy")).build();
-        Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, chaincodeId, grantOperate,
+        Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_3);
         TimeUnit.SECONDS.sleep(2);
@@ -239,7 +237,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -255,7 +253,7 @@ public class OperOperationTest extends DidTest {
                 .setRegister(user1_creditCode)
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate_1), 0, "");
+        Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate_1), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -285,7 +283,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -316,7 +314,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -346,7 +344,7 @@ public class OperOperationTest extends DidTest {
                 .setVersion("1.0")
                 .build();
         String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -355,7 +353,7 @@ public class OperOperationTest extends DidTest {
 
         // step2: usr0重复注册合约A的某个方法的Operate失败
         String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, chaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -391,7 +389,7 @@ public class OperOperationTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("not-exists")).fluentPut("state", false);
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, chaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -411,7 +409,7 @@ public class OperOperationTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("CredenceTPL.creProof")).fluentPut("state", false);
-        Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, chaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
+        Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult = getTransactionResult(tranId);
@@ -431,7 +429,7 @@ public class OperOperationTest extends DidTest {
         String tranId_1 = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("CredenceTPL.creProof")).fluentPut("state", false);
-        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, chaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
+        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
@@ -451,7 +449,7 @@ public class OperOperationTest extends DidTest {
         String tranId_2 = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("CredenceTPL.creProof")).fluentPut("state", true);
-        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, chaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);

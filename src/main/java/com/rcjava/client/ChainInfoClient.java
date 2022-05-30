@@ -239,7 +239,7 @@ public class ChainInfoClient {
      * @param tranId 交易ID
      * @return 返回本条交易的执行结果
      */
-    TransactionResult getTranResultByTranId(String tranId) {
+    public TransactionResult getTranResultByTranId(String tranId) {
         ChainInfoClient.TranInfoAndHeight infoAndHeight = getTranInfoAndHeightByTranId(tranId);
         if (infoAndHeight == null) {
             return null;

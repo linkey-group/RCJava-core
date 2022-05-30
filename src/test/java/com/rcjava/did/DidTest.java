@@ -33,46 +33,46 @@ public class DidTest {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     String host = "localhost:9081";
-    TranPostClient postClient = new TranPostClient(host);
-    ChainInfoClient infoClient = new ChainInfoClient(host);
+    protected TranPostClient postClient = new TranPostClient(host);
+    protected ChainInfoClient infoClient = new ChainInfoClient(host);
 
-    Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
-    Peer.ChaincodeId chaincodeId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
+    protected Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
+    protected Peer.ChaincodeId didChaincodeId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
 
-    String node1_creditCode = "121000005l35120456";
-    String node2_creditCode = "12110107bi45jh675g";
-    String node3_creditCode = "122000002n00123567";
-    String node4_creditCode = "921000005k36123789";
-    String node5_creditCode = "921000006e0012v696";
-    String super_creditCode = "951002007l78123233";
+    protected String node1_creditCode = "121000005l35120456";
+    protected String node2_creditCode = "12110107bi45jh675g";
+    protected String node3_creditCode = "122000002n00123567";
+    protected String node4_creditCode = "921000005k36123789";
+    protected String node5_creditCode = "921000006e0012v696";
+    protected String super_creditCode = "951002007l78123233";
 
-    static String signUpSigner = "signUpSigner";
-    static String updateSigner = "updateSigner";
-    static String updateSignerStatus = "updateSignerStatus";
+    protected static String signUpSigner = "signUpSigner";
+    protected static String updateSigner = "updateSigner";
+    protected static String updateSignerStatus = "updateSignerStatus";
 
-    static String signUpCertificate = "signUpCertificate"; // 无需授权
-    static String updateCertificateStatus = "updateCertificateStatus"; // 无需授权
-    static String signUpAllTypeCertificate = "signUpAllTypeCertificate"; // 需授权
-    static String updateAllTypeCertificateStatus = "updateAllTypeCertificateStatus"; // 需授权
+    protected static String signUpCertificate = "signUpCertificate"; // 无需授权
+    protected static String updateCertificateStatus = "updateCertificateStatus"; // 无需授权
+    protected static String signUpAllTypeCertificate = "signUpAllTypeCertificate"; // 需授权
+    protected static String updateAllTypeCertificateStatus = "updateAllTypeCertificateStatus"; // 需授权
 
-    static String grantOperate = "grantOperate";
-    static String updateGrantOperateStatus = "updateGrantOperateStatus";
-    static String bindCertToAuthorize = "bindCertToAuthorize";
+    protected static String grantOperate = "grantOperate";
+    protected static String updateGrantOperateStatus = "updateGrantOperateStatus";
+    protected static String bindCertToAuthorize = "bindCertToAuthorize";
 
-    static String signUpOperate = "signUpOperate";
-    static String updateOperateStatus = "updateOperateStatus";
+    protected static String signUpOperate = "signUpOperate";
+    protected static String updateOperateStatus = "updateOperateStatus";
 
-    static PrivateKey super_pri = null;
-    static Peer.CertId superCertId = null;
-    static TranCreator superCreator = null;
+    protected PrivateKey super_pri = null;
+    protected Peer.CertId superCertId = null;
+    protected TranCreator superCreator = null;
 
-    static PrivateKey node1_pri = null;
-    static Peer.CertId node1CertId = null;
-    static TranCreator node1Creator = null;
+    protected PrivateKey node1_pri = null;
+    protected Peer.CertId node1CertId = null;
+    protected TranCreator node1Creator = null;
 
-    static String user0_creditCode = "usr-0";
-    static String user1_creditCode = "usr-1";
-    static String user2_creditCode = "usr-2";
+    protected static String user0_creditCode = "usr-0";
+    protected static String user1_creditCode = "usr-1";
+    protected static String user2_creditCode = "usr-2";
 
     // 身份证书
     static String user0_cert_0 = "0";
@@ -123,7 +123,7 @@ public class DidTest {
 
     @Test
     @BeforeAll
-    static void init() {
+    void init() {
         super_pri = CertUtil.genX509CertPrivateKey(new File("jks/jdk13/951002007l78123233.super_admin.jks"),
                 "super_admin", "951002007l78123233.super_admin").getPrivateKey();
         superCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
@@ -170,7 +170,7 @@ public class DidTest {
      * @return
      * @throws Exception
      */
-    SignerCert getCertSigner(String CreditCode, String certPem, String certName) {
+    protected SignerCert getCertSigner(String CreditCode, String certPem, String certName) {
         Peer.Certificate cert_proto = Peer.Certificate.newBuilder()
                 .setCertificate(certPem)
                 .setAlgType("sha256withecdsa")
@@ -200,7 +200,7 @@ public class DidTest {
      * @return
      * @throws IOException
      */
-    Peer.Certificate getNodeCert(String creditCode, String certName) throws IOException {
+    protected Peer.Certificate getNodeCert(String creditCode, String certName) throws IOException {
         X509Certificate x509Certificate = CertUtil.genX509CertPrivateKey(
                 new File(String.format("jks/jdk13/%s.%s.jks", creditCode, certName)),
                 "123",
@@ -221,7 +221,7 @@ public class DidTest {
      * @param certName
      * @return
      */
-    Peer.Certificate getUsrCert(String creditCode, String certName) {
+    protected Peer.Certificate getUsrCert(String creditCode, String certName) {
         X509Certificate x509Certificate = CertUtil.generateX509Cert(new File(String.format("jks/did/%s_%s.cer", creditCode, certName)));
         try {
             String certPem = PemUtil.toPemString(x509Certificate);
@@ -244,7 +244,7 @@ public class DidTest {
      * @param certName
      * @return
      */
-    TranCreator genUsrTranCreator(String creditCode, String certName) {
+    protected TranCreator genUsrTranCreator(String creditCode, String certName) {
         try {
             PrivateKey privateKey = KeyUtil.generatePrivateKey(
                     new PEMParser(new FileReader(String.format("jks/did/%s_%s.pkcs8", creditCode, certName))),
@@ -269,7 +269,7 @@ public class DidTest {
      * @param certName
      * @return
      */
-    TranCreator genNodeTranCreator(String creditCode, String certName) {
+    protected TranCreator genNodeTranCreator(String creditCode, String certName) {
         PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
                 new File(String.format("jks/jdk13/%s.%s.jks", creditCode, certName)),
                 "123",
@@ -287,7 +287,7 @@ public class DidTest {
      * @param txid 交易id
      * @return
      */
-    Peer.TransactionResult getTransactionResult(String txid) {
+    protected Peer.TransactionResult getTransactionResult(String txid) {
         ChainInfoClient.TranInfoAndHeight infoAndHeight = infoClient.getTranInfoAndHeightByTranId(txid);
         if (infoAndHeight == null) {
             return null;
@@ -326,5 +326,39 @@ public class DidTest {
         }
     }
 
+    public Peer.Signer getUsr0_signer() {
+        return usr0_signer;
+    }
 
+    public Peer.Signer getUsr1_signer() {
+        return usr1_signer;
+    }
+
+    public Peer.Signer getUsr2_signer() {
+        return usr2_signer;
+    }
+
+    public Peer.CertId getUsr0_certId_0() {
+        return usr0_certId_0;
+    }
+
+    public Peer.CertId getUsr1_certId_0() {
+        return usr1_certId_0;
+    }
+
+    public Peer.CertId getUsr2_certId_0() {
+        return usr2_certId_0;
+    }
+
+    public TranCreator getUsr0_tranCreator_0() {
+        return usr0_tranCreator_0;
+    }
+
+    public TranCreator getUsr1_tranCreator_0() {
+        return usr1_tranCreator_0;
+    }
+
+    public TranCreator getUsr2_tranCreator_0() {
+        return usr2_tranCreator_0;
+    }
 }
