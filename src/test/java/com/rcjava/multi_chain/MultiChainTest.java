@@ -328,5 +328,39 @@ public class MultiChainTest extends DidTest {
         assertThat(actionResult.getReason()).isEqualTo("授权已经失效");
     }
 
+    @Test
+    @DisplayName("禁用授权-usr0向业务网络调用DID合约，合约ID不存在")
+    @Order(10)
+    void testUpdateGrantOperateStatus_1() throws InterruptedException {
+        // step1: usr0启用授权(CredenceProofTPL.creProof)
+        String funcCreProofAuthId = "credenceTpl-creProof";
+        JSONObject authStatus = new JSONObject();
+        authStatus.put("authId", funcCreProofAuthId);
+        authStatus.put("state", true);
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
+        postCredenceClient.postSignedTran(tran);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
+        Peer.ActionResult actionResult = tranResult.getErr();
+        Assertions.assertEquals(105, actionResult.getCode(), "调用的chainCode不存在");
+    }
 
+    @Test
+    @DisplayName("禁用授权-usr0向身份网络调用DID合约，启用成功")
+    @Order(11)
+    void testUpdateGrantOperateStatus_2() throws InterruptedException {
+        // step1: usr0启用授权(CredenceProofTPL.creProof)
+        String funcCreProofAuthId = "credenceTpl-creProof";
+        JSONObject authStatus = new JSONObject();
+        authStatus.put("authId", funcCreProofAuthId);
+        authStatus.put("state", true);
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
+        postClient.postSignedTran(tran);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
+        Peer.ActionResult actionResult = tranResult.getErr();
+        Assertions.assertEquals(0, actionResult.getCode(), "没有错误，启用授权成功");
+    }
 }
