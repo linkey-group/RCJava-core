@@ -133,7 +133,7 @@ public class AuthOperationTest extends DidTest{
         Peer.ActionResult actionResult_4 = tranResult_4.getErr();
         Assertions.assertEquals(0, actionResult_4.getCode(), "授权成功");
         // 因为Auth包含了同一个Operate，因此删除了上一个AuthId
-        Truth.assertThat(tranResult_4.containsStatesDel("net1_RdidOperateAuthorizeTPL___auth-" + deployCreProof2AuthId)).isTrue();
+        Truth.assertThat(tranResult_4.containsStatesDel("identity-net_RdidOperateAuthorizeTPL___auth-" + deployCreProof2AuthId)).isTrue();
 
     }
 
@@ -167,12 +167,12 @@ public class AuthOperationTest extends DidTest{
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，合约 CredenceTPL-2 部署成功");
 
-        // step2: usr0不能注册合约CredenceProof.creProof2的操作吗
+        // step2: usr0能注册合约CredenceProof.creProof2的操作，此处不注册
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("CredenceTPL.creProof2"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(user0_creditCode)
+                .setRegister(user1_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -182,25 +182,15 @@ public class AuthOperationTest extends DidTest{
                 .setOpValid(true)
                 .setVersion("1.0")
                 .build();
+
+        // step3: usr1能注册合约CredenceProof.creProof2的操作
         String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
-        Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
-        JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
-        Assertions.assertEquals(14003, errMsg_1.getInteger("code"), "非合约部署者，不能注册或禁用相应操作");
-
-        // step3: usr1能注册合约CredenceProof.creProof2的操作
-        String tranId_2 = UUID.randomUUID().toString();
-        Peer.Operate operate_2 = operate.toBuilder().setRegister(user1_creditCode).build();
-        Peer.Transaction tran_2 = usr1_tranCreator_0.createInvokeTran(tranId_2, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate_2), 0, "");
-        postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
-        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，操作注册成功");
+        Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，操作注册成功");
 
     }
 

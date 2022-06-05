@@ -244,7 +244,7 @@ public class OperOperationTest extends DidTest {
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
-        Assertions.assertEquals(14006, errMsg.getInteger("code"), "注册的合约不存在");
+        Assertions.assertEquals(14003, errMsg.getInteger("code"), "不具有该合约部署部署权限者，不能注册或禁用相应操作");
 
         // step2: usr1注册合约A的某个方法的Operate失败, 非合约部署者
         Peer.Operate operate_1 = operate.toBuilder()
@@ -260,7 +260,7 @@ public class OperOperationTest extends DidTest {
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
-        Assertions.assertEquals(14003, errMsg_1.getInteger("code"), "非合约部署者，不能注册或禁用相应操作");
+        Assertions.assertEquals(14003, errMsg_1.getInteger("code"), "不具有该合约部署部署权限者，不能注册或禁用相应操作");
     }
 
     @Test
@@ -290,7 +290,7 @@ public class OperOperationTest extends DidTest {
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
-        Assertions.assertEquals(14008, errMsg.getInteger("code"), "Operate中opId字段与计算得到的Hash不相等");
+        Assertions.assertEquals(14007, errMsg.getInteger("code"), "Operate中opId字段与计算得到的Hash不相等");
 
     }
 

@@ -47,6 +47,20 @@ class CredenceTPL extends IContract {
   }
 
   /**
+   * 存证信用数据
+   *
+   * @param ctx
+   * @param creData
+   * @return
+   */
+  def creProof3(ctx: ContractContext, creData: CredenceData): ActionResult = {
+    if (ctx.api.getVal(creData.uuid) != null) {
+      throw ContractException(s"uuid: ${creData.uuid} is exist")
+    }
+    creProof2(ctx, creData)
+  }
+
+  /**
    * 根据action,找到对应的method，并将传入的json字符串parse为method需要的传入参数
    */
   def onAction(ctx: ContractContext, action: String, sdata: String): ActionResult = {
@@ -55,6 +69,7 @@ class CredenceTPL extends IContract {
       action match {
         case "creProof" => creProof(ctx, json.extract[CredenceData])
         case "creProof2" => creProof2(ctx, json.extract[CredenceData])
+        case "creProof3" => creProof2(ctx, json.extract[CredenceData])
         case _ => throw ContractException("no such method")
       }
     } catch {
