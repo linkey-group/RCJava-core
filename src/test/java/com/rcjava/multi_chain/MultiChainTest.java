@@ -174,7 +174,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId_0 = UUID.randomUUID().toString();
         Peer.Transaction tran_0 = usr0_tranCreator_0.createInvokeTran(tranId_0, usr0_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_0), 0, "");
         String tranHex = Hex.encodeHexString(tran_0.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(5);
@@ -215,7 +215,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(5);
@@ -233,7 +233,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(5);
@@ -255,7 +255,7 @@ public class MultiChainTest extends DidTest {
                 .setId(funcCreProofAuthId)
                 .setGrant(user0_creditCode)
                 .addGranted(user1_creditCode)
-                .addOpId(DigestUtils.sha256Hex("CredenceTPL.creProof"))
+                .addOpId(DigestUtils.sha256Hex("CredenceTPL.creProof3"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setAuthorizeValid(true)
@@ -280,7 +280,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(5);
@@ -296,7 +296,7 @@ public class MultiChainTest extends DidTest {
     void testUpdateGrantOperateStatus() throws InterruptedException {
 
         // step1: usr0禁用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof";
+        String funcCreProofAuthId = "credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", false);
@@ -318,7 +318,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(5);
@@ -333,7 +333,7 @@ public class MultiChainTest extends DidTest {
     @Order(10)
     void testUpdateGrantOperateStatus_1() throws InterruptedException {
         // step1: usr0启用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof";
+        String funcCreProofAuthId = "credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", true);
@@ -351,7 +351,7 @@ public class MultiChainTest extends DidTest {
     @Order(11)
     void testUpdateGrantOperateStatus_2() throws InterruptedException {
         // step1: usr0启用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof";
+        String funcCreProofAuthId = "credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", true);
@@ -383,7 +383,7 @@ public class MultiChainTest extends DidTest {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_1), 0, "");
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postCredenceClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(2);
@@ -405,7 +405,7 @@ public class MultiChainTest extends DidTest {
         // usr1提交交易成功
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr1_tranCreator_0.createInvokeTran(tranId_3, usr1_certId_0, credenceTPLId,
-                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_3), 0, "");
         String tranHex_3 = Hex.encodeHexString(tran_3.toByteArray());
         postCredenceClient.postSignedTran(tranHex_3);
         TimeUnit.SECONDS.sleep(5);
