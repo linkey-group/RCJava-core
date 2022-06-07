@@ -246,10 +246,10 @@ public class MultiChainTest extends DidTest {
 
     @Test
     @Order(6)
-    @DisplayName("授权-usr0授权赋予usr1调用CredenceProofTPL.creProof的权限")
+    @DisplayName("授权-usr0授权赋予usr1调用CredenceProofTPL.creProof3的权限")
     void testGrantOperate() throws InterruptedException, InvalidProtocolBufferException {
         // step1: usr0授权赋予usr1调用CredenceProofTPL.creProof的权限
-        String funcCreProofAuthId = "credenceTpl-creProof";
+        String funcCreProofAuthId = "credenceTpl-creProof3";
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(funcCreProofAuthId)
@@ -292,7 +292,7 @@ public class MultiChainTest extends DidTest {
 
     @Test
     @Order(8)
-    @DisplayName("禁用授权-usr0禁用CredenceProofTPL.creProof，禁用赋予usr1的权限")
+    @DisplayName("禁用授权-usr0禁用CredenceProofTPL.creProof3，禁用赋予usr1的权限")
     void testUpdateGrantOperateStatus() throws InterruptedException {
 
         // step1: usr0禁用授权(CredenceProofTPL.creProof)
