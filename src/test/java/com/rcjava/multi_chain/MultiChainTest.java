@@ -40,8 +40,8 @@ public class MultiChainTest extends DidTest {
     Peer.CertId usr0_certId_0 = getUsr0_certId_0();
     Peer.CertId usr1_certId_0 = getUsr1_certId_0();
 
-    TranPostClient postCredenceClient = new TranPostClient("localhost:8081");
-    ChainInfoClient infoCredenceClient = new ChainInfoClient("localhost:8081");
+    TranPostClient postCredenceClient = new TranPostClient("localhost:9086");
+    ChainInfoClient infoCredenceClient = new ChainInfoClient("localhost:9086");
 
     public MultiChainTest() throws IOException {
     }
@@ -186,14 +186,14 @@ public class MultiChainTest extends DidTest {
         // step2: usr0注册合约A的某个方法的Operate成功
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("CredenceTPL.creProof"))
+                .setOpId(DigestUtils.sha256Hex("CredenceTPL.creProof3"))
                 .setDescription("测试注册合约某个方法")
                 .setRegister(user0_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("CredenceTPL.creProof")
+                .setAuthFullName("CredenceTPL.creProof3")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -362,5 +362,55 @@ public class MultiChainTest extends DidTest {
         Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，启用授权成功");
+    }
+
+    @RepeatedTest(name = "重复修改状态", value =  2)
+    @Order(12)
+    @DisplayName("修改账户状态-管理员修改usr1的账户状态")
+    void testUpdateSignerStatus() throws InterruptedException {
+        // step1 superAdmin禁用usr1的账户
+        String tranId = UUID.randomUUID().toString();
+        JSONObject status = new JSONObject();
+        status.fluentPut("creditCode", user1_creditCode);
+        status.fluentPut("state", false);
+        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        postClient.postSignedTran(tran);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
+        Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
+
+        // usr1提交交易失败
+        Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
+        String tranId_1 = UUID.randomUUID().toString();
+        Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, credenceTPLId,
+                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+        String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
+        postCredenceClient.postSignedTran(tranHex_1);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_1 = infoCredenceClient.getTranResultByTranId(tranId_1);
+        Peer.ActionResult actionResult = tranResult_1.getErr();
+        Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
+        Assertions.assertEquals("实体账户已经失效", actionResult.getReason());
+
+        // superAdmin启用usr1的账户
+        String tranId_2 = UUID.randomUUID().toString();
+        status.fluentPut("state", true);
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
+        postClient.postSignedTran(tran_2);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
+        Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
+        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
+
+        // usr1提交交易成功
+        String tranId_3 = UUID.randomUUID().toString();
+        Peer.Transaction tran_3 = usr1_tranCreator_0.createInvokeTran(tranId_3, usr1_certId_0, credenceTPLId,
+                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+        String tranHex_3 = Hex.encodeHexString(tran_3.toByteArray());
+        postCredenceClient.postSignedTran(tranHex_3);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_3 = infoCredenceClient.getTranResultByTranId(tranId_3);
+        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Assertions.assertEquals(0, actionResult_3.getCode(), "存证成功");
     }
 }
