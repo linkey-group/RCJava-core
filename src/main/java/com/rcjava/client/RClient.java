@@ -1,6 +1,6 @@
 package com.rcjava.client;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.protos.Peer.Transaction;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

@@ -1,7 +1,7 @@
 package com.rcjava.contract;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.client.TranPostClient;
 import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.CertId;

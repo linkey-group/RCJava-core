@@ -1,8 +1,8 @@
 package com.rcjava.client;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.client.callback.TranCallBack;
 import com.rcjava.client.callback.TranCallBackInfo;
 import com.rcjava.client.callback.TranCallBackMgr;
