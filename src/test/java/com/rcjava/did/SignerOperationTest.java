@@ -2,6 +2,7 @@ package com.rcjava.did;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.google.common.base.CharMatcher;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.rcjava.model.Transfer;
@@ -122,7 +123,7 @@ class SignerOperationTest extends DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0))
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -148,7 +149,7 @@ class SignerOperationTest extends DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0))
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -174,7 +175,7 @@ class SignerOperationTest extends DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0) + "test")
+                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")) + "test")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()

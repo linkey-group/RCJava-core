@@ -177,7 +177,7 @@ public class DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(CreditCode).setCertName(certName).build())
-                .setCertHash(DigestUtils.sha256Hex(certPem))
+                .setCertHash(DigestUtils.sha256Hex(certPem.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
 
         Peer.Signer signer = Peer.Signer.newBuilder()
