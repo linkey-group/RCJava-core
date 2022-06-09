@@ -21,7 +21,7 @@
         <version.protobuf-util>3.11.4</version.protobuf-util>
         <version.httpmime>4.5.5</version.httpmime>
         <version.bcpkix>1.6.3</version.bcpkix>
-        <version.fastjson>1.2.79</version.fastjson>
+        <version.fastjson>2.0.6</version.fastjson>
         <version.slf4j-api>1.8.0-beta4</version.slf4j-api>
         <version.slf4j-log4j12>1.8.0-beta4</version.slf4j-log4j12>
     </properties>
@@ -154,9 +154,9 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.79</version>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.6</version>
         </dependency>
         <dependency>
             <groupId>com.neovisionaries</groupId>
