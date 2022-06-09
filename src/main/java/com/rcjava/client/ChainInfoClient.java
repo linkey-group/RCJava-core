@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,7 +20,13 @@ import java.io.InputStream;
 public class ChainInfoClient {
 
     private String host;
+    private boolean useSsl = false;
     private boolean useJavaImpl = false;
+
+    private SSLContext sslContext;
+
+    private final String PROTOCOL_HTTP = "http";
+    private final String PROTOCOL_HTTPS = "https";
 
     private BaseClient rClient = new RClient();
     private BaseClient rcJavaClient = new RCJavaClient();
@@ -30,10 +37,13 @@ public class ChainInfoClient {
         this.host = host;
     }
 
-    public ChainInfoClient(String host, boolean useJavaImpl) {
+    public ChainInfoClient(String host, SSLContext sslContext) {
         this.host = host;
-        this.useJavaImpl = useJavaImpl;
-        this.client = useJavaImpl ? rcJavaClient : rClient;
+        this.sslContext = sslContext;
+        this.rClient = new RClient(sslContext);
+        this.rcJavaClient = new RCJavaClient(sslContext);
+        this.client = rClient;
+        this.useSsl = true;
     }
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,7 +54,9 @@ public class ChainInfoClient {
      * @return 当前区块链高度、总共交易数、currentBlockHash、previousBlockHash等信息
      */
     public BlockchainInfo getChainInfo() {
-        JSONObject result = client.getJObject("http://" + host + "/chaininfo");
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/chaininfo", protocol, host);
+        JSONObject result = client.getJObject(url);
         BlockchainInfo.Builder chainInfoBuilder = BlockchainInfo.newBuilder();
         String json = result.toJSONString();
         try {
@@ -62,7 +74,9 @@ public class ChainInfoClient {
      * @return
      */
     public NodesNum getChainInfoNode() {
-        JSONObject jsonObject = client.getJObject("http://" + host + "/chaininfo/node");
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/chaininfo/node", protocol, host);
+        JSONObject jsonObject = client.getJObject(url);
         NodesNum nodesNum = new NodesNum(jsonObject.getInteger("consensusnodes"), jsonObject.getInteger("nodes"));
         return nodesNum;
     }
@@ -75,8 +89,10 @@ public class ChainInfoClient {
      * @return Block
      */
     public Block getBlockByHeight(long height) {
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         // 根据高度获取块数据
-        JSONObject result = client.getJObject("http://" + host + "/block/" + height);
+        String url = String.format("%s://%s/block/%s", protocol, host, height);
+        JSONObject result = client.getJObject(url);
         return genBlockFromJobject(result);
     }
 
@@ -87,7 +103,9 @@ public class ChainInfoClient {
      * @return 返回对应高度的块（流式获取）
      */
     public Block getBlockStreamByHeight(long height) {
-        InputStream inputStream = client.getInputStream("http://" + host + "/block/stream/" + height);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/block/stream/%s", protocol, host, height);
+        InputStream inputStream = client.getInputStream(url);
         Block block = Block.getDefaultInstance();
         try {
             block = Block.parseFrom(inputStream);
@@ -112,7 +130,9 @@ public class ChainInfoClient {
      * @return Block 返回检索到的块
      */
     public Block getBlockByBlockHash(String blockHash) {
-        JSONObject result = client.getJObject("http://" + host + "/block/hash/" + blockHash);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/block/hash/%s", protocol, host, blockHash);
+        JSONObject result = client.getJObject(url);
         return genBlockFromJobject(result);
     }
 
@@ -131,7 +151,7 @@ public class ChainInfoClient {
         try {
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
-            logger.error("construct Block occurs error, errorMsg is {}", e.getMessage(), e);
+            logger.error("construct Block occurs error, errorMsg is {}, json is {}", e.getMessage(), json, e);
         }
         return builder.build();
     }
@@ -155,7 +175,9 @@ public class ChainInfoClient {
      * @return
      */
     public CreateTime getBlockTimeByTranId(String tranId) {
-        JSONObject result = client.getJObject("http://" + host + "/block/blocktimeoftran/" + tranId);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/block/blocktimeoftran/%s", protocol, host, tranId);
+        JSONObject result = client.getJObject(url);
         if (result == null || result.isEmpty()) {
             return null;
         } else {
@@ -171,7 +193,9 @@ public class ChainInfoClient {
      * @return 返回检索到的交易
      */
     public Transaction getTranByTranId(String tranId) {
-        JSONObject result = client.getJObject("http://" + host + "/transaction/" + tranId);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/%s", protocol, host, tranId);
+        JSONObject result = client.getJObject(url);
         if (result == null || result.isEmpty()) {
             return null;
         }
@@ -192,7 +216,9 @@ public class ChainInfoClient {
      * @return 返回检索到的交易（流式获取）
      */
     public Transaction getTranStreamByTranId(String tranId) {
-        InputStream inputStream = client.getInputStream("http://" + host + "/transaction/stream/" + tranId);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/stream/%s", protocol, host, tranId);
+        InputStream inputStream = client.getInputStream(url);
         Transaction transaction = null;
         try {
             transaction = Transaction.parseFrom(inputStream);
@@ -217,7 +243,9 @@ public class ChainInfoClient {
      * @return 返回检索到的交易
      */
     public TranInfoAndHeight getTranInfoAndHeightByTranId(String tranId) {
-        JSONObject result = client.getJObject("http://" + host + "/transaction/tranInfoAndHeight/" + tranId);
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/tranInfoAndHeight/%s", protocol, host, tranId);
+        JSONObject result = client.getJObject(url);
         if (result == null || result.isEmpty()) {
             return null;
         }
@@ -263,7 +291,8 @@ public class ChainInfoClient {
      * @return
      */
     public Object queryDB(String netId, String chainCodeName, String oid, String key) {
-        String url = "http://" + host + "/db/query";
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/db/query", protocol, host);
         JSONObject query = new JSONObject();
         query.fluentPut("netId", netId);
         query.fluentPut("chainCodeName", chainCodeName);
@@ -293,6 +322,10 @@ public class ChainInfoClient {
     public void setUseJavaImpl(boolean useJavaImpl) {
         this.useJavaImpl = useJavaImpl;
         this.client = useJavaImpl ? rcJavaClient : rClient;
+    }
+
+    public SSLContext getSslContext() {
+        return sslContext;
     }
 
     /**

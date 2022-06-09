@@ -13,15 +13,19 @@ import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.PrivateKey;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +39,13 @@ public class TranPostClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostClient tranPostClient = new TranPostClient("localhost:9081");
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private TranPostClient tranPostClient = new TranPostClient("localhost:9081");
+    private TranPostClient tranPostClient = new TranPostClient("localhost:9081", sslContext);
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -53,6 +63,9 @@ public class TranPostClientTest {
             .setPrivateKey(privateKey)
             .setSignAlgorithm("sha256withecdsa")
             .build();
+
+    public TranPostClientTest() throws Exception {
+    }
 
     @Test
     @DisplayName("测试提交交易-流式")

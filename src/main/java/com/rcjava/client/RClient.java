@@ -10,58 +10,93 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.*;
+import java.net.URL;
 import java.util.UUID;
 
 /**
  * @author zyf
  */
-public class RClient extends BaseClient {
+public class RClient implements BaseClient {
 
-    private static RequestConfig requestConfig;
+    private RequestConfig requestConfig;
+    private PoolingHttpClientConnectionManager httpConnManager;
+    private CloseableHttpClient httpClient;
+    private CloseableHttpClient httpsClient;
 
-    private static PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
-
-    static {
+    {
         requestConfig = RequestConfig.custom()
                 .setConnectTimeout(5000)
                 .setConnectionRequestTimeout(5000)
                 .setSocketTimeout(5000)
                 .build();
-        // 设置最大连接数
-        connManager.setMaxTotal(200);
-        // 设置每个连接的路由数
-        connManager.setDefaultMaxPerRoute(20);
     }
 
-    private static CloseableHttpClient httpClient = HttpClients.custom()
-            .setDefaultRequestConfig(requestConfig)
-            .setConnectionManager(connManager)
-            .build();
-
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public RClient() {
+        httpConnManager = new PoolingHttpClientConnectionManager();
+        // 设置最大连接数
+        httpConnManager.setMaxTotal(200);
+        // 设置每个连接的路由数
+        httpConnManager.setDefaultMaxPerRoute(20);
+        httpClient = HttpClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(httpConnManager)
+                .build();
+    }
+
+    public RClient(SSLContext sslContext) {
+        httpConnManager = new PoolingHttpClientConnectionManager(
+                RegistryBuilder.<ConnectionSocketFactory>create()
+                        .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                        .register("https", new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
+                        .build()
+        );
+        // 设置最大连接数
+        httpConnManager.setMaxTotal(200);
+        // 设置每个连接的路由数
+        httpConnManager.setDefaultMaxPerRoute(20);
+        httpsClient = HttpClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(httpConnManager)
+                .build();
+    }
+
 
     /**
      * @param url pathParam
      * @return
      */
     @Override
-    protected JSONObject getJObject(String url) {
-        HttpGet get = new HttpGet(url);
+    public JSONObject getJObject(String url) {
         try {
-            return httpClient.execute(get, responseHandler);
+            URL reqUrl = new URL(url);
+            HttpGet get = new HttpGet(url);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpClient.execute(get, responseHandler);
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsClient.execute(get, responseHandler);
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
@@ -69,21 +104,27 @@ public class RClient extends BaseClient {
     }
 
     /**
-     *
      * @param url
      * @return
      */
     @Override
-    protected InputStream getInputStream(String url) {
-        HttpGet get = new HttpGet(url);
-        InputStream inputStream = null;
+    public InputStream getInputStream(String url) {
         try {
-            HttpResponse response = httpClient.execute(get);
-            inputStream = response.getEntity().getContent();
+            URL reqUrl = new URL(url);
+            HttpGet get = new HttpGet(url);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                HttpResponse response = httpClient.execute(get);
+                return response.getEntity().getContent();
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                HttpResponse response = httpsClient.execute(get);
+                return response.getEntity().getContent();
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage(), ex);
         }
-        return inputStream;
+        return null;
     }
 
     /**
@@ -91,14 +132,20 @@ public class RClient extends BaseClient {
      * @return
      */
     protected HttpResponse getResponse(String url) {
-        HttpGet get = new HttpGet(url);
-        HttpResponse response = null;
         try {
-            response = httpClient.execute(get);
+            URL reqUrl = new URL(url);
+            HttpGet get = new HttpGet(url);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpClient.execute(get);
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsClient.execute(get);
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return response;
+        return null;
     }
 
 
@@ -110,13 +157,20 @@ public class RClient extends BaseClient {
      * @return 返回post结果
      */
     @Override
-    protected JSONObject postJString(String url, String json) {
-        HttpPost post = new HttpPost(url);
+    public JSONObject postJString(String url, String json) {
         try {
+            URL reqUrl = new URL(url);
+            HttpPost post = new HttpPost(url);
             //发送json数据需要设置contentType
             StringEntity reqEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
             post.setEntity(reqEntity);
-            return httpClient.execute(post, responseHandler);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpClient.execute(post, responseHandler);
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsClient.execute(post, responseHandler);
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
@@ -131,7 +185,7 @@ public class RClient extends BaseClient {
      * @return 返回post的结果（该方法用于流式提交交易）
      */
     @Override
-    protected JSONObject postBytes(String url, byte[] bytes) {
+    public JSONObject postBytes(String url, byte[] bytes) {
         String fileNameSuffix = UUID.randomUUID().toString();
         return this.postBytes(url, "signedTrans", bytes, "tranByteArray" + fileNameSuffix);
     }
@@ -146,8 +200,9 @@ public class RClient extends BaseClient {
      * @return 返回post的结果（该方法用于流式提交交易）
      */
     protected JSONObject postBytes(String url, String name, byte[] bytes, String fileName) {
-        HttpPost post = new HttpPost(url);
         try {
+            URL reqUrl = new URL(url);
+            HttpPost post = new HttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             // ******************创建临时文件，然后通过文件上传的方式******************
 //            File tranFile = writeTranToFile(tran);
@@ -158,7 +213,13 @@ public class RClient extends BaseClient {
                     .addBinaryBody(name, bytes, ContentType.DEFAULT_BINARY, fileName)
                     .build();
             post.setEntity(reqEntity);
-            return httpClient.execute(post, responseHandler);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpClient.execute(post, responseHandler);
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsClient.execute(post, responseHandler);
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

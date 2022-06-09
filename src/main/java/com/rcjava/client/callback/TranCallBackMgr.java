@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * 用来处理回调信息
+ * 用来处理回调信息，只能处理http
  *
  * @author jby
  * @author zyf
  */
+@Deprecated
 public class TranCallBackMgr implements BlockObserver {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -64,7 +65,7 @@ public class TranCallBackMgr implements BlockObserver {
                     try {
                         chainInfoClient = new ChainInfoClient(host);
                         rSubClient = RSubClient.getRSubClient(host);
-                        if (rSubClient.getWs() == null || (rSubClient.getWs() != null && !rSubClient.isopen())) {
+                        if (rSubClient.getSocket() == null || (rSubClient.getSocket() != null && !rSubClient.isopen())) {
                             rSubClient.connect();
                         }
                         rSubClient.getBlkListener().registerBlkObserver(instance);
@@ -173,7 +174,7 @@ public class TranCallBackMgr implements BlockObserver {
      * 检查webSocket，如果断掉则重连
      */
     private void checkWebSocket() {
-        WebSocket ws = rSubClient.getWs();
+        WebSocket ws = rSubClient.getSocket();
         if (!ws.isOpen() || ws.getSocket().isClosed() || ws.getState() == WebSocketState.CLOSED) {
             try {
                 rSubClient.reconnect();

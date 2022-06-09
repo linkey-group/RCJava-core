@@ -8,6 +8,8 @@ import com.rcjava.client.callback.TranCallBackInfo;
 import com.rcjava.client.callback.TranCallBackMgr;
 import com.rcjava.protos.Peer.Transaction;
 
+import javax.net.ssl.SSLContext;
+
 /**
  * 构造交易，提交交易
  *
@@ -16,7 +18,13 @@ import com.rcjava.protos.Peer.Transaction;
 public class TranPostClient {
 
     private String host;
+    private boolean useSsl = false;
     private boolean useJavaImpl = false;
+
+    private SSLContext sslContext;
+
+    private String PROTOCOL_HTTP = "http";
+    private String PROTOCOL_HTTPS = "https";
 
     private RClient rClient = new RClient();
     private RCJavaClient rcJavaClient = new RCJavaClient();
@@ -27,10 +35,13 @@ public class TranPostClient {
         this.host = host;
     }
 
-    public TranPostClient(String host, boolean useJavaImpl) {
+    public TranPostClient(String host, SSLContext sslContext) {
         this.host = host;
-        this.useJavaImpl = useJavaImpl;
-        this.client = useJavaImpl ? rcJavaClient : rClient;
+        this.sslContext = sslContext;
+        this.rClient = new RClient(sslContext);
+        this.rcJavaClient = new RCJavaClient(sslContext);
+        this.client = rClient;
+        this.useSsl = true;
     }
 
     /**
@@ -39,7 +50,8 @@ public class TranPostClient {
      * @param tranHexString 签名交易的十六进制字符串
      */
     public JSONObject postSignedTran(String tranHexString) {
-        String url = "http://" + host + "/transaction/postTranByString";
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/postTranByString", protocol, host);
         return client.postJString(url, JSON.toJSONString(tranHexString));
     }
 
@@ -49,18 +61,20 @@ public class TranPostClient {
      * @param tran 签名交易
      */
     public JSONObject postSignedTran(Transaction tran) {
-        String url = "http://" + host + "/transaction/postTranStream";
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/postTranStream", protocol, host);
         return client.postBytes(url, tran.toByteArray());
     }
 
     /**
-     * 异步提交，如果监测到交易入块，则回调成功，如果超时，则回调失败
+     * 异步提交，如果监测到交易入块，则回调成功，如果超时，则回调失败，只能处理http
      *
      * @param tran         交易
      * @param tranCallBack 回调接口
      * @param timeout      回调超时 -> 分钟
      * @return
      */
+    @Deprecated
     public void postSignedTran(Transaction tran, TranCallBack tranCallBack, long timeout) {
         String txid = tran.getId();
         TranCallBackMgr tranCallBackMgr = TranCallBackMgr.getInstance(host);
@@ -93,5 +107,9 @@ public class TranPostClient {
     public void setUseJavaImpl(boolean useJavaImpl) {
         this.useJavaImpl = useJavaImpl;
         this.client = useJavaImpl ? rcJavaClient : rClient;
+    }
+
+    public SSLContext getSslContext() {
+        return sslContext;
     }
 }

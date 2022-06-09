@@ -3,14 +3,15 @@ package com.rcjava.sync;
 import com.rcjava.client.ChainInfoClient;
 import com.rcjava.exception.SyncBlockException;
 import com.rcjava.protos.Peer;
-import com.rcjava.ws.BlockListener;
-import com.rcjava.ws.BlockListenerUtil;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CountDownLatch;
+import javax.net.ssl.SSLContext;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
@@ -21,6 +22,14 @@ import static java.lang.Thread.sleep;
 public class SyncServiceTest implements SyncListener {
 
     Logger logger = LoggerFactory.getLogger(getClass());
+
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+    public SyncServiceTest() throws Exception {
+    }
 
     @Test
     @DisplayName("测试同步区块服务")
@@ -34,6 +43,7 @@ public class SyncServiceTest implements SyncListener {
 
         long locHeight = 10L;
         String locBlkHash = new ChainInfoClient(host).getBlockByHeight(locHeight).getHeader().getHashPresent().toStringUtf8();
+//        String locBlkHash = new ChainInfoClient(host, sslContext).getBlockByHeight(locHeight).getHeader().getHashPresent().toStringUtf8();
 
         SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
 
@@ -41,6 +51,7 @@ public class SyncServiceTest implements SyncListener {
                 .setHost(host)
                 .setSyncInfo(syncInfo)
                 .setSyncListener(this)
+//                .setSslContext(sslContext)
                 .build();
 
 //        syncService.start();
@@ -84,7 +95,7 @@ public class SyncServiceTest implements SyncListener {
         System.out.println(syncBlockException.getMessage());
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         new SyncServiceTest().testSyncBlock();
     }
 

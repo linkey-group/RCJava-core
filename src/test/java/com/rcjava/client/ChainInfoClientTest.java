@@ -5,11 +5,15 @@ import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
-import java.security.PublicKey;
+import java.security.*;
+import java.security.cert.CertificateException;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -19,7 +23,16 @@ import static com.google.common.truth.Truth.assertThat;
  */
 public class ChainInfoClientTest {
 
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
     private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+
+    public ChainInfoClientTest() throws Exception {
+    }
 
     @Test
     @DisplayName("测试获取链相关信息")
@@ -31,9 +44,9 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试根据高度获取块")
     void testGetBlockByHeight() {
-        Block block = chainInfoClient.getBlockByHeight(5);
+        Block block = chainInfoClient.getBlockByHeight(1);
         Peer.BlockHeader header = block.getHeader();
-        assertThat(header.getHeight()).isEqualTo(5);
+        assertThat(header.getHeight()).isEqualTo(1);
     }
 
     @Test
@@ -49,7 +62,7 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("查询RepChain的leveldb/rocksdb中的数据")
     void testQueryDB() {
-        Object res = chainInfoClient.queryDB("net1", "ContractAssetsTPL", "", "121000005l35120456");
+        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
         System.out.println(res);
     }
 
@@ -70,9 +83,9 @@ public class ChainInfoClientTest {
     @DisplayName("测试根据高度获取块，使用Java实现")
     void testGetBlockByHeightUseJavaImpl() {
         chainInfoClient.setUseJavaImpl(true);
-        Block block = chainInfoClient.getBlockByHeight(5);
+        Block block = chainInfoClient.getBlockByHeight(1);
         Peer.BlockHeader header = block.getHeader();
-        assertThat(header.getHeight()).isEqualTo(5);
+        assertThat(header.getHeight()).isEqualTo(1);
         chainInfoClient.setUseJavaImpl(false);
     }
 
@@ -89,7 +102,7 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试验签，使用与签名交易对应的证书或公钥来验签即可")
     void testVerify() {
-        Peer.Transaction tran = chainInfoClient.getTranByTranId("d8ed4810-615f-4f8f-bf94-21b5a98ebf97");
+        Peer.Transaction tran = chainInfoClient.getTranByTranId("5c1bcd72-2b2e-48d3-a8c5-28aa5cf36821");
         byte[] sigData = tran.getSignature().getSignature().toByteArray();
         Peer.Transaction tranWithOutSig = tran.toBuilder().clearSignature().build();
         PublicKey publicKey = CertUtil.genX509CertPrivateKey(
