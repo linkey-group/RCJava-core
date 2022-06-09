@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.rcjava.protos.Peer.Transaction;
 import org.apache.http.HttpResponse;
 
+import javax.net.ssl.SSLContext;
 import java.util.concurrent.Future;
 
 /**
@@ -16,8 +17,21 @@ public class TranPostAsyncClient extends RAsyncClient {
 
     private String host;
 
+    private SSLContext sslContext;
+    private boolean useSsl = false;
+
+    private String PROTOCOL_HTTP = "http";
+    private String PROTOCOL_HTTPS = "https";
+
     public TranPostAsyncClient(String host) {
         this.host = host;
+    }
+
+    public TranPostAsyncClient(String host, SSLContext sslContext) {
+        super(sslContext);
+        this.host = host;
+        this.sslContext = sslContext;
+        this.useSsl = true;
     }
 
     /**
@@ -26,7 +40,8 @@ public class TranPostAsyncClient extends RAsyncClient {
      * @param tranHexString 签名交易的十六进制字符串
      */
     public Future<HttpResponse> postSignedTran(String tranHexString) {
-        String url = "http://" + host + "/transaction/postTranByString";
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/postTranByString", protocol, host);
         return postJString(url, JSON.toJSONString(tranHexString));
     }
 
@@ -36,7 +51,8 @@ public class TranPostAsyncClient extends RAsyncClient {
      * @param tran 签名交易
      */
     public Future<HttpResponse> postSignedTran(Transaction tran) {
-        String url = "http://" + host + "/transaction/postTranStream";
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/postTranStream", protocol, host);
         return postBytes(url, "signedTrans", tran.toByteArray(), "tranByteArray");
     }
 

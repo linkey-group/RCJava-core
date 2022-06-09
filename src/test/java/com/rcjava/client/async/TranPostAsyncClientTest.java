@@ -10,11 +10,14 @@ import com.rcjava.tran.TranCreator;
 import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpResponse;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -32,6 +35,12 @@ public class TranPostAsyncClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081", sslContext);
     private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
@@ -50,6 +59,9 @@ public class TranPostAsyncClientTest {
             .setPrivateKey(privateKey)
             .setSignAlgorithm("sha256withecdsa")
             .build();
+
+    public TranPostAsyncClientTest() throws Exception {
+    }
 
     @Test
     @DisplayName("测试提交交易-流式")
