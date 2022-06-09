@@ -113,14 +113,14 @@ public class MultiChainTest extends DidTest {
         // step3: superAdmin注册部署合约A的操作
         long millis_1 = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("CredenceTPL.deploy"))
+                .setOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.deploy"))
                 .setDescription("发布合约-CredenceTPL")
                 .setRegister(super_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("CredenceTPL.deploy")
+                .setAuthFullName("credence-net.CredenceTPL.deploy")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis_1 / 1000).setNanos((int) ((millis_1 % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -139,7 +139,7 @@ public class MultiChainTest extends DidTest {
                 .setId(UUID.randomUUID().toString())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode)
-                .addOpId(DigestUtils.sha256Hex("CredenceTPL.deploy"))
+                .addOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setAuthorizeValid(true)
@@ -186,14 +186,14 @@ public class MultiChainTest extends DidTest {
         // step2: usr0注册合约A的某个方法的Operate成功
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("CredenceTPL.creProof3"))
+                .setOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.creProof3"))
                 .setDescription("测试注册合约某个方法")
                 .setRegister(user0_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("CredenceTPL.creProof3")
+                .setAuthFullName("credence-net.CredenceTPL.creProof3")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -249,13 +249,13 @@ public class MultiChainTest extends DidTest {
     @DisplayName("授权-usr0授权赋予usr1调用CredenceProofTPL.creProof3的权限")
     void testGrantOperate() throws InterruptedException, InvalidProtocolBufferException {
         // step1: usr0授权赋予usr1调用CredenceProofTPL.creProof的权限
-        String funcCreProofAuthId = "credenceTpl-creProof3";
+        String funcCreProofAuthId = "credence-net.credenceTpl-creProof3";
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(funcCreProofAuthId)
                 .setGrant(user0_creditCode)
                 .addGranted(user1_creditCode)
-                .addOpId(DigestUtils.sha256Hex("CredenceTPL.creProof3"))
+                .addOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.creProof3"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setAuthorizeValid(true)
@@ -296,7 +296,7 @@ public class MultiChainTest extends DidTest {
     void testUpdateGrantOperateStatus() throws InterruptedException {
 
         // step1: usr0禁用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof3";
+        String funcCreProofAuthId = "credence-net.credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", false);
@@ -333,7 +333,7 @@ public class MultiChainTest extends DidTest {
     @Order(10)
     void testUpdateGrantOperateStatus_1() throws InterruptedException {
         // step1: usr0启用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof3";
+        String funcCreProofAuthId = "credence-net.credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", true);
@@ -351,7 +351,7 @@ public class MultiChainTest extends DidTest {
     @Order(11)
     void testUpdateGrantOperateStatus_2() throws InterruptedException {
         // step1: usr0启用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credenceTpl-creProof3";
+        String funcCreProofAuthId = "credence-net.credenceTpl-creProof3";
         JSONObject authStatus = new JSONObject();
         authStatus.put("authId", funcCreProofAuthId);
         authStatus.put("state", true);
