@@ -495,7 +495,8 @@ public class MultiChainTest extends DidTest {
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult_5 = infoCredenceClient.getTranResultByTranId(tranId_5);
         Peer.ActionResult actionResult_5 = tranResult_5.getErr();
-        System.out.println(actionResult_5);
+        Assertions.assertEquals(101, actionResult_5.getCode(), "错误码为101");
+        Assertions.assertEquals("合约处于禁用状态", actionResult_5.getReason());
 
         // step5: usr0 授权给usr1
         String tranId_6 = UUID.randomUUID().toString();
@@ -503,7 +504,7 @@ public class MultiChainTest extends DidTest {
                 .setId(UUID.randomUUID().toString())
                 .setGrant(user0_creditCode)
                 .clearGranted().addGranted(user1_creditCode).build();
-        Peer.Transaction tran_6 = superCreator.createInvokeTran(tranId_6, superCertId, didChaincodeId, grantOperate,
+        Peer.Transaction tran_6 = usr0_tranCreator_0.createInvokeTran(tranId_6, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_2))), 0, "");
         postClient.postSignedTran(tran_6);
         TimeUnit.SECONDS.sleep(5);
@@ -512,7 +513,7 @@ public class MultiChainTest extends DidTest {
         Assertions.assertEquals(0, actionResult_6.getCode(), "没有错误，授权成功");
 
         // step6: usr1启用合约，启用合约
-        CidStateTran stateTran_2 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).setState(true).build();
+        CidStateTran stateTran_2 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).setCertId(usr1_certId_0).setState(true).build();
         Peer.Transaction signedStateTran_2 = usr1_tranCreator_0.createCidStateTran(stateTran_2);
         postCredenceClient.postSignedTran(signedStateTran_2);
         TimeUnit.SECONDS.sleep(5);
@@ -522,7 +523,7 @@ public class MultiChainTest extends DidTest {
 
         // 会成功
         String tranId_8 = UUID.randomUUID().toString();
-        Peer.Transaction tran_8 = usr0_tranCreator_0.createInvokeTran(tranId_5, usr0_certId_0, credenceTPLId,
+        Peer.Transaction tran_8 = usr0_tranCreator_0.createInvokeTran(tranId_8, usr0_certId_0, credenceTPLId,
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_8), 0, "");
         postCredenceClient.postSignedTran(tran_8);
         TimeUnit.SECONDS.sleep(5);
