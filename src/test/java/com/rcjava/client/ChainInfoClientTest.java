@@ -1,6 +1,6 @@
 package com.rcjava.client;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.rcjava.protos.Peer;
@@ -123,6 +123,6 @@ public class ChainInfoClientTest {
         Block.Builder builder = Block.newBuilder();
         JsonFormat.parser().merge(jsonObject.toJSONString(), builder);
         Block block = builder.build();
-        assertThat(block.getHeight()).isEqualTo(1);
+        assertThat(block.getHeader().getHeight()).isEqualTo(1);
     }
 }

@@ -15,6 +15,7 @@ import com.rcjava.tran.impl.DeployTran;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.net.ssl.SSLContext;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ import static java.util.Objects.requireNonNull;
 public class ContractClient {
 
     private String host;
+    private SSLContext sslContext;
     private ChaincodeId chaincodeId;
     private ContractUser contractUser;
 
@@ -46,6 +48,17 @@ public class ContractClient {
         this.certId = contractUser.getCertId();
         this.tranCreator = new TranCreator(contractUser.getPrivateKey(), contractUser.getSignAlgorithm());
         this.tranPostClient = new TranPostClient(host);
+
+    }
+
+    public ContractClient(String host, SSLContext sslContext, ChaincodeId chaincodeId, ContractUser contractUser) {
+        this.host = host;
+        this.sslContext = sslContext;
+        this.chaincodeId = chaincodeId;
+        this.contractUser = contractUser;
+        this.certId = contractUser.getCertId();
+        this.tranCreator = new TranCreator(contractUser.getPrivateKey(), contractUser.getSignAlgorithm());
+        this.tranPostClient = new TranPostClient(host, sslContext);
 
     }
 
@@ -129,7 +142,9 @@ public class ContractClient {
      * @param contractCode 合约代码
      */
     public JSONObject updateContractVersion(int version, String contractCode) {
-        ContractClient updateClient = new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+        ContractClient updateClient = Objects.isNull(sslContext)
+                ? new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser)
+                : new ContractClient(host, sslContext, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
         JSONObject updateRes = updateClient.deployContract(contractCode);
         return updateRes;
     }
@@ -141,7 +156,9 @@ public class ContractClient {
      * @param chaincodeDeploy 合约代码信息
      */
     public JSONObject updateContractVersion(int version, ChaincodeDeploy chaincodeDeploy) {
-        ContractClient updateClient = new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+        ContractClient updateClient = Objects.isNull(sslContext)
+                ? new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser)
+                : new ContractClient(host, sslContext, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
         JSONObject updateRes = updateClient.deployContract(chaincodeDeploy);
         return updateRes;
     }

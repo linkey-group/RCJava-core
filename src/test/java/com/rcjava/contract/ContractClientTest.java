@@ -6,9 +6,12 @@ import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
 import com.rcjava.util.CertUtil;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.security.PrivateKey;
 
@@ -19,6 +22,14 @@ public class ContractClientTest {
 
     private String host = "localhost:9081";
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+    public ContractClientTest() throws Exception {
+    }
 
     @Test
     @DisplayName("调用合约，执行转账函数")
@@ -34,6 +45,8 @@ public class ContractClientTest {
         Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
         // 构造client
         ContractClient client = new ContractClient(host, contractAssetsId, user);
+        // 使用https
+//        ContractClient client = new ContractClient(host, sslContext, contractAssetsId, user);
         // 调用上一步标识好的合约中的transfer方法，并给定参数
         JSONObject res = client.invokeContract("transfer", JSON.toJSONString(transfer));
         System.out.println(res);
