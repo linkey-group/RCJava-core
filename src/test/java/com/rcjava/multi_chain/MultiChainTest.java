@@ -9,6 +9,7 @@ import com.rcjava.client.TranPostClient;
 import com.rcjava.did.DidTest;
 import com.rcjava.protos.Peer;
 import com.rcjava.tran.TranCreator;
+import com.rcjava.tran.impl.CidStateTran;
 import com.rcjava.tran.impl.DeployTran;
 import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
@@ -412,5 +413,123 @@ public class MultiChainTest extends DidTest {
         Peer.TransactionResult tranResult_3 = infoCredenceClient.getTranResultByTranId(tranId_3);
         Peer.ActionResult actionResult_3 = tranResult_3.getErr();
         Assertions.assertEquals(0, actionResult_3.getCode(), "存证成功");
+    }
+
+    @Test
+    @DisplayName("禁用合约")
+    @Order(13)
+    void testDisableContract() throws IOException, InterruptedException {
+        Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
+        CidStateTran stateTran = CidStateTran.newBuilder()
+                .setTxid(UUID.randomUUID().toString())
+                .setCertId(usr0_certId_0)
+                .setChaincodeId(credenceTPLId)
+                .setState(false)
+                .build();
+        // step1: usr0不可以部署合约
+        Peer.Transaction signedStateTran = usr0_tranCreator_0.createCidStateTran(stateTran);
+        postCredenceClient.postSignedTran(signedStateTran);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(signedStateTran.getId());
+        Peer.ActionResult actionResult = tranResult.getErr();
+        Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
+        assertThat(actionResult.getReason()).isIn(Arrays.asList("操作不存在", "没有找到授权的操作"));
+
+        // step2: superAdmin注册部署合约A的操作
+        long millis_1 = System.currentTimeMillis();
+        Peer.Operate operate = Peer.Operate.newBuilder()
+                .setOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.setState"))
+                .setDescription("修改合约状态-CredenceTPL")
+                .setRegister(super_creditCode)
+                .setIsPublish(false)
+                .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
+                .setAuthFullName("credence-net.CredenceTPL.setState")
+                .setCreateTime(Timestamp.newBuilder().setSeconds(millis_1 / 1000).setNanos((int) ((millis_1 % 1000) * 1000000)).build())
+                .setOpValid(true)
+                .setVersion("1.0")
+                .build();
+        String tranId_2 = UUID.randomUUID().toString();
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        postClient.postSignedTran(tran_2);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
+        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，操作注册成功");
+
+        // step3: superAdmin授权给usr0部署合约A的权限
+        long millis = System.currentTimeMillis();
+        Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setGrant(super_creditCode)
+                .addGranted(user0_creditCode)
+                .addOpId(DigestUtils.sha256Hex("credence-net.CredenceTPL.setState"))
+                .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
+                .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
+                .setAuthorizeValid(true)
+                .setVersion("1.0")
+                .build();
+        String tranId_3 = UUID.randomUUID().toString();
+        Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, didChaincodeId, grantOperate,
+                JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
+        postClient.postSignedTran(tran_3);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_3 = infoClient.getTranResultByTranId(tranId_3);
+        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，授权成功");
+
+        // step4: usr0修改合约状态成功，禁用合约
+        CidStateTran stateTran_1 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
+        Peer.Transaction signedStateTran_1 = usr0_tranCreator_0.createCidStateTran(stateTran_1);
+        postCredenceClient.postSignedTran(signedStateTran_1);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_4 = infoCredenceClient.getTranResultByTranId(signedStateTran_1.getId());
+        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，修改合约状态成功");
+
+        // 会失败
+        String tranId_5 = UUID.randomUUID().toString();
+        Peer.Transaction tran_5 = usr0_tranCreator_0.createInvokeTran(tranId_5, usr0_certId_0, credenceTPLId,
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_5), 0, "");
+        String tranHex_5 = Hex.encodeHexString(tran_5.toByteArray());
+        postCredenceClient.postSignedTran(tranHex_5);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_5 = infoCredenceClient.getTranResultByTranId(tranId_5);
+        Peer.ActionResult actionResult_5 = tranResult_5.getErr();
+        Assertions.assertEquals(101, actionResult_5.getCode(), "错误码为101");
+        Assertions.assertEquals("合约处于禁用状态", actionResult_5.getReason());
+
+        // step5: usr0 授权给usr1
+        String tranId_6 = UUID.randomUUID().toString();
+        Peer.Authorize authorize_2 = authorize_1.toBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setGrant(user0_creditCode)
+                .clearGranted().addGranted(user1_creditCode).build();
+        Peer.Transaction tran_6 = usr0_tranCreator_0.createInvokeTran(tranId_6, usr0_certId_0, didChaincodeId, grantOperate,
+                JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_2))), 0, "");
+        postClient.postSignedTran(tran_6);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_6 = infoClient.getTranResultByTranId(tranId_6);
+        Peer.ActionResult actionResult_6 = tranResult_6.getErr();
+        Assertions.assertEquals(0, actionResult_6.getCode(), "没有错误，授权成功");
+
+        // step6: usr1启用合约，启用合约
+        CidStateTran stateTran_2 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).setCertId(usr1_certId_0).setState(true).build();
+        Peer.Transaction signedStateTran_2 = usr1_tranCreator_0.createCidStateTran(stateTran_2);
+        postCredenceClient.postSignedTran(signedStateTran_2);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_7 = infoCredenceClient.getTranResultByTranId(signedStateTran_2.getId());
+        Peer.ActionResult actionResult_7 = tranResult_7.getErr();
+        Assertions.assertEquals(0, actionResult_7.getCode(), "没有错误，修改合约状态成功");
+
+        // 会成功
+        String tranId_8 = UUID.randomUUID().toString();
+        Peer.Transaction tran_8 = usr0_tranCreator_0.createInvokeTran(tranId_8, usr0_certId_0, credenceTPLId,
+                "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_8), 0, "");
+        postCredenceClient.postSignedTran(tran_8);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_8 = infoCredenceClient.getTranResultByTranId(tranId_8);
+        Peer.ActionResult actionResult_8 = tranResult_8.getErr();
+        Assertions.assertEquals(0, actionResult_8.getCode(), "存证成功");
+
     }
 }
