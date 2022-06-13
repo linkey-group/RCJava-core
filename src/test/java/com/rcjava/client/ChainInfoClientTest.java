@@ -1,5 +1,8 @@
 package com.rcjava.client;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.util.JsonFormat;
 import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
@@ -94,5 +97,16 @@ public class ChainInfoClientTest {
                 "super_admin",
                 "951002007l78123233.super_admin").getCertificate().getPublicKey();
         System.out.println(new ECDSASign("sha256withecdsa").verify(sigData, tranWithOutSig.toByteArray(), publicKey));
+    }
+
+    @Test
+    void testGetBlock () throws InvalidProtocolBufferException {
+        String blockUrl = "http://127.0.0.1:8081/block/1";
+        BaseClient client = new RCJavaClient();
+        JSONObject jsonObject = client.getJObject(blockUrl);
+        Block.Builder builder = Block.newBuilder();
+        JsonFormat.parser().merge(jsonObject.toJSONString(), builder);
+        Block block = builder.build();
+        assertThat(block.getHeight()).isEqualTo(1);
     }
 }
