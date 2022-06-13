@@ -1,8 +1,8 @@
 package com.rcjava.contract;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
 import com.rcjava.util.CertUtil;
@@ -17,7 +17,7 @@ import java.security.PrivateKey;
  */
 public class ContractClientTest {
 
-    private String host = "192.168.2.69:8081";
+    private String host = "localhost:9081";
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
     @Test

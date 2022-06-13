@@ -1,11 +1,16 @@
 package com.rcjava.client;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -14,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * @author zyf
  */
-public class RCJavaClient extends BaseClient {
+public class RCJavaClient implements BaseClient {
 
     private static Logger logger = LoggerFactory.getLogger(RCJavaClient.class);
 
@@ -39,21 +44,27 @@ public class RCJavaClient extends BaseClient {
             .append(lineSeparator)
             .toString();
 
+    private SSLContext sslContext;
+
+    public RCJavaClient() {
+    }
+
+    public RCJavaClient(SSLContext sslContext) {
+        this.sslContext = sslContext;
+    }
+
     /**
-     * HttpURLConnection 初始化
+     * URLConnection 初始化
      *
-     * @param httpUrl request url
-     * @return HttpURLConnection 对象
+     * @param url request url
+     * @return URLConnection 对象
      */
-    public static HttpURLConnection getHttpConnection(String httpUrl) {
+    public static URLConnection getUrlConnection(URL url) {
 
         try {
-            URI uri = new URI(httpUrl);
-            URL url = uri.toURL();
-            URLConnection urlConnection = url.openConnection();
-            return (HttpURLConnection) urlConnection;
-        } catch (URISyntaxException | IOException ex) {
-            logger.error("初始化连接出错！", ex);
+            return url.openConnection();
+        } catch (IOException ex) {
+            logger.error("初始化连接出错: {}", ex.getMessage(), ex);
         }
 
         return null;
@@ -66,26 +77,40 @@ public class RCJavaClient extends BaseClient {
      * @return
      */
     @Override
-    JSONObject getJObject(String url) {
-
-        HttpURLConnection urlConnection = getHttpConnection(url);
-        InputStream inputStream = null;
+    public JSONObject getJObject(String url) {
 
         try {
+            URL reqUrl = new URL(url);
+            String protocol = reqUrl.getProtocol();
 
-            urlConnection.setRequestMethod("GET");
+            URLConnection urlConnection = reqUrl.openConnection();
             urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
 
-            urlConnection.connect();
+            int code = -1;
 
-            inputStream = urlConnection.getInputStream();
+            if (protocol.equalsIgnoreCase(PROTOCOL_HTTP)) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.connect();
+                code = httpURLConnection.getResponseCode();
+            } else if (protocol.equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) urlConnection;
+                httpsURLConnection.setRequestMethod("GET");
+                httpsURLConnection.setSSLSocketFactory(sslContext.getSocketFactory());
+                httpsURLConnection.setHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                httpsURLConnection.connect();
+                code = httpsURLConnection.getResponseCode();
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
 
-            int code = urlConnection.getResponseCode();
             if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
+                InputStream inputStream = urlConnection.getInputStream();
                 return convertStreamToJObject(inputStream);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
         }
         return null;
     }
@@ -96,28 +121,43 @@ public class RCJavaClient extends BaseClient {
      * @return
      */
     @Override
-    InputStream getInputStream(String url) {
-
-        HttpURLConnection urlConnection = getHttpConnection(url);
-        InputStream inputStream = null;
+    public InputStream getInputStream(String url) {
 
         try {
 
-            urlConnection.setRequestMethod("GET");
+            URL reqUrl = new URL(url);
+            String protocol = reqUrl.getProtocol();
+
+            URLConnection urlConnection = reqUrl.openConnection();
             urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
 
-            urlConnection.connect();
+            int code = -1;
 
-            inputStream = urlConnection.getInputStream();
+            if (protocol.equalsIgnoreCase(PROTOCOL_HTTP)) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+                httpURLConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                code = httpURLConnection.getResponseCode();
+            } else if (protocol.equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) urlConnection;
+                httpsURLConnection.setRequestMethod("GET");
+                httpsURLConnection.setSSLSocketFactory(sslContext.getSocketFactory());
+                httpsURLConnection.setHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                urlConnection.connect();
+                code = httpsURLConnection.getResponseCode();
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
 
-            int code = urlConnection.getResponseCode();
             if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
+                InputStream inputStream = urlConnection.getInputStream();
                 return inputStream;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return inputStream;
+        return null;
     }
 
     /**
@@ -128,33 +168,57 @@ public class RCJavaClient extends BaseClient {
      * @return
      */
     @Override
-    JSONObject postJString(String url, String json) {
-
-        HttpURLConnection urlConnection = getHttpConnection(url);
+    public JSONObject postJString(String url, String json) {
 
         try {
 
+            URL reqUrl = new URL(url);
+            String protocol = reqUrl.getProtocol();
+
+            URLConnection urlConnection = reqUrl.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setUseCaches(false);
-            urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-type", "application/json");
             urlConnection.setRequestProperty("Connection", "Keep-Alive");
             urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
 
-            urlConnection.connect();
+            int code = -1;
 
-            OutputStream outputStream = urlConnection.getOutputStream();
-            outputStream.write(json.getBytes(Charset.forName("UTF-8")));
-            outputStream.close();
+            if (protocol.equalsIgnoreCase(PROTOCOL_HTTP)) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(json.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+                outputStream.close();
 //            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 //            objectOutputStream.writeObject(json);
 //            objectOutputStream.flush();
 //            objectOutputStream.close();
 
-            InputStream inputStream = urlConnection.getInputStream();
+                code = httpURLConnection.getResponseCode();
+            } else if (protocol.equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) urlConnection;
+                httpsURLConnection.setRequestMethod("POST");
+                httpsURLConnection.setSSLSocketFactory(sslContext.getSocketFactory());
+                httpsURLConnection.setHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                httpsURLConnection.connect();
 
-            int code = urlConnection.getResponseCode();
+                OutputStream outputStream = httpsURLConnection.getOutputStream();
+                outputStream.write(json.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+                outputStream.close();
+
+                code = httpsURLConnection.getResponseCode();
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
+
             if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
+                InputStream inputStream = urlConnection.getInputStream();
                 return convertStreamToJObject(inputStream);
             }
 
@@ -171,7 +235,7 @@ public class RCJavaClient extends BaseClient {
      * @return
      */
     @Override
-    JSONObject postBytes(String url, byte[] bytes) {
+    public JSONObject postBytes(String url, byte[] bytes) {
         String fileNameSuffix = UUID.randomUUID().toString();
         return this.postBytes(url, "signedTrans", bytes, "tranByteArray" + fileNameSuffix);
     }
@@ -186,35 +250,58 @@ public class RCJavaClient extends BaseClient {
      */
     JSONObject postBytes(String url, String name, byte[] bytes, String fileName) {
 
-        HttpURLConnection urlConnection = getHttpConnection(url);
-
         try {
 
+            URL reqUrl = new URL(url);
+            String protocol = reqUrl.getProtocol();
+
+            URLConnection urlConnection = reqUrl.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setUseCaches(false);
-            urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Connection", "Keep-Alive");
             urlConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
             urlConnection.setRequestProperty("Content-Transfer-Encoding", "binary");
             urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
 
-            urlConnection.connect();
+            int code = -1;
 
-            OutputStream outputStream = urlConnection.getOutputStream();
+            if (protocol.equalsIgnoreCase(PROTOCOL_HTTP)) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
 
-            String field = String.format(fieldStr, name, fileName, "application/octet-stream");
+                OutputStream outputStream = urlConnection.getOutputStream();
+                String field = String.format(fieldStr, name, fileName, "application/octet-stream");
+                outputStream.write(field.getBytes(StandardCharsets.UTF_8));
+                outputStream.write(bytes);
+                outputStream.write(endStr.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+                outputStream.close();
 
-            outputStream.write(field.getBytes(Charset.forName("UTF-8")));
-            outputStream.write(bytes);
-            outputStream.write(endStr.getBytes(Charset.forName("UTF-8")));
+                code = httpURLConnection.getResponseCode();
+            } else if (protocol.equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) urlConnection;
+                httpsURLConnection.setRequestMethod("POST");
+                httpsURLConnection.setSSLSocketFactory(sslContext.getSocketFactory());
+                httpsURLConnection.setHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                httpsURLConnection.connect();
 
-            outputStream.flush();
-            outputStream.close();
+                OutputStream outputStream = urlConnection.getOutputStream();
+                String field = String.format(fieldStr, name, fileName, "application/octet-stream");
+                outputStream.write(field.getBytes(StandardCharsets.UTF_8));
+                outputStream.write(bytes);
+                outputStream.write(endStr.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+                outputStream.close();
 
-            InputStream inputStream = urlConnection.getInputStream();
+                code = httpsURLConnection.getResponseCode();
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
 
-            int code = urlConnection.getResponseCode();
             if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
+                InputStream inputStream = urlConnection.getInputStream();
                 return convertStreamToJObject(inputStream);
             } else {
                 logger.info("response code is {}", code);
@@ -238,9 +325,10 @@ public class RCJavaClient extends BaseClient {
         String str = br.lines().collect(Collectors.joining(System.lineSeparator()));
         inputStream.close();
         JSONObject result = JSONObject.parseObject(str);
-        try {
-            return result.getJSONObject("result") == null ? result : result.getJSONObject("result");
-        } catch (ClassCastException ce) {
+        Object resObj = result.get("result");
+        if (resObj instanceof JSONObject) {
+            return (JSONObject) resObj;
+        } else {
             return result;
         }
     }

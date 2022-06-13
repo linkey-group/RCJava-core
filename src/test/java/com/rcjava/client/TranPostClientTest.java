@@ -1,7 +1,7 @@
 package com.rcjava.client;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.CertId;
@@ -13,15 +13,19 @@ import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.PrivateKey;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +39,13 @@ public class TranPostClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostClient tranPostClient = new TranPostClient("localhost:8081");
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private TranPostClient tranPostClient = new TranPostClient("localhost:9081");
+    private TranPostClient tranPostClient = new TranPostClient("localhost:9081", sslContext);
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -54,6 +64,9 @@ public class TranPostClientTest {
             .setSignAlgorithm("sha256withecdsa")
             .build();
 
+    public TranPostClientTest() throws Exception {
+    }
+
     @Test
     @DisplayName("测试提交交易-流式")
     void testPostTranByStream() {
@@ -62,12 +75,13 @@ public class TranPostClientTest {
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         JSONObject res = tranPostClient.postSignedTran(tran);
 
         assertThat(res).containsKey("txid");
+        assertThat(res.getString("txid")).isEqualTo(tran.getId());
 
-        logger.info("测试日志文件");
+        logger.info("txid: {}", tran.getId());
     }
 
     @Test
@@ -76,7 +90,7 @@ public class TranPostClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         JSONObject res = tranPostClient.postSignedTran(tranHex);
@@ -92,14 +106,14 @@ public class TranPostClientTest {
 
         List params = new ArrayList<String>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         tranPostClient.setUseJavaImpl(true);
         JSONObject res = tranPostClient.postSignedTran(tran);
         tranPostClient.setUseJavaImpl(false);
 
         assertThat(res).containsKey("txid");
 
-        logger.info("测试日志文件");
+        logger.info("txid: {}", tran.getId());
     }
 
     @Test
@@ -108,7 +122,7 @@ public class TranPostClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         tranPostClient.setUseJavaImpl(true);
         JSONObject res = tranPostClient.postSignedTran(tranHex);
@@ -123,14 +137,21 @@ public class TranPostClientTest {
         // CustomTPL.scala 是事先编写好的合约文件
         Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("CustomProofTPL").setVersion(1).build();
         String tplString = FileUtils.readFileToString(new File("tpl/CustomProofTPL.scala"), StandardCharsets.UTF_8);
+        Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
+                .setTimeout(5000)
+                .setCodePackage(tplString)
+                .setLegalProse("")
+                .setCType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setRType(Peer.ChaincodeDeploy.RunType.RUN_SERIAL)
+                .setSType(Peer.ChaincodeDeploy.StateType.STATE_BLOCK)
+                .setInitParameter("")
+                .setCclassification(Peer.ChaincodeDeploy.ContractClassification.CONTRACT_CUSTOM)
+                .build();
         DeployTran deployTran = DeployTran.newBuilder()
                 .setTxid(DigestUtils.sha256Hex(tplString))
                 .setCertId(certId)
                 .setChaincodeId(customTplId)
-                .setSpcPackage(tplString)
-                .setLegal_prose("")
-                .setTimeout(5000)
-                .setCodeType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
+                .setChaincodeDeploy(chaincodeDeploy)
                 .build();
         Peer.Transaction signedDeployTran = tranCreator.createDeployTran(deployTran);
         JSONObject deployRes = tranPostClient.postSignedTran(signedDeployTran);

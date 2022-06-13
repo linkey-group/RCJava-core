@@ -1,13 +1,16 @@
 package com.rcjava.client;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 import java.io.InputStream;
 
 /**
  * @author zyf
  */
-abstract class BaseClient {
+interface BaseClient {
+
+    String PROTOCOL_HTTP = "http";
+    String PROTOCOL_HTTPS = "https";
 
     /**
      * getJsonObject
@@ -15,7 +18,7 @@ abstract class BaseClient {
      * @param url
      * @return
      */
-    abstract JSONObject getJObject(String url);
+    JSONObject getJObject(String url);
 
     /**
      * 获取输入流
@@ -23,7 +26,7 @@ abstract class BaseClient {
      * @param url
      * @return
      */
-    abstract InputStream getInputStream(String url);
+    InputStream getInputStream(String url);
 
     /**
      * 提交json字符串
@@ -32,7 +35,7 @@ abstract class BaseClient {
      * @param json
      * @return
      */
-    abstract JSONObject postJString(String url, String json);
+    JSONObject postJString(String url, String json);
 
     /**
      * post字节
@@ -41,6 +44,6 @@ abstract class BaseClient {
      * @param bytes
      * @return
      */
-    abstract JSONObject postBytes(String url, byte[] bytes);
+    JSONObject postBytes(String url, byte[] bytes);
 
 }

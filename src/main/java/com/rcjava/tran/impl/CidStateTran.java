@@ -14,40 +14,59 @@ import java.util.UUID;
 public class CidStateTran implements RCTran {
 
     private String txid;
-    private String signAlgorithm;
-    private CertId certId;
     private ChaincodeId chaincodeId;
     private Boolean state;
+    private int gasLimit;
+    private String oid;
+    private CertId certId;
     private PrivateKey privateKey;
+    private String signAlgorithm;
 
     private CidStateTran(Builder builder) {
         txid = builder.txid;
-        signAlgorithm = builder.signAlgorithm;
-        certId = builder.certId;
         chaincodeId = builder.chaincodeId;
         state = builder.state;
+        gasLimit = builder.gasLimit;
+        oid = builder.oid;
+        certId = builder.certId;
         privateKey = builder.privateKey;
+        signAlgorithm = builder.signAlgorithm;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    public static Builder newBuilder(@Nonnull CidStateTran copy) {
+        Builder builder = new Builder();
+        builder.txid = copy.getTxid();
+        builder.chaincodeId = copy.getChaincodeId();
+        builder.state = copy.getState();
+        builder.gasLimit = copy.getGasLimit();
+        builder.oid = copy.getOid();
+        builder.certId = copy.getCertId();
+        builder.privateKey = copy.getPrivateKey();
+        builder.signAlgorithm = copy.getSignAlgorithm();
+        return builder;
+    }
+
     public Builder toBuilder() {
         return new Builder()
                 .setTxid(txid)
-                .setSignAlgorithm(signAlgorithm)
-                .setCertId(certId)
                 .setChaincodeId(chaincodeId)
                 .setState(state)
-                .setPrivateKey(privateKey);
+                .setGasLimit(gasLimit)
+                .setOid(oid)
+                .setCertId(certId)
+                .setPrivateKey(privateKey)
+                .setSignAlgorithm(signAlgorithm);
     }
 
 
     /**
      *
-     * @param privateKey
-     * @param signAlgorithm
+     * @param privateKey    私钥
+     * @param signAlgorithm 签名算法
      * @return
      */
     @Override
@@ -58,6 +77,8 @@ public class CidStateTran implements RCTran {
                 .setType(Transaction.Type.CHAINCODE_SET_STATE)
                 .setCid(chaincodeId)
                 .setState(state)
+                .setGasLimit(gasLimit)
+                .setOid(oid)
                 .build();
         return TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
     }
@@ -71,49 +92,63 @@ public class CidStateTran implements RCTran {
      * 部分变量赋初值
      */
     public static final class Builder {
-        private String txid = null;
-        private String signAlgorithm = null;
-        private CertId certId;
+        private String txid;
         private ChaincodeId chaincodeId;
-        private Boolean state = true;
-        private PrivateKey privateKey = null;
+        private Boolean state;
+        private int gasLimit = 0;
+        private String oid = "";
+        private CertId certId;
+        private PrivateKey privateKey;
+        private String signAlgorithm;
 
         private Builder() {
         }
 
         @Nonnull
-        public Builder setTxid(@Nonnull String txid) {
-            this.txid = txid;
+        public Builder setTxid(@Nonnull String val) {
+            txid = val;
             return this;
         }
 
         @Nonnull
-        public Builder setSignAlgorithm(@Nonnull String signAlgorithm) {
-            this.signAlgorithm = signAlgorithm;
+        public Builder setChaincodeId(@Nonnull ChaincodeId val) {
+            chaincodeId = val;
             return this;
         }
 
         @Nonnull
-        public Builder setCertId(@Nonnull CertId certId) {
-            this.certId = certId;
+        public Builder setState(@Nonnull Boolean val) {
+            state = val;
             return this;
         }
 
         @Nonnull
-        public Builder setChaincodeId(@Nonnull ChaincodeId chaincodeId) {
-            this.chaincodeId = chaincodeId;
+        public Builder setGasLimit(@Nonnull int val) {
+            gasLimit = val;
             return this;
         }
 
         @Nonnull
-        public Builder setState(@Nonnull Boolean state) {
-            this.state = state;
+        public Builder setOid(@Nonnull String val) {
+            oid = val;
             return this;
         }
 
         @Nonnull
-        public Builder setPrivateKey(@Nonnull PrivateKey privateKey) {
-            this.privateKey = privateKey;
+        public Builder setCertId(@Nonnull CertId val) {
+            certId = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setPrivateKey(@Nonnull PrivateKey val) {
+            privateKey = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setSignAlgorithm(@Nonnull String val) {
+            signAlgorithm = val;
             return this;
         }
 
@@ -127,18 +162,6 @@ public class CidStateTran implements RCTran {
         return txid;
     }
 
-    public String getSignAlgorithm() {
-        return signAlgorithm;
-    }
-
-    public void setSignAlgorithm(String signAlgorithm) {
-        this.signAlgorithm = signAlgorithm;
-    }
-
-    public CertId getCertId() {
-        return certId;
-    }
-
     public ChaincodeId getChaincodeId() {
         return chaincodeId;
     }
@@ -147,11 +170,23 @@ public class CidStateTran implements RCTran {
         return state;
     }
 
+    public int getGasLimit() {
+        return gasLimit;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public CertId getCertId() {
+        return certId;
+    }
+
     public PrivateKey getPrivateKey() {
         return privateKey;
     }
 
-    public void setPrivateKey(PrivateKey privateKey) {
-        this.privateKey = privateKey;
+    public String getSignAlgorithm() {
+        return signAlgorithm;
     }
 }

@@ -1,7 +1,7 @@
 package com.rcjava.client.async;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rcjava.protos.Peer;
 import org.apache.http.HttpEntity;
@@ -12,6 +12,8 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.concurrent.FutureCallback;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -20,6 +22,9 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.apache.http.nio.conn.NoopIOSessionStrategy;
+import org.apache.http.nio.conn.SchemeIOSessionStrategy;
+import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.nio.reactor.ConnectingIOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
@@ -28,7 +33,9 @@ import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -41,32 +48,71 @@ import java.util.concurrent.TimeoutException;
 public class RAsyncClient {
 
     // 设置连接池大小
-    private static ConnectingIOReactor ioReactor;
-    // 异步httpClient
-    private static CloseableHttpAsyncClient httpAsyncClient;
+    private ConnectingIOReactor ioReactor;
+    private RequestConfig requestConfig;
 
-    static {
-        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(10000).setSocketTimeout(5000).build();
+    private String PROTOCOL_HTTP = "http";
+    private String PROTOCOL_HTTPS = "https";
+
+    // 异步httpClient
+    private CloseableHttpAsyncClient httpAsyncClient;
+    private CloseableHttpAsyncClient httpsAsyncClient;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static Logger staticLogger = LoggerFactory.getLogger(RAsyncClient.class);
+
+    {
+        requestConfig = RequestConfig.custom()
+                .setConnectTimeout(5000)
+                .setConnectionRequestTimeout(10000)
+                .setSocketTimeout(5000)
+                .build();
+
         //配置io线程
-        IOReactorConfig ioReactorConfig = IOReactorConfig.custom().setIoThreadCount(Runtime.getRuntime().availableProcessors()).setSoKeepAlive(true).build();
+        IOReactorConfig ioReactorConfig = IOReactorConfig.custom()
+                .setIoThreadCount(Runtime.getRuntime().availableProcessors())
+                .setSoKeepAlive(true)
+                .build();
         try {
             ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
         } catch (IOReactorException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
+
+    }
+
+    public RAsyncClient() {
         PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(ioReactor);
         // 设置最大连接数
         connManager.setMaxTotal(200);
         // 设置每个连接的路由数
         connManager.setDefaultMaxPerRoute(20);
 
-        httpAsyncClient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).setConnectionManager(connManager).build();
+        httpAsyncClient = HttpAsyncClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(connManager)
+                .build();
         httpAsyncClient.start();
-
     }
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-    private static Logger staticLogger = LoggerFactory.getLogger(RAsyncClient.class);
+    public RAsyncClient(SSLContext sslContext) {
+        PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(ioReactor,
+                RegistryBuilder.<SchemeIOSessionStrategy>create()
+                        .register("http", NoopIOSessionStrategy.INSTANCE)
+                        .register("https", new SSLIOSessionStrategy(sslContext, NoopHostnameVerifier.INSTANCE))
+                        .build()
+        );
+        // 设置最大连接数
+        connManager.setMaxTotal(200);
+        // 设置每个连接的路由数
+        connManager.setDefaultMaxPerRoute(20);
+
+        httpsAsyncClient = HttpAsyncClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(connManager)
+                .build();
+        httpsAsyncClient.start();
+    }
 
 
     /**
@@ -76,9 +122,16 @@ public class RAsyncClient {
      * @return
      */
     protected Future<HttpResponse> getResponse(String url) {
-        HttpGet get = new HttpGet(url);
         try {
-            return httpAsyncClient.execute(get, new AsyncResponse(url, null));
+            URL reqUrl = new URL(url);
+            HttpGet get = new HttpGet(url);
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpAsyncClient.execute(get, new AsyncResponse(url, null));
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsAsyncClient.execute(get, new AsyncResponse(url, null));
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
@@ -94,12 +147,19 @@ public class RAsyncClient {
      * @return 返回post结果
      */
     protected Future<HttpResponse> postJString(String url, String json) {
-        HttpPost post = new HttpPost(url);
         try {
+            URL reqUrl = new URL(url);
+            HttpPost post = new HttpPost(url);
             //发送json数据需要设置contentType
             NStringEntity reqEntity = new NStringEntity(json, ContentType.APPLICATION_JSON);
             post.setEntity(reqEntity);
-            return httpAsyncClient.execute(post, new AsyncResponse(url, json));
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpAsyncClient.execute(post, new AsyncResponse(url, json));
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsAsyncClient.execute(post, new AsyncResponse(url, json));
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
@@ -116,15 +176,22 @@ public class RAsyncClient {
      * @return 返回post的结果（该方法用于流式提交交易）
      */
     protected Future<HttpResponse> postBytes(String url, String name, byte[] bytes, String fileName) {
-        HttpPost post = new HttpPost(url);
         try {
+            URL reqUrl = new URL(url);
+            HttpPost post = new HttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             HttpEntity reqEntity = builder
                     .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
                     .addBinaryBody(name, bytes, ContentType.DEFAULT_BINARY, fileName)
                     .build();
             post.setEntity(reqEntity);
-            return httpAsyncClient.execute(post, new AsyncResponse(url, bytes));
+            if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
+                return httpAsyncClient.execute(post, new AsyncResponse(url, bytes));
+            } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
+                return httpsAsyncClient.execute(post, new AsyncResponse(url, bytes));
+            } else {
+                logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

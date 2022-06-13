@@ -1,7 +1,7 @@
 package com.rcjava.client.async;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer.CertId;
 import com.rcjava.protos.Peer.ChaincodeId;
@@ -10,11 +10,14 @@ import com.rcjava.tran.TranCreator;
 import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpResponse;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -32,7 +35,13 @@ public class TranPostAsyncClientTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("192.168.2.69:8081");
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081", sslContext);
+    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
 
     private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
 
@@ -41,7 +50,7 @@ public class TranPostAsyncClientTest {
     private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
 
     private PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
-            new File("jks/121000005l35120456.node1.jks"),
+            new File("jks/jdk13/121000005l35120456.node1.jks"),
             "123",
             "121000005l35120456.node1").getPrivateKey();
 
@@ -51,6 +60,9 @@ public class TranPostAsyncClientTest {
             .setSignAlgorithm("sha256withecdsa")
             .build();
 
+    public TranPostAsyncClientTest() throws Exception {
+    }
+
     @Test
     @DisplayName("测试提交交易-流式")
     void testPostTranByStream() throws InterruptedException {
@@ -59,7 +71,7 @@ public class TranPostAsyncClientTest {
 
         List<String> params = new ArrayList<>();
         params.add(JSON.toJSONString(transfer));
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params);
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", params, 0, "");
         Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tran);
 
         sleep(5000);
@@ -78,7 +90,7 @@ public class TranPostAsyncClientTest {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
 
-        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
 
         Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tranHex);

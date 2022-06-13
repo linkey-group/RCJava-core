@@ -8,11 +8,15 @@ import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
-import java.security.PublicKey;
+import java.security.*;
+import java.security.cert.CertificateException;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -22,7 +26,16 @@ import static com.google.common.truth.Truth.assertThat;
  */
 public class ChainInfoClientTest {
 
-    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:8081");
+    SSLContext sslContext = SSLContexts.custom()
+            .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+            .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+            .build();
+
+//    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
+    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+
+    public ChainInfoClientTest() throws Exception {
+    }
 
     @Test
     @DisplayName("测试获取链相关信息")
@@ -34,14 +47,15 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试根据高度获取块")
     void testGetBlockByHeight() {
-        Block block = chainInfoClient.getBlockByHeight(5);
-        assertThat(block.getHeight()).isEqualTo(5);
+        Block block = chainInfoClient.getBlockByHeight(1);
+        Peer.BlockHeader header = block.getHeader();
+        assertThat(header.getHeight()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("测试根据交易ID获取入块时间")
     void testGetBlockTimeByTranId() {
-        ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("92687fb7-f379-4f55-a39c-cb8fe7102aa4");
+        ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("d8ed4810-615f-4f8f-bf94-21b5a98ebf97");
         if (null != createTime) {
             System.out.println(createTime.getCreateTime());
             System.out.println(createTime.getCreateTimeUtc());
@@ -49,9 +63,9 @@ public class ChainInfoClientTest {
     }
 
     @Test
-    @DisplayName("查询leveldb中的数据")
-    void testQueryLevelDb() {
-        Integer res = (Integer) chainInfoClient.queryLevelDB("ContractAssetsTPL", "121000005l35120456");
+    @DisplayName("查询RepChain的leveldb/rocksdb中的数据")
+    void testQueryDB() {
+        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
         System.out.println(res);
     }
 
@@ -72,8 +86,9 @@ public class ChainInfoClientTest {
     @DisplayName("测试根据高度获取块，使用Java实现")
     void testGetBlockByHeightUseJavaImpl() {
         chainInfoClient.setUseJavaImpl(true);
-        Block block = chainInfoClient.getBlockByHeight(5);
-        assertThat(block.getHeight()).isEqualTo(5);
+        Block block = chainInfoClient.getBlockByHeight(1);
+        Peer.BlockHeader header = block.getHeader();
+        assertThat(header.getHeight()).isEqualTo(1);
         chainInfoClient.setUseJavaImpl(false);
     }
 
@@ -81,21 +96,22 @@ public class ChainInfoClientTest {
     @DisplayName("测试根据高度获取块，使用Java实现")
     void testGetBlockStreamByHeightUseJavaImpl() {
         chainInfoClient.setUseJavaImpl(true);
-        Block block = chainInfoClient.getBlockStreamByHeight(0);
-        assertThat(block.getHeight()).isEqualTo(0);
+        Block block = chainInfoClient.getBlockStreamByHeight(1);
+        Peer.BlockHeader header = block.getHeader();
+        assertThat(header.getHeight()).isEqualTo(1);
         chainInfoClient.setUseJavaImpl(false);
     }
 
     @Test
     @DisplayName("测试验签，使用与签名交易对应的证书或公钥来验签即可")
     void testVerify() {
-        Peer.Transaction tran = chainInfoClient.getTranByTranId("542a1649-d74c-4696-8aa8-f37050b05b69");
+        Peer.Transaction tran = chainInfoClient.getTranByTranId("5c1bcd72-2b2e-48d3-a8c5-28aa5cf36821");
         byte[] sigData = tran.getSignature().getSignature().toByteArray();
         Peer.Transaction tranWithOutSig = tran.toBuilder().clearSignature().build();
         PublicKey publicKey = CertUtil.genX509CertPrivateKey(
-                new File("jks/jdk13/951002007l78123233.super_admin.jks"),
-                "super_admin",
-                "951002007l78123233.super_admin").getCertificate().getPublicKey();
+                new File("jks/jdk13/121000005l35120456.node1.jks"),
+                "123",
+                "121000005l35120456.node1").getCertificate().getPublicKey();
         System.out.println(new ECDSASign("sha256withecdsa").verify(sigData, tranWithOutSig.toByteArray(), publicKey));
     }
 

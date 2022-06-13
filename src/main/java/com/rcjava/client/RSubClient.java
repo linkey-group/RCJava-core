@@ -7,6 +7,7 @@ import com.rcjava.ws.BlockListenerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +21,10 @@ public class RSubClient {
 
     private String host;
     private BlockListener blkListener;
-    private WebSocket ws = null;
+    private SSLContext sslContext;
+    private boolean useSsl = false;
 
+    private WebSocket socket = null;
     private WebSocketFactory factory = new WebSocketFactory().setConnectionTimeout(10 * 1000);
 
     private static ConcurrentHashMap<String, RSubClient> staticSubClient = new ConcurrentHashMap<>();
@@ -31,6 +34,14 @@ public class RSubClient {
     public RSubClient(String host, BlockListener blkListener) {
         this.host = host;
         this.blkListener = blkListener;
+    }
+
+    public RSubClient(String host, BlockListener blkListener, SSLContext sslContext) {
+        this.host = host;
+        this.blkListener = blkListener;
+        this.sslContext = sslContext;
+        this.factory = factory.setSSLContext(sslContext).setVerifyHostname(false);
+        this.useSsl = true;
     }
 
     /**
@@ -52,12 +63,32 @@ public class RSubClient {
     }
 
     /**
+     * 获取实例，并放到Map里，保证一个host一个实例
+     *
+     * @param host
+     * @return
+     */
+    public static RSubClient getRSubClient(String host, SSLContext sslContext) {
+        String ssl_host = "ssl_" + host;
+        if (!staticSubClient.containsKey(ssl_host)) {
+            synchronized (RSubClient.class) {
+                if (!staticSubClient.containsKey(ssl_host)) {
+                    RSubClient rSubClient = new RSubClient(host, BlockListenerUtil.getListener(host), sslContext);
+                    staticSubClient.put(ssl_host, rSubClient);
+                }
+            }
+        }
+        return staticSubClient.get(ssl_host);
+    }
+
+    /**
      * 链接socket，开启订阅
      *
      * @throws IOException
      */
     public void connect() throws IOException, WebSocketException {
-        ws = factory.createSocket(String.format("ws://%s/event", host)).addListener(blkListener)
+        String protocol = useSsl ? "wss" : "ws";
+        socket = factory.createSocket(String.format("%s://%s/event", protocol, host)).addListener(blkListener)
                 .setPingSenderName("RSubClient")
                 // set pingInterval to socket keepAlive
                 .setPingInterval(30 * 1000).setPingPayloadGenerator(() -> {
@@ -70,11 +101,11 @@ public class RSubClient {
      * 断掉链接
      */
     public void disconnect() {
-        ws.disconnect();
+        socket.disconnect();
     }
 
     public boolean isopen() {
-        return ws.isOpen();
+        return socket.isOpen();
     }
 
     /**
@@ -83,7 +114,7 @@ public class RSubClient {
      * @return
      */
     public boolean isclosed() {
-        return ws.getSocket().isClosed();
+        return socket.getSocket().isClosed();
     }
 
     /**
@@ -93,7 +124,7 @@ public class RSubClient {
      * @throws WebSocketException
      */
     public void reconnect() throws IOException, WebSocketException {
-        ws = ws.recreate().connect();
+        socket = socket.recreate().connect();
     }
 
     public String getHost() {
@@ -104,7 +135,11 @@ public class RSubClient {
         return blkListener;
     }
 
-    public WebSocket getWs() {
-        return ws;
+    public WebSocket getSocket() {
+        return socket;
+    }
+
+    public SSLContext getSslContext() {
+        return sslContext;
     }
 }

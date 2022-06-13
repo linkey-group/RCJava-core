@@ -1,6 +1,6 @@
 package com.rcjava.client.callback;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 
 /**

@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
@@ -25,13 +27,12 @@ import java.util.concurrent.*;
 public class SyncService implements BlockObserver {
 
     private String host;
-    private String wsHost;
     private SyncInfo syncInfo;
     private SyncListener syncListener;
+    private SSLContext sslContext;
 
     private RSubClient rSubClient;
     private ChainInfoClient cInfoClient_pull;
-    private ChainInfoClient cInfoClient_sub;
     private BlockListener blkListener;
 
     private ThreadFactory pullServiceFactory = new ThreadFactoryBuilder().setNameFormat("blockPull-pool-%d").build();
@@ -41,27 +42,37 @@ public class SyncService implements BlockObserver {
 
     // socket是否已经创建过的标志位
     private volatile boolean isWScreated = false;
-
     // 正在pull
     private volatile boolean pullSyncing = false;
     // 正在sub
     private volatile boolean subSyncing = false;
-
     // 停止pull
     private volatile boolean stopPull = false;
+    // 是否使用ssl
+    private volatile boolean useSsl = false;
 
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private SyncService(Builder builder) {
         host = builder.host;
-        wsHost = builder.wsHost;
         syncInfo = builder.syncInfo;
         syncListener = builder.syncListener;
+        sslContext = builder.sslContext;
+        useSsl = !Objects.isNull(builder.sslContext);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public static Builder newBuilder(@Nonnull SyncService copy) {
+        Builder builder = new Builder();
+        builder.host = copy.getHost();
+        builder.syncInfo = copy.getSyncInfo();
+        builder.syncListener = copy.getSyncListener();
+        builder.sslContext = copy.getSslContext();
+        return builder;
     }
 
 
@@ -77,19 +88,15 @@ public class SyncService implements BlockObserver {
         this.pullSyncing = false;
         this.subSyncing = false;
 
-        this.wsHost = "".equals(wsHost) ? host : wsHost;
-
         // 获取block监听，使用 host 获取一个监听，每个 host 对应一个监听
-        blkListener = BlockListenerUtil.getListener(wsHost);
+        blkListener = BlockListenerUtil.getListener(host);
         // event 监听，并回调给具体的实现类
         blkListener.registerBlkObserver(this);
 
         // pull用，使用 cInfoClient_pull 来定时 pull 区块
-        cInfoClient_pull = new ChainInfoClient(host);
+        cInfoClient_pull = useSsl ? new ChainInfoClient(host, sslContext) : new ChainInfoClient(host);
         // sub用
-        rSubClient = new RSubClient(wsHost, blkListener);
-        // sub 与 pull 结合时，使用 cInfoClient_sub 来 pull 区块
-        cInfoClient_sub = wsHost.equals(host) ? cInfoClient_pull : new ChainInfoClient(wsHost);
+        rSubClient = useSsl ? new RSubClient(host, blkListener, sslContext) : new RSubClient(host, blkListener);
 
         wsService = Executors.newSingleThreadScheduledExecutor(wsServiceFactory);
         // 首先打开订阅，每隔60s检查一次socket状态
@@ -110,7 +117,6 @@ public class SyncService implements BlockObserver {
         // 跳出execPull中可能正在进行的while循环
         this.stopPull = true;
 
-        BlockListenerUtil.removeListener(wsHost);
         blkListener.removeBlkObserver(this);
 
         // 断开socket连接
@@ -144,7 +150,7 @@ public class SyncService implements BlockObserver {
      */
     private void startPull() {
         // 防止极端情况下websocket断了
-        if (subSyncing && rSubClient.getWs().isOpen()) {
+        if (subSyncing && rSubClient.getSocket().isOpen()) {
             return;
         }
         pullSyncing = true;
@@ -164,20 +170,21 @@ public class SyncService implements BlockObserver {
             while (localHeight < remoteHeight) {
                 long tempHeight = localHeight + 1;
                 Peer.Block block = cInfoClient.getBlockStreamByHeight(tempHeight);
+                Peer.BlockHeader blockHeader = block.getHeader();
                 // block的hash是否可以衔接
-                if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash()) || block.getPreviousBlockHash().isEmpty()) {
+                if (blockHeader.getHashPrevious().toStringUtf8().equals(syncInfo.getLocBlkHash()) || blockHeader.getHashPrevious().isEmpty()) {
                     logger.info("pullBlock, localHeight：{}, localBlockHash：{}, pullHeight：{}, pullBlockHash：{}",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                     syncListener.onSuccess(block);
                     logger.info("save block {} successfully", tempHeight);
                     syncInfo.setLocalHeight(tempHeight);
-                    syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+                    syncInfo.setLocBlkHash(blockHeader.getHashPresent().toStringUtf8());
                     localHeight = tempHeight;
                 } else {
                     logger.error("pull: 块Hash衔接不上, localHeight：{}, localBlockHash：{}, pullHeight：{}, pullBlockHash：{}",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                     syncListener.onError(new SyncBlockException(String.format("块Hash衔接不上, localHeight：%s, localBlockHash：%s, pullHeight：%s, pullBlockHash：%s, please restart syncService",
-                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8())));
+                            syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8())));
                     break;
                 }
                 if (stopPull) {
@@ -204,9 +211,9 @@ public class SyncService implements BlockObserver {
         try {
             // 已经连接过了
             if (isWScreated) {
-                logger.info("rSubClient's state is {}.", rSubClient.getWs().getState().name());
-                if (!rSubClient.isopen() || rSubClient.getWs().getState() == WebSocketState.CLOSED) {
-                    logger.info("rSubClient's state is {}, rSubClient 正在重新连接 {}...", rSubClient.getWs().getState().name(), rSubClient.getHost());
+                logger.info("rSubClient's state is {}.", rSubClient.getSocket().getState().name());
+                if (!rSubClient.isopen() || rSubClient.getSocket().getState() == WebSocketState.CLOSED) {
+                    logger.info("rSubClient's state is {}, rSubClient 正在重新连接 {}...", rSubClient.getSocket().getState().name(), rSubClient.getHost());
                     // 如果连接断掉，要将pullSyncing与subSyncing分别置为false，这样startPull()可以继续工作
                     pullSyncing = false;
                     subSyncing = false;
@@ -240,41 +247,34 @@ public class SyncService implements BlockObserver {
         subSyncing = true;
         synchronized (this) {
             logger.info("执行同步，开始sub {}...，execSub", rSubClient.getHost());
-            if (block.getPreviousBlockHash().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
+            Peer.BlockHeader blockHeader = block.getHeader();
+            if (blockHeader.getHashPrevious().toStringUtf8().equals(syncInfo.getLocBlkHash())) {
                 logger.info("subBlock，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                 // 加锁是为了保证 onSuccess 线程安全正确
                 try {
                     syncListener.onSuccess(block);
-                    logger.info("save block {} successfully", block.getHeight());
+                    logger.info("save block {} successfully", blockHeader.getHeight());
                     syncInfo.setLocalHeight(syncInfo.getLocalHeight() + 1);
-                    syncInfo.setLocBlkHash(block.getHashOfBlock().toStringUtf8());
+                    syncInfo.setLocBlkHash(blockHeader.getHashPresent().toStringUtf8());
                 } catch (SyncBlockException syncEx) {
                     logger.error("-----订阅端发生区块处理异常-----", syncEx);
                 }
             } else {
                 logger.info("sub: 块Hash衔接不上，localHeight：{}，localBlockHash：{}，subHeight：{}，subBlockHash：{}",
-                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), block.getHeight(), block.getHashOfBlock().toStringUtf8());
+                        syncInfo.getLocalHeight(), syncInfo.getLocBlkHash(), blockHeader.getHeight(), blockHeader.getHashPresent().toStringUtf8());
                 logger.info("切换sub为pull，开始pull...");
-                execPull(cInfoClient_sub);
+                execPull(cInfoClient_pull);
             }
         }
         subSyncing = false;
     }
 
-    public SyncInfo getSyncInfo() {
-        return syncInfo;
-    }
-
-    public void setSyncInfo(SyncInfo syncInfo) {
-        this.syncInfo = syncInfo;
-    }
-
     public static final class Builder {
         private String host;
-        private String wsHost = "";
         private SyncInfo syncInfo;
         private SyncListener syncListener;
+        private SSLContext sslContext = null;
 
         private Builder() {
         }
@@ -282,12 +282,6 @@ public class SyncService implements BlockObserver {
         @Nonnull
         public Builder setHost(@Nonnull String host) {
             this.host = host;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setWsHost(@Nonnull String wsHost) {
-            this.wsHost = wsHost;
             return this;
         }
 
@@ -304,8 +298,30 @@ public class SyncService implements BlockObserver {
         }
 
         @Nonnull
+        public Builder setSslContext(@Nonnull SSLContext val) {
+            sslContext = val;
+            return this;
+        }
+
+        @Nonnull
         public SyncService build() {
             return new SyncService(this);
         }
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public SyncInfo getSyncInfo() {
+        return syncInfo;
+    }
+
+    public SyncListener getSyncListener() {
+        return syncListener;
+    }
+
+    public SSLContext getSslContext() {
+        return sslContext;
     }
 }
