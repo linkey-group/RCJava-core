@@ -33,11 +33,11 @@ public class AuthOperationTest extends DidTest{
     public AuthOperationTest() throws IOException {
     }
 
-    String deployCreProof2AuthId = UUID.randomUUID().toString();
-    String deployCreProof2AuthId_1 = UUID.randomUUID().toString();
+    String deployCreProof2AuthId = "deployCreProof2AuthId---1";
+    String deployCreProof2AuthId_1 = "deployCreProof2AuthId---2";
 
-    String funcCreProofAuthId = UUID.randomUUID().toString();
-    String funcCreProof2AuthId = UUID.randomUUID().toString();
+    String funcCreProofAuthId = "funcCreProofAuthId---1";
+    String funcCreProof2AuthId = "funcCreProof2AuthId---2";
 
     @Test
     @Order(1)
@@ -47,8 +47,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
                 .setId(deployCreProof2AuthId)
-                .setGrant(did_user1_creditCode)
-                .addGranted(did_user1_creditCode)
+                .setGrant(user1_creditCode_did)
+                .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -75,8 +75,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(deployCreProof2AuthId)
-                .setGrant(did_user0_creditCode)
-                .addGranted(did_user1_creditCode)
+                .setGrant(user0_creditCode_did)
+                .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -109,7 +109,7 @@ public class AuthOperationTest extends DidTest{
         // step3: 同一个授权ID，usr0授权给usr2
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Authorize authorize_3 = authorize_1.toBuilder()
-                .clearGranted().addGranted(did_user2_creditCode)
+                .clearGranted().addGranted(user2_creditCode_did)
                 .build();
         Peer.Transaction tran_3 = usr0_tranCreator_0.createInvokeTran(tranId_3, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_3))), 0, "");
@@ -172,7 +172,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user1_creditCode)
+                .setRegister(user1_creditCode_did)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -215,8 +215,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(UUID.randomUUID().toString())
-                .setGrant(did_user1_creditCode)
-                .addGranted(did_user2_creditCode)
+                .setGrant(user1_creditCode_did)
+                .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -266,7 +266,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user1_creditCode)
+                .setRegister(user1_creditCode_did)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -303,8 +303,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(funcCreProofAuthId)
-                .setGrant(did_user0_creditCode)
-                .addAllGranted(Arrays.asList(did_user1_creditCode, did_user2_creditCode))
+                .setGrant(user0_creditCode_did)
+                .addAllGranted(Arrays.asList(user1_creditCode_did, user2_creditCode_did))
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -386,8 +386,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(UUID.randomUUID().toString())
-                .setGrant(did_user1_creditCode)
-                .addGranted(did_user2_creditCode)
+                .setGrant(user1_creditCode_did)
+                .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -425,8 +425,8 @@ public class AuthOperationTest extends DidTest{
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
                 .setId(funcCreProof2AuthId)
-                .setGrant(did_user1_creditCode)
-                .addGranted(did_user0_creditCode)
+                .setGrant(user1_creditCode_did)
+                .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -446,8 +446,8 @@ public class AuthOperationTest extends DidTest{
         long millis_2 = System.currentTimeMillis();
         Peer.Authorize authorize_2 = Peer.Authorize.newBuilder()
                 .setId(UUID.randomUUID().toString())
-                .setGrant(did_user0_creditCode)
-                .addGranted(did_user2_creditCode)
+                .setGrant(user0_creditCode_did)
+                .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis_2 / 1000).setNanos((int) ((millis_2 % 1000) * 1000000)).build())
@@ -687,7 +687,7 @@ public class AuthOperationTest extends DidTest{
 
         // step4: 要绑定的证书不存在
         Peer.CertId usr0_certId_2 = Peer.CertId.newBuilder()
-                .setCreditCode(did_user0_creditCode)
+                .setCreditCode(user0_creditCode_did)
                 .setCertName("not-exists")
                 .build();
         Peer.BindCertToAuthorize bca_3 = Peer.BindCertToAuthorize.newBuilder()
@@ -715,7 +715,7 @@ public class AuthOperationTest extends DidTest{
         String tranId = UUID.randomUUID().toString();
         JSONObject certStatus = new JSONObject();
         // 修改身份证书状态
-        certStatus.fluentPut("creditCode", did_user0_creditCode).fluentPut("certName", user0_cert_1).fluentPut("state", false);
+        certStatus.fluentPut("creditCode", user0_creditCode_did).fluentPut("certName", user0_cert_1).fluentPut("state", false);
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -742,7 +742,7 @@ public class AuthOperationTest extends DidTest{
         // 恢复身份证书状态
         String tranId_2 = UUID.randomUUID().toString();
         // 修改身份证书状态
-        certStatus.fluentPut("creditCode", did_user0_creditCode).fluentPut("certName", user0_cert_1).fluentPut("state", true);
+        certStatus.fluentPut("creditCode", user0_creditCode_did).fluentPut("certName", user0_cert_1).fluentPut("state", true);
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);

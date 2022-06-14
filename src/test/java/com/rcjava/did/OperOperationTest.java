@@ -88,7 +88,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setDescription("发布合约操作")
-                .setRegister(did_user1_creditCode)
+                .setRegister(user1_creditCode_did)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -151,7 +151,7 @@ public class OperOperationTest extends DidTest {
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setGrant(super_creditCode)
-                .addGranted(did_user0_creditCode)
+                .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex(did_network_id + "TestProof.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
@@ -226,7 +226,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL-2.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user0_creditCode)
+                .setRegister(user0_creditCode_did)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -250,7 +250,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate_1 = operate.toBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setAuthFullName("identity-net:CredenceTPL.creProof")
-                .setRegister(did_user1_creditCode)
+                .setRegister(user1_creditCode_did)
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate_1), 0, "");
@@ -272,7 +272,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof-not-exists"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user0_creditCode)
+                .setRegister(user0_creditCode_did)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -303,7 +303,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user1_creditCode)
+                .setRegister(user1_creditCode_did)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
@@ -333,7 +333,7 @@ public class OperOperationTest extends DidTest {
         Peer.Operate operate = Peer.Operate.newBuilder()
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(did_user0_creditCode)
+                .setRegister(user0_creditCode_did)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？

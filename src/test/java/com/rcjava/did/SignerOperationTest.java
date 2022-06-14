@@ -94,7 +94,7 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(did_user1_creditCode).setCertName("1").build())
+                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode_did).setCertName("1").build())
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -120,7 +120,7 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
-                .setId(Peer.CertId.newBuilder().setCreditCode(did_user0_creditCode).setCertName("1").build())
+                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName("1").build())
                 .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
@@ -146,7 +146,7 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(did_user1_creditCode).setCertName("1").build())
+                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode_did).setCertName("1").build())
                 .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
@@ -172,7 +172,7 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(did_user0_creditCode).setCertName("1").build())
+                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName("1").build())
                 .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")) + "test")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
