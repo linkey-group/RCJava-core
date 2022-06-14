@@ -2,12 +2,10 @@ package com.rcjava.did;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.google.common.base.CharMatcher;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
-import com.rcjava.tran.TranCreator;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.*;
@@ -96,7 +94,7 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName("1").build())
+                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode_did).setCertName("1").build())
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -122,8 +120,8 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
-                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
+                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName("1").build())
+                .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -148,8 +146,8 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
+                .setId(Peer.CertId.newBuilder().setCreditCode(user1_creditCode_did).setCertName("1").build())
+                .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -174,8 +172,8 @@ class SignerOperationTest extends DidTest {
                 .setAlgType("sha256withecdsa")
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
-                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode).setCertName("1").build())
-                .setCertHash(DigestUtils.sha256Hex(user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")) + "test")
+                .setId(Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName("1").build())
+                .setCertHash(DigestUtils.sha256Hex(did_network_id + user1_pem_0.replaceAll("\r\n|\r|\n|\\s", "")) + "test")
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Signer signer_1 = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds()
@@ -225,9 +223,8 @@ class SignerOperationTest extends DidTest {
     @DisplayName("注册账户证书后, 可以提交交易到区块链")
     void testPostSignedTran() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
-        TranCreator tranCreator = genUsrTranCreator(user0_creditCode, "0");
         Transfer transfer = new Transfer("usr_0", "12110107bi45jh675g", 5);
-        Peer.Transaction tran = tranCreator.createInvokeTran(tranId, usr0_signer_cert.getCertificate().getId(), contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
+        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_signer_cert.getCertificate().getId(), contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postClient.postSignedTran(tranHex);
         TimeUnit.SECONDS.sleep(2);
@@ -314,7 +311,7 @@ class SignerOperationTest extends DidTest {
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
 
         String tranId_1 = UUID.randomUUID().toString();
-        Transfer transfer = new Transfer(node1_creditCode, "12110107bi45jh675g", 5);
+        Transfer transfer = new Transfer(node1_creditCode, node2_creditCode, 5);
         Peer.Transaction tran_1 = node1Creator.createInvokeTran(tranId_1, node1CertId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
