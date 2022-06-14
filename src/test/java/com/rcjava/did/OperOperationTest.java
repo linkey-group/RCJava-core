@@ -46,12 +46,12 @@ public class OperOperationTest extends DidTest {
         // step1: node1注册service的Operate失败，只能是SuperAdmin才有权限
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("service_" + UUID.randomUUID()))
+                .setOpId(DigestUtils.sha256Hex(did_network_id + "service_" + UUID.randomUUID()))
                 .setDescription("测试用的service")
                 .setRegister(super_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_SERVICE)
-                .addOperateServiceName("service_" + UUID.randomUUID())
+                .addOperateServiceName(did_network_id + "service_" + UUID.randomUUID())
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -86,14 +86,14 @@ public class OperOperationTest extends DidTest {
         // step1: usr0注册<.deploy>与<.setState>"的Operate失败，只能是SuperAdmin才有权限
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.deploy"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setDescription("发布合约操作")
-                .setRegister(user1_creditCode)
+                .setRegister(did_user1_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.TestProofTPL.deploy")
+                .setAuthFullName("identity-net:TestProofTPL.deploy")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -151,8 +151,8 @@ public class OperOperationTest extends DidTest {
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setGrant(super_creditCode)
-                .addGranted(user0_creditCode)
-                .addOpId(DigestUtils.sha256Hex("TestProof.deploy"))
+                .addGranted(did_user0_creditCode)
+                .addOpId(DigestUtils.sha256Hex(did_network_id + "TestProof.deploy"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setAuthorizeValid(true)
@@ -172,14 +172,14 @@ public class OperOperationTest extends DidTest {
         // step3: superAdmin注册部署合约A的操作
         long millis_1 = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.deploy"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
                 .setDescription("发布合约-CredenceTPL")
                 .setRegister(super_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.CredenceTPL.deploy")
+                .setAuthFullName("identity-net:CredenceTPL.deploy")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis_1 / 1000).setNanos((int) ((millis_1 % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -197,7 +197,7 @@ public class OperOperationTest extends DidTest {
 
         // step4: superAdmin授权给usr0部署合约A的权限
         String tranId_3 = UUID.randomUUID().toString();
-        Peer.Authorize authorize_1 = authorize.toBuilder().clearOpId().addOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.deploy")).build();
+        Peer.Authorize authorize_1 = authorize.toBuilder().clearOpId().addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy")).build();
         Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_3);
@@ -224,14 +224,14 @@ public class OperOperationTest extends DidTest {
         // step1: usr0注册不存在的合约的某个方法的Operate失败, 合约部署者不存在
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL-2.creProof"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL-2.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(user0_creditCode)
+                .setRegister(did_user0_creditCode)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.CredenceTPL-2.creProof")
+                .setAuthFullName("identity-net:CredenceTPL-2.creProof")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -248,9 +248,9 @@ public class OperOperationTest extends DidTest {
 
         // step2: usr1注册合约A的某个方法的Operate失败, 非合约部署者
         Peer.Operate operate_1 = operate.toBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof"))
-                .setAuthFullName("identity-net.CredenceTPL.creProof")
-                .setRegister(user1_creditCode)
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
+                .setAuthFullName("identity-net:CredenceTPL.creProof")
+                .setRegister(did_user1_creditCode)
                 .build();
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate_1), 0, "");
@@ -270,14 +270,14 @@ public class OperOperationTest extends DidTest {
         // step1: usr0注册合约A的某个方法的Operate失败, Hash不一致
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof-not-exists"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof-not-exists"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(user0_creditCode)
+                .setRegister(did_user0_creditCode)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.CredenceTPL.creProof")
+                .setAuthFullName("identity-net:CredenceTPL.creProof")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -301,14 +301,14 @@ public class OperOperationTest extends DidTest {
         // step1: usr0只能为自己注册的合约的某个方法的Operate失败, operate中的register为usr1
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(user1_creditCode)
+                .setRegister(did_user1_creditCode)
                 .setIsPublish(true)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.CredenceTPL.creProof")
+                .setAuthFullName("identity-net:CredenceTPL.creProof")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -331,14 +331,14 @@ public class OperOperationTest extends DidTest {
         // step1: usr0注册合约A的某个方法的Operate成功
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof"))
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
-                .setRegister(user0_creditCode)
+                .setRegister(did_user0_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
-                .setAuthFullName("identity-net.CredenceTPL.creProof")
+                .setAuthFullName("identity-net:CredenceTPL.creProof")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -408,7 +408,7 @@ public class OperOperationTest extends DidTest {
         // step1: usr1修改usr0的operate的状态失败
         String tranId = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
-        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof")).fluentPut("state", false);
+        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof")).fluentPut("state", false);
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
@@ -428,7 +428,7 @@ public class OperOperationTest extends DidTest {
         // step1: usr0修改usr0的operate的状态成功
         String tranId_1 = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
-        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof")).fluentPut("state", false);
+        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof")).fluentPut("state", false);
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
         TimeUnit.SECONDS.sleep(2);
@@ -448,7 +448,7 @@ public class OperOperationTest extends DidTest {
         // step1: superAdmin修改usr0的operate的状态
         String tranId_2 = UUID.randomUUID().toString();
         JSONObject operStatus = new JSONObject();
-        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net.CredenceTPL.creProof")).fluentPut("state", true);
+        operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof")).fluentPut("state", true);
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
