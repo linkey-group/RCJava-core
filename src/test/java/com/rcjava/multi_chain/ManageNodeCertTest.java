@@ -102,7 +102,7 @@ public class ManageNodeCertTest extends DidTest {
     @Test
     @DisplayName("注册Operate-注册合约的某个方法---updateNodeCert")
     @Order(2)
-    void testSignUpOperate_1() throws InterruptedException, InvalidProtocolBufferException {
+    void testSignUpOperate() throws InterruptedException, InvalidProtocolBufferException {
 
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
@@ -148,8 +148,7 @@ public class ManageNodeCertTest extends DidTest {
     @Test
     @DisplayName("提交交易，增加证书")
     @Order(4)
-    void testCredenceProof() throws IOException, InterruptedException {
-        Peer.ChaincodeId manageNodeCertId = Peer.ChaincodeId.newBuilder().setChaincodeName("ManageNodeCert").setVersion(1).build();
+    void testAddCert() throws IOException, InterruptedException {
         String tranId = UUID.randomUUID().toString();
         HashMap<String, String> certMap = new HashMap<>();
         //certMap.put(node6Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node6Name+".cer"),StandardCharsets.UTF_8));

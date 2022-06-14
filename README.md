@@ -177,7 +177,7 @@
                       .build();
       
       InvokeTran invokeTran = InvokeTran.newBuilder()
-          			.setTxid("1234567890")
+          			      .setTxid("1234567890")
                       .setChaincodeInput(chaincodeInput)
                       .setCertId(certId)
                       .setChaincodeId(contractAssetsId)
@@ -185,16 +185,19 @@
                       .setSignAlgorithm("SHA256withECDSA")
                       .build();
        Peer.Transaction transaction = invokeTran.getSignedTran();
+       // 其他方式：
+       // Peer.Transaction transaction_2 = invokeTran.getSignedTran(privateKey, "sha256withecdsa");
+       // Peer.Transaction transaction_4 = RCTranSigner.getSignedTran(invokeTran, privateKey, "sha256withecdsa");
       ```
-
+    
     * CidStateTran
-
+    
       > 参考InvokeTran的构建
-
+    
     * DeployTran
-
+    
       > 参考InvokeTran的构建
-
+    
   * 使用TranCreator构建具体的交易
 
     * 构建InvokeTran
@@ -221,7 +224,7 @@
           			.setPrivateKey(privateKey)
           			.setSignAlgorithm("SHA256withECDSA")
           			.build();
-      Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer));
+      Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
       ```
       
     * CidStateTran
@@ -243,76 +246,90 @@
     > public JSONObject postSignedTran(Transaction tran) {/***/}
     > ```
 
-    
-
     * 使用Hex字符串的方式
 
       ```java
-      TranPostClient tranPostClient = new TranPostClient("localhost:8081");
+      TranPostClient tranPostClient = new TranPostClient("localhost:9081");
       // -------------------------------
           /****构建签名交易 Transaction tran ****/
       // -------------------------------
       String tranHex = Hex.encodeHexString(tran.toByteArray());
       JSONObject res = tranPostClient.postSignedTran(tranHex);
       ```
-
-      
-
+  
     * 使用字节块提交
 
       ```java
-      TranPostClient tranPostClient = new TranPostClient("localhost:8081");
+      TranPostClient tranPostClient = new TranPostClient("localhost:9081");
       // -------------------------------
           /****构建签名交易 Transaction tran ****/
       // -------------------------------
       JSONObject res = tranPostClient.postSignedTran(tran);
       ```
       
-
-    
-
+  
+    > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建TranPostClient
+    >
+    > ```java
+    > SSLContext sslContext = SSLContexts.custom()
+    >             .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+    >             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+    >             .build();
+    > // sslContext可根据具体情况来针对性的构建
+    > TranPostClient tranPostClient = new TranPostClient("localhost:9081", sslContext);
+    > ```
+  
   * 使用**异步**方式
-
+  
     > 用来异步提交签名交易的客户端：TranPostAsyncClient
     >
     > ```java
     > public Future<HttpResponse> postSignedTran(String tranHexString) {/***/}
     > public Future<HttpResponse> postSignedTran(Transaction tran) {/***/}
     > ```
-
+  
     * 使用<u>Hex字符串</u>的方式
-
+  
       ```java
-      TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:8081");
+      TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
       // -------------------------------
           /****构建签名交易 Transaction tran ****/
       // -------------------------------
       String tranHex = Hex.encodeHexString(tran.toByteArray());
       Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tranHex);
       ```
-
+  
     * 使用<u>字节块</u>提交
-
+  
       ```java
-      TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:8081");
+      TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
       // -------------------------------
           /****构建签名交易 Transaction tran ****/
       // -------------------------------
       Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tran);
       ```
-
+  
     * 从future中解析数据，默认超时时间20s
-
+  
       > ```java
       > HttpResponse httpResponse = responseFuture.get(20, TimeUnit.SECONDS);
+      > JSONObject result = TranPostAsyncClient.resolveHttpResponseFuture(responseFuture);
       > ```
       
-      ```java
-      JSONObject result = TranPostAsyncClient
-          		.resolveHttpResponseFuture(responseFuture);
-      ```
+  
+    > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建TranPostAsyncClient
+    >
+    > ```java
+    > SSLContext sslContext = SSLContexts.custom()
+    >             .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+    >             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+    >             .build();
+    > // sslContext可根据具体情况来针对性的构建
+    > TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081", sslContext);
+    > ```
   
 * 使用ContractClient
+  
   > 使用ContractClient部署升级合约、修改合约状态、调用合约，可选用具体方法，下面例子中的方法只是其中之一
   ```java
   CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
@@ -320,18 +337,28 @@
   ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
   // privateKey是与certId标识的证书对应的用户私钥
   ContractUser user = new ContracUser(certId, privateKey);
-  ContractClient contractClient = new ContractClient("localhost:8081", contractAssetsId, user);
+  ContractClient contractClient = new ContractClient("localhost:9081", contractAssetsId, user);
   Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
   contractClient.invokeContract("transfer", JSON.toJSONString(transfer));
-  
   ```
 
+  > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建ContractClient
+  >
+  > ```java
+  > SSLContext sslContext = SSLContexts.custom()
+  >             .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+  >             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+  >             .build();
+  > ......
+  > ContractClient client = new ContractClient(host, sslContext, contractAssetsId, user);
+  > ```
+  
 * 查询交易数据
 
   > 使用ChainInfoClient构建查询客户端，用来获取链信息的客户端
 
   ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:8081");
+  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
   String txid = "1234567890";
   // 使用Json构建
   Transaction tran = chainInfoClient.getTranByTranId(txid);
@@ -339,35 +366,48 @@
   Transaction tran = chainInfoClient.getTranStreamByTranId(txid);
   ```
 
-  
+  > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建ChaininfoClient
+  >
+  > ```java
+  > SSLContext sslContext = SSLContexts.custom()
+  >             .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
+  >             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
+  >             .build();
+  > // sslContext可根据具体情况来针对性的构建
+  > ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
+  > ```
 
 * 查询块数据
 
   > 使用ChainInfoClient构建查询客户端
 
   ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:8081");
+  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
   BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
   // 使用Json构建
   Block block = chainInfoClient.getBlockByHeight(5);
   // 直接获取字节块构建
   Block block = chainInfoClient.getBlockStreamByHeight(5)
-  
   ```
-
+  
 * 查询其他数据
 
   > 使用ChainInfoClient构建查询客户端
 
   ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:8081");
+  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
   // 使用具体方法即可，如根据交易ID查询交易以及交易所在区块高度：
-  ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient
-      			.getTranInfoAndHeightByTranId("1234567890");
+  ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
   ```
-
   
-
+  > 底层使用https
+  
+  ```java
+  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
+  // 使用具体方法即可，如根据交易ID查询交易以及交易所在区块高度：
+  ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
+  ```
+  
 * 同步块数据
 
   > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，思路是：定时<拉>（基于http服务）和<推拉>结合（基于ws+http服务）的方式来同步区块，即订阅（基于ws）与拉取（基于http）相结合的方案来保证区块同步的实时性，该方案可以防止相应节点<u>ws服务</u>崩溃，使用示例请参考SyncServiceTest
@@ -380,7 +420,7 @@
   SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
   
   SyncService syncService = SyncService.newBuilder()
-  			  .setHost("localhost:8081")
+              .setHost("localhost:9081")
               .setSyncInfo(syncInfo)
               .setSyncListener("SyncListener实例")
               .build();
@@ -388,21 +428,18 @@
   thread.start();
   ```
 
-  > 使用示例2：可以多设置一个host地址----wsHost，节点1的地址（host）是用来定时的<拉> 的方式来同步区块，节点2的地址（wsHost）用来 <推拉>结合的同步区块。和上面方案不同的地方在于：上面的方案只设置一个节点地址只能预防相应节点的ws服务崩溃，不能预防节点宕机；下面的方案是指向了两个节点，如果一个节点崩溃，仍然可以向另外一个节点同步区块数据
-
-  ```java
-  SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
-  
-  SyncService syncService = SyncService.newBuilder()
-  			  .setHost(节点1的地址).setWsHost(节点2的地址)
-              .setSyncInfo(syncInfo)
-              .setSyncListener("SyncListener实例")
-              .build();
-  Thread thread = new Thread(syncService::start);
-  thread.start();
-  ```
-
-  
+  > 如果是基于RepChain端https单向或双向的同步，如下：
+  >
+  > ```java
+  > SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
+  > 
+  > SyncService syncService = SyncService.newBuilder()
+  >   					.setHost("localhost:9081")
+  >             .setSyncInfo(syncInfo)
+  >             .setSyncListener("SyncListener实例")
+  >   		      .setSslContext(sslContext) // 此处需要设置sslContext
+  >             .build();
+  > ```
 
 * 订阅块事件
 
