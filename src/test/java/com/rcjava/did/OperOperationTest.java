@@ -149,7 +149,7 @@ public class OperOperationTest extends DidTest {
         // step2: superAdmin授权给usr0部署合约A的权限, superAdmin不具有该操作, 因此授权失败
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID().toString())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex(did_network_id + "TestProof.deploy"))

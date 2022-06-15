@@ -137,7 +137,7 @@ public class MultiChainTest extends DidTest {
         // step4: superAdmin授权给usr0部署合约A的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("credence-net:CredenceTPL.deploy"))
@@ -459,7 +459,7 @@ public class MultiChainTest extends DidTest {
         // step3: superAdmin授权给usr0部署合约A的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("credence-net:CredenceTPL.setState"))
@@ -501,7 +501,7 @@ public class MultiChainTest extends DidTest {
         // step5: usr0 授权给usr1
         String tranId_6 = UUID.randomUUID().toString();
         Peer.Authorize authorize_2 = authorize_1.toBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user0_creditCode_did)
                 .clearGranted().addGranted(user1_creditCode_did).build();
         Peer.Transaction tran_6 = usr0_tranCreator_0.createInvokeTran(tranId_6, usr0_certId_0, didChaincodeId, grantOperate,

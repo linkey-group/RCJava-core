@@ -15,9 +15,7 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -33,11 +31,9 @@ public class AuthOperationTest extends DidTest{
     public AuthOperationTest() throws IOException {
     }
 
-    String deployCreProof2AuthId = "deployCreProof2AuthId---1";
-    String deployCreProof2AuthId_1 = "deployCreProof2AuthId---2";
+    String deployCreProof2AuthId_usr0_to_usr1 = did_network_id + UUID.randomUUID();
 
-    String funcCreProofAuthId = "funcCreProofAuthId---1";
-    String funcCreProof2AuthId = "funcCreProof2AuthId---2";
+    String funcCreProof2AuthId_usr1_to_usr0 = did_network_id + UUID.randomUUID();
 
     @Test
     @Order(1)
@@ -46,7 +42,7 @@ public class AuthOperationTest extends DidTest{
         // step1: usr0 授权，但是grant设置为usr1
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
-                .setId(deployCreProof2AuthId)
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user1_creditCode_did)
                 .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
@@ -67,14 +63,14 @@ public class AuthOperationTest extends DidTest{
         Assertions.assertEquals(15005, errMsg_1.getInteger("code"), "签名交易提交者非权限的授权者");
     }
 
-    @RepeatedTest(name = "重复授权, 本测试例中旧的AuthId会被删除", value = 2)
+    @Test
     @Order(2)
-    @DisplayName("授权-usr0授权usr1部署CredenceProofTPL.deploy的权限, 可针对同一个操作对同一个人授权多次, 会覆盖掉先前的授权")
+    @DisplayName("授权-usr0授权usr1部署CredenceProofTPL.deploy的权限, 可针对同一个操作对同一个人不能授权多次")
     void testGrantOperate_2() throws InterruptedException, InvalidProtocolBufferException {
         // step1: usr0授权usr1部署CredenceProofTPL.deploy的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(deployCreProof2AuthId)
+                .setId(deployCreProof2AuthId_usr0_to_usr1)
                 .setGrant(user0_creditCode_did)
                 .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
@@ -108,9 +104,7 @@ public class AuthOperationTest extends DidTest{
 
         // step3: 同一个授权ID，usr0授权给usr2
         String tranId_3 = UUID.randomUUID().toString();
-        Peer.Authorize authorize_3 = authorize_1.toBuilder()
-                .clearGranted().addGranted(user2_creditCode_did)
-                .build();
+        Peer.Authorize authorize_3 = authorize_1.toBuilder().clearGranted().addGranted(user2_creditCode_did).build();
         Peer.Transaction tran_3 = usr0_tranCreator_0.createInvokeTran(tranId_3, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_3))), 0, "");
         postClient.postSignedTran(tran_3);
@@ -122,18 +116,19 @@ public class AuthOperationTest extends DidTest{
         Assertions.assertEquals(15002, errMsg_3.getInteger("code"), String.format("authId为%s的Authorize已经存在", authorize_3.getId()));
         Truth.assertThat(errMsg_3.getString("reason")).isEqualTo(String.format("authId为%s的Authorize已经存在", authorize_3.getId()));
 
-        // step4: usr0授权usr1部署CredenceProofTPL.deploy的权限，不同ID重复授权（AuthId不一致，OperId是同一个）
+        // step4: usr0授权usr1部署CredenceProofTPL.deploy的权限，不同ID重复授权（AuthId不一致，OperId是同一个），会失败
         String tranId_4 = UUID.randomUUID().toString();
-        Peer.Authorize authorize_4 = authorize_1.toBuilder().setId(deployCreProof2AuthId_1).build();
+        Peer.Authorize authorize_4 = authorize_1.toBuilder().setId(did_network_id + UUID.randomUUID()).build();
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_4))), 0, "");
         postClient.postSignedTran(tran_4);
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
         Peer.ActionResult actionResult_4 = tranResult_4.getErr();
-        Assertions.assertEquals(0, actionResult_4.getCode(), "授权成功");
+        JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
+        Assertions.assertEquals(15010, errMsg_4.getInteger("code"), String.format("operId为%s的Operate已经被授权过", authorize_4.getOpId(0)));
         // 因为Auth包含了同一个Operate，因此删除了上一个AuthId
-        Truth.assertThat(tranResult_4.containsStatesDel("identity-net_RdidOperateAuthorizeTPL___auth-" + deployCreProof2AuthId)).isTrue();
+        // Truth.assertThat(tranResult_4.containsStatesDel("identity-net_RdidOperateAuthorizeTPL___auth-" + deployCreProof2AuthId)).isTrue();
 
     }
 
@@ -201,7 +196,7 @@ public class AuthOperationTest extends DidTest{
         // step1: usr0禁用赋予usr1部署CredenceProofTPL.deploy的权限
         JSONObject authStatus = new JSONObject();
 //        authStatus.put("authId", "edb8bad3-2d2c-4bef-bc0f-93a297571ac6");
-        authStatus.put("authId", deployCreProof2AuthId_1);
+        authStatus.put("authId", deployCreProof2AuthId_usr0_to_usr1);
         authStatus.put("state", false);
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
@@ -214,7 +209,7 @@ public class AuthOperationTest extends DidTest{
         // step2: usr1不能继续让渡该权限给usr2 （包含授权，无效，因此不能让渡）
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user1_creditCode_did)
                 .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.deploy"))
@@ -235,7 +230,7 @@ public class AuthOperationTest extends DidTest{
         Assertions.assertEquals(15001, errMsg_1.getInteger("code"), "部分操作不存在或者无效");
 
         // 启用，可继续授权
-        authStatus.put("authId", deployCreProof2AuthId_1);
+        authStatus.put("authId", deployCreProof2AuthId_usr0_to_usr1);
         authStatus.put("state", true);
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
@@ -299,26 +294,29 @@ public class AuthOperationTest extends DidTest{
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isIn(Arrays.asList("操作不存在", "没有找到授权的操作"));
 
-        // step1: usr0授权赋予usr1 和 usr2 调用CredenceProofTPL.creProof的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(funcCreProofAuthId)
                 .setGrant(user0_creditCode_did)
-                .addAllGranted(Arrays.asList(user1_creditCode_did, user2_creditCode_did))
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setIsTransfer(Peer.Authorize.TransferType.TRANSFER_REPEATEDLY)
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setAuthorizeValid(true)
                 .setVersion("1.0")
                 .build();
-        String tranId_1 = UUID.randomUUID().toString();
-        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
-                JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
-        postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
-        Assertions.assertEquals(0, actionResult_1.getCode(), "授权成功");
+
+        // step1: usr0授权赋予usr1 和 usr2 调用CredenceProofTPL.creProof的权限
+        List<String> gratedList = Arrays.asList(user1_creditCode_did, user2_creditCode_did);
+        for (String granted : gratedList) {
+            authorize_1 = authorize_1.toBuilder().setId(did_network_id + UUID.randomUUID()).clearGranted().addGranted(granted).build();
+            String tranId_1 = UUID.randomUUID().toString();
+            Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
+                    JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
+            postClient.postSignedTran(tran_1);
+            TimeUnit.SECONDS.sleep(2);
+            Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
+            Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+            Assertions.assertEquals(0, actionResult_1.getCode(), "授权成功");
+        }
 
         // step2: usr1可以调用CredenceProofTPL<2>.creProof了
         String tranId_2 = UUID.randomUUID().toString();
@@ -340,6 +338,19 @@ public class AuthOperationTest extends DidTest{
         Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
         Peer.ActionResult actionResult_3 = tranResult_3.getErr();
         Assertions.assertEquals(0, actionResult_3.getCode(), "usr2存证成功");
+
+        // 被授权人和授权的操作了列表只能是1个人和1个操作
+        authorize_1 = authorize_1.toBuilder().setId(did_network_id + UUID.randomUUID()).clearGranted().addAllGranted(Arrays.asList(user1_creditCode_did, user2_creditCode_did)).build();
+        String tranId_4 = UUID.randomUUID().toString();
+        Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, grantOperate,
+                JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
+        postClient.postSignedTran(tran_4);
+        TimeUnit.SECONDS.sleep(2);
+        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
+        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Assertions.assertEquals(102, actionResult_4.getCode(), "错误码为102");
+        JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
+        Assertions.assertEquals(15009, errMsg_4.getInteger("code"), String.format("authId为%s的Authorize的被授权人或操作列表元素不是一个", authorize_1.getId()));
 
     }
 
@@ -385,7 +396,7 @@ public class AuthOperationTest extends DidTest{
         // step3: usr1不能授权给usr2调用CredenceProofTPL.creProof的权限（包含授权，有效，但是其中的操作无效，因此不能让渡）
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user1_creditCode_did)
                 .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
@@ -424,7 +435,7 @@ public class AuthOperationTest extends DidTest{
         // step1: usr1授权CredenceProofTPL.creProof2的操作给usr0
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(funcCreProof2AuthId)
+                .setId(funcCreProof2AuthId_usr1_to_usr0)
                 .setGrant(user1_creditCode_did)
                 .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2"))
@@ -445,7 +456,7 @@ public class AuthOperationTest extends DidTest{
         // step2: usr1授权(CredenceProofTPL.creProof2)让渡给usr2
         long millis_2 = System.currentTimeMillis();
         Peer.Authorize authorize_2 = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user0_creditCode_did)
                 .addGranted(user2_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2"))
@@ -472,7 +483,7 @@ public class AuthOperationTest extends DidTest{
     void testUpdateGrantOperateStatus_3() throws InterruptedException, InvalidProtocolBufferException {
         // step1: usr1禁用授权(CredenceProofTPL.creProof2)
         JSONObject authStatus = new JSONObject();
-        authStatus.put("authId", funcCreProof2AuthId);
+        authStatus.put("authId", funcCreProof2AuthId_usr1_to_usr0);
         authStatus.put("state", false);
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
@@ -588,7 +599,7 @@ public class AuthOperationTest extends DidTest{
         Assertions.assertEquals(15003, errMsg.getInteger("code"), String.format("authId为%s的Authorize不存在", authId));
 
         // step2: superAdmin禁用任何人的授权
-        authStatus.put("authId", deployCreProof2AuthId_1);
+        authStatus.put("authId", deployCreProof2AuthId_usr0_to_usr1);
         authStatus.put("state", false);
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
@@ -607,7 +618,7 @@ public class AuthOperationTest extends DidTest{
 
         // step1: 绑定授权到的证书在自己名下，不可以绑定到非自己名下的证书
         Peer.BindCertToAuthorize bca = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(funcCreProof2AuthId)
+                .setAuthorizeId(funcCreProof2AuthId_usr1_to_usr0)
                 .setGranted(usr2_certId_0)
                 .setVersion("1.0")
                 .build();
@@ -629,7 +640,7 @@ public class AuthOperationTest extends DidTest{
 
         // step2: 要绑定的授权，交易提交者名下没有
         Peer.BindCertToAuthorize bca_1 = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(UUID.randomUUID().toString())
+                .setAuthorizeId(did_network_id + UUID.randomUUID())
                 .setGranted(usr0_certId_0)
                 .setVersion("1.0")
                 .build();
@@ -652,7 +663,7 @@ public class AuthOperationTest extends DidTest{
 
         // step3: 要绑定的授权，已经被禁用，这里需要讨论
         Peer.BindCertToAuthorize bca_2 = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(deployCreProof2AuthId_1)
+                .setAuthorizeId(deployCreProof2AuthId_usr0_to_usr1)
                 .setGranted(usr1_certId_0)
                 .setVersion("1.0")
                 .build();
@@ -668,7 +679,7 @@ public class AuthOperationTest extends DidTest{
 
         // 启用授权
         JSONObject authStatus = new JSONObject();
-        authStatus.put("authId", deployCreProof2AuthId_1);
+        authStatus.put("authId", deployCreProof2AuthId_usr0_to_usr1);
         authStatus.put("state", true);
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr0_tranCreator_0.createInvokeTran(tranId_3, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
@@ -691,7 +702,7 @@ public class AuthOperationTest extends DidTest{
                 .setCertName("not-exists")
                 .build();
         Peer.BindCertToAuthorize bca_3 = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(funcCreProof2AuthId)
+                .setAuthorizeId(funcCreProof2AuthId_usr1_to_usr0)
                 .setGranted(usr0_certId_2)
                 .setVersion("1.0")
                 .build();
@@ -725,7 +736,7 @@ public class AuthOperationTest extends DidTest{
 
         // 尝试绑定证书
         Peer.BindCertToAuthorize bca_3 = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(funcCreProof2AuthId)
+                .setAuthorizeId(funcCreProof2AuthId_usr1_to_usr0)
                 .setGranted(usr0_certId_1)
                 .setVersion("1.0")
                 .build();
@@ -790,7 +801,7 @@ public class AuthOperationTest extends DidTest{
 
         // step8: 使用绑定授权的证书，可以调用
         Peer.BindCertToAuthorize bca = Peer.BindCertToAuthorize.newBuilder()
-                .setAuthorizeId(funcCreProof2AuthId)
+                .setAuthorizeId(funcCreProof2AuthId_usr1_to_usr0)
                 .setGranted(usr0_certId_0)
                 .setVersion("1.0")
                 .build();

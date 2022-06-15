@@ -254,7 +254,7 @@ public class CertOpeartionTest extends DidTest {
         // 授权，node1授权给usr0, 注册任意证书的方法
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(node1_creditCode)
                 .addGranted(user0_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:RdidOperateAuthorizeTPL.signUpAllTypeCertificate"))
@@ -303,7 +303,7 @@ public class CertOpeartionTest extends DidTest {
         // 授权，usr0授权给usr1注册任意证书的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(user0_creditCode_did)
                 .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:RdidOperateAuthorizeTPL.signUpAllTypeCertificate"))
@@ -379,7 +379,7 @@ public class CertOpeartionTest extends DidTest {
         // 授权，node1授权给usr1
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize = Peer.Authorize.newBuilder()
-                .setId(UUID.randomUUID().toString())
+                .setId(did_network_id + UUID.randomUUID())
                 .setGrant(node1_creditCode)
                 .addGranted(user1_creditCode_did)
                 .addOpId(DigestUtils.sha256Hex("identity-net:RdidOperateAuthorizeTPL.updateAllTypeCertificateStatus"))
