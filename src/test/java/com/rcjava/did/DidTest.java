@@ -183,7 +183,7 @@ public class DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_AUTHENTICATION)
                 .setId(Peer.CertId.newBuilder().setCreditCode(CreditCode).setCertName(certName).build())
-                .setCertHash(DigestUtils.sha256Hex((did_network_id + certPem).replaceAll("\r\n|\r|\n|\\s", "")))
+                .setCertHash(DigestUtils.sha256Hex(certPem.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
 
         Peer.Signer signer = Peer.Signer.newBuilder()
@@ -218,7 +218,7 @@ public class DidTest {
                 .setCertValid(true)
                 .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
                 .setId(Peer.CertId.newBuilder().setCreditCode(creditCode).setCertName(certName).build())
-                .setCertHash(DigestUtils.sha256Hex(did_network_id + certPem.replaceAll("\r\n|\r|\n|\\s", "")))
+                .setCertHash(DigestUtils.sha256Hex(certPem.replaceAll("\r\n|\r|\n|\\s", "")))
                 .build();
     }
 
@@ -237,7 +237,7 @@ public class DidTest {
                     .setCertValid(true)
                     .setCertType(Peer.Certificate.CertType.CERT_CUSTOM)
                     .setId(Peer.CertId.newBuilder().setCreditCode(creditCode).setCertName(certName).build())
-                    .setCertHash(DigestUtils.sha256Hex(did_network_id + certPem.replaceAll("\r\n|\r|\n|\\s", "")))
+                    .setCertHash(DigestUtils.sha256Hex(certPem.replaceAll("\r\n|\r|\n|\\s", "")))
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
