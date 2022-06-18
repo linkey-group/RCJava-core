@@ -370,26 +370,8 @@ public class MultiChainSeperateTest extends DidTest {
     }
 
     @Test
-    @DisplayName("禁用授权-usr0向业务网络调用DID合约，合约ID不存在")
+    @DisplayName("禁用授权-usr0向业务网络调用DID合约，启用成功")
     @Order(10)
-    void testUpdateGrantOperateStatus_1() throws InterruptedException {
-        // step1: usr0启用授权(CredenceProofTPL.creProof)
-        String funcCreProofAuthId = "credence-net:credenceTpl-creProof3";
-        JSONObject authStatus = new JSONObject();
-        authStatus.put("authId", funcCreProofAuthId);
-        authStatus.put("state", true);
-        String tranId = UUID.randomUUID().toString();
-        Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
-        postCredenceClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
-        Assertions.assertEquals(105, actionResult.getCode(), "调用的chainCode不存在");
-    }
-
-    @Test
-    @DisplayName("禁用授权-usr0向身份网络调用DID合约，启用成功")
-    @Order(11)
     void testUpdateGrantOperateStatus_2() throws InterruptedException {
         // step1: usr0启用授权(CredenceProofTPL.creProof)
         String funcCreProofAuthId = "credence-net:credenceTpl-creProof3";
@@ -406,7 +388,7 @@ public class MultiChainSeperateTest extends DidTest {
     }
 
     @RepeatedTest(name = "重复修改状态", value = 2)
-    @Order(12)
+    @Order(11)
     @DisplayName("修改账户状态-管理员修改usr1的账户状态")
     void testUpdateSignerStatus() throws InterruptedException {
         // step1 superAdmin禁用usr1的账户
@@ -415,9 +397,9 @@ public class MultiChainSeperateTest extends DidTest {
         status.fluentPut("creditCode", user1_creditCode_cre);
         status.fluentPut("state", false);
         Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
-        postCredenceClient.postSignedTran(tran);
+        postClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
+        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
 
         // usr1提交交易失败
@@ -437,9 +419,9 @@ public class MultiChainSeperateTest extends DidTest {
         String tranId_2 = UUID.randomUUID().toString();
         status.fluentPut("state", true);
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
-        postCredenceClient.postSignedTran(tran_2);
+        postClient.postSignedTran(tran_2);
         TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = infoCredenceClient.getTranResultByTranId(tranId_2);
+        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
         Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
         Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
 
@@ -457,7 +439,7 @@ public class MultiChainSeperateTest extends DidTest {
 
     @Test
     @DisplayName("禁用合约")
-    @Order(13)
+    @Order(12)
     void testDisableContract() throws IOException, InterruptedException {
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
         CidStateTran stateTran = CidStateTran.newBuilder()
