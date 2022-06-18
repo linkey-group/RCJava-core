@@ -33,7 +33,7 @@ import static com.google.common.truth.Truth.assertThat;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MultiChainSeperateTest extends DidTest {
+public class MultiChainSeparateTest extends DidTest {
 
     TranPostClient postClient = new TranPostClient("localhost:9081");
     ChainInfoClient infoClient = new ChainInfoClient("localhost:9081");
@@ -51,7 +51,7 @@ public class MultiChainSeperateTest extends DidTest {
     TranPostClient postCredenceClient = new TranPostClient("localhost:9086");
     ChainInfoClient infoCredenceClient = new ChainInfoClient("localhost:9086");
 
-    public MultiChainSeperateTest() throws IOException {
+    public MultiChainSeparateTest() throws IOException {
     }
 
     @BeforeAll
@@ -64,7 +64,7 @@ public class MultiChainSeperateTest extends DidTest {
 
     @Test
     @DisplayName("SuperAdmin注册用户credence-net:usr-1，credence-net:usr-2")
-    @Order(0)
+    @Order(1)
     void signUpSignerTest() throws Exception {
 
         Peer.Signer usr0_signer = getCertSigner(user0_creditCode_cre, user0_cert_0).getSigner();
@@ -84,38 +84,6 @@ public class MultiChainSeperateTest extends DidTest {
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
         Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，注册成功");
-    }
-
-    @DisplayName("部署权限管理合约")
-    @Order(1)
-    void deployDidContract() throws InterruptedException, IOException {
-
-        Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
-        String tplString = FileUtils.readFileToString(new File("jks/test/tpl/RdidOperateAuthorizeTPL.scala"), StandardCharsets.UTF_8);
-        Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
-                .setTimeout(5000)
-                .setCodePackage(tplString)
-                .setLegalProse("")
-                .setCType(Peer.ChaincodeDeploy.CodeType.CODE_SCALA)
-                .setRType(Peer.ChaincodeDeploy.RunType.RUN_SERIAL)
-                .setSType(Peer.ChaincodeDeploy.StateType.STATE_BLOCK)
-                .setInitParameter("")
-                .setCclassification(Peer.ChaincodeDeploy.ContractClassification.CONTRACT_CUSTOM)
-                .build();
-        DeployTran deployTran = DeployTran.newBuilder()
-                .setTxid(UUID.randomUUID().toString())
-                .setCertId(superCertId)
-                .setChaincodeId(customTplId)
-                .setChaincodeDeploy(chaincodeDeploy)
-                .build();
-        // step1: superAdmin在业务链部署权限管理合约
-        deployTran = deployTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
-        Peer.Transaction signedDeployTran = superCreator.createDeployTran(deployTran);
-        postCredenceClient.postSignedTran(signedDeployTran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(signedDeployTran.getId());
-        Peer.ActionResult actionResult = tranResult.getErr();
-        Assertions.assertEquals(0, actionResult.getCode(), "没有错误，合约部署成功");
     }
 
     @Test
@@ -177,7 +145,7 @@ public class MultiChainSeperateTest extends DidTest {
         // step4: superAdmin授权给usr0部署合约A的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(did_network_id + UUID.randomUUID())
+                .setId(cre_network_id + UUID.randomUUID())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode_cre)
                 .addOpId(DigestUtils.sha256Hex("credence-net:CredenceTPL.deploy"))
@@ -481,7 +449,7 @@ public class MultiChainSeperateTest extends DidTest {
         // step3: superAdmin授权给usr0部署合约A的权限
         long millis = System.currentTimeMillis();
         Peer.Authorize authorize_1 = Peer.Authorize.newBuilder()
-                .setId(did_network_id + UUID.randomUUID())
+                .setId(cre_network_id + UUID.randomUUID())
                 .setGrant(super_creditCode)
                 .addGranted(user0_creditCode_cre)
                 .addOpId(DigestUtils.sha256Hex("credence-net:CredenceTPL.setState"))
@@ -523,7 +491,7 @@ public class MultiChainSeperateTest extends DidTest {
         // step5: usr0 授权给usr1
         String tranId_6 = UUID.randomUUID().toString();
         Peer.Authorize authorize_2 = authorize_1.toBuilder()
-                .setId(did_network_id + UUID.randomUUID())
+                .setId(cre_network_id + UUID.randomUUID())
                 .setGrant(user0_creditCode_cre)
                 .clearGranted().addGranted(user1_creditCode_cre).build();
         Peer.Transaction tran_6 = usr0_tranCreator_0.createInvokeTran(tranId_6, usr0_certId_0, didChaincodeId, grantOperate,
