@@ -138,7 +138,7 @@ public class AuthOperationTest extends DidTest{
     void testSignUpOperate_1() throws IOException, InterruptedException {
         // step1: <usr1>部署版本CredenceProofTPL-2的合约, 版本号为<2>
         Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(2).build();
-        String tplString = FileUtils.readFileToString(new File("jks/did/tpl/CredenceTPL.scala"), StandardCharsets.UTF_8);
+        String tplString = FileUtils.readFileToString(new File("jks/test/tpl/CredenceTPL.scala"), StandardCharsets.UTF_8);
         Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
                 .setTimeout(5000)
                 .setCodePackage(tplString)

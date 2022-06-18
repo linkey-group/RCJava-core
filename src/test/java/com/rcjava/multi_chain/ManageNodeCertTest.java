@@ -59,9 +59,9 @@ public class ManageNodeCertTest extends DidTest {
 
     @BeforeAll
     void init_1() {
-        super_pri = CertUtil.genX509CertPrivateKey(new File("jks/multi_chain/951002007l78123233.super_admin.jks"),
+        super_pri = CertUtil.genX509CertPrivateKey(new File("jks/test/multi_chain/identity.951002007l78123233.super_admin.jks"),
                 "super_admin", "951002007l78123233.super_admin").getPrivateKey();
-        System.out.println("jks/multi_chain/951002007l78123233.super_admin.jks");
+        System.out.println("jks/test/multi_chain/identity.951002007l78123233.super_admin.jks");
         superCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
     }
 
@@ -69,7 +69,7 @@ public class ManageNodeCertTest extends DidTest {
     @DisplayName("SuperAdmin部署节点证书管理合约")
     @Order(1)
     void deployContractTest() throws InterruptedException, IOException {
-        String tplString = FileUtils.readFileToString(new File("jks/did/tpl/ManageNodeCert.scala"), StandardCharsets.UTF_8);
+        String tplString = FileUtils.readFileToString(new File("jks/test/tpl/ManageNodeCert.scala"), StandardCharsets.UTF_8);
         Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
                 .setTimeout(5000)
                 .setCodePackage(tplString)

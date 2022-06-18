@@ -40,6 +40,7 @@ public class DidTest {
     protected Peer.ChaincodeId didChaincodeId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
 
     protected String did_network_id = "identity-net:";
+    protected String cre_network_id = "credence-net:";
 
     protected String node1_creditCode = "identity-net:121000005l35120456";
     protected String node2_creditCode = "identity-net:12110107bi45jh675g";
@@ -47,6 +48,13 @@ public class DidTest {
     protected String node4_creditCode = "identity-net:921000005k36123789";
     protected String node5_creditCode = "identity-net:921000006e0012v696";
     protected String super_creditCode = "identity-net:951002007l78123233";
+
+    protected String node6_creditCode = "credence-net:330597659476689954";
+    protected String node7_creditCode = "credence-net:044934755127708189";
+    protected String node8_creditCode = "credence-net:201353514191149590";
+    protected String node9_creditCode = "credence-net:734747416095474396";
+    protected String node10_creditCode = "credence-net:710341838996249513";
+    protected String cre_super_creditCode = "identity-net:951002007l78123233";
 
     protected static String signUpSigner = "signUpSigner";
     protected static String updateSigner = "updateSigner";
@@ -81,11 +89,11 @@ public class DidTest {
     protected static String user2_creditCode_cre = "credence-net:usr-2";
 
     // 身份证书
-    static String user0_cert_0 = "0";
+    protected static String user0_cert_0 = "0";
     // 普通证书
     static String user0_cert_1 = "1";
     // 身份证书
-    static String user1_cert_0 = "0";
+    protected static String user1_cert_0 = "0";
     // 普通证书
     static String user1_cert_1 = "1";
     // 身份证书
@@ -102,26 +110,40 @@ public class DidTest {
     Peer.CertId usr2_certId_0 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode_did).setCertName(user2_cert_0).build();
     Peer.CertId usr2_certId_1 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode_did).setCertName(user2_cert_1).build();
 
-    TranCreator usr0_tranCreator_0 = genUsrTranCreator(user0_creditCode_did, user0_cert_0);
-    TranCreator usr0_tranCreator_1 = genUsrTranCreator(user0_creditCode_did, user0_cert_1);
+    TranCreator usr0_tranCreator_0 = genUsrTranCreator(cre_network_id, user0_creditCode_cre, user0_cert_0);
+    TranCreator usr0_tranCreator_1 = genUsrTranCreator(cre_network_id, user0_creditCode_cre, user0_cert_1);
 
-    TranCreator usr1_tranCreator_0 = genUsrTranCreator(user1_creditCode_did, user1_cert_0);
-    TranCreator usr1_tranCreator_1 = genUsrTranCreator(user1_creditCode_did, user1_cert_1);
+    TranCreator usr1_tranCreator_0 = genUsrTranCreator(cre_network_id, user1_creditCode_cre, user1_cert_0);
+    TranCreator usr1_tranCreator_1 = genUsrTranCreator(cre_network_id, user1_creditCode_cre, user1_cert_1);
 
-    TranCreator usr2_tranCreator_0 = genUsrTranCreator(user2_creditCode_did, user2_cert_0);
-    TranCreator usr2_tranCreator_1 = genUsrTranCreator(user2_creditCode_did, user2_cert_1);
+    TranCreator usr2_tranCreator_0 = genUsrTranCreator(cre_network_id, user2_creditCode_cre, user2_cert_0);
+    TranCreator usr2_tranCreator_1 = genUsrTranCreator(cre_network_id, user2_creditCode_cre, user2_cert_1);
+
+    Peer.CertId usr0_cre_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode_cre).setCertName(user0_cert_0).build();
+    Peer.CertId usr0_cre_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode_cre).setCertName(user0_cert_1).build();
+
+    Peer.CertId usr1_cre_certId_0 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode_cre).setCertName(user1_cert_0).build();
+    Peer.CertId usr1_cre_certId_1 = Peer.CertId.newBuilder().setCreditCode(user1_creditCode_cre).setCertName(user1_cert_1).build();
+
+    Peer.CertId usr2_cre_certId_0 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode_cre).setCertName(user2_cert_0).build();
+    Peer.CertId usr2_cre_certId_1 = Peer.CertId.newBuilder().setCreditCode(user2_creditCode_cre).setCertName(user2_cert_1).build();
+
+    TranCreator usr0_cre_tranCreator_0 = genUsrTranCreator(cre_network_id, user0_creditCode_cre, user0_cert_0);
+    TranCreator usr0_cre_tranCreator_1 = genUsrTranCreator(cre_network_id, user0_creditCode_cre, user0_cert_1);
+
+    TranCreator usr1_cre_tranCreator_0 = genUsrTranCreator(cre_network_id, user1_creditCode_cre, user1_cert_0);
+    TranCreator usr1_cre_tranCreator_1 = genUsrTranCreator(cre_network_id, user1_creditCode_cre, user1_cert_1);
+
+    TranCreator usr2_cre_tranCreator_0 = genUsrTranCreator(cre_network_id, user2_creditCode_cre, user2_cert_0);
+    TranCreator usr2_cre_tranCreator_1 = genUsrTranCreator(cre_network_id, user2_creditCode_cre, user2_cert_1);
 
 
 //    DidTest.SignerCert usr0_signer_cert_1 = genCertSigner(user0_creditCode, user0_pem_1, user0_cert_1);
 //    DidTest.SignerCert usr1_signer_cert_1 = genCertSigner(user1_creditCode, user1_pem_1, user1_cert_1);
 
-    String user0_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user0_creditCode_did.substring(did_network_id.length()), user0_cert_0)).toPath()));
-    String user1_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user1_creditCode_did.substring(did_network_id.length()), user1_cert_0)).toPath()));
-    String user2_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/did/%s_%s.cer", user2_creditCode_did.substring(did_network_id.length()), user2_cert_0)).toPath()));
-
-    SignerCert usr0_signer_cert = getCertSigner(user0_creditCode_did, user0_pem_0, user0_cert_0);
-    SignerCert usr1_signer_cert = getCertSigner(user1_creditCode_did, user1_pem_0, user1_cert_0);
-    SignerCert usr2_signer_cert = getCertSigner(user2_creditCode_did, user2_pem_0, user2_cert_0);
+    SignerCert usr0_signer_cert = getCertSigner(user0_creditCode_did, user0_cert_0);
+    SignerCert usr1_signer_cert = getCertSigner(user1_creditCode_did, user1_cert_0);
+    SignerCert usr2_signer_cert = getCertSigner(user2_creditCode_did, user2_cert_0);
 
     Peer.Signer usr0_signer = usr0_signer_cert.getSigner();
     Peer.Signer usr1_signer = usr1_signer_cert.getSigner();
@@ -156,27 +178,28 @@ public class DidTest {
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j < 2; j++) {
                 String usr_alias = "usr-" + i + "_" + j;
-                CertUtil.genJksFile(new File("jks/did/" + usr_alias + ".jks"), usr_alias, "123");
+                CertUtil.genJksFile(new File("jks/test/did/" + usr_alias + ".jks"), usr_alias, "123");
             }
         }
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j < 2; j++) {
                 String usr_alias = "usr-" + i + "_" + j;
-                CertUtil.X509CertPrivateKey certPrivateKey = CertUtil.genX509CertPrivateKey(new File("jks/did/" + usr_alias + ".jks"), "123", usr_alias);
-                PemUtil.exportToPemFile(new File("jks/did/" + usr_alias + ".cer"), certPrivateKey.getCertificate());
-                PemUtil.exportToPemFile(new File("jks/did/" + usr_alias + ".pkcs8"), certPrivateKey.getPrivateKey(), false);
+                CertUtil.X509CertPrivateKey certPrivateKey = CertUtil.genX509CertPrivateKey(new File("jks/test/did/" + usr_alias + ".jks"), "123", usr_alias);
+                PemUtil.exportToPemFile(new File("jks/test/did/" + usr_alias + ".cer"), certPrivateKey.getCertificate());
+                PemUtil.exportToPemFile(new File("jks/test/did/" + usr_alias + ".pkcs8"), certPrivateKey.getPrivateKey(), false);
             }
         }
     }
 
     /**
      * @param CreditCode 信用码
-     * @param certPem    证书pem字符串
      * @param certName   证书名
      * @return
      * @throws Exception
      */
-    protected SignerCert getCertSigner(String CreditCode, String certPem, String certName) {
+    protected SignerCert getCertSigner(String CreditCode, String certName) throws IOException {
+        // 证书pem字符串
+        String certPem = new String(Files.readAllBytes(new File(String.format("jks/test/did/%s_%s.cer", CreditCode.split(":")[1], user0_cert_0)).toPath()));
         Peer.Certificate cert_proto = Peer.Certificate.newBuilder()
                 .setCertificate(certPem)
                 .setAlgType("sha256withecdsa")
@@ -187,7 +210,7 @@ public class DidTest {
                 .build();
 
         Peer.Signer signer = Peer.Signer.newBuilder()
-                .setName(CreditCode)
+                .setName(CreditCode.split(":")[1])
                 .setCreditCode(CreditCode)
                 .setMobile("18888888888")
                 .addAllCertNames(Arrays.asList(certName))
@@ -208,7 +231,7 @@ public class DidTest {
      */
     protected Peer.Certificate getNodeCert(String creditCode, String certName) throws IOException {
         X509Certificate x509Certificate = CertUtil.genX509CertPrivateKey(
-                new File(String.format("jks/jdk13/%s.%s.jks", creditCode.substring(did_network_id.length()), certName)),
+                new File(String.format("jks/test/jdk13/%s.%s.jks", creditCode.split(":")[1], certName)),
                 "123",
                 creditCode + "." + certName).getCertificate();
         String certPem = PemUtil.toPemString(x509Certificate);
@@ -228,7 +251,7 @@ public class DidTest {
      * @return
      */
     protected Peer.Certificate getUsrCert(String creditCode, String certName) {
-        X509Certificate x509Certificate = CertUtil.generateX509Cert(new File(String.format("jks/did/%s_%s.cer", creditCode.substring(did_network_id.length()), certName)));
+        X509Certificate x509Certificate = CertUtil.generateX509Cert(new File(String.format("jks/test/did/%s_%s.cer", creditCode.split(":")[1], certName)));
         try {
             String certPem = PemUtil.toPemString(x509Certificate);
             return Peer.Certificate.newBuilder()
@@ -250,10 +273,10 @@ public class DidTest {
      * @param certName
      * @return
      */
-    protected TranCreator genUsrTranCreator(String creditCode, String certName) {
+    protected TranCreator genUsrTranCreator(String netWorkId, String creditCode, String certName) {
         try {
             PrivateKey privateKey = KeyUtil.generatePrivateKey(
-                    new PEMParser(new FileReader(String.format("jks/did/%s_%s.pkcs8", creditCode.substring(did_network_id.length()), certName))),
+                    new PEMParser(new FileReader(String.format("jks/test/did/%s_%s.pkcs8", creditCode.split(":")[1], certName))),
                     "123");
             TranCreator tranCreator = TranCreator.newBuilder()
                     .setSignAlgorithm("SHA256withECDSA")
@@ -277,7 +300,7 @@ public class DidTest {
      */
     protected TranCreator genNodeTranCreator(String creditCode, String certName) {
         PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
-                new File(String.format("jks/jdk13/%s.%s.jks", creditCode.substring(did_network_id.length()), certName)),
+                new File(String.format("jks/test/jdk13/%s.%s.jks", creditCode.split(":")[1], certName)),
                 "123",
                 creditCode + "." + certName).getPrivateKey();
         TranCreator tranCreator = TranCreator.newBuilder()
@@ -306,7 +329,7 @@ public class DidTest {
                 .orElse(null);
     }
 
-    class SignerCert {
+    protected class SignerCert {
         Peer.Signer signer;
         Peer.Certificate certificate;
 
@@ -366,5 +389,29 @@ public class DidTest {
 
     public TranCreator getUsr2_tranCreator_0() {
         return usr2_tranCreator_0;
+    }
+
+    public Peer.CertId getUsr0_cre_certId_0() {
+        return usr0_cre_certId_0;
+    }
+
+    public Peer.CertId getUsr1_cre_certId_0() {
+        return usr1_cre_certId_0;
+    }
+
+    public Peer.CertId getUsr2_cre_certId_0() {
+        return usr2_cre_certId_0;
+    }
+
+    public TranCreator getUsr0_cre_tranCreator_0() {
+        return usr0_cre_tranCreator_0;
+    }
+
+    public TranCreator getUsr1_cre_tranCreator_0() {
+        return usr1_cre_tranCreator_0;
+    }
+
+    public TranCreator getUsr2_cre_tranCreator_0() {
+        return usr2_cre_tranCreator_0;
     }
 }

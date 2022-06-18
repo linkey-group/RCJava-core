@@ -121,7 +121,7 @@ public class OperOperationTest extends DidTest {
         // step1: usr0部署合约A失败, 操作不存在
         // CredenceTPL.scala 是事先编写好的合约文件
         Peer.ChaincodeId customTplId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
-        String tplString = FileUtils.readFileToString(new File("jks/did/tpl/CredenceTPL.scala"), StandardCharsets.UTF_8);
+        String tplString = FileUtils.readFileToString(new File("jks/test/tpl/CredenceTPL.scala"), StandardCharsets.UTF_8);
         Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
                 .setTimeout(5000)
                 .setCodePackage(tplString)

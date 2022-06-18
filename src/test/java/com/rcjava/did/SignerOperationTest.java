@@ -10,6 +10,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.*;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,10 @@ import java.util.concurrent.TimeUnit;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SignerOperationTest extends DidTest {
+
+    String user0_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/test/did/%s_%s.cer", user0_creditCode_did.split(":")[1], user0_cert_0)).toPath()));
+    String user1_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/test/did/%s_%s.cer", user1_creditCode_did.split(":")[1], user1_cert_0)).toPath()));
+    String user2_pem_0 = new String(Files.readAllBytes(new File(String.format("jks/test/did/%s_%s.cer", user2_creditCode_did.split(":")[1], user2_cert_0)).toPath()));
 
     public SignerOperationTest() throws Exception {
     }
