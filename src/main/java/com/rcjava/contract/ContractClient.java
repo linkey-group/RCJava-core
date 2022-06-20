@@ -51,7 +51,7 @@ public class ContractClient {
 
     }
 
-    public ContractClient(String host, SSLContext sslContext, ChaincodeId chaincodeId, ContractUser contractUser) {
+    public ContractClient(String host, ChaincodeId chaincodeId, ContractUser contractUser, SSLContext sslContext) {
         this.host = host;
         this.sslContext = sslContext;
         this.chaincodeId = chaincodeId;
@@ -144,7 +144,7 @@ public class ContractClient {
     public JSONObject updateContractVersion(int version, String contractCode) {
         ContractClient updateClient = Objects.isNull(sslContext)
                 ? new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser)
-                : new ContractClient(host, sslContext, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+                : new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser, sslContext);
         JSONObject updateRes = updateClient.deployContract(contractCode);
         return updateRes;
     }
@@ -158,7 +158,7 @@ public class ContractClient {
     public JSONObject updateContractVersion(int version, ChaincodeDeploy chaincodeDeploy) {
         ContractClient updateClient = Objects.isNull(sslContext)
                 ? new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser)
-                : new ContractClient(host, sslContext, chaincodeId.toBuilder().setVersion(version).build(), contractUser);
+                : new ContractClient(host, chaincodeId.toBuilder().setVersion(version).build(), contractUser, sslContext);
         JSONObject updateRes = updateClient.deployContract(chaincodeDeploy);
         return updateRes;
     }

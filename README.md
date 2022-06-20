@@ -350,7 +350,7 @@
   >             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
   >             .build();
   > ......
-  > ContractClient client = new ContractClient(host, sslContext, contractAssetsId, user);
+  > ContractClient client = new ContractClient(host, contractAssetsId, user, sslContext);
   > ```
   
 * 查询交易数据
@@ -398,19 +398,21 @@
   ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
   // 使用具体方法即可，如根据交易ID查询交易以及交易所在区块高度：
   ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
+  // 查询LevelDB
+  Object leveldbRes = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
+  // 查询交易入块后的结果
+  TransactionResult tranRes = chainInfoClient.getTranResultByTranId("1234567890")
   ```
-  
+
   > 底层使用https
-  
-  ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
-  // 使用具体方法即可，如根据交易ID查询交易以及交易所在区块高度：
-  ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
-  ```
-  
+  >
+  > ```java
+  > ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
+  > ```
+
 * 同步块数据
 
-  > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，思路是：定时<拉>（基于http服务）和<推拉>结合（基于ws+http服务）的方式来同步区块，即订阅（基于ws）与拉取（基于http）相结合的方案来保证区块同步的实时性，该方案可以防止相应节点<u>ws服务</u>崩溃，使用示例请参考SyncServiceTest
+  > 使用sync/SyncService构建同步服务，从**指定高度**开始同步，一直到**最新高度**，思路是：定时<拉>（基于http服务）和<推拉>结合（基于ws+http服务）的方式来同步区块，即订阅（基于ws/wss）与拉取（基于http/https）相结合的方案来保证区块同步的实时性，该方案可以防止相应节点<u>ws服务</u>崩溃，使用示例请参考SyncServiceTest
   >
   > 1. 使用host、syncInfo、syncListener（<u>实现该接口，可将区块存储到数据库中</u>）初始化
   > 2. 初始化之后，就可以启动同步服务
@@ -456,5 +458,7 @@
   // event 监听，并回调给具体的实现类
   blkListener.registerBlkObserver("BlockObserver实例");
   RSubClient rSubClient = new RSubClient(host, blkListener);
+  // https
+  // RSubClient rSubClient = new RSubClient(host, blkListener, sslContext);
   rSubClient.connect();
   ```
