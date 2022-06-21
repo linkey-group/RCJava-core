@@ -194,10 +194,12 @@ public class TranCreator {
 
 
     /**
-     * @param tranId
-     * @param certId
-     * @param chaincodeId
-     * @param state
+     * @param tranId      交易ID
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param state       合约状态
+     * @param gasLimit    如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      * @throws Exception
      */
@@ -216,6 +218,22 @@ public class TranCreator {
                 .setOid(oid)
                 .build();
         return TranSigner.signTran(tranSt, certId, privateKey, signAlgorithm);
+    }
+
+    /**
+     * @param certId      用户证书标识
+     * @param chaincodeId 合约ID
+     * @param state       合约状态
+     * @param gasLimit    如果有设置按照预设的资源消耗,超出则终止执行；否则不限制
+     * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
+     * @return
+     * @throws Exception
+     */
+    public Transaction createCidStateTran(@Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull Boolean state,
+                                          @Nonnull int gasLimit, @Nonnull String oid) throws Exception {
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+        logger.info("生成随机tranId：{}", tranId);
+        return createCidStateTran(tranId, certId, chaincodeId, state, gasLimit, oid);
     }
 
     /**

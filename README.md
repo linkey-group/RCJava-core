@@ -1,5 +1,5 @@
 # **RCJava-core**
-![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-1.0.0-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
+![SVG](https://img.shields.io/badge/jdk-%3E%3D1.8-blue) ![SVG](https://img.shields.io/badge/version-2.0.0.SNAPSHOT-orange) [![](https://jitpack.io/v/com.gitee.BTAJL/RCJava-core.svg)](https://jitpack.io/#com.gitee.BTAJL/RCJava-core)
 
 ***
 ### 目录
@@ -15,7 +15,9 @@
 
 #### 项目介绍
 
-​		Java SDK for RepChain，包括构造签名交易、提交签名交易、查询交易或块数据、同步块数据、订阅出块事件，及其他的一些工具类。<br>		签名交易包括三种类型：1、部署合约类型的交易；2、调用合约类型的交易；3、修改合约状态类型的交易。
+1. Java SDK for RepChain，包括构造签名交易、提交签名交易、查询交易或块数据等链信息、同步块数据、订阅出块事件，及其他的一些工具类。<br>
+2. 签名交易包括三种类型：1、部署合约类型的交易；2、调用合约类型的交易；3、修改合约状态类型的交易。<br>
+3. 注册用户通过签名交易可以管理合约生命周期以及合约方法的权限
 
 ****
 
@@ -55,13 +57,14 @@
 
     * **`com.rcjava.util`** 主要是封装了一些工具类<br>
 
-        > - CertUtil 证书相关工具类
-        > - KeyUtil  key操作相关的工具类
+        > - CertUtil   证书相关工具类
+        > - GmUtil    国密相关工具类
+        > - KeyUtil    key操作相关的工具类
         > - PemUtil  Pem操作相关的工具类
         
     * **`com.rcjava.ws`** 利用websocket订阅块事件
 - src/test
-    * 主要是相关工具类的测试用例，用户可参考此示例代码来构造交易、提交交易以及使用相关工具类
+    * 主要是签名给交易构造与提交、权限管理、区块同步和相关工具类等的测试用例，用户可参考此示例代码来构造交易、提交交易以及使用相关工具类
     
 
 ***
@@ -91,13 +94,13 @@
 
 4. `mvn clean install` 打包rcjava-core为jar包，并install到本地maven仓库
 
-5. 项目就可以引用rcjava-core了
+5. 其他项目就可以通过如下方式使用rcjava-core了
 
    > ```xml
    > <dependency>
    > 	<groupId>repchain</groupId>
    > 	<artifactId>rcjava-core</artifactId>
-   > 	<version>1.0.0</version>
+   > 	<version>2.0.0-SNAPSHOT</version>
    > </dependency>
    > ```
 
@@ -122,7 +125,7 @@
   <dependency>
   	<groupId>com.gitee.BTAJL</groupId>
   	<artifactId>RCJava-core</artifactId>
-  	<version>1.0.0</version>
+  	<version>2.0.0-SNAPSHOT</version>
   </dependency>
   ```
 
@@ -132,11 +135,9 @@
 
 #### 使用说明
 
-* **准备工作**
+* 搭建好RepChain
   
-  * 搭建好RepChain
-  
-* 推荐使用`secp256r1`生成密钥对（当然也可以使用其他[curves](https://docs.oracle.com/en/java/javase/13/security/oracle-providers.html#GUID-091BF58C-82AB-4C9C-850F-1660824D5254)），并向管理员（组网节点）申请注册账户和证书到RepChain
+* 推荐使用`secp256r1`生成密钥对（当然也可以使用其他[curves](https://docs.oracle.com/en/java/javase/13/security/oracle-providers.html#GUID-091BF58C-82AB-4C9C-850F-1660824D5254)）
   
     > ```java
     > // 打印出Jdk可支持的曲线
@@ -147,6 +148,10 @@
     > }
     > ```
   
+* 注册账户证书
+
+    * 向管理员（RepChain中的用户）申请注册账户和证书到RepChain，注册账户和证书的示例可参考`/src/test/java/com/rcjava/did/SignerOperationTest.java`
+
 * 构建签名交易
 
   > <font color=#ff00><b>交易的签名算法根据对应RepChain版本进行设置</b></font>
@@ -159,20 +164,26 @@
       ```java
       // 标识账户证书
       Peer.CertId certId = Peer.CertId.newBuilder()
+                // 调用者账户号
           			.setCreditCode("121000005l35120456")
+                // 证书标识，对应于先前注册的证书名
           			.setCertName("node1")
           			.build(); // 签名ID
       
       // 这个是给转账交易示范用的，此ID需要与repchain合约部署的一致
       Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder()
+                // 合约名
           			.setChaincodeName("ContractAssetsTPL")
+                // 合约版本号
           			.setVersion(1)
          				.build();
       Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
       
       // 合约方法参数
       Peer.ChaincodeInput chaincodeInput = Peer.ChaincodeInput.newBuilder()
+        							// 合约方法
                       .setFunction("transfer")
+        							// 合约方法实参
                       .addArgs(JSON.toJSONString(transfer))
                       .build();
       
@@ -224,15 +235,16 @@
           			.setPrivateKey(privateKey)
           			.setSignAlgorithm("SHA256withECDSA")
           			.build();
+      String tranId = "UUID";
       Peer.Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
       ```
       
     * CidStateTran
-
+    
       > 参考InvokeTran的构建
-
+    
     * DeployTran
-
+    
       > 参考InvokeTran的构建
 
 * 提交签名交易
@@ -256,7 +268,7 @@
       String tranHex = Hex.encodeHexString(tran.toByteArray());
       JSONObject res = tranPostClient.postSignedTran(tranHex);
       ```
-  
+
     * 使用字节块提交
 
       ```java
@@ -267,8 +279,8 @@
       JSONObject res = tranPostClient.postSignedTran(tran);
       ```
       
-  
-    > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建TranPostClient
+
+    > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建TranPostClient
     >
     > ```java
     > SSLContext sslContext = SSLContexts.custom()
@@ -278,18 +290,18 @@
     > // sslContext可根据具体情况来针对性的构建
     > TranPostClient tranPostClient = new TranPostClient("localhost:9081", sslContext);
     > ```
-  
+
   * 使用**异步**方式
-  
+
     > 用来异步提交签名交易的客户端：TranPostAsyncClient
     >
     > ```java
     > public Future<HttpResponse> postSignedTran(String tranHexString) {/***/}
     > public Future<HttpResponse> postSignedTran(Transaction tran) {/***/}
     > ```
-  
+
     * 使用<u>Hex字符串</u>的方式
-  
+
       ```java
       TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
       // -------------------------------
@@ -298,9 +310,9 @@
       String tranHex = Hex.encodeHexString(tran.toByteArray());
       Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tranHex);
       ```
-  
+
     * 使用<u>字节块</u>提交
-  
+
       ```java
       TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
       // -------------------------------
@@ -308,16 +320,16 @@
       // -------------------------------
       Future<HttpResponse> responseFuture = tranPostClient.postSignedTran(tran);
       ```
-  
+
     * 从future中解析数据，默认超时时间20s
-  
+
       > ```java
       > HttpResponse httpResponse = responseFuture.get(20, TimeUnit.SECONDS);
       > JSONObject result = TranPostAsyncClient.resolveHttpResponseFuture(responseFuture);
       > ```
       
-  
-    > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建TranPostAsyncClient
+
+    > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建TranPostAsyncClient
     >
     > ```java
     > SSLContext sslContext = SSLContexts.custom()
@@ -327,9 +339,9 @@
     > // sslContext可根据具体情况来针对性的构建
     > TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081", sslContext);
     > ```
-  
+
 * 使用ContractClient
-  
+
   > 使用ContractClient部署升级合约、修改合约状态、调用合约，可选用具体方法，下面例子中的方法只是其中之一
   ```java
   CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
@@ -342,7 +354,7 @@
   contractClient.invokeContract("transfer", JSON.toJSONString(transfer));
   ```
 
-  > 如果RepChain端开启了https单向或双向认证，则需要使用如下方式构建ContractClient
+  > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建ContractClient
   >
   > ```java
   > SSLContext sslContext = SSLContexts.custom()
@@ -352,7 +364,7 @@
   > ......
   > ContractClient client = new ContractClient(host, contractAssetsId, user, sslContext);
   > ```
-  
+
 * 查询交易数据
 
   > 使用ChainInfoClient构建查询客户端，用来获取链信息的客户端
@@ -383,13 +395,14 @@
 
   ```java
   ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+  // 查询链信息
   BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
   // 使用Json构建
   Block block = chainInfoClient.getBlockByHeight(5);
   // 直接获取字节块构建
   Block block = chainInfoClient.getBlockStreamByHeight(5)
   ```
-  
+
 * 查询其他数据
 
   > 使用ChainInfoClient构建查询客户端
@@ -402,9 +415,10 @@
   Object leveldbRes = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
   // 查询交易入块后的结果
   TransactionResult tranRes = chainInfoClient.getTranResultByTranId("1234567890")
+  ...
   ```
 
-  > 底层使用https
+  > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建ChainInfoClient
   >
   > ```java
   > ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
@@ -430,7 +444,7 @@
   thread.start();
   ```
 
-  > 如果是基于RepChain端https单向或双向的同步，如下：
+  > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建SyncService
   >
   > ```java
   > SyncInfo syncInfo = new SyncInfo(locHeight, locBlkHash);
@@ -450,7 +464,7 @@
   > 1. 创建BlockObserver实例
   > 2. 创建BlockListener实例（可使用工具类BlockListenerUtil获取-->每个host只有唯一的1个listener）
   > 3. 向BlockListener中注册BlockObserver
-  
+
   ```java
   // 获取block监听，使用 host 获取一个监听，每个 host 对应一个监听
   // 也可以自己去实例化
@@ -458,7 +472,7 @@
   // event 监听，并回调给具体的实现类
   blkListener.registerBlkObserver("BlockObserver实例");
   RSubClient rSubClient = new RSubClient(host, blkListener);
-  // https
+  // 若RepChain开启了https单向或双向认证
   // RSubClient rSubClient = new RSubClient(host, blkListener, sslContext);
   rSubClient.connect();
   ```

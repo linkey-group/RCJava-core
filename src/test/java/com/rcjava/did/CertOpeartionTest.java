@@ -207,7 +207,7 @@ public class CertOpeartionTest extends DidTest {
         Peer.ActionResult actionResult = tranResult.getErr();
         Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
 
-        // step2: 使用注册好的证书对应的私钥提交签名交易 TODO 待完成,有问题需要解决, 下划线或者 . 分隔符不能正确解析， 且证书拿出来之后并未验证valid的有效性
+        // step2: 使用注册好的证书对应的私钥提交签名交易
         String tranId_1 = UUID.randomUUID().toString();
         Transfer transfer = new Transfer(user0_creditCode_did, node2_creditCode, 5);
         Peer.Transaction tran_1 = usr0_tranCreator_1.createInvokeTran(tranId_1, usr0_certId_1, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
