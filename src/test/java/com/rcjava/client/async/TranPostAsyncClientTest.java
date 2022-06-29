@@ -43,9 +43,9 @@ public class TranPostAsyncClientTest {
 //    private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081", sslContext);
     private TranPostAsyncClient tranPostClient = new TranPostAsyncClient("localhost:9081");
 
-    private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+    private Transfer transfer = new Transfer("identity-net:121000005l35120456", "identity-net:12110107bi45jh675g", 5);
 
-    private CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build(); // 签名ID
+    private CertId certId = CertId.newBuilder().setCreditCode("identity-net:121000005l35120456").setCertName("node1").build(); // 签名ID
     //这个是给转账交易示范用的，此ID需要与repchain合约部署的一致
     private ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
 

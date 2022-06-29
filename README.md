@@ -165,7 +165,7 @@
       // 标识账户证书
       Peer.CertId certId = Peer.CertId.newBuilder()
                 // 调用者账户号
-          			.setCreditCode("121000005l35120456")
+          			.setCreditCode("identity-net:121000005l35120456")
                 // 证书标识，对应于先前注册的证书名
           			.setCertName("node1")
           			.build(); // 签名ID
@@ -177,7 +177,7 @@
                 // 合约版本号
           			.setVersion(1)
          				.build();
-      Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+      Transfer transfer = new Transfer("identity-net:121000005l35120456", "identity-net:12110107bi45jh675g", 5);
       
       // 合约方法参数
       Peer.ChaincodeInput chaincodeInput = Peer.ChaincodeInput.newBuilder()
@@ -216,7 +216,7 @@
       ```java
       // 标识账户证书
       Peer.CertId certId = Peer.CertId.newBuilder()
-          			.setCreditCode("121000005l35120456")
+          			.setCreditCode("identity-net:121000005l35120456")
           			.setCertName("node1")
           			.build(); // 签名ID
       
@@ -225,7 +225,7 @@
           			.setChaincodeName("ContractAssetsTPL")
           			.setVersion(1)
          				.build();
-      Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+      Transfer transfer = new Transfer("identity-net:121000005l35120456", "identity-net:12110107bi45jh675g", 5);
       // 合约方法参数
       Peer.ChaincodeInput chaincodeInput = Peer.ChaincodeInput.newBuilder()
                       .setFunction("transfer")
@@ -344,13 +344,13 @@
 
   > 使用ContractClient部署升级合约、修改合约状态、调用合约，可选用具体方法，下面例子中的方法只是其中之一
   ```java
-  CertId certId = CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
+  CertId certId = CertId.newBuilder().setCreditCode("identity-net:121000005l35120456").setCertName("node1").build();
   // 这个是给转账交易示范用的，此ID需要与RepChain合约部署的一致
   ChaincodeId contractAssetsId = ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
   // privateKey是与certId标识的证书对应的用户私钥
   ContractUser user = new ContracUser(certId, privateKey);
   ContractClient contractClient = new ContractClient("localhost:9081", contractAssetsId, user);
-  Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+  Transfer transfer = new Transfer("identity-net:121000005l35120456", "identity-net:12110107bi45jh675g", 5);
   contractClient.invokeContract("transfer", JSON.toJSONString(transfer));
   ```
 

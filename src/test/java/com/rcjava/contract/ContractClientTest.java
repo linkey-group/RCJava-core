@@ -21,7 +21,7 @@ import java.security.PrivateKey;
 public class ContractClientTest {
 
     private String host = "localhost:9081";
-    private Transfer transfer = new Transfer("121000005l35120456", "12110107bi45jh675g", 5);
+    private Transfer transfer = new Transfer("identity-net:121000005l35120456", "identity-net:12110107bi45jh675g", 5);
 
     SSLContext sslContext = SSLContexts.custom()
             .loadTrustMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), new TrustSelfSignedStrategy())
@@ -35,7 +35,7 @@ public class ContractClientTest {
     @DisplayName("调用合约，执行转账函数")
     public void testInvokeContract() {
         // 首先是操作合约的用户
-        Peer.CertId certId = Peer.CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
+        Peer.CertId certId = Peer.CertId.newBuilder().setCreditCode("identity-net:121000005l35120456").setCertName("node1").build();
         PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
                 new File("jks/jdk13/121000005l35120456.node1.jks"),
                 "123",
@@ -56,7 +56,7 @@ public class ContractClientTest {
     @DisplayName("调用合约，执行转账函数")
     public void testInvokeContract_1() {
         // 首先是操作合约的用户
-        Peer.CertId certId = Peer.CertId.newBuilder().setCreditCode("121000005l35120456").setCertName("node1").build();
+        Peer.CertId certId = Peer.CertId.newBuilder().setCreditCode("identity-net:121000005l35120456").setCertName("node1").build();
         PrivateKey privateKey = CertUtil.genX509CertPrivateKey(
                 new File("jks/jdk13/121000005l35120456.node1.jks"),
                 "123",
