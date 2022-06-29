@@ -434,7 +434,7 @@ public class OperOperationTest extends DidTest {
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
         Peer.ActionResult actionResult_1 = tranResult_1.getErr();
-        Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，提交成功");
+        Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，状态修改成功");
 
         // step2: 提交交易测试
         String resId = testCredenceProof();
@@ -454,7 +454,7 @@ public class OperOperationTest extends DidTest {
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
         Peer.ActionResult actionResult_2 = tranResult_2.getErr();
-        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，提交成功");
+        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，状态修改成功");
 
         // step4: 提交交易测试
         String resId_1 = testCredenceProof();

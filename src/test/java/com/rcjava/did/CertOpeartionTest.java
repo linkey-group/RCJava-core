@@ -350,7 +350,7 @@ public class CertOpeartionTest extends DidTest {
         TimeUnit.SECONDS.sleep(2);
         Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
         Peer.ActionResult actionResult_4 = tranResult_4.getErr();
-        Assertions.assertEquals(0, tranResult_4.getErr().getCode(), "没有错误，修改成功");
+        Assertions.assertEquals(0, tranResult_4.getErr().getCode(), "没有错误，注册成功");
 
         // step5: 注册证书, usr1为usr2注册身份证书, 证书已存在
         String tranId_5 = UUID.randomUUID().toString();
