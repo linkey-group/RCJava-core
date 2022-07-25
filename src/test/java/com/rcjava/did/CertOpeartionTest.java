@@ -191,7 +191,7 @@ public class CertOpeartionTest extends DidTest {
         Assertions.assertEquals("该方法不能修改身份证书状态，请通过 updateAllTypeCertificateStatus", errMsg.getString("reason"));
     }
 
-    @Tag("修改证书状态")
+    @Tag("修改证书状态---禁用/启用证书")
     @Test
     @Order(9)
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus, 修改成功")

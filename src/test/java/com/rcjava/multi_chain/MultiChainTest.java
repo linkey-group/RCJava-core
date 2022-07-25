@@ -79,7 +79,7 @@ public class MultiChainTest extends DidTest {
     }
 
     @Test
-    @DisplayName("注册Operate-注册合约")
+    @DisplayName("注册Operate-注册部署合约的权限")
     @Order(2)
     void signUpOperate() throws InterruptedException, IOException {
 
