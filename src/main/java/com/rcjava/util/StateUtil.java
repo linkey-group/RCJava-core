@@ -1,6 +1,7 @@
 package com.rcjava.util;
 
 import com.rcjava.client.ChainInfoClient;
+import com.rcjava.protos.Peer;
 import com.twitter.chill.KryoInjection;
 import org.json4s.Extraction;
 import org.json4s.Formats;
@@ -40,12 +41,14 @@ public class StateUtil {
     }
 
     public static void main(String[] args) {
-        ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+        ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9086");
         byte[] bytes = chainInfoClient.getTranResultByTranId("这里输入交易ID").getStatesSetMap().get("这里输入合约中的Key").toByteArray();
+        Peer.Transaction tran = chainInfoClient.getTranAndResultByTranId("这里输入交易ID").getTran();
         String json = toJsonString(bytes);
         Object object = toInstance(bytes);
         System.out.println(json);
         System.out.println(object);
+        System.out.println(tran.getIpt().getArgs(0));
     }
 
 }

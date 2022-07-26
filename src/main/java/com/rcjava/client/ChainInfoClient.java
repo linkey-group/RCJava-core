@@ -268,15 +268,26 @@ public class ChainInfoClient {
      * @return 返回本条交易的执行结果
      */
     public TransactionResult getTranResultByTranId(String tranId) {
+        return getTranAndResultByTranId(tranId).getTranResult();
+    }
+
+    /**
+     * 根据交易ID获取对应的交易内容以及其执行结果
+     *
+     * @param tranId 交易ID
+     * @return 返回本条交易内容与执行结果
+     */
+    public TranAndTranResult getTranAndResultByTranId(String tranId) {
         TranInfoAndHeight infoAndHeight = getTranInfoAndHeightByTranId(tranId);
         if (infoAndHeight == null) {
             return null;
         }
+        Transaction tran = infoAndHeight.getTranInfo();
         Block block = getBlockByHeight(infoAndHeight.getHeight());
-        return block.getTransactionResultsList().stream()
+        return new TranAndTranResult(tran, block.getTransactionResultsList().stream()
                 .filter(tranResult -> tranResult.getTxId().equals(tranId))
                 .findAny()
-                .orElse(null);
+                .orElse(null));
     }
 
     // TODO 通过post获取相关信息
@@ -331,10 +342,10 @@ public class ChainInfoClient {
     /**
      * 交易入块时间
      */
-    public class CreateTime {
+    public static class CreateTime {
 
-        private String createTime;
-        private String createTimeUtc;
+        private final String createTime;
+        private final String createTimeUtc;
 
         public CreateTime(String createTime, String createTimeUtc) {
             this.createTime = createTime;
@@ -353,10 +364,10 @@ public class ChainInfoClient {
     /**
      * 共识节点与总节点的数量
      */
-    public class NodesNum {
+    public static class NodesNum {
 
-        private Integer consensusNodes;
-        private Integer nodes;
+        private final Integer consensusNodes;
+        private final Integer nodes;
 
         public NodesNum(Integer consensusNodes, Integer nodes) {
             this.consensusNodes = consensusNodes;
@@ -375,10 +386,10 @@ public class ChainInfoClient {
     /**
      * 内部类TranInfoAndHeight
      */
-    public class TranInfoAndHeight {
+    public static class TranInfoAndHeight {
 
-        private Transaction tranInfo;
-        private Long height;
+        private final Transaction tranInfo;
+        private final Long height;
 
         public TranInfoAndHeight(Transaction tranInfo, Long height) {
             this.tranInfo = tranInfo;
@@ -391,6 +402,28 @@ public class ChainInfoClient {
 
         public Long getHeight() {
             return height;
+        }
+    }
+
+    /**
+     * 内部类TranAndTranResult
+     */
+    public static class TranAndTranResult {
+
+        private final Transaction tran;
+        private final TransactionResult tranResult;
+
+        public TranAndTranResult(Transaction tran, TransactionResult tranResult) {
+            this.tran = tran;
+            this.tranResult = tranResult;
+        }
+
+        public Transaction getTran() {
+            return tran;
+        }
+
+        public TransactionResult getTranResult() {
+            return tranResult;
         }
     }
 }
