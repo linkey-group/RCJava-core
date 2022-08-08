@@ -27,7 +27,6 @@ import static com.google.common.truth.Truth.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AuthOperationTest extends DidTest{
 
-
     public AuthOperationTest() throws IOException {
     }
 
@@ -55,9 +54,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize))), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
         Assertions.assertEquals(15005, errMsg_1.getInteger("code"), "签名交易提交者非权限的授权者");
@@ -83,9 +80,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "授权成功");
 
         // step2: 同一个授权ID，usr0授权给usr1
@@ -94,9 +89,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_2))), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(102, actionResult_2.getCode(), "错误码为102");
         JSONObject errMsg_2 = JSONObject.parseObject(actionResult_2.getReason());
         Assertions.assertEquals(15002, errMsg_2.getInteger("code"), String.format("authId为%s的Authorize已经存在", authorize_2.getId()));
@@ -108,9 +101,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_3 = usr0_tranCreator_0.createInvokeTran(tranId_3, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_3))), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(102, actionResult_3.getCode(), "错误码为102");
         JSONObject errMsg_3 = JSONObject.parseObject(actionResult_3.getReason());
         Assertions.assertEquals(15002, errMsg_3.getInteger("code"), String.format("authId为%s的Authorize已经存在", authorize_3.getId()));
@@ -122,9 +113,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_4))), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
         Assertions.assertEquals(15010, errMsg_4.getInteger("code"), String.format("operId为%s的Operate已经被授权过", authorize_4.getOpId(0)));
         // 因为Auth包含了同一个Operate，因此删除了上一个AuthId
@@ -157,9 +146,7 @@ public class AuthOperationTest extends DidTest{
                 .build();
         Peer.Transaction signedDeployTran = usr1_tranCreator_0.createDeployTran(deployTran);
         postClient.postSignedTran(signedDeployTran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(signedDeployTran.getId());
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(signedDeployTran.getId());
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，合约 CredenceTPL-2 部署成功");
 
         // step2: usr0能注册合约CredenceProof.creProof2的操作，此处不注册
@@ -182,9 +169,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，操作注册成功");
 
     }
@@ -201,9 +186,7 @@ public class AuthOperationTest extends DidTest{
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，禁用授权成功");
 
         // step2: usr1不能继续让渡该权限给usr2 （包含授权，无效，因此不能让渡）
@@ -222,9 +205,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
         Assertions.assertEquals(15001, errMsg_1.getInteger("code"), "部分操作不存在或者无效");
@@ -235,18 +216,14 @@ public class AuthOperationTest extends DidTest{
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，启用授权成功");
 
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr1_tranCreator_0.createInvokeTran(tranId_3, usr1_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，usr1授权给usr2成功");
 
     }
@@ -274,9 +251,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_0 = UUID.randomUUID().toString();
         Peer.Transaction tran_0 = usr1_tranCreator_0.createInvokeTran(tranId_0, usr1_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_0);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_0 = getTransactionResult(tranId_0);
-        Peer.ActionResult actionResult_0 = tranResult_0.getErr();
+        Peer.ActionResult actionResult_0 = checkResult(tranId_0);
         Assertions.assertEquals(102, actionResult_0.getCode(), "错误码为102");
         JSONObject errMsg_0 = JSONObject.parseObject(actionResult_0.getReason());
         Assertions.assertEquals(14001, errMsg_0.getInteger("code"), "operate已存在");
@@ -288,9 +263,7 @@ public class AuthOperationTest extends DidTest{
                 "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isIn(Arrays.asList("操作不存在", "没有找到授权的操作"));
 
@@ -312,9 +285,7 @@ public class AuthOperationTest extends DidTest{
             Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
                     JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
             postClient.postSignedTran(tran_1);
-            TimeUnit.SECONDS.sleep(2);
-            Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-            Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+            Peer.ActionResult actionResult_1 = checkResult(tranId_1);
             Assertions.assertEquals(0, actionResult_1.getCode(), "授权成功");
         }
 
@@ -323,9 +294,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr1_tranCreator_0.createInvokeTran(tranId_2, usr1_certId_0, credenceTPLId,
                 "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(0, actionResult_2.getCode(), "usr1存证成功");
 
         // step3: usr2可以调用CredenceProofTPL<1>.creProof了
@@ -334,9 +303,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_3 = usr2_tranCreator_0.createInvokeTran(tranId_3, usr2_certId_0, credenceTPLId_1,
                 "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "usr2存证成功");
 
         // 被授权人和授权的操作了列表只能是1个人和1个操作
@@ -345,9 +312,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(102, actionResult_4.getCode(), "错误码为102");
         JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
         Assertions.assertEquals(15009, errMsg_4.getInteger("code"), String.format("authId为%s的Authorize的被授权人或操作列表元素不是一个", authorize_1.getId()));
@@ -365,9 +330,7 @@ public class AuthOperationTest extends DidTest{
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof")).fluentPut("state", false);
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，禁用操作成功");
 
         // step2: usr1 不可以调用CredenceProofTPL<2>.creProof了; usr2 不可以调用CredenceProofTPL<1>.creProof了
@@ -376,9 +339,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr1_tranCreator_0.createInvokeTran(tranId_2, usr1_certId_0, credenceTPLId,
                 "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(101, actionResult_2.getCode(), "错误码为101");
         assertThat(actionResult_2.getReason()).isEqualTo("操作已经失效");
 
@@ -387,9 +348,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_3 = usr2_tranCreator_0.createInvokeTran(tranId_3, usr2_certId_0, credenceTPLId_1,
                 "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(101, actionResult_3.getCode(), "错误码为101");
         assertThat(actionResult_3.getReason()).isEqualTo("操作已经失效");
 
@@ -409,9 +368,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_4 = usr1_tranCreator_0.createInvokeTran(tranId_4, usr1_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(102, actionResult_4.getCode(), "错误码为102");
         JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
         Assertions.assertEquals(15001, errMsg_4.getInteger("code"), "部分操作不存在或者无效");
@@ -421,9 +378,7 @@ public class AuthOperationTest extends DidTest{
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof")).fluentPut("state", true);
         Peer.Transaction tran_5 = usr0_tranCreator_0.createInvokeTran(tranId_5, usr0_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_5);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_5 = getTransactionResult(tranId_5);
-        Peer.ActionResult actionResult_5 = tranResult_5.getErr();
+        Peer.ActionResult actionResult_5 = checkResult(tranId_5);
         Assertions.assertEquals(0, actionResult_5.getCode(), "没有错误，启用操作成功");
 
     }
@@ -448,9 +403,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，授权给usr0成功");
 
         // step2: usr1授权(CredenceProofTPL.creProof2)让渡给usr2
@@ -469,9 +422,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_2))), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，授权给usr2成功");
 
     }
@@ -488,9 +439,7 @@ public class AuthOperationTest extends DidTest{
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，禁用授权成功");
 
         // step2: usr0不能调用CredenceProofTPL.creProof2的操作
@@ -499,9 +448,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, credenceTPLId,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(101, actionResult_2.getCode(), "错误码为101");
         assertThat(actionResult_2.getReason()).isEqualTo("授权已经失效");
 
@@ -511,9 +458,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_3 = usr2_tranCreator_0.createInvokeTran(tranId_3, usr2_certId_0, credenceTPLId_1,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，仍然可以调用");
 
         // step3: usr1启用授权(CredenceProofTPL.creProof2)
@@ -521,9 +466,7 @@ public class AuthOperationTest extends DidTest{
         authStatus.put("state", true);
         Peer.Transaction tran_4 = usr1_tranCreator_0.createInvokeTran(tranId_4, usr1_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，启用授权成功");
     }
 
@@ -538,9 +481,7 @@ public class AuthOperationTest extends DidTest{
         operStatus.fluentPut("opId", DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof2")).fluentPut("state", false);
         Peer.Transaction tran_1 = usr1_tranCreator_0.createInvokeTran(tranId_1, usr1_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，禁用操作成功");
 
         // step2: usr0和usr2不能调用, 操作禁用具有传递性，usr0不能调用CredenceProofTPL.creProof2的操作
@@ -549,9 +490,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, credenceTPLId,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(101, actionResult_2.getCode(), "错误码为101");
         assertThat(actionResult_2.getReason()).isEqualTo("操作已经失效");
 
@@ -561,9 +500,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_3 = usr2_tranCreator_0.createInvokeTran(tranId_3, usr2_certId_0, credenceTPLId_1,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(101, actionResult_3.getCode(), "错误码为101");
         assertThat(actionResult_3.getReason()).isEqualTo("操作已经失效");
 
@@ -572,9 +509,7 @@ public class AuthOperationTest extends DidTest{
         operStatus.fluentPut("state", true);
         Peer.Transaction tran_4 = usr1_tranCreator_0.createInvokeTran(tranId_4, usr1_certId_0, didChaincodeId, updateOperateStatus, operStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，禁用操作成功");
 
     }
@@ -591,9 +526,7 @@ public class AuthOperationTest extends DidTest{
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
         Assertions.assertEquals(15003, errMsg.getInteger("code"), String.format("authId为%s的Authorize不存在", authId));
@@ -604,9 +537,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，禁用授权成功");
 
     }
@@ -625,9 +556,7 @@ public class AuthOperationTest extends DidTest{
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
         JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
         Assertions.assertEquals(15006, errMsg.getInteger("code"), "不能绑定Authorize到非签名交易提交者的证书上");
@@ -647,9 +576,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_1 = UUID.randomUUID().toString();
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca_1), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(102, actionResult_1.getCode(), "错误码为102");
         JSONObject errMsg_1 = JSONObject.parseObject(actionResult_1.getReason());
         Assertions.assertEquals(15003, errMsg_1.getInteger("code"), String.format("authId为%s的Authorize不存在", bca_1.getAuthorizeId()));
@@ -670,9 +597,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Transaction tran_2 = usr1_tranCreator_0.createInvokeTran(tranId_2, usr1_certId_0, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca_2), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(102, actionResult_2.getCode(), "错误码为102");
         JSONObject errMsg_2 = JSONObject.parseObject(actionResult_2.getReason());
         Assertions.assertEquals(15004, errMsg_2.getInteger("code"), String.format("authId为%s的Authorize无效", bca_2.getAuthorizeId()));
@@ -684,9 +609,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr0_tranCreator_0.createInvokeTran(tranId_3, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，启用授权成功");
     }
 
@@ -709,9 +632,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_4 = UUID.randomUUID().toString();
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca_3), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(102, actionResult_4.getCode(), "错误码为102");
         JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
         Assertions.assertEquals(15007, errMsg_4.getInteger("code"), "要绑定的证书不存在");
@@ -729,10 +650,8 @@ public class AuthOperationTest extends DidTest{
         certStatus.fluentPut("creditCode", user0_creditCode_did).fluentPut("certName", user0_cert_1).fluentPut("state", false);
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = getTransactionResult(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
-        Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
+        Peer.ActionResult tranResult = checkResult(tranId);
+        Assertions.assertEquals(0, tranResult.getCode(), "没有错误，修改成功");
 
         // 尝试绑定证书
         Peer.BindCertToAuthorize bca_3 = Peer.BindCertToAuthorize.newBuilder()
@@ -743,9 +662,7 @@ public class AuthOperationTest extends DidTest{
         String tranId_4 = UUID.randomUUID().toString();
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca_3), 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(102, actionResult_4.getCode(), "错误码为102");
         JSONObject errMsg_4 = JSONObject.parseObject(actionResult_4.getReason());
         Assertions.assertEquals(15008, errMsg_4.getInteger("code"), "要绑定的证书无效");
@@ -756,18 +673,15 @@ public class AuthOperationTest extends DidTest{
         certStatus.fluentPut("creditCode", user0_creditCode_did).fluentPut("certName", user0_cert_1).fluentPut("state", true);
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, didChaincodeId, updateCertificateStatus, certStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
+        Peer.ActionResult tranResult_2 = checkResult(tranId_2);
+        Assertions.assertEquals(0, tranResult_2.getCode(), "没有错误，修改成功");
 
         // 再次尝试绑定证书
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr0_tranCreator_1.createInvokeTran(tranId_3, usr0_certId_1, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca_3), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
-        Assertions.assertEquals(0, tranResult_3.getErr().getCode(), "没有错误，绑定成功");
+        Peer.ActionResult tranResult_3 = checkResult(tranId_3);
+        Assertions.assertEquals(0, tranResult_3.getCode(), "没有错误，绑定成功");
     }
 
 
@@ -783,9 +697,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_1 = usr0_tranCreator_1.createInvokeTran(tranId_1, usr0_certId_1, credenceTPLId,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "usr0-1存证成功");
 
         // step7: 使用没绑定授权的证书，不能调用
@@ -793,9 +705,7 @@ public class AuthOperationTest extends DidTest{
         Peer.Transaction tran_2 = usr0_tranCreator_0.createInvokeTran(tranId_2, usr0_certId_0, credenceTPLId,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_2 = getTransactionResult(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(101, actionResult_2.getCode(), "错误码为101");
         assertThat(actionResult_2.getReason()).isEqualTo("授权已经失效");
 
@@ -808,19 +718,15 @@ public class AuthOperationTest extends DidTest{
         String tranId_3 = UUID.randomUUID().toString();
         Peer.Transaction tran_3 = usr0_tranCreator_1.createInvokeTran(tranId_3, usr0_certId_1, didChaincodeId, bindCertToAuthorize, JsonFormat.printer().print(bca), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_3 = getTransactionResult(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
-        Assertions.assertEquals(0, tranResult_3.getErr().getCode(), "没有错误，绑定成功");
+        Peer.ActionResult tranResult_3 = checkResult(tranId_3);
+        Assertions.assertEquals(0, tranResult_3.getCode(), "没有错误，绑定成功");
 
         // step9: 使用没绑定授权的证书，不能调用
         String tranId_4 = UUID.randomUUID().toString();
         Peer.Transaction tran_4 = usr0_tranCreator_0.createInvokeTran(tranId_4, usr0_certId_0, credenceTPLId,
                 "creProof2", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
         postClient.postSignedTran(tran_4);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_4 = getTransactionResult(tranId_4);
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkResult(tranId_4);
         Assertions.assertEquals(0, actionResult_4.getCode(), "usr0-0存证成功");
 
     }
