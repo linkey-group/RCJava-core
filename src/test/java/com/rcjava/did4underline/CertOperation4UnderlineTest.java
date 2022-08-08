@@ -1,4 +1,4 @@
-package com.rcjava.did;
+package com.rcjava.did4underline;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -17,19 +17,11 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.common.truth.Truth.assertThat;
 
-/**
- * 本轮结束后
- * 1. usr0拥有的auth: signUpAllTypeCertificate
- * 2. usr1拥有的auth: signUpAllTypeCertificate, updateAllTypeCertificateStatus
- *
- * @author zyf
- */
 @Tags({@Tag("注册普通证书"), @Tag("修改普通证书状态"), @Tag("注册任何证书"), @Tag("修改任何证书状态")})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CertOpeartionTest extends DidTest {
-
-    public CertOpeartionTest() throws IOException {
+public class CertOperation4UnderlineTest extends Did4UnderlineTest {
+    public CertOperation4UnderlineTest() throws IOException {
     }
 
     @Tag("注册普通证书")
@@ -174,7 +166,7 @@ public class CertOpeartionTest extends DidTest {
         Assertions.assertEquals("该方法不能修改身份证书状态，请通过 updateAllTypeCertificateStatus", errMsg.getString("reason"));
     }
 
-    @Tag("修改证书状态---禁用/启用证书")
+    @Tag("修改证书状态")
     @Test
     @Order(9)
     @DisplayName("测试修改证书状态-usr0使用updateCertificateStatus, 修改成功")
@@ -195,8 +187,8 @@ public class CertOpeartionTest extends DidTest {
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(10);
-        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
-        Assertions.assertNull(actionResult_1, "本交易不会出块，因此不会出现在区块中");
+        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
+        Assertions.assertNull(tranResult_1, "本交易不会出块，因此不会出现在区块中");
 
         String tranId_2 = UUID.randomUUID().toString();
         // 修改身份证书状态
