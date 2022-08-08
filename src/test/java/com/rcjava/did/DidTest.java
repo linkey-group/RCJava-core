@@ -24,6 +24,7 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zyf
@@ -100,6 +101,26 @@ public class DidTest {
     static String user2_cert_0 = "0";
     // 普通证书
     static String user2_cert_1 = "1";
+
+    protected long sleepTime = 1;
+
+    protected Peer.ActionResult checkResult(String tranId) throws InterruptedException {
+        Peer.ActionResult actionResult = null;
+        TimeUnit.SECONDS.sleep(sleepTime);
+        int count = 0;
+        while(true){
+            Peer.TransactionResult tranResult = getTransactionResult(tranId);
+            if(tranResult != null){
+                actionResult = tranResult.getErr();
+                break;
+            }
+            count++;
+            if(count > 15) break;
+            TimeUnit.SECONDS.sleep(sleepTime);
+        }
+
+        return actionResult;
+    }
 
     Peer.CertId usr0_certId_0 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName(user0_cert_0).build();
     Peer.CertId usr0_certId_1 = Peer.CertId.newBuilder().setCreditCode(user0_creditCode_did).setCertName(user0_cert_1).build();
