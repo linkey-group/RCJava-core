@@ -33,9 +33,10 @@ public class DidTest {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    String host = "localhost:9081";
-    protected TranPostClient postClient = new TranPostClient(host);
-    protected ChainInfoClient infoClient = new ChainInfoClient(host);
+    String didHost = "localhost:9081";
+    String credenceHost = "localhost:9086";
+    protected TranPostClient postClient = new TranPostClient(didHost);
+    protected ChainInfoClient infoClient = new ChainInfoClient(didHost);
 
     protected Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
     protected Peer.ChaincodeId didChaincodeId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
@@ -104,21 +105,50 @@ public class DidTest {
 
     protected long sleepTime = 1;
 
+    /**
+     * 向身份链查询交易结果
+     *
+     * @param tranId 交易ID
+     * @return
+     * @throws InterruptedException
+     */
     protected Peer.ActionResult checkResult(String tranId) throws InterruptedException {
+        return checkCustomResult(tranId, didHost);
+    }
+
+    /**
+     * 向业务链查询交易结果
+     *
+     * @param tranId 交易ID
+     * @return
+     * @throws InterruptedException
+     */
+    protected Peer.ActionResult checkCredenceResult(String tranId) throws InterruptedException {
+        return checkCustomResult(tranId, credenceHost);
+    }
+
+    /**
+     * 向某个RepChain节点查询交易结果
+     *
+     * @param tranId 交易ID
+     * @param host   RepChain节点地址
+     * @return
+     * @throws InterruptedException
+     */
+    protected Peer.ActionResult checkCustomResult(String tranId, String host) throws InterruptedException {
         Peer.ActionResult actionResult = null;
         TimeUnit.SECONDS.sleep(sleepTime);
         int count = 0;
-        while(true){
-            Peer.TransactionResult tranResult = getTransactionResult(tranId);
-            if(tranResult != null){
+        while (true) {
+            Peer.TransactionResult tranResult = getTransactionResult(tranId, host);
+            if (tranResult != null) {
                 actionResult = tranResult.getErr();
                 break;
             }
             count++;
-            if(count > 15) break;
+            if (count > 15) break;
             TimeUnit.SECONDS.sleep(sleepTime);
         }
-
         return actionResult;
     }
 
@@ -335,9 +365,11 @@ public class DidTest {
      * 根据交易ID获取对应的交易结果
      *
      * @param txid 交易id
+     * @param host RepChain节点地址
      * @return
      */
-    protected Peer.TransactionResult getTransactionResult(String txid) {
+    protected Peer.TransactionResult getTransactionResult(String txid, String host) {
+        ChainInfoClient infoClient = new ChainInfoClient(host);
         ChainInfoClient.TranInfoAndHeight infoAndHeight = infoClient.getTranInfoAndHeightByTranId(txid);
         if (infoAndHeight == null) {
             return null;

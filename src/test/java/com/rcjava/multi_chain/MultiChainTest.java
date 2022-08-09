@@ -56,7 +56,7 @@ public class MultiChainTest extends DidTest {
     }
 
     @Test
-    @DisplayName("SuperAdmin注册用户usr-1，usr-2")
+    @DisplayName("SuperAdmin注册用户usr-0，usr-1")
     @Order(1)
     void signUpSignerTest() throws InterruptedException, InvalidProtocolBufferException {
         Peer.Signer usr0_signer = this.getUsr0_signer();
@@ -64,18 +64,16 @@ public class MultiChainTest extends DidTest {
         usr0_signer = usr0_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
         Peer.Transaction tran_1 = superCreator.createInvokeTran(tranId_1, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(usr0_signer), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_1 = infoClient.getTranResultByTranId(tranId_1);
-        Assertions.assertEquals(0, tranResult_1.getErr().getCode(), "没有错误，注册成功");
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
+        Assertions.assertEquals(0, actionResult_1.getCode(), "没有错误，注册成功");
 
         Peer.Signer usr1_signer = this.getUsr1_signer();
         String tranId_2 = UUID.randomUUID().toString();
         usr1_signer = usr1_signer.toBuilder().clearCertNames().clearAuthorizeIds().clearOperateIds().clearCredentialMetadataIds().build();
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpSigner, JsonFormat.printer().print(usr1_signer), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
-        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，注册成功");
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
+        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，注册成功");
     }
 
     @Test
@@ -105,9 +103,7 @@ public class MultiChainTest extends DidTest {
         deployTran = deployTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
         Peer.Transaction signedDeployTran = usr0_tranCreator_0.createDeployTran(deployTran);
         postCredenceClient.postSignedTran(signedDeployTran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(signedDeployTran.getId());
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(signedDeployTran.getId());
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isIn(Arrays.asList("操作不存在", "没有找到授权的操作"));
 
@@ -129,9 +125,7 @@ public class MultiChainTest extends DidTest {
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，操作注册成功");
 
         // step4: superAdmin授权给usr0部署合约A的权限
@@ -151,18 +145,14 @@ public class MultiChainTest extends DidTest {
         Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_3 = infoClient.getTranResultByTranId(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，授权成功");
 
         // step5: usr0部署合约A成功
         DeployTran deployTran_1 = deployTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
         Peer.Transaction signedDeployTran_1 = usr0_tranCreator_0.createDeployTran(deployTran_1);
         postCredenceClient.postSignedTran(signedDeployTran_1);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_4 = infoCredenceClient.getTranResultByTranId(signedDeployTran_1.getId());
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkCredenceResult(signedDeployTran_1.getId());
         Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，合约部署成功");
     }
 
@@ -178,9 +168,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_0), 0, "");
         String tranHex = Hex.encodeHexString(tran_0.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_0 = infoCredenceClient.getTranResultByTranId(tranId_0);
-        Peer.ActionResult actionResult_0 = tranResult_0.getErr();
+        Peer.ActionResult actionResult_0 = checkCredenceResult(tranId_0);
         Assertions.assertEquals(101, actionResult_0.getCode(), "错误码为101");
         assertThat(actionResult_0.getReason()).isIn(Arrays.asList("操作不存在", "部分操作不存在或者无效"));
 
@@ -202,9 +190,7 @@ public class MultiChainTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，操作注册成功");
     }
 
@@ -219,9 +205,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "存证成功");
 
     }
@@ -237,9 +221,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(tranId);
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isEqualTo("没有找到授权的操作");
 
@@ -266,9 +248,7 @@ public class MultiChainTest extends DidTest {
         Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_1);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_1 = infoClient.getTranResultByTranId(tranId_1);
-        Peer.ActionResult actionResult_1 = tranResult_1.getErr();
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
         Assertions.assertEquals(0, actionResult_1.getCode(), "授权成功");
     }
 
@@ -284,9 +264,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "存证成功");
 
     }
@@ -304,9 +282,7 @@ public class MultiChainTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，禁用授权成功");
     }
 
@@ -322,9 +298,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
         postCredenceClient.postSignedTran(tranHex);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(tranId);
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isEqualTo("授权已经失效");
     }
@@ -341,9 +315,7 @@ public class MultiChainTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postCredenceClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(tranId);
         Assertions.assertEquals(105, actionResult.getCode(), "调用的chainCode不存在");
     }
 
@@ -359,9 +331,7 @@ public class MultiChainTest extends DidTest {
         String tranId = UUID.randomUUID().toString();
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, didChaincodeId, updateGrantOperateStatus, authStatus.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkResult(tranId);
         Assertions.assertEquals(0, actionResult.getCode(), "没有错误，启用授权成功");
     }
 
@@ -376,9 +346,8 @@ public class MultiChainTest extends DidTest {
         status.fluentPut("state", false);
         Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult = infoClient.getTranResultByTranId(tranId);
-        Assertions.assertEquals(0, tranResult.getErr().getCode(), "没有错误，修改成功");
+        Peer.ActionResult actionResult = checkResult(tranId);
+        Assertions.assertEquals(0, actionResult.getCode(), "没有错误，修改成功");
 
         // usr1提交交易失败
         Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
@@ -387,21 +356,19 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_1), 0, "");
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postCredenceClient.postSignedTran(tranHex_1);
-        TimeUnit.SECONDS.sleep(2);
-        Peer.TransactionResult tranResult_1 = infoCredenceClient.getTranResultByTranId(tranId_1);
-        Peer.ActionResult actionResult = tranResult_1.getErr();
-        Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
-        Assertions.assertEquals("实体账户已经失效", actionResult.getReason());
+        Peer.ActionResult actionResult_1 = checkCredenceResult(tranId_1);
+        Assertions.assertEquals(101, actionResult_1.getCode(), "错误码为101");
+        Assertions.assertEquals("实体账户已经失效", actionResult_1.getReason());
 
         // superAdmin启用usr1的账户
         String tranId_2 = UUID.randomUUID().toString();
         status.fluentPut("state", true);
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, updateSignerStatus, status.toJSONString(), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(2);
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
         Assertions.assertEquals(tranId_2, tranResult_2.getTxId());
-        Assertions.assertEquals(0, tranResult_2.getErr().getCode(), "没有错误，修改成功");
+        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，修改成功");
 
         // usr1提交交易成功
         String tranId_3 = UUID.randomUUID().toString();
@@ -409,9 +376,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_3), 0, "");
         String tranHex_3 = Hex.encodeHexString(tran_3.toByteArray());
         postCredenceClient.postSignedTran(tranHex_3);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_3 = infoCredenceClient.getTranResultByTranId(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkCredenceResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "存证成功");
     }
 
@@ -429,9 +394,7 @@ public class MultiChainTest extends DidTest {
         // step1: usr0不可以部署合约
         Peer.Transaction signedStateTran = usr0_tranCreator_0.createCidStateTran(stateTran);
         postCredenceClient.postSignedTran(signedStateTran);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(signedStateTran.getId());
-        Peer.ActionResult actionResult = tranResult.getErr();
+        Peer.ActionResult actionResult = checkCredenceResult(signedStateTran.getId());
         Assertions.assertEquals(101, actionResult.getCode(), "错误码为101");
         assertThat(actionResult.getReason()).isIn(Arrays.asList("操作不存在", "没有找到授权的操作"));
 
@@ -451,9 +414,7 @@ public class MultiChainTest extends DidTest {
         String tranId_2 = UUID.randomUUID().toString();
         Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
         postClient.postSignedTran(tran_2);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
-        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Peer.ActionResult actionResult_2 = checkResult(tranId_2);
         Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，操作注册成功");
 
         // step3: superAdmin授权给usr0部署合约A的权限
@@ -472,18 +433,14 @@ public class MultiChainTest extends DidTest {
         Peer.Transaction tran_3 = superCreator.createInvokeTran(tranId_3, superCertId, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_1))), 0, "");
         postClient.postSignedTran(tran_3);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_3 = infoClient.getTranResultByTranId(tranId_3);
-        Peer.ActionResult actionResult_3 = tranResult_3.getErr();
+        Peer.ActionResult actionResult_3 = checkResult(tranId_3);
         Assertions.assertEquals(0, actionResult_3.getCode(), "没有错误，授权成功");
 
         // step4: usr0修改合约状态成功，禁用合约
         CidStateTran stateTran_1 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
         Peer.Transaction signedStateTran_1 = usr0_tranCreator_0.createCidStateTran(stateTran_1);
         postCredenceClient.postSignedTran(signedStateTran_1);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_4 = infoCredenceClient.getTranResultByTranId(signedStateTran_1.getId());
-        Peer.ActionResult actionResult_4 = tranResult_4.getErr();
+        Peer.ActionResult actionResult_4 = checkCredenceResult(signedStateTran_1.getId());
         Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，修改合约状态成功");
 
         // 会失败
@@ -492,9 +449,7 @@ public class MultiChainTest extends DidTest {
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_5), 0, "");
         String tranHex_5 = Hex.encodeHexString(tran_5.toByteArray());
         postCredenceClient.postSignedTran(tranHex_5);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_5 = infoCredenceClient.getTranResultByTranId(tranId_5);
-        Peer.ActionResult actionResult_5 = tranResult_5.getErr();
+        Peer.ActionResult actionResult_5 = checkCredenceResult(tranId_5);
         Assertions.assertEquals(101, actionResult_5.getCode(), "错误码为101");
         Assertions.assertEquals("合约处于禁用状态", actionResult_5.getReason());
 
@@ -507,18 +462,14 @@ public class MultiChainTest extends DidTest {
         Peer.Transaction tran_6 = usr0_tranCreator_0.createInvokeTran(tranId_6, usr0_certId_0, didChaincodeId, grantOperate,
                 JSONObject.toJSONString(Collections.singletonList(JsonFormat.printer().print(authorize_2))), 0, "");
         postClient.postSignedTran(tran_6);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_6 = infoClient.getTranResultByTranId(tranId_6);
-        Peer.ActionResult actionResult_6 = tranResult_6.getErr();
+        Peer.ActionResult actionResult_6 = checkResult(tranId_6);
         Assertions.assertEquals(0, actionResult_6.getCode(), "没有错误，授权成功");
 
         // step6: usr1启用合约，启用合约
         CidStateTran stateTran_2 = stateTran.toBuilder().setTxid(UUID.randomUUID().toString()).setCertId(usr1_certId_0).setState(true).build();
         Peer.Transaction signedStateTran_2 = usr1_tranCreator_0.createCidStateTran(stateTran_2);
         postCredenceClient.postSignedTran(signedStateTran_2);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_7 = infoCredenceClient.getTranResultByTranId(signedStateTran_2.getId());
-        Peer.ActionResult actionResult_7 = tranResult_7.getErr();
+        Peer.ActionResult actionResult_7 = checkCredenceResult(signedStateTran_2.getId());
         Assertions.assertEquals(0, actionResult_7.getCode(), "没有错误，修改合约状态成功");
 
         // 会成功
@@ -526,9 +477,7 @@ public class MultiChainTest extends DidTest {
         Peer.Transaction tran_8 = usr0_tranCreator_0.createInvokeTran(tranId_8, usr0_certId_0, credenceTPLId,
                 "creProof3", String.format("{\"uuid\" : \"%s\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", tranId_8), 0, "");
         postCredenceClient.postSignedTran(tran_8);
-        TimeUnit.SECONDS.sleep(5);
-        Peer.TransactionResult tranResult_8 = infoCredenceClient.getTranResultByTranId(tranId_8);
-        Peer.ActionResult actionResult_8 = tranResult_8.getErr();
+        Peer.ActionResult actionResult_8 = checkCredenceResult(tranId_8);
         Assertions.assertEquals(0, actionResult_8.getCode(), "存证成功");
 
     }

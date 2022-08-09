@@ -195,8 +195,8 @@ public class CertOpeartionTest extends DidTest {
         String tranHex_1 = Hex.encodeHexString(tran_1.toByteArray());
         postClient.postSignedTran(tranHex_1);
         TimeUnit.SECONDS.sleep(10);
-        Peer.TransactionResult tranResult_1 = getTransactionResult(tranId_1);
-        Assertions.assertNull(tranResult_1, "本交易不会出块，因此不会出现在区块中");
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
+        Assertions.assertNull(actionResult_1, "本交易不会出块，因此不会出现在区块中");
 
         String tranId_2 = UUID.randomUUID().toString();
         // 修改身份证书状态

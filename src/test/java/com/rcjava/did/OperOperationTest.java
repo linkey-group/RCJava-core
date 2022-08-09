@@ -404,7 +404,7 @@ public class OperOperationTest extends DidTest {
 
         // step2: 提交交易测试
         String resId = testCredenceProof();
-        Assertions.assertEquals("操作已经失效", getTransactionResult(resId).getErr().getReason());
+        Assertions.assertEquals("操作已经失效", checkResult(resId).getReason());
     }
 
     @Test
@@ -422,7 +422,7 @@ public class OperOperationTest extends DidTest {
 
         // step4: 提交交易测试
         String resId_1 = testCredenceProof();
-        Assertions.assertEquals(0, getTransactionResult(resId_1).getErr().getCode(), "没有错误，提交成功");
+        Assertions.assertEquals(0, checkResult(resId_1).getCode(), "没有错误，提交成功");
     }
 
 
