@@ -100,7 +100,7 @@
    > <dependency>
    > 	<groupId>repchain</groupId>
    > 	<artifactId>rcjava-core</artifactId>
-   > 	<version>2.0.0-SNAPSHOT</version>
+   > 	<version>2.0.0</version>
    > </dependency>
    > ```
 
@@ -125,7 +125,7 @@
   <dependency>
   	<groupId>com.gitee.BTAJL</groupId>
   	<artifactId>RCJava-core</artifactId>
-  	<version>2.0.0-SNAPSHOT</version>
+  	<version>2.0.0</version>
   </dependency>
   ```
 
@@ -476,3 +476,25 @@
   // RSubClient rSubClient = new RSubClient(host, blkListener, sslContext);
   rSubClient.connect();
   ```
+
+* 解析区块的StateMap里的数据
+
+  > 1. 从release中下载`rc-proto.jar`
+  >
+  > 2. 将`rc-proto.jar`安装到本地maven库
+  >
+  >    ```shell
+  >    mvn install:install-file -DgroupId=repchain -DartifactId=rc-proto -Dversion=2.0.0 -Dpackaging=jar -Dfile=rc-proto.jar
+  >    ```
+  >
+  > 3. 在项目中引入依赖
+  >
+  >    ```java
+  >    <dependency>
+  >        <groupId>repchain</groupId>
+  >        <artifactId>rc-proto</artifactId>
+  >        <version>2.0.0</version>
+  >    </dependency>
+  >    ```
+  >
+  > 4. 通过`StateUtil`工具类来解析
