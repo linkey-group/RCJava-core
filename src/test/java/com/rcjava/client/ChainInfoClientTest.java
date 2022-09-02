@@ -16,9 +16,10 @@ import org.junit.jupiter.api.Test;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.security.*;
-import java.security.cert.CertificateException;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.rcjava.util.StateUtil.toInstance;
+import static com.rcjava.util.StateUtil.toJsonString;
 
 
 /**
@@ -124,5 +125,17 @@ public class ChainInfoClientTest {
         JsonFormat.parser().merge(jsonObject.toJSONString(), builder);
         Block block = builder.build();
         assertThat(block.getHeader().getHeight()).isEqualTo(1);
+    }
+
+    @DisplayName("参考README，如果要解析RepChain中定义的protobuf结构，需要安装rc-proto.jar")
+    @Test
+    void testTransactionResult() {
+        Peer.TransactionResult result = chainInfoClient.getTranResultByTranId("RdidOperateAuthorizeTPL___signer-identity-net");
+        ChainInfoClient.TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
+        byte[] bytes = result.getStatesSetMap().get("identity-net_RdidOperateAuthorizeTPL___signer-identity-net:951002007l78123233").toByteArray();
+        String json = toJsonString(bytes);
+        Object object = toInstance(bytes);
+        System.out.println(json);
+        System.out.println(object);
     }
 }
