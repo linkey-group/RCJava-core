@@ -1,6 +1,7 @@
 package com.rcjava.util;
 
 import com.rcjava.sign.impl.ECDSASign;
+import com.rcjava.sign.impl.GMSign;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
@@ -76,6 +77,8 @@ public class GmUtilTest extends ProviderUtil {
 
         boolean res_1 = new ECDSASign("SM3withSM2").verify(signature, input, publicKey);
         System.out.println(res_1);
+        boolean res_2 = new GMSign().verify(signature, input, publicKey);
+        System.out.println(res_2);
 
         // 转pemString-pkcs8
         String privateKeyPemPkcs8String = PemUtil.toPemString(privateKey, false);

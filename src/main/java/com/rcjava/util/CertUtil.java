@@ -35,7 +35,7 @@ public class CertUtil extends ProviderUtil {
     private static Logger logger = LoggerFactory.getLogger(CertUtil.class);
 
     /**
-     * 返回证书和私钥
+     * 返回JKS文件存放的证书和私钥
      *
      * @param jksFile  jks文件路径, 包含私钥和证书的jks文件
      * @param password 密码
@@ -45,7 +45,26 @@ public class CertUtil extends ProviderUtil {
     public static X509CertPrivateKey genX509CertPrivateKey(File jksFile, String password, String alias) {
         try {
             FileInputStream fis = new FileInputStream(jksFile);
-            X509CertPrivateKey x509CertPrivateKey = genX509CertPrivateKey(fis, password, alias);
+            X509CertPrivateKey x509CertPrivateKey = genX509CertPrivateKey("JKS", fis, password, alias);
+            return x509CertPrivateKey;
+        } catch (Exception e) {
+            logger.error("从JKS文件中获取cert/key异常：{}", e.getMessage(), e);
+        }
+        return null;
+    }
+
+    /**
+     * 返回PFX文件存放的证书和私钥
+     *
+     * @param pfxFile  pfx文件路径, 包含私钥和证书的pfx文件
+     * @param password 密码
+     * @param alias    别名
+     * @return X509CertPrivateKey
+     */
+    public static X509CertPrivateKey genGmX509CertPrivateKey(File pfxFile, String password, String alias) {
+        try {
+            FileInputStream fis = new FileInputStream(pfxFile);
+            X509CertPrivateKey x509CertPrivateKey = genX509CertPrivateKey("PKCS12", fis, password, alias);
             return x509CertPrivateKey;
         } catch (Exception e) {
             logger.error("从JKS文件中获取cert/key异常：{}", e.getMessage(), e);
@@ -56,16 +75,17 @@ public class CertUtil extends ProviderUtil {
     /**
      * 返回证书和私钥
      *
-     * @param jksStream jks输入流, 包含私钥和证书的jks文件
-     * @param password  密码
-     * @param alias     别名
+     * @param keyStoreType 密钥库类型，jks/pkcs12
+     * @param inputStream  jks输入流, 包含私钥和证书的jks文件
+     * @param password     密码
+     * @param alias        别名
      * @return X509CertPrivateKey
      */
-    public static X509CertPrivateKey genX509CertPrivateKey(InputStream jksStream, String password, String alias) {
+    public static X509CertPrivateKey genX509CertPrivateKey(String keyStoreType, InputStream inputStream, String password, String alias) {
         try {
-            KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
+            KeyStore store = KeyStore.getInstance(keyStoreType);
             char[] pwd = password.toCharArray();
-            store.load(jksStream, pwd);
+            store.load(inputStream, pwd);
             Key sk = store.getKey(alias, pwd);
             X509Certificate cert = (X509Certificate) store.getCertificate(alias);
             PrivateKey privateKey = (PrivateKey) sk;
@@ -75,8 +95,8 @@ public class CertUtil extends ProviderUtil {
         } finally {
             // close the input stream
             try {
-                if (jksStream != null) {
-                    jksStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 logger.error("Could not close input stream: {}", e.getMessage(), e);
