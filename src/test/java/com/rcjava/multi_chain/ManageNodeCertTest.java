@@ -52,7 +52,7 @@ public class ManageNodeCertTest extends DidTest {
     static String node9Name = "734747416095474396.node9";
     static String node10Name = "710341838996249513.node10";
 
-    static String node11Name = "657438920152580506.node6";
+    static String node11Name = "657438920152580506.node11";
 
 
     Peer.ChaincodeId manageNodeCertId = Peer.ChaincodeId.newBuilder().setChaincodeName("ManageNodeCert").setVersion(1).build();
@@ -166,7 +166,8 @@ public class ManageNodeCertTest extends DidTest {
         //certMap.put(node7Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node7Name+".cer"),StandardCharsets.UTF_8));
         //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node8Name+".cer"),StandardCharsets.UTF_8));
         //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node9Name+".cer"),StandardCharsets.UTF_8));
-        certMap.put(node10Name, "");
+        //certMap.put(node10Name, "");
+        certMap.put(node11Name, "");
 
         Peer.Transaction tran = credenceSuperCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
         postCredenceClient.postSignedTran(tran);
@@ -187,7 +188,7 @@ public class ManageNodeCertTest extends DidTest {
         //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node8Name+".cer"),StandardCharsets.UTF_8));
         //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node9Name+".cer"),StandardCharsets.UTF_8));
         //certMap.put(node10Name, FileUtils.readFileToString(new File("jks/test/multi_chain/" + node10Name + ".cer"), StandardCharsets.UTF_8));
-        certMap.put(node10Name, FileUtils.readFileToString(new File("jks/test/multi_chain/" + node11Name + ".cer"), StandardCharsets.UTF_8));
+        certMap.put(node11Name, FileUtils.readFileToString(new File("jks/test/multi_chain/" + node11Name + ".cer"), StandardCharsets.UTF_8));
 
         Peer.Transaction tran = credenceSuperCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
         postCredenceClient.postSignedTran(tran);
