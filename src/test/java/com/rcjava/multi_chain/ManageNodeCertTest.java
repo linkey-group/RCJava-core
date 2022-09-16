@@ -21,6 +21,7 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -51,23 +52,56 @@ public class ManageNodeCertTest extends DidTest {
     static String node9Name = "734747416095474396.node9";
     static String node10Name = "710341838996249513.node10";
 
+    static String node11Name = "657438920152580506.node6";
+
 
     Peer.ChaincodeId manageNodeCertId = Peer.ChaincodeId.newBuilder().setChaincodeName("ManageNodeCert").setVersion(1).build();
 
     public ManageNodeCertTest() throws IOException {
     }
 
+    TranCreator credenceSuperCreator;
     @BeforeAll
     void init_1() {
-        super_pri = CertUtil.genX509CertPrivateKey(new File("jks/test/multi_chain/identity.951002007l78123233.super_admin.jks"),
+        PrivateKey super_pri = CertUtil.genX509CertPrivateKey(new File("jks/test/multi_chain/credence.951002007l78123233.super_admin.jks"),
                 "super_admin", "951002007l78123233.super_admin").getPrivateKey();
-        System.out.println("jks/test/multi_chain/identity.951002007l78123233.super_admin.jks");
-        superCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
+        System.out.println("jks/test/multi_chain/credence.951002007l78123233.super_admin.jks");
+        credenceSuperCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
+    }
+
+    @Test
+    @DisplayName("superAdmin注册Operate-可以部署合约credence-net:*.deploy的操作")
+    @Order(1)
+    void signUpOperate() throws InterruptedException, IOException {
+
+        // superAdmin注册部署合约credence-net:ManageNodeCert.deploy的操作，向<身份链>提交
+        long millis_1 = System.currentTimeMillis();
+        Peer.Operate operate = Peer.Operate.newBuilder()
+                // 也可以是credence-net:ManageNodeCert.deploy
+                .setOpId(DigestUtils.sha256Hex("credence-net:*.deploy"))
+                .setDescription("部署存证合约-任意合约的权限")
+                .setRegister("identity-net:951002007l78123233")
+                .setIsPublish(false)
+                .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
+                .setAuthFullName("credence-net:*.deploy")
+                .setCreateTime(Timestamp.newBuilder().setSeconds(millis_1 / 1000).setNanos((int) ((millis_1 % 1000) * 1000000)).build())
+                .setOpValid(true)
+                .setVersion("1.0")
+                .build();
+        String tranId_2 = UUID.randomUUID().toString();
+        // 调用身份管理合约
+        Peer.Transaction tran_2 = superCreator.createInvokeTran(tranId_2, superCertId, didChaincodeId, signUpOperate, JsonFormat.printer().print(operate), 0, "");
+        postClient.postSignedTran(tran_2);
+        TimeUnit.SECONDS.sleep(5);
+        Peer.TransactionResult tranResult_2 = infoClient.getTranResultByTranId(tranId_2);
+        Peer.ActionResult actionResult_2 = tranResult_2.getErr();
+        Assertions.assertEquals(0, actionResult_2.getCode(), "没有错误，操作注册成功");
+
     }
 
     @Test
     @DisplayName("SuperAdmin部署节点证书管理合约")
-    @Order(1)
+    @Order(2)
     void deployContractTest() throws InterruptedException, IOException {
         String tplString = FileUtils.readFileToString(new File("jks/test/tpl/ManageNodeCert.scala"), StandardCharsets.UTF_8);
         Peer.ChaincodeDeploy chaincodeDeploy = Peer.ChaincodeDeploy.newBuilder()
@@ -87,7 +121,7 @@ public class ManageNodeCertTest extends DidTest {
                 .setChaincodeDeploy(chaincodeDeploy)
                 .build();
         deployTran = deployTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
-        Peer.Transaction signedDeployTran = superCreator.createDeployTran(deployTran);
+        Peer.Transaction signedDeployTran = credenceSuperCreator.createDeployTran(deployTran);
         postCredenceClient.postSignedTran(signedDeployTran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(signedDeployTran.getId());
@@ -98,17 +132,17 @@ public class ManageNodeCertTest extends DidTest {
 
     @Test
     @DisplayName("注册Operate-注册合约的某个方法---updateNodeCert")
-    @Order(2)
+    @Order(3)
     void testSignUpOperate() throws InterruptedException, InvalidProtocolBufferException {
 
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("credence-net.ManageNodeCert.updateNodeCert"))
+                .setOpId(DigestUtils.sha256Hex("credence-net:ManageNodeCert.updateNodeCert"))
                 .setDescription("管理节点证书")
                 .setRegister(super_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
-                .setAuthFullName("credence-net.ManageNodeCert.updateNodeCert")
+                .setAuthFullName("credence-net:ManageNodeCert.updateNodeCert")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -124,17 +158,17 @@ public class ManageNodeCertTest extends DidTest {
 
     @Test
     @DisplayName("提交交易，删除证书")
-    @Order(3)
+    @Order(4)
     void testDeleteCert() throws IOException, InterruptedException {
         String tranId = UUID.randomUUID().toString();
         HashMap<String, String> certMap = new HashMap<>();
-        //certMap.put(node6Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node6Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node7Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node7Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node8Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node9Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node6Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node6Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node7Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node7Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node8Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/test/multi_chain/"+node9Name+".cer"),StandardCharsets.UTF_8));
         certMap.put(node10Name, "");
 
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
+        Peer.Transaction tran = credenceSuperCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
         postCredenceClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
@@ -144,17 +178,18 @@ public class ManageNodeCertTest extends DidTest {
 
     @Test
     @DisplayName("提交交易，增加证书")
-    @Order(4)
+    @Order(5)
     void testAddCert() throws IOException, InterruptedException {
         String tranId = UUID.randomUUID().toString();
         HashMap<String, String> certMap = new HashMap<>();
-        //certMap.put(node6Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node6Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node7Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node7Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node8Name+".cer"),StandardCharsets.UTF_8));
-        //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/multi_chain/"+node9Name+".cer"),StandardCharsets.UTF_8));
-        certMap.put(node10Name, FileUtils.readFileToString(new File("jks/multi_chain/" + node10Name + ".cer"), StandardCharsets.UTF_8));
+        //certMap.put(node6Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node6Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node7Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node7Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node8Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node8Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node9Name,FileUtils.readFileToString(new File("jks/test/multi_chain/test/"+node9Name+".cer"),StandardCharsets.UTF_8));
+        //certMap.put(node10Name, FileUtils.readFileToString(new File("jks/test/multi_chain/" + node10Name + ".cer"), StandardCharsets.UTF_8));
+        certMap.put(node10Name, FileUtils.readFileToString(new File("jks/test/multi_chain/" + node11Name + ".cer"), StandardCharsets.UTF_8));
 
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
+        Peer.Transaction tran = credenceSuperCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateNodeCert", JSON.toJSONString(certMap), 0, "");
         postCredenceClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
@@ -164,17 +199,17 @@ public class ManageNodeCertTest extends DidTest {
 
     @Test
     @DisplayName("注册Operate-注册合约的某个方法---updateVoteList")
-    @Order(5)
+    @Order(6)
     void testSignUpOperate_1() throws InterruptedException, InvalidProtocolBufferException {
 
         long millis = System.currentTimeMillis();
         Peer.Operate operate = Peer.Operate.newBuilder()
-                .setOpId(DigestUtils.sha256Hex("credence-net.ManageNodeCert.updateVoteList"))
+                .setOpId(DigestUtils.sha256Hex("credence-net:ManageNodeCert.updateVoteList"))
                 .setDescription("管理抽签列表")
                 .setRegister(super_creditCode)
                 .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
-                .setAuthFullName("credence-net.ManageNodeCert.updateVoteList")
+                .setAuthFullName("credence-net:ManageNodeCert.updateVoteList")
                 .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
                 .setOpValid(true)
                 .setVersion("1.0")
@@ -190,13 +225,13 @@ public class ManageNodeCertTest extends DidTest {
 
     @Test
     @DisplayName("提交交易，更新抽签列表")
-    @Order(6)
+    @Order(7)
     void testUpdateVoteList() throws InterruptedException {
         String tranId = UUID.randomUUID().toString();
         List<String> voteList = Arrays.asList("330597659476689954.node6", "044934755127708189.node7",
 //                "201353514191149590.node8",
                 "734747416095474396.node9", "710341838996249513.node10");
-        Peer.Transaction tran = superCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateVoteList", JSON.toJSONString(voteList), 0, "");
+        Peer.Transaction tran = credenceSuperCreator.createInvokeTran(tranId, superCertId, manageNodeCertId, "updateVoteList", JSON.toJSONString(voteList), 0, "");
         postCredenceClient.postSignedTran(tran);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
