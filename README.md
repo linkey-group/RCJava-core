@@ -32,6 +32,7 @@
           ├── client
           ├── contract
           ├── exception
+          ├── gm
           ├── protos
           ├── sign
           ├── sync
@@ -40,23 +41,25 @@
           └── ws
     ```
     * **`com.rcjava.client`** 主要用来构造与RepChain交互的客户端，客户端可以用来提交签名交易、获取交易或块数据、订阅出块事件
-
+    
     * **`com.rcjava.contract`** 主要用来构造与RepChain交互的客户端，客户端可以用来部署升级合约、修改合约状态、调用合约
-
+    
     * **`com.rcjava.exception`** 自定义的一些异常
-
+    
+    * **`com.rcjava.gm`** 定义了GMProvider
+    
     * **`com.rcjava.protos`** protoBuf generated messages
-
+    
     * **`com.rcjava.sign`** 主要是加密相关的工具类，包括签名与Hash等
-
+    
     * **`com.rcjava.tran`** 用来构建签名交易
-
+    
     * **`com.rcjava.sync`** 用来同步区块数据
-
+    
     * **`com.rcjava.tran`** 用来构建签名交易
-
+    
     * **`com.rcjava.util`** 主要是封装了一些工具类<br>
-
+    
         > - CertUtil   证书相关工具类
         > - GmUtil    国密相关工具类
         > - KeyUtil    key操作相关的工具类
@@ -498,3 +501,48 @@
   >    ```
   >
   > 4. 通过`StateUtil`工具类来解析
+  
+* 国密的引入和使用
+
+  > 1. 国密ssl包需要额外引入，暂时未开源
+  >
+  > 2. 具体使用示例可参考`src/test/java/com.rcjava.client.gm/TranPostGmClientTest`，`src/test/java/com.rcjava.client.gm/ChainInfoGmClientTest`
+  
+  * 国密ssl
+  
+    1. 继承`src/main/java/com.rcjava.gm.GMProvider`，或手动来安装Provider
+  
+        ```java
+        Security.insertProviderAt((Provider) Class.forName("org.bouncycastle.jce.provider.BouncyCastleProvider").newInstance(), 1);
+        Security.insertProviderAt((Provider) Class.forName("org.bouncycastle.jsse.provider.BouncyCastleJsseProvider").newInstance(), 2);
+        ```
+  
+    2. 构建国密SSLContext
+  
+       ```java
+       SSLContext sslContext = SSLContextBuilder.create()
+               .setProtocol("GMSSLv1.1").setProvider("BCJSSE")
+               .setKeyStoreType("PKCS12")
+               .setKeyManagerFactoryAlgorithm("PKIX")
+               .loadTrustMaterial(new File("pfx/mytruststore.pfx"), "changeme".toCharArray(), new TrustSelfSignedStrategy())
+               .loadKeyMaterial(new File("pfx/215159697776981712.node1.pfx"), "123".toCharArray(), "123".toCharArray())
+               .build();
+       ```
+  
+    3. 构建交易提交客户端或查询客户端
+  
+       ```java
+       TranPostClient tranPostClient = new TranPostClient("192.168.2.69:9081", sslContext);
+       ChainInfoClient chainInfoClient = new ChainInfoClient("192.168.2.69:9081", sslContext);
+       ```
+  
+  * 使用国密构造数字签名交易
+  
+    1. 与上面构造签名交易类似，只需要将签名算法改为"sm3withsm2"即可
+  
+       ```java
+       TranCreator tranCreator = TranCreator.newBuilder().setPrivateKey(privateKey).setSignAlgorithm("SM3WITHSM2").build();
+       ```
+  
+       
+
