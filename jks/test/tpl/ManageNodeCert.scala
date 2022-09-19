@@ -16,7 +16,7 @@ import scala.collection.mutable.HashMap
 class ManageNodeCert extends IContract {
 
   val key_trust_stores = "TSDb-Trust-Stores"
-  val vote_list = "Vote-List"
+  val vote_list = "TSDb-Vote-List"
 
   def init(ctx: ContractContext) {
     println(s"tid: ${ctx.t.id}, execute the contract which name is ${ctx.t.getCid.chaincodeName} and version is ${ctx.t.getCid.version}")
@@ -54,8 +54,8 @@ class ManageNodeCert extends IContract {
    * @param voteList 抽签列表
    * @return
    */
-  def updateVoleList(ctx: ContractContext, voteList: List[String]): ActionResult = {
-    if (voteList.size >= 4) {
+  def updateVoleList(ctx: ContractContext, voteList: Array[String]): ActionResult = {
+    if (voteList.length >= 4) {
       ctx.api.setVal(vote_list, voteList)
     } else {
       throw ContractException("抽签列表长度至少为4")
@@ -75,7 +75,7 @@ class ManageNodeCert extends IContract {
       case "updateNodeCert" =>
         updateNodeCert(ctx, json.extract[Map[String, String]])
       case "updateVoteList" =>
-        updateVoleList(ctx, json.extract[List[String]])
+        updateVoleList(ctx, json.extract[Array[String]])
     }
   }
 
