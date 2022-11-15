@@ -27,7 +27,7 @@ public class TranCreatorTest {
     private Peer.ChaincodeId contractAssetsId = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
 
     private PrivateKey privateKey = Objects.requireNonNull(CertUtil.genX509CertPrivateKey(
-            new File("jks/121000005l35120456.node1.jks"),
+            new File("jks/jdk13/121000005l35120456.node1.jks"),
             "123",
             "121000005l35120456.node1"), "获取证书和私钥失败").getPrivateKey();
 

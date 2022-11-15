@@ -152,7 +152,7 @@ public class TranCreator {
      * @param oid         重放举证：交易实例id, 可选, 导出实例时，要求提供同一区块内部，同一合约实例的交易顺序及证明， 默认空为全局的实例id
      * @return
      */
-    public Transaction createInvokeTran(@Nullable String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt,
+    public Transaction createInvokeTran(@Nonnull String tranId, @Nonnull CertId certId, @Nonnull ChaincodeId chaincodeId, @Nonnull ChaincodeInput ipt,
                                         @Nonnull int gasLimit, @Nonnull String oid) {
         logger.info("指定tranId：{}", tranId);
         Transaction tranInv = Transaction.newBuilder()

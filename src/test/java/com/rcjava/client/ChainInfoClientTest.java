@@ -8,6 +8,7 @@ import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
@@ -47,9 +48,11 @@ public class ChainInfoClientTest {
 
     @Test
     @DisplayName("测试根据高度获取块")
-    void testGetBlockByHeight() {
+    void testGetBlockByHeight() throws Exception{
         Block block = chainInfoClient.getBlockByHeight(1);
         Peer.BlockHeader header = block.getHeader();
+        System.out.println(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
+        System.out.println(JsonFormat.printer().print(block));
         assertThat(header.getHeight()).isEqualTo(1);
     }
 
