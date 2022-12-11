@@ -72,6 +72,7 @@ public class DidTest {
     protected static String bindCertToAuthorize = "bindCertToAuthorize";
 
     protected static String signUpOperate = "signUpOperate";
+    protected static String updateOperate = "updateOperate";
     protected static String updateOperateStatus = "updateOperateStatus";
 
     protected PrivateKey super_pri = null;

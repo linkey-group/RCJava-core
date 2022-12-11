@@ -282,7 +282,7 @@ public class OperOperationTest extends DidTest {
                 .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
                 .setDescription("测试注册合约某个方法")
                 .setRegister(user1_creditCode_did)
-                .setIsPublish(true)
+                .setIsPublish(false)
                 .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
                 // 貌似没必要？
                 .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
@@ -352,10 +352,74 @@ public class OperOperationTest extends DidTest {
 
     }
 
+    @Test
+    @DisplayName("提交存证交易，因为public是false，因此user1提交存证是失败的")
+    @Order(9)
+    void testCredenceProof_User1() throws InterruptedException {
+        Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, credenceTPLId,
+                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+        postClient.postSignedTran(tranHex);
+        Peer.ActionResult actionResult = checkResult(tranId);
+        Assertions.assertEquals(101, actionResult.getCode(), "没有找到授权的操作");
+        Assertions.assertEquals("没有找到授权的操作", actionResult.getReason());
+    }
+
+    @Test
+    @DisplayName("更新操作，user1不可以更新operate为true，user0可以更新operate为true")
+    @Order(10)
+    void testUpdateOperate() throws Exception {
+        // step1: usr1修改合约A的某个方法的Operate失败
+        long millis = System.currentTimeMillis();
+        Peer.Operate operate = Peer.Operate.newBuilder()
+                .setOpId(DigestUtils.sha256Hex("identity-net:CredenceTPL.creProof"))
+                .setDescription("更新合约某个方法")
+                .setRegister(user0_creditCode_did)
+                .setIsPublish(true)
+                .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
+                .addAllOperateServiceName(Arrays.asList("transaction.stream", "transaction.postTranByString", "transaction.postTranStream", "transaction.postTran"))
+                .setAuthFullName("identity-net:CredenceTPL.creProof")
+                .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
+                .setOpValid(true)
+                .setVersion("1.0")
+                .build();
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, didChaincodeId, updateOperate, JsonFormat.printer().print(operate), 0, "");
+        postClient.postSignedTran(tran);
+        Peer.ActionResult actionResult = checkResult(tranId);
+        Assertions.assertEquals(102, actionResult.getCode(), "错误码为102");
+        JSONObject errMsg = JSONObject.parseObject(actionResult.getReason());
+        Assertions.assertEquals(14004, errMsg.getInteger("code"), "register(操作注册者)非交易提交者");
+
+        // user0来提交会成功了
+        String tranId_1 = UUID.randomUUID().toString();
+        Peer.Transaction tran_1 = usr0_tranCreator_0.createInvokeTran(tranId_1, usr0_certId_0, didChaincodeId, updateOperate, JsonFormat.printer().print(operate), 0, "");
+        postClient.postSignedTran(tran_1);
+        Peer.ActionResult actionResult_1 = checkResult(tranId_1);
+        System.out.println(actionResult_1);
+
+    }
+
+    @Test
+    @DisplayName("提交存证交易，因为public是true，因此user1提交存证会成功了")
+    @Order(11)
+    void testCredenceProof_User1_1() throws InterruptedException {
+        Peer.ChaincodeId credenceTPLId = Peer.ChaincodeId.newBuilder().setChaincodeName("CredenceTPL").setVersion(1).build();
+        String tranId = UUID.randomUUID().toString();
+        Peer.Transaction tran = usr1_tranCreator_0.createInvokeTran(tranId, usr1_certId_0, credenceTPLId,
+                "creProof", "{\"uuid\" : \"121000005l35120456\",\"data\" : \"{\\\"data1\\\": \\\"xyb002\\\",\\\"data2\\\": \\\"xyb003\\\"}\"}", 0, "");
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+        postClient.postSignedTran(tranHex);
+        Peer.ActionResult actionResult = checkResult(tranId);
+        System.out.println(actionResult);
+    }
+
 
     @Test
     @DisplayName("修改Operate状态-要修改的operate不存在")
-    @Order(9)
+    @Order(12)
     void testUpdateOperateStatus_9() throws InterruptedException {
         // step1: usr0修改不存在的operate的状态失败
         String tranId = UUID.randomUUID().toString();
@@ -373,7 +437,7 @@ public class OperOperationTest extends DidTest {
 
     @Test
     @DisplayName("修改Operate状态-只能修改自己的operate")
-    @Order(10)
+    @Order(13)
     void testUpdateOperateStatus_10() throws InterruptedException {
         // step1: usr1修改usr0的operate的状态失败
         String tranId = UUID.randomUUID().toString();
@@ -391,7 +455,7 @@ public class OperOperationTest extends DidTest {
 
     @Test
     @DisplayName("修改Operate状态-修改自己的operate成功")
-    @Order(11)
+    @Order(14)
     void testUpdateOperateStatus_11() throws InterruptedException {
         // step1: usr0修改usr0的operate的状态成功
         String tranId_1 = UUID.randomUUID().toString();
@@ -409,7 +473,7 @@ public class OperOperationTest extends DidTest {
 
     @Test
     @DisplayName("修改Operate状态-superAdmin可以修改usr0的operate状态")
-    @Order(12)
+    @Order(15)
     void testUpdateOperateStatus_12() throws InterruptedException {
         // step1: superAdmin修改usr0的operate的状态
         String tranId_2 = UUID.randomUUID().toString();
