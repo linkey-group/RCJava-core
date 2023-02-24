@@ -4,7 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>repchain</groupId>
+    <name>rcjava-core</name>
+    <groupId>net.repchain</groupId>
     <artifactId>rcjava-core</artifactId>
     <version>2.0.0</version>
     <description>Java sdk for RepChain</description>
@@ -38,21 +39,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
@@ -66,53 +52,18 @@
                 <version>3.7.1</version>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.0.0</version>
-                <dependencies>
-                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>4.0.1</version>
-                    </dependency>
-                </dependencies>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.h3xstream.findsecbugs</groupId>
-                            <artifactId>findsecbugs-plugin</artifactId>
-                            <version>LATEST</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>com.mebigfatguy.sb-contrib</groupId>
-                            <artifactId>sb-contrib</artifactId>
-                            <version>7.4.7</version>
-                        </plugin>
-                    </plugins>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.0.0</version>
-                <configuration>
-                    <xmlOutput>true</xmlOutput>
-                    <!-- Optional directory to put spotbugs xdoc xml report -->
-                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <dependencies>
         <dependency>
@@ -198,15 +149,84 @@
     </dependencies>
 
     <distributionManagement>
-        <repository>
-            <id>repchain-release</id>
-            <name>Release Repository of RepChain</name>
-            <url>http://192.168.2.86:8081/repository/repchain-release/</url>
-        </repository>
         <snapshotRepository>
-            <id>repchain-snapshot</id>
-            <name>Snapshot Repository of RepChain</name>
-            <url>http://192.168.2.86:8081/repository/repchain-snapshot/</url>
+            <id>ossrh</id>
+            <name>Snapshot Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <doclint>none</doclint>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>${gpg.keyname}</keyname>
+                                    <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <developers>
+        <developer>
+            <name>zyf</name>
+            <email>cs@linkel.cn</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://gitee.com/BTAJL/RCJava-core</connection>
+        <developerConnection>scm:git:https://gitee.com/BTAJL/RCJava-core.git</developerConnection>
+        <url>https://gitee.com/BTAJL/RCJava-core</url>
+    </scm>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
 </project>
