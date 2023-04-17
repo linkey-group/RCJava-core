@@ -1,8 +1,7 @@
-package com.rcjava.reg;
+package com.rcjava.censor;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.util.UUIDUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.JsonFormat;
@@ -11,7 +10,6 @@ import com.rcjava.client.TranPostClient;
 import com.rcjava.model.Conclusion;
 import com.rcjava.protos.Peer;
 import com.rcjava.tran.TranCreator;
-import com.rcjava.tran.impl.DeployTran;
 import com.rcjava.util.CertUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -43,10 +41,11 @@ public class RegulateTPLTest {
     private String illegal_tran_id = "";
     private Long illegal_block_height = 0L;
 
-    private String illegal_block_commitState;
+    private String illegal_block_hash;
 
 
     Peer.ChaincodeId regulateTPL = Peer.ChaincodeId.newBuilder().setChaincodeName("RegulateTPL").setVersion(1).build();
+    Peer.ChaincodeId contractAssetsTPL = Peer.ChaincodeId.newBuilder().setChaincodeName("ContractAssetsTPL").setVersion(1).build();
     Peer.ChaincodeId didChaincodeId = Peer.ChaincodeId.newBuilder().setChaincodeName("RdidOperateAuthorizeTPL").setVersion(1).build();
     private final String network = "identity-net:";
     private final String super_credit = network + "951002007l78123233";
@@ -70,7 +69,7 @@ public class RegulateTPLTest {
             .build();
         Peer.Transaction transaction = superCreator.createDeployTran(superCertId, regulateTPL, chaincodeDeploy, 0, "");
         JSONObject result = tranPostClient.postSignedTran(transaction);
-        Assertions.assertNull(result.get("err"));
+        Assertions.assertTrue((null == result.get("err")) || "存在重复的合约Id".equals(result.getJSONObject("err").get("msg")));
         Thread.sleep(5000);
     }
 
@@ -79,7 +78,7 @@ public class RegulateTPLTest {
     @Order(2)
     void signOperateTest() throws InvalidProtocolBufferException, InterruptedException {
         long millis = System.currentTimeMillis();
-        Peer.Operate operate1 = Peer.Operate.newBuilder()
+        Peer.Operate operate = Peer.Operate.newBuilder()
             .setOpId(DigestUtils.sha256Hex(network + "RegulateTPL.regBlocks"))
             .setDescription("注册RegulateTPL.regBlocks方法")
             .setRegister(super_credit)
@@ -90,48 +89,31 @@ public class RegulateTPLTest {
             .setOpValid(true)
             .setVersion("1.0")
             .build();
-        Peer.Transaction transaction1 = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, didChaincodeId, "signUpOperate", JsonFormat.printer().print(operate1), 0, "");
-        JSONObject result1 = tranPostClient.postSignedTran(transaction1);
-        Assertions.assertNotNull(result1);
-        Assertions.assertNull(result1.get("err"));
-
-        Peer.Operate operate2 = Peer.Operate.newBuilder()
-            .setOpId(DigestUtils.sha256Hex(network + "RegulateTPL.test"))
-            .setDescription("注册RegulateTPL.test")
-            .setRegister(super_credit)
-            .setIsPublish(true)
-            .setOperateType(Peer.Operate.OperateType.OPERATE_CONTRACT)
-            .setAuthFullName(network + "RegulateTPL.test")
-            .setCreateTime(Timestamp.newBuilder().setSeconds(millis / 1000).setNanos((int) ((millis % 1000) * 1000000)).build())
-            .setOpValid(true)
-            .setVersion("1.0")
-            .build();
-        Peer.Transaction transaction2 = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, didChaincodeId, "signUpOperate", JsonFormat.printer().print(operate2), 0, "");
-        JSONObject result2 = tranPostClient.postSignedTran(transaction2);
-        Assertions.assertNotNull(result2);
-        Assertions.assertNull(result2.get("err"));
-        Thread.sleep(3000);
+        Peer.Transaction transaction = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, didChaincodeId,
+            "signUpOperate", JsonFormat.printer().print(operate), 0, "");
+        JSONObject result = tranPostClient.postSignedTran(transaction);
+        Assertions.assertTrue((null == result.get("err")) || "operate已存在".equals(result.getJSONObject("err").getJSONObject("msg").get("reason")));
     }
 
     @Test
-    @DisplayName("调用test方法上链一条违规交易")
+    @DisplayName("调用putProof方法上链一条违规交易")
     @Order(3)
     void invokeIllegalTest() throws InterruptedException {
         Map<String, String> map = new HashMap<>();
-        map.put("illegal-tans-key-123", "假设这是一条违规内容，违反法律法规或公序良俗！");
-        Peer.Transaction transaction = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, regulateTPL, "test",
-            JSON.toJSONString(map), 0, "");
+        map.put(UUID.randomUUID().toString(), "假设这是一条违规内容，违反法律法规或公序良俗！");
+        Peer.Transaction transaction = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, contractAssetsTPL,
+            "putProof", JSON.toJSONString(map), 0, "");
         JSONObject result = tranPostClient.postSignedTran(transaction);
         logger.info("{}", result);
         Assertions.assertNotNull(result);
         Assertions.assertNull(result.get("err"));
-        Thread.sleep(2000);
+        Thread.sleep(5000);
 
         ChainInfoClient.TranInfoAndHeight infoAndHeight = infoClient.getTranInfoAndHeightByTranId(transaction.getId());
         Peer.Block block = infoClient.getBlockByHeight(infoAndHeight.getHeight());
         illegal_tran_id = transaction.getId();
         illegal_block_height = infoAndHeight.getHeight();
-        illegal_block_commitState = block.getHeader().getCommitState().toStringUtf8();
+        illegal_block_hash = block.getHeader().getHashPresent().toStringUtf8();
     }
 
     @Test
@@ -140,18 +122,20 @@ public class RegulateTPLTest {
     void regBlocksTest() throws InterruptedException {
         logger.info("illegal_tran_id:{}", illegal_tran_id);
         logger.info("illegal_block_height:{}", illegal_block_height);
-        logger.info("illegal_block_commitState:{}", illegal_block_commitState);
+        logger.info("illegal_block_hash:{}", illegal_block_hash);
         List<Conclusion> conclusions = new ArrayList<>();
         Map<String, String> txids = new HashMap<>();
         txids.put(illegal_tran_id, "内容违规");
         Conclusion conclusion = new Conclusion();
         conclusion.setHeight(illegal_block_height);
-        conclusion.setHash_tx(illegal_block_commitState);
-        conclusion.setIllegal_txIds(txids);
+        conclusion.setBlockHash(illegal_block_hash);
+        conclusion.setIllegalTrans(txids);
         conclusions.add(conclusion);
         logger.info("conclusions:{}", conclusions);
-        Peer.Transaction transaction = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, regulateTPL, "regBlocks",
-            JSON.toJSONString(conclusions), 0, "");
+        List<Conclusion> conclusionList = new ArrayList<>();
+        conclusionList.add(conclusion);
+        Peer.Transaction transaction = superCreator.createInvokeTran(UUID.randomUUID().toString(), superCertId, regulateTPL,
+            "regBlocks", JSON.toJSONString(conclusionList), 0, "");
         JSONObject result = tranPostClient.postSignedTran(transaction);
         Assertions.assertNotNull(result);
         Assertions.assertNull(result.get("err"));
@@ -165,21 +149,21 @@ public class RegulateTPLTest {
         // 根据交易ID查询交易内容
         Peer.Transaction tran = infoClient.getTranByTranId(illegal_tran_id);
         logger.info("\n{}", tran.getIpt());
-        Assertions.assertEquals("reg_illegal_transaction", tran.getIpt().getFunction());
-        Assertions.assertEquals(1, tran.getIpt().getArgsCount());
+        Assertions.assertEquals(tran.getId(), tran.getIpt().getArgs(0));
+        Assertions.assertEquals(2, tran.getIpt().getArgsCount());
 
         // 根据交易ID查询交易内容及所在高度
         Peer.Transaction tranInfo = infoClient.getTranInfoAndHeightByTranId(illegal_tran_id).getTranInfo();
-        Assertions.assertEquals("reg_illegal_transaction", tranInfo.getIpt().getFunction());
-        Assertions.assertEquals(1, tranInfo.getIpt().getArgsCount());
+        Assertions.assertEquals(tranInfo.getId(), tranInfo.getIpt().getArgs(0));
+        Assertions.assertEquals(2, tranInfo.getIpt().getArgsCount());
 
         // 根据区块高度查询区块内容
         Peer.Block block = infoClient.getBlockByHeight(illegal_block_height);
         block.getTransactionsList().forEach(t -> {
             if (illegal_tran_id.equals(t.getId())) {
                 logger.info("\n{}", t.getIpt());
-                Assertions.assertEquals("reg_illegal_transaction", t.getIpt().getFunction());
-                Assertions.assertEquals(1, t.getIpt().getArgsCount());
+                Assertions.assertEquals(t.getId(), t.getIpt().getArgs(0));
+                Assertions.assertEquals(2, t.getIpt().getArgsCount());
             }
         });
 
@@ -188,8 +172,8 @@ public class RegulateTPLTest {
         block1.getTransactionsList().forEach(t -> {
             if (illegal_tran_id.equals(t.getId())) {
                 logger.info("\n{}", t.getIpt());
-                Assertions.assertEquals("reg_illegal_transaction", t.getIpt().getFunction());
-                Assertions.assertEquals(1, t.getIpt().getArgsCount());
+                Assertions.assertEquals(t.getId(), t.getIpt().getArgs(0));
+                Assertions.assertEquals(2, t.getIpt().getArgsCount());
             }
         });
     }

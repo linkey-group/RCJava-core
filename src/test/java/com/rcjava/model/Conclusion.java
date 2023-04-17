@@ -10,16 +10,10 @@ import java.util.Map;
  */
 public class Conclusion {
     private Long height;
-    private String hash_tx;
-    private Map<String, String> illegal_txIds;
+    private String blockHash;
+    private Map<String, String> illegalTrans;
 
     public Conclusion() {
-    }
-
-    public Conclusion(Long height, String hash_tx, Map<String, String> illegal_txIds) {
-        this.height = height;
-        this.hash_tx = hash_tx;
-        this.illegal_txIds = illegal_txIds;
     }
 
     public Long getHeight() {
@@ -30,28 +24,28 @@ public class Conclusion {
         this.height = height;
     }
 
-    public String getHash_tx() {
-        return hash_tx;
+    public String getBlockHash() {
+        return blockHash;
     }
 
-    public void setHash_tx(String hash_tx) {
-        this.hash_tx = hash_tx;
+    public void setBlockHash(String blockHash) {
+        this.blockHash = blockHash;
     }
 
-    public Map<String, String> getIllegal_txIds() {
-        return illegal_txIds;
+    public Map<String, String> getIllegalTrans() {
+        return illegalTrans;
     }
 
-    public void setIllegal_txIds(Map<String, String> illegal_txIds) {
-        this.illegal_txIds = illegal_txIds;
+    public void setIllegalTrans(Map<String, String> illegalTrans) {
+        this.illegalTrans = illegalTrans;
     }
 
     @Override
     public String toString() {
         return "Conclusion{" +
             "height=" + height +
-            ", hash_tx='" + hash_tx + '\'' +
-            ", illegal_txIds=" + illegal_txIds +
+            ", blockHash='" + blockHash + '\'' +
+            ", illegalTrans=" + illegalTrans +
             '}';
     }
 }
