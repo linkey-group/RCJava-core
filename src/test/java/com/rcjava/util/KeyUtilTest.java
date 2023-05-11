@@ -1,11 +1,18 @@
 package com.rcjava.util;
 
+import org.apache.commons.io.FileUtils;
 import org.bouncycastle.asn1.nist.NISTObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.PKCS8Generator;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.openssl.jcajce.JceOpenSSLPKCS8EncryptorBuilder;
+import org.bouncycastle.util.io.pem.PemObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +23,8 @@ import java.nio.file.Files;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 /**
  * @author zyf
@@ -74,5 +83,14 @@ public class KeyUtilTest<T> {
         // openssl
         KeyUtil.generateEncryptPemString(pemWriter, privateKey, true, "AES-256-CBC", "123");
         pemWriter.close();
+    }
+
+    @Test
+    @DisplayName("针对一个文件, 读取私钥和证书")
+    void testGenPriKeyAndCert() throws Exception {
+        String pemString = FileUtils.readFileToString(new File("jks/test/priKeyAndCert.pem"), StandardCharsets.UTF_8);
+        PEMParser stringParser = new PEMParser(new StringReader(pemString));
+        System.out.println(new JcaPEMKeyConverter().setProvider(new BouncyCastleProvider()).getPrivateKey((PrivateKeyInfo) stringParser.readObject()));
+        System.out.println(new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider()).getCertificate((X509CertificateHolder) stringParser.readObject()));
     }
 }
