@@ -83,6 +83,18 @@ public final class Peer {
      * <code>.com.rcjava.protos.Block blk = 4;</code>
      */
     com.rcjava.protos.Peer.BlockOrBuilder getBlkOrBuilder();
+
+    /**
+     * <code>string contract_event_content = 5;</code>
+     * @return The contractEventContent.
+     */
+    java.lang.String getContractEventContent();
+    /**
+     * <code>string contract_event_content = 5;</code>
+     * @return The bytes for contractEventContent.
+     */
+    com.google.protobuf.ByteString
+        getContractEventContentBytes();
   }
   /**
    * <pre>
@@ -104,6 +116,7 @@ public final class Peer {
       from_ = "";
       to_ = "";
       action_ = 0;
+      contractEventContent_ = "";
     }
 
     @java.lang.Override
@@ -165,6 +178,12 @@ public final class Peer {
                 blk_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              contractEventContent_ = s;
               break;
             }
             default: {
@@ -256,6 +275,10 @@ public final class Peer {
        * <code>BLOCK_SYNC_SUC = 11;</code>
        */
       BLOCK_SYNC_SUC(11),
+      /**
+       * <code>CONTRACT_EVENT = 12;</code>
+       */
+      CONTRACT_EVENT(12),
       UNRECOGNIZED(-1),
       ;
 
@@ -307,6 +330,10 @@ public final class Peer {
        * <code>BLOCK_SYNC_SUC = 11;</code>
        */
       public static final int BLOCK_SYNC_SUC_VALUE = 11;
+      /**
+       * <code>CONTRACT_EVENT = 12;</code>
+       */
+      public static final int CONTRACT_EVENT_VALUE = 12;
 
 
       public final int getNumber() {
@@ -345,6 +372,7 @@ public final class Peer {
           case 9: return BLOCK_SYNC;
           case 10: return BLOCK_SYNC_DATA;
           case 11: return BLOCK_SYNC_SUC;
+          case 12: return CONTRACT_EVENT;
           default: return null;
         }
       }
@@ -538,6 +566,44 @@ public final class Peer {
       return getBlk();
     }
 
+    public static final int CONTRACT_EVENT_CONTENT_FIELD_NUMBER = 5;
+    private volatile java.lang.Object contractEventContent_;
+    /**
+     * <code>string contract_event_content = 5;</code>
+     * @return The contractEventContent.
+     */
+    @java.lang.Override
+    public java.lang.String getContractEventContent() {
+      java.lang.Object ref = contractEventContent_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        contractEventContent_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string contract_event_content = 5;</code>
+     * @return The bytes for contractEventContent.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getContractEventContentBytes() {
+      java.lang.Object ref = contractEventContent_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        contractEventContent_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -564,6 +630,9 @@ public final class Peer {
       if (blk_ != null) {
         output.writeMessage(4, getBlk());
       }
+      if (!getContractEventContentBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, contractEventContent_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -586,6 +655,9 @@ public final class Peer {
       if (blk_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getBlk());
+      }
+      if (!getContractEventContentBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, contractEventContent_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -612,6 +684,8 @@ public final class Peer {
         if (!getBlk()
             .equals(other.getBlk())) return false;
       }
+      if (!getContractEventContent()
+          .equals(other.getContractEventContent())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -633,6 +707,8 @@ public final class Peer {
         hash = (37 * hash) + BLK_FIELD_NUMBER;
         hash = (53 * hash) + getBlk().hashCode();
       }
+      hash = (37 * hash) + CONTRACT_EVENT_CONTENT_FIELD_NUMBER;
+      hash = (53 * hash) + getContractEventContent().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -782,6 +858,8 @@ public final class Peer {
           blk_ = null;
           blkBuilder_ = null;
         }
+        contractEventContent_ = "";
+
         return this;
       }
 
@@ -816,6 +894,7 @@ public final class Peer {
         } else {
           result.blk_ = blkBuilder_.build();
         }
+        result.contractEventContent_ = contractEventContent_;
         onBuilt();
         return result;
       }
@@ -877,6 +956,10 @@ public final class Peer {
         }
         if (other.hasBlk()) {
           mergeBlk(other.getBlk());
+        }
+        if (!other.getContractEventContent().isEmpty()) {
+          contractEventContent_ = other.contractEventContent_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1270,6 +1353,82 @@ public final class Peer {
           blk_ = null;
         }
         return blkBuilder_;
+      }
+
+      private java.lang.Object contractEventContent_ = "";
+      /**
+       * <code>string contract_event_content = 5;</code>
+       * @return The contractEventContent.
+       */
+      public java.lang.String getContractEventContent() {
+        java.lang.Object ref = contractEventContent_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          contractEventContent_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string contract_event_content = 5;</code>
+       * @return The bytes for contractEventContent.
+       */
+      public com.google.protobuf.ByteString
+          getContractEventContentBytes() {
+        java.lang.Object ref = contractEventContent_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          contractEventContent_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string contract_event_content = 5;</code>
+       * @param value The contractEventContent to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContractEventContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        contractEventContent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contract_event_content = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContractEventContent() {
+        
+        contractEventContent_ = getDefaultInstance().getContractEventContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contract_event_content = 5;</code>
+       * @param value The bytes for contractEventContent to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContractEventContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        contractEventContent_ = value;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -30731,6 +30890,16 @@ public final class Peer {
      * @return The cclassification.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification getCclassification();
+
+    /**
+     * <pre>
+     *true 本合约可以被其他合约调用；false 不可以被其他合约调用。默认值是false
+     * </pre>
+     *
+     * <code>bool is_called_by_other_contracts = 9;</code>
+     * @return The isCalledByOtherContracts.
+     */
+    boolean getIsCalledByOtherContracts();
   }
   /**
    * <pre>
@@ -30833,6 +31002,11 @@ public final class Peer {
               int rawValue = input.readEnum();
 
               cclassification_ = rawValue;
+              break;
+            }
+            case 72: {
+
+              isCalledByOtherContracts_ = input.readBool();
               break;
             }
             default: {
@@ -31676,6 +31850,21 @@ public final class Peer {
       return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.UNRECOGNIZED : result;
     }
 
+    public static final int IS_CALLED_BY_OTHER_CONTRACTS_FIELD_NUMBER = 9;
+    private boolean isCalledByOtherContracts_;
+    /**
+     * <pre>
+     *true 本合约可以被其他合约调用；false 不可以被其他合约调用。默认值是false
+     * </pre>
+     *
+     * <code>bool is_called_by_other_contracts = 9;</code>
+     * @return The isCalledByOtherContracts.
+     */
+    @java.lang.Override
+    public boolean getIsCalledByOtherContracts() {
+      return isCalledByOtherContracts_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -31713,6 +31902,9 @@ public final class Peer {
       }
       if (cclassification_ != com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.CONTRACT_UNDEFINED.getNumber()) {
         output.writeEnum(8, cclassification_);
+      }
+      if (isCalledByOtherContracts_ != false) {
+        output.writeBool(9, isCalledByOtherContracts_);
       }
       unknownFields.writeTo(output);
     }
@@ -31752,6 +31944,10 @@ public final class Peer {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(8, cclassification_);
       }
+      if (isCalledByOtherContracts_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(9, isCalledByOtherContracts_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -31779,6 +31975,8 @@ public final class Peer {
       if (!getInitParameter()
           .equals(other.getInitParameter())) return false;
       if (cclassification_ != other.cclassification_) return false;
+      if (getIsCalledByOtherContracts()
+          != other.getIsCalledByOtherContracts()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -31806,6 +32004,9 @@ public final class Peer {
       hash = (53 * hash) + getInitParameter().hashCode();
       hash = (37 * hash) + CCLASSIFICATION_FIELD_NUMBER;
       hash = (53 * hash) + cclassification_;
+      hash = (37 * hash) + IS_CALLED_BY_OTHER_CONTRACTS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsCalledByOtherContracts());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -31959,6 +32160,8 @@ public final class Peer {
 
         cclassification_ = 0;
 
+        isCalledByOtherContracts_ = false;
+
         return this;
       }
 
@@ -31993,6 +32196,7 @@ public final class Peer {
         result.sType_ = sType_;
         result.initParameter_ = initParameter_;
         result.cclassification_ = cclassification_;
+        result.isCalledByOtherContracts_ = isCalledByOtherContracts_;
         onBuilt();
         return result;
       }
@@ -32067,6 +32271,9 @@ public final class Peer {
         }
         if (other.cclassification_ != 0) {
           setCclassificationValue(other.getCclassificationValue());
+        }
+        if (other.getIsCalledByOtherContracts() != false) {
+          setIsCalledByOtherContracts(other.getIsCalledByOtherContracts());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -32620,6 +32827,49 @@ public final class Peer {
       public Builder clearCclassification() {
         
         cclassification_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean isCalledByOtherContracts_ ;
+      /**
+       * <pre>
+       *true 本合约可以被其他合约调用；false 不可以被其他合约调用。默认值是false
+       * </pre>
+       *
+       * <code>bool is_called_by_other_contracts = 9;</code>
+       * @return The isCalledByOtherContracts.
+       */
+      @java.lang.Override
+      public boolean getIsCalledByOtherContracts() {
+        return isCalledByOtherContracts_;
+      }
+      /**
+       * <pre>
+       *true 本合约可以被其他合约调用；false 不可以被其他合约调用。默认值是false
+       * </pre>
+       *
+       * <code>bool is_called_by_other_contracts = 9;</code>
+       * @param value The isCalledByOtherContracts to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsCalledByOtherContracts(boolean value) {
+        
+        isCalledByOtherContracts_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *true 本合约可以被其他合约调用；false 不可以被其他合约调用。默认值是false
+       * </pre>
+       *
+       * <code>bool is_called_by_other_contracts = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsCalledByOtherContracts() {
+        
+        isCalledByOtherContracts_ = false;
         onChanged();
         return this;
       }
@@ -35019,136 +35269,138 @@ public final class Peer {
   static {
     java.lang.String[] descriptorData = {
       "\n\npeer.proto\022\021com.rcjava.protos\032\017timesta" +
-      "mp.proto\"\335\002\n\005Event\022\014\n\004from\030\001 \001(\t\022\n\n\002to\030\002" +
+      "mp.proto\"\221\003\n\005Event\022\014\n\004from\030\001 \001(\t\022\n\n\002to\030\002" +
       " \001(\t\022/\n\006action\030\003 \001(\0162\037.com.rcjava.protos" +
       ".Event.Action\022%\n\003blk\030\004 \001(\0132\030.com.rcjava." +
-      "protos.Block\"\341\001\n\006Action\022\023\n\017SUBSCRIBE_TOP" +
-      "IC\020\000\022\017\n\013TRANSACTION\020\001\022\r\n\tBLOCK_NEW\020\002\022\025\n\021" +
-      "BLOCK_ENDORSEMENT\020\003\022\017\n\013ENDORSEMENT\020\004\022\r\n\t" +
-      "MEMBER_UP\020\005\022\017\n\013MEMBER_DOWN\020\006\022\016\n\nCANDIDAT" +
-      "OR\020\007\022\021\n\rGENESIS_BLOCK\020\010\022\016\n\nBLOCK_SYNC\020\t\022" +
-      "\023\n\017BLOCK_SYNC_DATA\020\n\022\022\n\016BLOCK_SYNC_SUC\020\013" +
-      "\"\371\002\n\006Signer\022\014\n\004name\030\001 \001(\t\022\023\n\013credit_code" +
-      "\030\002 \001(\t\022\016\n\006mobile\030\003 \001(\t\022\022\n\ncert_names\030\004 \003" +
-      "(\t\022\025\n\rauthorize_ids\030\005 \003(\t\022\023\n\013operate_ids" +
-      "\030\006 \003(\t\022\037\n\027credential_metadata_ids\030\007 \003(\t\022" +
-      "<\n\024authentication_certs\030\010 \003(\0132\036.com.rcja" +
-      "va.protos.Certificate\022\023\n\013signer_info\030\t \001" +
-      "(\t\022/\n\013create_time\030\n \001(\0132\032.google.protobu" +
-      "f.Timestamp\0220\n\014disable_time\030\013 \001(\0132\032.goog" +
-      "le.protobuf.Timestamp\022\024\n\014signer_valid\030\014 " +
-      "\001(\010\022\017\n\007version\030\r \001(\t\"A\n\006CertId\022\023\n\013credit" +
-      "_code\030\001 \001(\t\022\021\n\tcert_name\030\002 \001(\t\022\017\n\007versio" +
-      "n\030\003 \001(\t\"\367\002\n\013Certificate\022\023\n\013certificate\030\001" +
-      " \001(\t\022\020\n\010alg_type\030\002 \001(\t\022\022\n\ncert_valid\030\003 \001" +
-      "(\010\022,\n\010reg_Time\030\004 \001(\0132\032.google.protobuf.T" +
-      "imestamp\022.\n\nunreg_Time\030\005 \001(\0132\032.google.pr" +
-      "otobuf.Timestamp\022:\n\tcert_type\030\006 \001(\0162\'.co" +
-      "m.rcjava.protos.Certificate.CertType\022%\n\002" +
-      "id\030\007 \001(\0132\031.com.rcjava.protos.CertId\022\021\n\tc" +
-      "ert_hash\030\010 \001(\t\022\017\n\007version\030\t \001(\t\"H\n\010CertT" +
-      "ype\022\022\n\016CERT_UNDEFINED\020\000\022\027\n\023CERT_AUTHENTI" +
-      "CATION\020\001\022\017\n\013CERT_CUSTOM\020\002\"\270\003\n\007Operate\022\r\n" +
-      "\005op_id\030\001 \001(\t\022\023\n\013description\030\002 \001(\t\022\020\n\010reg" +
-      "ister\030\003 \001(\t\022\022\n\nis_publish\030\004 \001(\010\022<\n\014opera" +
-      "te_type\030\005 \001(\0162&.com.rcjava.protos.Operat" +
-      "e.OperateType\022\034\n\024operate_service_name\030\006 " +
-      "\003(\t\022\030\n\020operate_endpoint\030\007 \001(\t\022\026\n\016auth_fu" +
-      "ll_name\030\010 \001(\t\022/\n\013create_time\030\t \001(\0132\032.goo" +
-      "gle.protobuf.Timestamp\0220\n\014disable_time\030\n" +
-      " \001(\0132\032.google.protobuf.Timestamp\022\020\n\010op_v" +
-      "alid\030\013 \001(\010\022\017\n\007version\030\014 \001(\t\"O\n\013OperateTy" +
-      "pe\022\025\n\021OPERATE_UNDEFINED\020\000\022\024\n\020OPERATE_CON" +
-      "TRACT\020\001\022\023\n\017OPERATE_SERVICE\020\002\"\345\002\n\tAuthori" +
-      "ze\022\n\n\002id\030\001 \001(\t\022\r\n\005grant\030\002 \001(\t\022\017\n\007granted" +
-      "\030\003 \003(\t\022\r\n\005op_id\030\004 \003(\t\022>\n\013is_transfer\030\005 \001" +
-      "(\0162).com.rcjava.protos.Authorize.Transfe" +
-      "rType\022/\n\013create_time\030\006 \001(\0132\032.google.prot" +
-      "obuf.Timestamp\0220\n\014disable_time\030\007 \001(\0132\032.g" +
-      "oogle.protobuf.Timestamp\022\027\n\017authorize_va" +
-      "lid\030\010 \001(\010\022\017\n\007version\030\t \001(\t\"P\n\014TransferTy" +
-      "pe\022\024\n\020TRANSFER_DISABLE\020\000\022\021\n\rTRANSFER_ONC" +
-      "E\020\001\022\027\n\023TRANSFER_REPEATEDLY\020\002\"h\n\023BindCert" +
-      "ToAuthorize\022\024\n\014authorize_id\030\001 \001(\t\022*\n\007gra" +
-      "nted\030\002 \001(\0132\031.com.rcjava.protos.CertId\022\017\n" +
-      "\007version\030\003 \001(\t\"\304\001\n\014CreClaStruct\022\017\n\007versi" +
-      "on\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\023\n\013cc" +
-      "s_version\030\004 \001(\t\022\023\n\013description\030\005 \001(\t\022\017\n\007" +
-      "creator\030\006 \001(\t\022\017\n\007created\030\007 \001(\t\022\r\n\005valid\030" +
-      "\010 \001(\010\022.\n\nattributes\030\t \003(\0132\032.com.rcjava.p" +
-      "rotos.CreAttr\"L\n\007CreAttr\022\014\n\004name\030\001 \001(\t\022\014" +
-      "\n\004type\030\002 \001(\t\022\020\n\010required\030\003 \001(\010\022\023\n\013descri" +
-      "ption\030\004 \001(\t\"g\n\014VerCreStatus\022\017\n\007version\030\001" +
-      " \001(\t\022\n\n\002id\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\031\n\021revo" +
-      "kedClaimIndex\030\004 \003(\t\022\017\n\007creator\030\005 \001(\t\"x\n\t" +
-      "Signature\022*\n\007cert_id\030\001 \001(\0132\031.com.rcjava." +
-      "protos.CertId\022,\n\010tm_local\030\002 \001(\0132\032.google" +
-      ".protobuf.Timestamp\022\021\n\tsignature\030\003 \001(\014\"0" +
-      "\n\016ChaincodeInput\022\020\n\010function\030\001 \001(\t\022\014\n\004ar" +
-      "gs\030\002 \003(\t\"5\n\013ChaincodeId\022\025\n\rchaincodeName" +
-      "\030\001 \001(\t\022\017\n\007version\030\002 \001(\005\"\340\001\n\005Block\022.\n\006hea" +
-      "der\030\001 \001(\0132\036.com.rcjava.protos.BlockHeade" +
-      "r\0224\n\014transactions\030\003 \003(\0132\036.com.rcjava.pro" +
-      "tos.Transaction\022A\n\023transaction_results\030\004" +
-      " \003(\0132$.com.rcjava.protos.TransactionResu" +
-      "lt\022.\n\006reg_tx\030\017 \001(\0132\036.com.rcjava.protos.T" +
-      "ransaction\"\207\002\n\013BlockHeader\022\017\n\007version\030\001 " +
-      "\001(\r\022\016\n\006height\030\002 \001(\004\022\021\n\tcommit_tx\030\003 \001(\014\022\030" +
-      "\n\020commit_tx_result\030\004 \001(\014\022\024\n\014hash_present" +
-      "\030\005 \001(\014\022\025\n\rhash_previous\030\006 \001(\014\022\024\n\014commit_" +
-      "state\030\007 \001(\014\022\033\n\023commit_state_global\030\010 \001(\014" +
-      "\022\026\n\016height_expired\030\t \001(\004\0222\n\014endorsements" +
-      "\030\n \003(\0132\034.com.rcjava.protos.Signature\">\n\020" +
-      "TransactionError\022\014\n\004txId\030\001 \001(\t\022\014\n\004code\030\002" +
-      " \001(\005\022\016\n\006reason\030\003 \001(\t\"\300\003\n\021TransactionResu" +
-      "lt\022\014\n\004txId\030\001 \001(\t\022G\n\nstates_get\030\002 \003(\01323.c" +
-      "om.rcjava.protos.TransactionResult.State" +
-      "sGetEntry\022G\n\nstates_set\030\003 \003(\01323.com.rcja" +
-      "va.protos.TransactionResult.StatesSetEnt" +
-      "ry\022G\n\nstates_del\030\004 \003(\01323.com.rcjava.prot" +
-      "os.TransactionResult.StatesDelEntry\022,\n\003e" +
-      "rr\030\005 \001(\0132\037.com.rcjava.protos.ActionResul" +
-      "t\0320\n\016StatesGetEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu" +
-      "e\030\002 \001(\014:\0028\001\0320\n\016StatesSetEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016StatesDelEntry\022" +
-      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\245\003\n\013Tran" +
-      "saction\022\n\n\002id\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.com." +
-      "rcjava.protos.Transaction.Type\022+\n\003cid\030\003 " +
-      "\001(\0132\036.com.rcjava.protos.ChaincodeId\0222\n\004s" +
-      "pec\030\004 \001(\0132\".com.rcjava.protos.ChaincodeD" +
-      "eployH\000\0220\n\003ipt\030\005 \001(\0132!.com.rcjava.protos" +
-      ".ChaincodeInputH\000\022\017\n\005state\030\006 \001(\010H\000\022\021\n\tga" +
-      "s_limit\030\007 \001(\r\022\013\n\003oid\030\010 \001(\t\022/\n\tsignature\030" +
-      "\t \001(\0132\034.com.rcjava.protos.Signature\"Z\n\004T" +
-      "ype\022\r\n\tUNDEFINED\020\000\022\024\n\020CHAINCODE_DEPLOY\020\001" +
-      "\022\024\n\020CHAINCODE_INVOKE\020\002\022\027\n\023CHAINCODE_SET_" +
-      "STATE\020\003B\006\n\004para\"\357\005\n\017ChaincodeDeploy\022\017\n\007t" +
-      "imeout\030\001 \001(\005\022\024\n\014code_package\030\002 \001(\t\022\023\n\013le" +
-      "gal_prose\030\003 \001(\t\022;\n\006c_type\030\004 \001(\0162+.com.rc" +
-      "java.protos.ChaincodeDeploy.CodeType\022:\n\006" +
-      "r_type\030\005 \001(\0162*.com.rcjava.protos.Chainco" +
-      "deDeploy.RunType\022<\n\006s_type\030\006 \001(\0162,.com.r" +
-      "cjava.protos.ChaincodeDeploy.StateType\022\026" +
-      "\n\016init_parameter\030\007 \001(\t\022R\n\017cclassificatio" +
-      "n\030\010 \001(\01629.com.rcjava.protos.ChaincodeDep" +
-      "loy.ContractClassification\"\211\001\n\010CodeType\022" +
-      "\022\n\016CODE_UNDEFINED\020\000\022\023\n\017CODE_JAVASCRIPT\020\001" +
-      "\022\016\n\nCODE_SCALA\020\002\022\020\n\014CODE_VCL_DLL\020\003\022\020\n\014CO" +
-      "DE_VCL_EXE\020\004\022\021\n\rCODE_VCL_WASM\020\005\022\r\n\tCODE_" +
-      "WASM\020\006\"P\n\007RunType\022\021\n\rRUN_UNDEFINED\020\000\022\016\n\n" +
-      "RUN_SERIAL\020\001\022\020\n\014RUN_PARALLEL\020\002\022\020\n\014RUN_OP" +
-      "TIONAL\020\003\"C\n\tStateType\022\023\n\017STATE_UNDEFINED" +
-      "\020\000\022\017\n\013STATE_BLOCK\020\001\022\020\n\014STATE_GLOBAL\020\002\"Z\n" +
-      "\026ContractClassification\022\026\n\022CONTRACT_UNDE" +
-      "FINED\020\000\022\023\n\017CONTRACT_SYSTEM\020\001\022\023\n\017CONTRACT" +
-      "_CUSTOM\020\002\",\n\014ActionResult\022\014\n\004code\030\001 \001(\005\022" +
-      "\016\n\006reason\030\002 \001(\t\"7\n\nStateProof\022\013\n\003key\030\001 \001" +
-      "(\t\022\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001(\014\"\212\001\n\016Blo" +
-      "ckchainInfo\022\016\n\006height\030\001 \001(\004\022\031\n\021totalTran" +
-      "sactions\030\002 \001(\004\022\030\n\020currentBlockHash\030\003 \001(\014" +
-      "\022\031\n\021previousBlockHash\030\004 \001(\014\022\030\n\020currentSt" +
-      "ateHash\030\005 \001(\014B\023\n\021com.rcjava.protosb\006prot" +
-      "o3"
+      "protos.Block\022\036\n\026contract_event_content\030\005" +
+      " \001(\t\"\365\001\n\006Action\022\023\n\017SUBSCRIBE_TOPIC\020\000\022\017\n\013" +
+      "TRANSACTION\020\001\022\r\n\tBLOCK_NEW\020\002\022\025\n\021BLOCK_EN" +
+      "DORSEMENT\020\003\022\017\n\013ENDORSEMENT\020\004\022\r\n\tMEMBER_U" +
+      "P\020\005\022\017\n\013MEMBER_DOWN\020\006\022\016\n\nCANDIDATOR\020\007\022\021\n\r" +
+      "GENESIS_BLOCK\020\010\022\016\n\nBLOCK_SYNC\020\t\022\023\n\017BLOCK" +
+      "_SYNC_DATA\020\n\022\022\n\016BLOCK_SYNC_SUC\020\013\022\022\n\016CONT" +
+      "RACT_EVENT\020\014\"\371\002\n\006Signer\022\014\n\004name\030\001 \001(\t\022\023\n" +
+      "\013credit_code\030\002 \001(\t\022\016\n\006mobile\030\003 \001(\t\022\022\n\nce" +
+      "rt_names\030\004 \003(\t\022\025\n\rauthorize_ids\030\005 \003(\t\022\023\n" +
+      "\013operate_ids\030\006 \003(\t\022\037\n\027credential_metadat" +
+      "a_ids\030\007 \003(\t\022<\n\024authentication_certs\030\010 \003(" +
+      "\0132\036.com.rcjava.protos.Certificate\022\023\n\013sig" +
+      "ner_info\030\t \001(\t\022/\n\013create_time\030\n \001(\0132\032.go" +
+      "ogle.protobuf.Timestamp\0220\n\014disable_time\030" +
+      "\013 \001(\0132\032.google.protobuf.Timestamp\022\024\n\014sig" +
+      "ner_valid\030\014 \001(\010\022\017\n\007version\030\r \001(\t\"A\n\006Cert" +
+      "Id\022\023\n\013credit_code\030\001 \001(\t\022\021\n\tcert_name\030\002 \001" +
+      "(\t\022\017\n\007version\030\003 \001(\t\"\367\002\n\013Certificate\022\023\n\013c" +
+      "ertificate\030\001 \001(\t\022\020\n\010alg_type\030\002 \001(\t\022\022\n\nce" +
+      "rt_valid\030\003 \001(\010\022,\n\010reg_Time\030\004 \001(\0132\032.googl" +
+      "e.protobuf.Timestamp\022.\n\nunreg_Time\030\005 \001(\013" +
+      "2\032.google.protobuf.Timestamp\022:\n\tcert_typ" +
+      "e\030\006 \001(\0162\'.com.rcjava.protos.Certificate." +
+      "CertType\022%\n\002id\030\007 \001(\0132\031.com.rcjava.protos" +
+      ".CertId\022\021\n\tcert_hash\030\010 \001(\t\022\017\n\007version\030\t " +
+      "\001(\t\"H\n\010CertType\022\022\n\016CERT_UNDEFINED\020\000\022\027\n\023C" +
+      "ERT_AUTHENTICATION\020\001\022\017\n\013CERT_CUSTOM\020\002\"\270\003" +
+      "\n\007Operate\022\r\n\005op_id\030\001 \001(\t\022\023\n\013description\030" +
+      "\002 \001(\t\022\020\n\010register\030\003 \001(\t\022\022\n\nis_publish\030\004 " +
+      "\001(\010\022<\n\014operate_type\030\005 \001(\0162&.com.rcjava.p" +
+      "rotos.Operate.OperateType\022\034\n\024operate_ser" +
+      "vice_name\030\006 \003(\t\022\030\n\020operate_endpoint\030\007 \001(" +
+      "\t\022\026\n\016auth_full_name\030\010 \001(\t\022/\n\013create_time" +
+      "\030\t \001(\0132\032.google.protobuf.Timestamp\0220\n\014di" +
+      "sable_time\030\n \001(\0132\032.google.protobuf.Times" +
+      "tamp\022\020\n\010op_valid\030\013 \001(\010\022\017\n\007version\030\014 \001(\t\"" +
+      "O\n\013OperateType\022\025\n\021OPERATE_UNDEFINED\020\000\022\024\n" +
+      "\020OPERATE_CONTRACT\020\001\022\023\n\017OPERATE_SERVICE\020\002" +
+      "\"\345\002\n\tAuthorize\022\n\n\002id\030\001 \001(\t\022\r\n\005grant\030\002 \001(" +
+      "\t\022\017\n\007granted\030\003 \003(\t\022\r\n\005op_id\030\004 \003(\t\022>\n\013is_" +
+      "transfer\030\005 \001(\0162).com.rcjava.protos.Autho" +
+      "rize.TransferType\022/\n\013create_time\030\006 \001(\0132\032" +
+      ".google.protobuf.Timestamp\0220\n\014disable_ti" +
+      "me\030\007 \001(\0132\032.google.protobuf.Timestamp\022\027\n\017" +
+      "authorize_valid\030\010 \001(\010\022\017\n\007version\030\t \001(\t\"P" +
+      "\n\014TransferType\022\024\n\020TRANSFER_DISABLE\020\000\022\021\n\r" +
+      "TRANSFER_ONCE\020\001\022\027\n\023TRANSFER_REPEATEDLY\020\002" +
+      "\"h\n\023BindCertToAuthorize\022\024\n\014authorize_id\030" +
+      "\001 \001(\t\022*\n\007granted\030\002 \001(\0132\031.com.rcjava.prot" +
+      "os.CertId\022\017\n\007version\030\003 \001(\t\"\304\001\n\014CreClaStr" +
+      "uct\022\017\n\007version\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\022\014\n\004name" +
+      "\030\003 \001(\t\022\023\n\013ccs_version\030\004 \001(\t\022\023\n\013descripti" +
+      "on\030\005 \001(\t\022\017\n\007creator\030\006 \001(\t\022\017\n\007created\030\007 \001" +
+      "(\t\022\r\n\005valid\030\010 \001(\010\022.\n\nattributes\030\t \003(\0132\032." +
+      "com.rcjava.protos.CreAttr\"L\n\007CreAttr\022\014\n\004" +
+      "name\030\001 \001(\t\022\014\n\004type\030\002 \001(\t\022\020\n\010required\030\003 \001" +
+      "(\010\022\023\n\013description\030\004 \001(\t\"g\n\014VerCreStatus\022" +
+      "\017\n\007version\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\022\016\n\006status\030\003" +
+      " \001(\t\022\031\n\021revokedClaimIndex\030\004 \003(\t\022\017\n\007creat" +
+      "or\030\005 \001(\t\"x\n\tSignature\022*\n\007cert_id\030\001 \001(\0132\031" +
+      ".com.rcjava.protos.CertId\022,\n\010tm_local\030\002 " +
+      "\001(\0132\032.google.protobuf.Timestamp\022\021\n\tsigna" +
+      "ture\030\003 \001(\014\"0\n\016ChaincodeInput\022\020\n\010function" +
+      "\030\001 \001(\t\022\014\n\004args\030\002 \003(\t\"5\n\013ChaincodeId\022\025\n\rc" +
+      "haincodeName\030\001 \001(\t\022\017\n\007version\030\002 \001(\005\"\340\001\n\005" +
+      "Block\022.\n\006header\030\001 \001(\0132\036.com.rcjava.proto" +
+      "s.BlockHeader\0224\n\014transactions\030\003 \003(\0132\036.co" +
+      "m.rcjava.protos.Transaction\022A\n\023transacti" +
+      "on_results\030\004 \003(\0132$.com.rcjava.protos.Tra" +
+      "nsactionResult\022.\n\006reg_tx\030\017 \001(\0132\036.com.rcj" +
+      "ava.protos.Transaction\"\207\002\n\013BlockHeader\022\017" +
+      "\n\007version\030\001 \001(\r\022\016\n\006height\030\002 \001(\004\022\021\n\tcommi" +
+      "t_tx\030\003 \001(\014\022\030\n\020commit_tx_result\030\004 \001(\014\022\024\n\014" +
+      "hash_present\030\005 \001(\014\022\025\n\rhash_previous\030\006 \001(" +
+      "\014\022\024\n\014commit_state\030\007 \001(\014\022\033\n\023commit_state_" +
+      "global\030\010 \001(\014\022\026\n\016height_expired\030\t \001(\004\0222\n\014" +
+      "endorsements\030\n \003(\0132\034.com.rcjava.protos.S" +
+      "ignature\">\n\020TransactionError\022\014\n\004txId\030\001 \001" +
+      "(\t\022\014\n\004code\030\002 \001(\005\022\016\n\006reason\030\003 \001(\t\"\300\003\n\021Tra" +
+      "nsactionResult\022\014\n\004txId\030\001 \001(\t\022G\n\nstates_g" +
+      "et\030\002 \003(\01323.com.rcjava.protos.Transaction" +
+      "Result.StatesGetEntry\022G\n\nstates_set\030\003 \003(" +
+      "\01323.com.rcjava.protos.TransactionResult." +
+      "StatesSetEntry\022G\n\nstates_del\030\004 \003(\01323.com" +
+      ".rcjava.protos.TransactionResult.StatesD" +
+      "elEntry\022,\n\003err\030\005 \001(\0132\037.com.rcjava.protos" +
+      ".ActionResult\0320\n\016StatesGetEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016StatesSetEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016Sta" +
+      "tesDelEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:" +
+      "\0028\001\"\245\003\n\013Transaction\022\n\n\002id\030\001 \001(\t\0221\n\004type\030" +
+      "\002 \001(\0162#.com.rcjava.protos.Transaction.Ty" +
+      "pe\022+\n\003cid\030\003 \001(\0132\036.com.rcjava.protos.Chai" +
+      "ncodeId\0222\n\004spec\030\004 \001(\0132\".com.rcjava.proto" +
+      "s.ChaincodeDeployH\000\0220\n\003ipt\030\005 \001(\0132!.com.r" +
+      "cjava.protos.ChaincodeInputH\000\022\017\n\005state\030\006" +
+      " \001(\010H\000\022\021\n\tgas_limit\030\007 \001(\r\022\013\n\003oid\030\010 \001(\t\022/" +
+      "\n\tsignature\030\t \001(\0132\034.com.rcjava.protos.Si" +
+      "gnature\"Z\n\004Type\022\r\n\tUNDEFINED\020\000\022\024\n\020CHAINC" +
+      "ODE_DEPLOY\020\001\022\024\n\020CHAINCODE_INVOKE\020\002\022\027\n\023CH" +
+      "AINCODE_SET_STATE\020\003B\006\n\004para\"\225\006\n\017Chaincod" +
+      "eDeploy\022\017\n\007timeout\030\001 \001(\005\022\024\n\014code_package" +
+      "\030\002 \001(\t\022\023\n\013legal_prose\030\003 \001(\t\022;\n\006c_type\030\004 " +
+      "\001(\0162+.com.rcjava.protos.ChaincodeDeploy." +
+      "CodeType\022:\n\006r_type\030\005 \001(\0162*.com.rcjava.pr" +
+      "otos.ChaincodeDeploy.RunType\022<\n\006s_type\030\006" +
+      " \001(\0162,.com.rcjava.protos.ChaincodeDeploy" +
+      ".StateType\022\026\n\016init_parameter\030\007 \001(\t\022R\n\017cc" +
+      "lassification\030\010 \001(\01629.com.rcjava.protos." +
+      "ChaincodeDeploy.ContractClassification\022$" +
+      "\n\034is_called_by_other_contracts\030\t \001(\010\"\211\001\n" +
+      "\010CodeType\022\022\n\016CODE_UNDEFINED\020\000\022\023\n\017CODE_JA" +
+      "VASCRIPT\020\001\022\016\n\nCODE_SCALA\020\002\022\020\n\014CODE_VCL_D" +
+      "LL\020\003\022\020\n\014CODE_VCL_EXE\020\004\022\021\n\rCODE_VCL_WASM\020" +
+      "\005\022\r\n\tCODE_WASM\020\006\"P\n\007RunType\022\021\n\rRUN_UNDEF" +
+      "INED\020\000\022\016\n\nRUN_SERIAL\020\001\022\020\n\014RUN_PARALLEL\020\002" +
+      "\022\020\n\014RUN_OPTIONAL\020\003\"C\n\tStateType\022\023\n\017STATE" +
+      "_UNDEFINED\020\000\022\017\n\013STATE_BLOCK\020\001\022\020\n\014STATE_G" +
+      "LOBAL\020\002\"Z\n\026ContractClassification\022\026\n\022CON" +
+      "TRACT_UNDEFINED\020\000\022\023\n\017CONTRACT_SYSTEM\020\001\022\023" +
+      "\n\017CONTRACT_CUSTOM\020\002\",\n\014ActionResult\022\014\n\004c" +
+      "ode\030\001 \001(\005\022\016\n\006reason\030\002 \001(\t\"7\n\nStateProof\022" +
+      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001" +
+      "(\014\"\212\001\n\016BlockchainInfo\022\016\n\006height\030\001 \001(\004\022\031\n" +
+      "\021totalTransactions\030\002 \001(\004\022\030\n\020currentBlock" +
+      "Hash\030\003 \001(\014\022\031\n\021previousBlockHash\030\004 \001(\014\022\030\n" +
+      "\020currentStateHash\030\005 \001(\014B\023\n\021com.rcjava.pr" +
+      "otosb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -35160,7 +35412,7 @@ public final class Peer {
     internal_static_com_rcjava_protos_Event_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_rcjava_protos_Event_descriptor,
-        new java.lang.String[] { "From", "To", "Action", "Blk", });
+        new java.lang.String[] { "From", "To", "Action", "Blk", "ContractEventContent", });
     internal_static_com_rcjava_protos_Signer_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_rcjava_protos_Signer_fieldAccessorTable = new
@@ -35286,7 +35538,7 @@ public final class Peer {
     internal_static_com_rcjava_protos_ChaincodeDeploy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_rcjava_protos_ChaincodeDeploy_descriptor,
-        new java.lang.String[] { "Timeout", "CodePackage", "LegalProse", "CType", "RType", "SType", "InitParameter", "Cclassification", });
+        new java.lang.String[] { "Timeout", "CodePackage", "LegalProse", "CType", "RType", "SType", "InitParameter", "Cclassification", "IsCalledByOtherContracts", });
     internal_static_com_rcjava_protos_ActionResult_descriptor =
       getDescriptor().getMessageTypes().get(19);
     internal_static_com_rcjava_protos_ActionResult_fieldAccessorTable = new
