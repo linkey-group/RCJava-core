@@ -124,6 +124,20 @@ public class ChainInfoClient {
     }
 
     /**
+     * 根据高度获取区块头
+     *
+     * @param height 区块高度
+     * @return BlockHeader
+     */
+    public BlockHeader getBlockHeaderByHeight(long height) {
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        // 根据高度获取块数据
+        String url = String.format("%s://%s/block/header/%s", protocol, host, height);
+        JSONObject result = client.getJObject(url);
+        return genBlockHeaderFromJobject(result);
+    }
+
+    /**
      * 根据blockHash获取block
      *
      * @param blockHash Block的hash值,Base64字符串
@@ -134,6 +148,19 @@ public class ChainInfoClient {
         String url = String.format("%s://%s/block/hash/%s", protocol, host, blockHash);
         JSONObject result = client.getJObject(url);
         return genBlockFromJobject(result);
+    }
+
+    /**
+     * 根据blockHash获取blockHeader
+     *
+     * @param blockHash Block的hash值,Base64字符串
+     * @return BlockHeader 返回检索到的区块头
+     */
+    public BlockHeader getBlockHeaderByBlockHash(String blockHash) {
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/block/header/hash/%s", protocol, host, blockHash);
+        JSONObject result = client.getJObject(url);
+        return genBlockHeaderFromJobject(result);
     }
 
     /**
@@ -152,6 +179,26 @@ public class ChainInfoClient {
             JsonFormat.parser().merge(json, builder);
         } catch (InvalidProtocolBufferException e) {
             logger.error("construct Block occurs error, errorMsg is {}, json is {}", e.getMessage(), json, e);
+        }
+        return builder.build();
+    }
+
+    /**
+     * 从请求返回来的JsonObject构建BlockHeader
+     *
+     * @param jsonObject
+     * @return
+     */
+    private BlockHeader genBlockHeaderFromJobject(JSONObject jsonObject) {
+        if (jsonObject == null || jsonObject.isEmpty()) {
+            return null;
+        }
+        String json = jsonObject.toJSONString();
+        BlockHeader.Builder builder = BlockHeader.newBuilder();
+        try {
+            JsonFormat.parser().merge(json, builder);
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("construct BlockHeader occurs error, errorMsg is {}, json is {}", e.getMessage(), json, e);
         }
         return builder.build();
     }

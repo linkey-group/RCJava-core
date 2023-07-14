@@ -57,6 +57,15 @@ public class ChainInfoClientTest {
     }
 
     @Test
+    @DisplayName("测试根据高度获取区块头")
+    void testGetBlockHeaderByHeight() throws Exception{
+        Peer.BlockHeader blockHeader = chainInfoClient.getBlockHeaderByHeight(1);
+        System.out.println(Base64.encodeBase64String(blockHeader.getHashPresent().toByteArray()));
+        System.out.println(JsonFormat.printer().print(blockHeader));
+        assertThat(blockHeader.getHeight()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("测试根据交易ID获取入块时间")
     void testGetBlockTimeByTranId() {
         ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("d8ed4810-615f-4f8f-bf94-21b5a98ebf97");
