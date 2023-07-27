@@ -56,7 +56,7 @@ public class DidTest {
     protected String node8_creditCode = "credence-net:201353514191149590";
     protected String node9_creditCode = "credence-net:734747416095474396";
     protected String node10_creditCode = "credence-net:710341838996249513";
-    protected String cre_super_creditCode = "credence-net:951002007l78123233";
+    protected String cre_super_creditCode = "credence-net:649648431878518843";
 
     protected static String signUpSigner = "signUpSigner";
     protected static String updateSigner = "updateSigner";
@@ -147,7 +147,7 @@ public class DidTest {
                 break;
             }
             count++;
-            if (count > 15) break;
+            if (count > 90) break;
             TimeUnit.SECONDS.sleep(sleepTime);
         }
         return actionResult;

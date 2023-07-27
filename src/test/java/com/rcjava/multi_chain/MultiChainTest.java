@@ -34,15 +34,17 @@ import static com.google.common.truth.Truth.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MultiChainTest extends DidTest {
 
-    TranPostClient postClient = new TranPostClient("localhost:9081");
-    ChainInfoClient infoClient = new ChainInfoClient("localhost:9081");
+    String host = "localhost:9081";
+    TranPostClient postClient = new TranPostClient(host);
+    ChainInfoClient infoClient = new ChainInfoClient(host);
     TranCreator usr0_tranCreator_0 = getUsr0_tranCreator_0();
     TranCreator usr1_tranCreator_0 = getUsr1_tranCreator_0();
     Peer.CertId usr0_certId_0 = getUsr0_certId_0();
     Peer.CertId usr1_certId_0 = getUsr1_certId_0();
 
-    TranPostClient postCredenceClient = new TranPostClient("localhost:9086");
-    ChainInfoClient infoCredenceClient = new ChainInfoClient("localhost:9086");
+    String cre_host = "localhost:9086";
+    TranPostClient postCredenceClient = new TranPostClient(cre_host);
+    ChainInfoClient infoCredenceClient = new ChainInfoClient(cre_host);
 
     public MultiChainTest() throws IOException {
     }

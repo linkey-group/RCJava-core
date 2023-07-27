@@ -63,9 +63,9 @@ public class ManageNodeCertTest extends DidTest {
     TranCreator credenceSuperCreator;
     @BeforeAll
     void init_1() {
-        PrivateKey super_pri = CertUtil.genX509CertPrivateKey(new File("jks/test/multi_chain/credence.951002007l78123233.super_admin.jks"),
-                "super_admin", "951002007l78123233.super_admin").getPrivateKey();
-        System.out.println("jks/test/multi_chain/credence.951002007l78123233.super_admin.jks");
+        PrivateKey super_pri = CertUtil.genX509CertPrivateKey(new File("jks/test/multi_chain/credence.649648431878518843.super_admin.jks"),
+                "super_admin", "649648431878518843.super_admin").getPrivateKey();
+        System.out.println("jks/test/multi_chain/credence.649648431878518843.super_admin.jks");
         credenceSuperCreator = TranCreator.newBuilder().setPrivateKey(super_pri).setSignAlgorithm("SHA256withECDSA").build();
     }
 
