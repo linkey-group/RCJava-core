@@ -480,9 +480,9 @@
   rSubClient.connect();
   ```
 
-* 解析区块的StateMap里的数据
+* 解析区块的StateMap里的数据(指RepChain的proto文件中定义的结构数据，如Signer、Certificate、Operate、Authorize)需要用到`rc-proto.jar`(RepChain端proto-scala编译好的class)，可从本页面右侧"发行版"找到打包好的对应版本
 
-  > 1. 从release中下载`rc-proto.jar`
+  > 1. 从release中下载对应版本的`rc-proto.jar`
   >
   > 2. 将`rc-proto.jar`安装到本地maven库
   >
