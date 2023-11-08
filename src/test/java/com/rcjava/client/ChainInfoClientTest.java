@@ -52,7 +52,9 @@ public class ChainInfoClientTest {
         Block block = chainInfoClient.getBlockByHeight(1);
         Peer.BlockHeader header = block.getHeader();
         System.out.println(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
-        System.out.println(JsonFormat.printer().print(block));
+        // System.out.println(JsonFormat.printer().print(block));
+        Block block_2 = chainInfoClient.getBlockByBlockHash(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
+        assertThat(block.equals(block_2)).isTrue();
         assertThat(header.getHeight()).isEqualTo(1);
     }
 

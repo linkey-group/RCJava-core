@@ -375,9 +375,9 @@
   ```java
   ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
   String txid = "1234567890";
-  // 使用Json构建
+  // 底层使用Json构建
   Transaction tran = chainInfoClient.getTranByTranId(txid);
-  // 直接获取字节块构建
+  // 底层直接获取字节块构建
   Transaction tran = chainInfoClient.getTranStreamByTranId(txid);
   ```
 
@@ -396,30 +396,67 @@
 
   > 使用ChainInfoClient构建查询客户端
 
-  ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
-  // 查询链信息
-  BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
-  // 使用Json构建
-  Block block = chainInfoClient.getBlockByHeight(5);
-  // 直接获取字节块构建
-  Block block = chainInfoClient.getBlockStreamByHeight(5)
-  ```
+  * 根据区块高度查询区块数据
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    // 查询链信息
+    BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
+    // 使用Json构建
+    Block block = chainInfoClient.getBlockByHeight(5);
+    // 直接获取字节块构建
+    Block block = chainInfoClient.getBlockStreamByHeight(5) 
+    BlockHeader blockHeader = chainInfoClient.getBlockHeaderByHeight(1)
+    ```
+
+  * 根据区块hash查询区块数据
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    // 查询链信息
+    BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
+    // 使用Json构建
+    Block block = chainInfoClient.getBlockByBlockHash(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
+    // 直接获取字节块构建
+    BlockHeader blockHeader = chainInfoClient.getBlockHeaderByBlockHash(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
+    ```
 
 * 查询其他数据
 
   > 使用ChainInfoClient构建查询客户端
 
-  ```java
-  ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
-  // 使用具体方法即可，如根据交易ID查询交易以及交易所在区块高度：
-  ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
-  // 查询LevelDB
-  Object leveldbRes = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
-  // 查询交易入块后的结果
-  TransactionResult tranRes = chainInfoClient.getTranResultByTranId("1234567890")
-  ...
-  ```
+  * 查询链中组网的节点数目
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    NodesNum nodeNum = chainInfoClient.getChainInfoNode();
+    ```
+
+  * 根据交易ID查询交易以及交易所在区块高度
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    // 根据交易ID查询交易以及交易所在区块高度
+    ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("1234567890");
+    ```
+
+  * 直接查询状态数据
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    // 查询LevelDB
+    Object leveldbRes = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
+    ```
+
+  *  查询交易入块后的结果
+
+    ```java
+    ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
+    // 查询交易入块后的结果
+    TransactionResult tranRes = chainInfoClient.getTranResultByTranId("1234567890")
+    // 查询交易和入块后的结果
+    TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
+    ```
 
   > 如果RepChain端开启了**https单向或双向认证**，则需要使用如下方式构建ChainInfoClient
   >
