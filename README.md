@@ -406,6 +406,7 @@
     Block block = chainInfoClient.getBlockByHeight(5);
     // 直接获取字节块构建
     Block block = chainInfoClient.getBlockStreamByHeight(5) 
+    // 根据区块高度获取区块头
     BlockHeader blockHeader = chainInfoClient.getBlockHeaderByHeight(1)
     ```
 
@@ -415,9 +416,9 @@
     ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
     // 查询链信息
     BlockchainInfo blockchainInfo = chainInfoClient.getChainInfo();
-    // 使用Json构建
+    // 根据区块HASH获取区块
     Block block = chainInfoClient.getBlockByBlockHash(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
-    // 直接获取字节块构建
+    // 根据区块HASH获取区块头
     BlockHeader blockHeader = chainInfoClient.getBlockHeaderByBlockHash(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
     ```
 
@@ -454,7 +455,7 @@
     ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
     // 查询交易入块后的结果
     TransactionResult tranRes = chainInfoClient.getTranResultByTranId("1234567890")
-    // 查询交易和入块后的结果
+    // 查询交易和交易入块后的结果(state数据)
     TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
     ```
 
