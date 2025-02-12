@@ -84,8 +84,8 @@ public class RCJavaClient implements BaseClient {
             String protocol = reqUrl.getProtocol();
 
             URLConnection urlConnection = reqUrl.openConnection();
-            urlConnection.setConnectTimeout(5000);
-            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(20000);
+            urlConnection.setReadTimeout(20000);
 
             int code = -1;
 

@@ -43,9 +43,9 @@ public class RClient implements BaseClient {
 
     {
         requestConfig = RequestConfig.custom()
-                .setConnectTimeout(5000)
-                .setConnectionRequestTimeout(5000)
-                .setSocketTimeout(5000)
+                .setConnectTimeout(20000)
+                .setConnectionRequestTimeout(20000)
+                .setSocketTimeout(20000)
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class RClient implements BaseClient {
     public RClient() {
         httpConnManager = new PoolingHttpClientConnectionManager();
         // 设置最大连接数
-        httpConnManager.setMaxTotal(200);
+        httpConnManager.setMaxTotal(20);
         // 设置每个连接的路由数
         httpConnManager.setDefaultMaxPerRoute(20);
         httpClient = HttpClients.custom()
