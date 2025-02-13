@@ -91,6 +91,14 @@ public class ChainInfoClientTest {
     }
 
     @Test
+    @DisplayName("测试获得所有nodes的信息")
+    void testGetAllNodesInfo() {
+        System.out.println(chainInfoClient.getAllNodeInfo().getConsensusNodes());
+        assertThat(chainInfoClient.getAllNodeInfo().getConsensusNodes().size()).isEqualTo(4);
+        assertThat(chainInfoClient.getAllNodeInfo().getNodes().size()).isEqualTo(5);
+    }
+
+    @Test
     @DisplayName("根据交易id获取交易及交易所在区块高度")
     void testGetTranInfoAndHeight() {
         ChainInfoClient.TranInfoAndHeight tranInfoAndHeight = chainInfoClient.getTranInfoAndHeightByTranId("123");

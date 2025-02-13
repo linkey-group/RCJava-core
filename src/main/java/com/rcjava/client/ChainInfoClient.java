@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * @author zyf
@@ -79,6 +80,14 @@ public class ChainInfoClient {
         JSONObject jsonObject = client.getJObject(url);
         NodesNum nodesNum = new NodesNum(jsonObject.getInteger("consensusnodes"), jsonObject.getInteger("nodes"));
         return nodesNum;
+    }
+
+    public AllNodesInfo getAllNodeInfo() {
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/chaininfo/nodesinfo", protocol, host);
+        JSONObject jsonObject = client.getJObject(url);
+        AllNodesInfo allNodesInfo = jsonObject.to(AllNodesInfo.class);
+        return allNodesInfo;
     }
 
 
@@ -426,6 +435,51 @@ public class ChainInfoClient {
         }
 
         public Integer getNodes() {
+            return nodes;
+        }
+    }
+
+    public static class NodesInfo {
+        private String ip;
+        private String p2p_port;
+        private String nodeName;
+
+        public NodesInfo() {
+        }
+
+        public NodesInfo(String ip, String p2p_port, String nodeName) {
+            this.ip = ip;
+            this.p2p_port = p2p_port;
+            this.nodeName = nodeName;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public String getP2p_port() {
+            return p2p_port;
+        }
+
+        public String getNodeName() {
+            return nodeName;
+        }
+    }
+
+    public static class AllNodesInfo {
+        private ArrayList<NodesInfo> consensusNodes;
+        private ArrayList<NodesInfo> nodes;
+
+        public AllNodesInfo(ArrayList<NodesInfo> consensusNodes, ArrayList<NodesInfo> nodes) {
+            this.consensusNodes = consensusNodes;
+            this.nodes = nodes;
+        }
+
+        public ArrayList<NodesInfo> getConsensusNodes() {
+            return consensusNodes;
+        }
+
+        public ArrayList<NodesInfo> getNodes() {
             return nodes;
         }
     }
