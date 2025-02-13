@@ -47,9 +47,17 @@ public class ChainInfoClientTest {
     }
 
     @Test
-    @DisplayName("测试根据高度获取块")
-    void testGetBlockByHeight() throws Exception{
+    @DisplayName("测试根据高度获取块, 并验证节点背书")
+    void testGetBlockByHeight() throws Exception {
         Block block = chainInfoClient.getBlockByHeight(1);
+
+        Peer.Signature signature = block.getHeader().getEndorsements(0);
+        Peer.BlockHeader blockHeader = block.getHeader();
+        Peer.BlockHeader blockHeaderWithOutEndorse = blockHeader.toBuilder().clearEndorsements().build();
+        byte[] sigData = signature.getSignature().toByteArray();
+        boolean verifyResult = new ECDSASign().verify(sigData, blockHeaderWithOutEndorse.toByteArray(), CertUtil.generateX509Cert(new File("jks/jdk13/node1.cer")).getPublicKey());
+        assertThat(verifyResult).isTrue();
+
         Peer.BlockHeader header = block.getHeader();
         System.out.println(Base64.encodeBase64String(block.getHeader().getHashPresent().toByteArray()));
         // System.out.println(JsonFormat.printer().print(block));
@@ -60,7 +68,7 @@ public class ChainInfoClientTest {
 
     @Test
     @DisplayName("测试根据高度获取区块头")
-    void testGetBlockHeaderByHeight() throws Exception{
+    void testGetBlockHeaderByHeight() throws Exception {
         Peer.BlockHeader blockHeader = chainInfoClient.getBlockHeaderByHeight(1);
         System.out.println(Base64.encodeBase64String(blockHeader.getHashPresent().toByteArray()));
         System.out.println(JsonFormat.printer().print(blockHeader));
@@ -139,7 +147,7 @@ public class ChainInfoClientTest {
     }
 
     @Test
-    void testGetBlock () throws InvalidProtocolBufferException {
+    void testGetBlock() throws InvalidProtocolBufferException {
         String blockUrl = "http://127.0.0.1:8081/block/1";
         BaseClient client = new RCJavaClient();
         JSONObject jsonObject = client.getJObject(blockUrl);
