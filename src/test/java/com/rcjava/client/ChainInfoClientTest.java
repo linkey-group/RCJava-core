@@ -33,7 +33,7 @@ public class ChainInfoClientTest {
             .loadKeyMaterial(new File("jks/jdk13/121000005l35120456.node1.jks"), "123".toCharArray(), "123".toCharArray())
             .build();
 
-//    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
+    //    private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081", sslContext);
     private ChainInfoClient chainInfoClient = new ChainInfoClient("localhost:9081");
 
     public ChainInfoClientTest() throws Exception {
@@ -148,24 +148,36 @@ public class ChainInfoClientTest {
 
     @Test
     void testGetBlock() throws InvalidProtocolBufferException {
-        String blockUrl = "http://127.0.0.1:8081/block/1";
+        String blockUrl = "http://127.0.0.1:9081/block/1";
         BaseClient client = new RCJavaClient();
         JSONObject jsonObject = client.getJObject(blockUrl);
         Block.Builder builder = Block.newBuilder();
         JsonFormat.parser().merge(jsonObject.toJSONString(), builder);
         Block block = builder.build();
         assertThat(block.getHeader().getHeight()).isEqualTo(1);
+        block.getTransactionResultsList().forEach(
+                transactionResult -> {
+                    transactionResult.getStatesSetMap().forEach((k, v) -> {
+                        if (k.startsWith("identity-net_RdidOperateAuthorizeTPL___cert-identity-net")) {
+                            String nodeName = k.split(":")[1];
+                            System.out.println(nodeName);
+                            System.out.println(((rep.proto.rc2.Certificate) toInstance(v.toByteArray())).certificate());
+                        }
+                    });
+                }
+        );
     }
 
     @DisplayName("参考README，如果要解析RepChain中定义的protobuf结构，需要安装rc-proto.jar")
     @Test
     void testTransactionResult() {
-        Peer.TransactionResult result = chainInfoClient.getTranResultByTranId("RdidOperateAuthorizeTPL___signer-identity-net");
+        Peer.TransactionResult result = chainInfoClient.getTranResultByTranId("f59593db-ab79-4d4e-b57f-a8e7c954e536");
         ChainInfoClient.TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
         byte[] bytes = result.getStatesSetMap().get("identity-net_RdidOperateAuthorizeTPL___signer-identity-net:951002007l78123233").toByteArray();
         String json = toJsonString(bytes);
         Object object = toInstance(bytes);
         System.out.println(json);
         System.out.println(object);
+        System.out.println(((rep.proto.rc2.Signer) object).authenticationCerts().apply(0).certificate());
     }
 }
