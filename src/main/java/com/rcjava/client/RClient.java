@@ -56,7 +56,7 @@ public class RClient implements BaseClient {
         // 设置最大连接数
         httpConnManager.setMaxTotal(20);
         // 设置每个连接的路由数
-        httpConnManager.setDefaultMaxPerRoute(20);
+        httpConnManager.setDefaultMaxPerRoute(5);
         httpClient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(httpConnManager)
@@ -71,9 +71,9 @@ public class RClient implements BaseClient {
                         .build()
         );
         // 设置最大连接数
-        httpConnManager.setMaxTotal(200);
+        httpConnManager.setMaxTotal(20);
         // 设置每个连接的路由数
-        httpConnManager.setDefaultMaxPerRoute(20);
+        httpConnManager.setDefaultMaxPerRoute(5);
         httpsClient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(httpConnManager)
