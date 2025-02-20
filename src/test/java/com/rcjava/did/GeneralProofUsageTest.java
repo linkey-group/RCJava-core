@@ -211,8 +211,9 @@ public class GeneralProofUsageTest {
         // step5: usr0部署合约A成功
         DeployTran deployTran_1 = deployTran.toBuilder().setTxid(UUID.randomUUID().toString()).build();
         Peer.Transaction signedDeployTran_1 = usr0_tranCreator_0.createDeployTran(deployTran_1);
-        postCredenceClient.postSignedTran(signedDeployTran_1);
-        TimeUnit.SECONDS.sleep(5);
+        JSONObject postResult = postCredenceClient.postSignedTran(signedDeployTran_1);
+        System.out.println(postResult);
+        TimeUnit.SECONDS.sleep(10);
         Peer.TransactionResult tranResult_4 = infoCredenceClient.getTranResultByTranId(signedDeployTran_1.getId());
         Peer.ActionResult actionResult_4 = tranResult_4.getErr();
         Assertions.assertEquals(0, actionResult_4.getCode(), "没有错误，合约部署成功");
@@ -279,7 +280,8 @@ public class GeneralProofUsageTest {
 
         Peer.Transaction tran = usr0_tranCreator_0.createInvokeTran(tranId, usr0_certId_0, generalProofTPLId, "proofLedgerData", array.toString(), 0, "");
         String tranHex = Hex.encodeHexString(tran.toByteArray());
-        postCredenceClient.postSignedTran(tranHex);
+        JSONObject postResult = postCredenceClient.postSignedTran(tranHex);
+        System.out.println(postResult);
         TimeUnit.SECONDS.sleep(5);
         Peer.TransactionResult tranResult = infoCredenceClient.getTranResultByTranId(tranId);
         Peer.ActionResult actionResult = tranResult.getErr();
