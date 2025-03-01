@@ -85,8 +85,8 @@ public class ManagementClient {
             }
 
             // 指定具体的类型转换
-            TypeReference<HashMap<String, NodeStatus>> typeRef =
-                    new TypeReference<HashMap<String, NodeStatus>>() {
+            TypeReference<HashMap<String, NodeOperateStatus>> typeRef =
+                    new TypeReference<HashMap<String, NodeOperateStatus>>() {
                     };
             return result.to(typeRef);
 
@@ -133,8 +133,8 @@ public class ManagementClient {
             }
 
             // 指定具体的类型转换
-            TypeReference<HashMap<String, NodeStatus>> typeRef =
-                    new TypeReference<HashMap<String, NodeStatus>>() {
+            TypeReference<HashMap<String, NodeOperateStatus>> typeRef =
+                    new TypeReference<HashMap<String, NodeOperateStatus>>() {
                     };
             return result.to(typeRef);
 

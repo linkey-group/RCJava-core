@@ -7,7 +7,7 @@
     <name>rcjava-core</name>
     <groupId>net.repchain</groupId>
     <artifactId>rcjava-core</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1-SNAPSHOT</version>
     <description>Java sdk for RepChain</description>
     <url>https://gitee.com/BTAJL/RCJava-core</url>
 
