@@ -161,7 +161,7 @@ public class ChainInfoClientTest {
                         if (k.startsWith("identity-net_RdidOperateAuthorizeTPL___cert-identity-net")) {
                             String nodeName = k.split(":")[1];
                             System.out.println(nodeName);
-                            System.out.println(((rep.proto.rc2.Certificate) toInstance(v.toByteArray())).certificate());
+                            // System.out.println(((rep.proto.rc2.Certificate) toInstance(v.toByteArray())).certificate());
                         }
                     });
                 }
@@ -178,6 +178,6 @@ public class ChainInfoClientTest {
         Object object = toInstance(bytes);
         System.out.println(json);
         System.out.println(object);
-        System.out.println(((rep.proto.rc2.Signer) object).authenticationCerts().apply(0).certificate());
+        // System.out.println(((rep.proto.rc2.Signer) object).authenticationCerts().apply(0).certificate());
     }
 }
