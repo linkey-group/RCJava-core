@@ -116,12 +116,14 @@ public class RCJavaClient implements BaseClient {
     }
 
     /**
-     *
      * @param url
      * @return
      */
     @Override
     public InputStream getInputStream(String url) {
+
+        HttpURLConnection httpURLConnection = null;
+        HttpsURLConnection httpsURLConnection = null;
 
         try {
 
@@ -135,12 +137,12 @@ public class RCJavaClient implements BaseClient {
             int code = -1;
 
             if (protocol.equalsIgnoreCase(PROTOCOL_HTTP)) {
-                HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+                httpURLConnection = (HttpURLConnection) urlConnection;
                 httpURLConnection.setRequestMethod("GET");
                 urlConnection.connect();
                 code = httpURLConnection.getResponseCode();
             } else if (protocol.equalsIgnoreCase(PROTOCOL_HTTPS)) {
-                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) urlConnection;
+                httpsURLConnection = (HttpsURLConnection) urlConnection;
                 httpsURLConnection.setRequestMethod("GET");
                 httpsURLConnection.setSSLSocketFactory(sslContext.getSocketFactory());
                 httpsURLConnection.setHostnameVerifier(NoopHostnameVerifier.INSTANCE);
@@ -152,10 +154,34 @@ public class RCJavaClient implements BaseClient {
 
             if (code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE) {
                 InputStream inputStream = urlConnection.getInputStream();
-                return inputStream;
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+                int nRead;
+                byte[] data = new byte[16384];
+
+                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, nRead);
+                }
+
+                buffer.flush();
+                inputStream.close();
+
+                // 断开连接
+                if (httpURLConnection != null) httpURLConnection.disconnect();
+                if (httpsURLConnection != null) httpsURLConnection.disconnect();
+
+                // 返回内存中的数据流
+                return new ByteArrayInputStream(buffer.toByteArray());
+            } else {
+                // 非成功响应码，关闭连接
+                if (httpURLConnection != null) httpURLConnection.disconnect();
+                if (httpsURLConnection != null) httpsURLConnection.disconnect();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("获取输入流失败", e);
+            // 发生异常时关闭连接
+            if (httpURLConnection != null) httpURLConnection.disconnect();
+            if (httpsURLConnection != null) httpsURLConnection.disconnect();
         }
         return null;
     }
@@ -229,7 +255,6 @@ public class RCJavaClient implements BaseClient {
     }
 
     /**
-     *
      * @param url
      * @param bytes
      * @return
@@ -241,7 +266,6 @@ public class RCJavaClient implements BaseClient {
     }
 
     /**
-     *
      * @param url
      * @param name
      * @param bytes

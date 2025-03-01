@@ -112,19 +112,24 @@ public class RClient implements BaseClient {
         try {
             URL reqUrl = new URL(url);
             HttpGet get = new HttpGet(url);
+
+            HttpResponse response;
             if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTP)) {
-                HttpResponse response = httpClient.execute(get);
-                return response.getEntity().getContent();
+                response = httpClient.execute(get);
             } else if (reqUrl.getProtocol().equalsIgnoreCase(PROTOCOL_HTTPS)) {
-                HttpResponse response = httpsClient.execute(get);
-                return response.getEntity().getContent();
+                response = httpsClient.execute(get);
             } else {
                 logger.error("暂不支持该协议: {}", reqUrl.getProtocol());
+                return null;
             }
+
+            // 复制内容到内存中，确保连接被释放
+            byte[] content = EntityUtils.toByteArray(response.getEntity());
+            return new ByteArrayInputStream(content);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
+            return null;
         }
-        return null;
     }
 
     /**

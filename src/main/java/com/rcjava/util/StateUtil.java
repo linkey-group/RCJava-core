@@ -27,6 +27,7 @@ public class StateUtil {
      */
     public static String toJsonString(byte[] bytes) {
         Object object = KryoInjection.invert(bytes).getOrElse(null);
+//        String jsonStr = Serialization.write(object, formats);
         return jsonMethods.compact(jsonMethods.render(Extraction.decompose(object, formats), formats));
     }
 
