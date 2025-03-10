@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -66,6 +65,38 @@ public class ManagementClientTest {
                 new ArrayList<>(Arrays.asList("121000005l35120456.node1", "12110107bi45jh675g.node2"))
         );
         System.out.println(JSON.toJSONString(status, JSONWriter.Feature.PrettyFormat));
+    }
+
+    @Test
+    @DisplayName("循环测试启动停止节点")
+    void testOperateNode() {
+        String[] nodeNames = new String[]{"122000002n00123567.node3", "921000005k36123789.node4", "921000006e0012v696.node5"};
+        while (true) {
+            try {
+                int random = new Random().nextInt(3);
+                String nodeName = nodeNames[random];
+                HashMap<String, ManagementClient.NodeOperateStatus> stopStatus = managementClient.stopNodeList(new ArrayList<>(Collections.singletonList(nodeName)));
+                System.out.println(JSON.toJSONString(stopStatus.get(nodeName)));
+                TimeUnit.SECONDS.sleep(45);
+
+//                HashMap<String, ManagementClient.NodeStatus> queryStatus = new HashMap<>();
+//                queryStatus.put("nodeName", new ManagementClient.NodeStatus(200, "Starting", ""));
+//
+//                queryStatus = managementClient.queryNodeStatusByNodeNameList(new ArrayList<>(Collections.singletonList(nodeName)));
+//                TimeUnit.SECONDS.sleep(5);
+
+                HashMap<String, ManagementClient.NodeOperateStatus> startStatus = managementClient.startNodeList(new ArrayList<>(Collections.singletonList(nodeName)));
+                System.out.println(JSON.toJSONString(startStatus.get(nodeName)));
+                // 验证启动结果
+                assertEquals(200, startStatus.get(nodeName).getCode(), "节点启动应该返回200状态码");
+
+                TimeUnit.SECONDS.sleep(45);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
     }
 
 
