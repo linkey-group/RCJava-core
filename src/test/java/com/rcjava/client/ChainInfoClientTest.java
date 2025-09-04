@@ -46,6 +46,10 @@ public class ChainInfoClientTest {
         System.out.println(blockchainInfo.getHeight());
     }
 
+    /**
+     * Created by 北京连琪科技有限公司.
+     * @throws Exception
+     */
     @Test
     @DisplayName("测试根据高度获取块, 并验证节点背书")
     void testGetBlockByHeight() throws Exception {
@@ -88,7 +92,9 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("查询RepChain的leveldb/rocksdb中的数据")
     void testQueryDB() {
-        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "121000005l35120456");
+//        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "identity-net:121000005l35120456");
+//        Object res = chainInfoClient.queryDB("credence-net", "GuangfuProof", "", "136e8e96-dbe4-456d-81f7-c191029b60b2");
+        Object res = chainInfoClient.queryDB("credence-net", "GuangfuProof", "", "568e8c50-8e57-41f3-8c88-38464686bbe6");
         System.out.println(res);
     }
 
@@ -98,6 +104,9 @@ public class ChainInfoClientTest {
         assertThat(chainInfoClient.getChainInfoNode().getNodes()).isEqualTo(5);
     }
 
+    /**
+     * Created by 北京连琪科技有限公司.
+     */
     @Test
     @DisplayName("测试获得所有nodes的信息")
     void testGetAllNodesInfo() {
@@ -146,6 +155,10 @@ public class ChainInfoClientTest {
         System.out.println(new ECDSASign("sha256withecdsa").verify(sigData, tranWithOutSig.toByteArray(), publicKey));
     }
 
+    /**
+     * Updated by 北京连琪科技有限公司.
+     * @throws InvalidProtocolBufferException
+     */
     @Test
     void testGetBlock() throws InvalidProtocolBufferException {
         String blockUrl = "http://127.0.0.1:9081/block/1";

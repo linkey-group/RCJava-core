@@ -116,6 +116,7 @@ public class RCJavaClient implements BaseClient {
     }
 
     /**
+     * Updated by 北京连琪科技有限公司.
      * @param url
      * @return
      */

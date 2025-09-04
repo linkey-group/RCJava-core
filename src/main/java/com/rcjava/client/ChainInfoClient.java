@@ -6,7 +6,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.rcjava.protos.Peer.*;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +69,7 @@ public class ChainInfoClient {
     }
 
     /**
+     * Created by 北京连琪科技有限公司.
      * 获取总节点数以及共识节点数
      *
      * @return
@@ -439,6 +439,9 @@ public class ChainInfoClient {
         }
     }
 
+    /**
+     * Created by 北京连琪科技有限公司.
+     */
     public static class NodesInfo {
         private String ip;
         private String p2p_port;
@@ -466,6 +469,9 @@ public class ChainInfoClient {
         }
     }
 
+    /**
+     * Created by 北京连琪科技有限公司.
+     */
     public static class AllNodesInfo {
         private ArrayList<NodesInfo> consensusNodes;
         private ArrayList<NodesInfo> nodes;
