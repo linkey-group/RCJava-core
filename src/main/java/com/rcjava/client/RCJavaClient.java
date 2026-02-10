@@ -350,12 +350,7 @@ public class RCJavaClient implements BaseClient {
         String str = br.lines().collect(Collectors.joining(System.lineSeparator()));
         inputStream.close();
         JSONObject result = JSONObject.parseObject(str);
-        Object resObj = result.get("result");
-        if (resObj instanceof JSONObject) {
-            return (JSONObject) resObj;
-        } else {
-            return result;
-        }
+        return result;
     }
 
     /**

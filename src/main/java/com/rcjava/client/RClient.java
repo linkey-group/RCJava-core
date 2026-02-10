@@ -241,12 +241,7 @@ public class RClient implements BaseClient {
             HttpEntity resEntity = response.getEntity();
             String str = EntityUtils.toString(resEntity, "UTF-8");
             JSONObject result = JSONObject.parseObject(str);
-            Object resObj = result.get("result");
-            if (resObj instanceof JSONObject) {
-                return (JSONObject) resObj;
-            } else {
-                return result;
-            }
+            return result;
         } else {
             throw new HttpResponseException(status, "Unexpected response status: " + status);
         }
