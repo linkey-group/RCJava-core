@@ -56,6 +56,17 @@ public class TranPostClient {
     }
 
     /**
+     * 提交签名交易，以十六进制字符串
+     *
+     * @param tranHexString 签名交易的十六进制字符串
+     */
+    public JSONObject querySignedTran(String tranHexString) {
+        String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
+        String url = String.format("%s://%s/transaction/queryTranByString", protocol, host);
+        return client.postJString(url, JSON.toJSONString(tranHexString));
+    }
+
+    /**
      * 提交签名交易，以字节方式
      *
      * @param tran 签名交易

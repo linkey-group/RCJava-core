@@ -2,6 +2,8 @@ package com.rcjava.client;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.util.JsonFormat;
 import com.rcjava.model.Transfer;
 import com.rcjava.protos.Peer;
 import com.rcjava.protos.Peer.CertId;
@@ -85,7 +87,7 @@ public class TranPostClientTest {
     }
 
     @Test
-    @DisplayName("测试提交交易-字符串")
+    @DisplayName("测试提交交易-字符串，写操作")
     void testPostTranByString() {
 
         String tranId = UUID.randomUUID().toString().replace("-", "");
@@ -96,6 +98,38 @@ public class TranPostClientTest {
         JSONObject res = tranPostClient.postSignedTran(tranHex);
 
         assertThat(res.getString("txid")).isEqualTo(tran.getId());
+    }    
+    
+    @Test
+    @DisplayName("测试提交交易-字符串，只读操作")
+    void testQueryTranByString() {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "transfer", JSON.toJSONString(transfer), 0, "");
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+
+        JSONObject res = tranPostClient.querySignedTran(tranHex);
+
+        System.out.println(res);
+        System.out.println(res.getJSONObject("result"));
+
+        JSONObject postResult = res.getJSONObject("result");
+        Peer.TransactionResult.Builder transactionResultBuilder = Peer.TransactionResult.newBuilder();
+        String tranResultJson = postResult.getJSONObject("data").toJSONString();
+        try {
+            JsonFormat.parser().merge(tranResultJson, transactionResultBuilder);
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("construct TransactionResult occurs error, errorMsg is {}", e.getMessage(), e);
+        }
+        Peer.TransactionResult transactionResult = transactionResultBuilder.build();
+
+        transactionResult.getStatesGetMap().forEach((key, value) -> {
+            if (!key.contains("signer")) {
+                Integer valueStr = StateUtil.toInstance(value.toByteArray(), Integer.class);
+                System.out.println(key + ": " + valueStr);
+            }
+        });
     }
 
     @Test
