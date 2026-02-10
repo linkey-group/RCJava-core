@@ -18,9 +18,9 @@ syntax = "proto3";
 
 package com.rcjava.protos;
 
-option java_package = "com.rcjava.protos";
+import "google/protobuf/timestamp.proto";
 
-import "timestamp.proto";
+option java_package = "com.rcjava.protos";
 
 /*
 */
@@ -339,6 +339,8 @@ message ActionResult {
     int32 code = 1;
     //异常原因
     string reason = 2;
+    //可选返回数据
+    string data = 3;
 }
 
 // 状态存在性证明

@@ -24,7 +24,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string from = 1;</code>
-     * @return The from.
      */
     java.lang.String getFrom();
     /**
@@ -33,7 +32,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string from = 1;</code>
-     * @return The bytes for from.
      */
     com.google.protobuf.ByteString
         getFromBytes();
@@ -44,7 +42,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string to = 2;</code>
-     * @return The to.
      */
     java.lang.String getTo();
     /**
@@ -53,30 +50,25 @@ public final class Peer {
      * </pre>
      *
      * <code>string to = 2;</code>
-     * @return The bytes for to.
      */
     com.google.protobuf.ByteString
         getToBytes();
 
     /**
      * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-     * @return The enum numeric value on the wire for action.
      */
     int getActionValue();
     /**
      * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-     * @return The action.
      */
     com.rcjava.protos.Peer.Event.Action getAction();
 
     /**
      * <code>.com.rcjava.protos.Block blk = 4;</code>
-     * @return Whether the blk field is set.
      */
     boolean hasBlk();
     /**
      * <code>.com.rcjava.protos.Block blk = 4;</code>
-     * @return The blk.
      */
     com.rcjava.protos.Peer.Block getBlk();
     /**
@@ -86,12 +78,10 @@ public final class Peer {
 
     /**
      * <code>string contract_event_content = 5;</code>
-     * @return The contractEventContent.
      */
     java.lang.String getContractEventContent();
     /**
      * <code>string contract_event_content = 5;</code>
-     * @return The bytes for contractEventContent.
      */
     com.google.protobuf.ByteString
         getContractEventContentBytes();
@@ -103,7 +93,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.Event}
    */
-  public static final class Event extends
+  public  static final class Event extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Event)
       EventOrBuilder {
@@ -120,13 +110,6 @@ public final class Peer {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Event();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -139,6 +122,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -149,6 +133,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -186,13 +177,6 @@ public final class Peer {
               contractEventContent_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -210,7 +194,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Event_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Event_fieldAccessorTable
@@ -345,8 +328,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -354,10 +335,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static Action forNumber(int value) {
         switch (value) {
           case 0: return SUBSCRIBE_TOPIC;
@@ -391,10 +368,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -437,9 +410,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string from = 1;</code>
-     * @return The from.
      */
-    @java.lang.Override
     public java.lang.String getFrom() {
       java.lang.Object ref = from_;
       if (ref instanceof java.lang.String) {
@@ -458,9 +429,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string from = 1;</code>
-     * @return The bytes for from.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getFromBytes() {
       java.lang.Object ref = from_;
@@ -483,9 +452,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string to = 2;</code>
-     * @return The to.
      */
-    @java.lang.Override
     public java.lang.String getTo() {
       java.lang.Object ref = to_;
       if (ref instanceof java.lang.String) {
@@ -504,9 +471,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string to = 2;</code>
-     * @return The bytes for to.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getToBytes() {
       java.lang.Object ref = to_;
@@ -525,17 +490,14 @@ public final class Peer {
     private int action_;
     /**
      * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-     * @return The enum numeric value on the wire for action.
      */
-    @java.lang.Override public int getActionValue() {
+    public int getActionValue() {
       return action_;
     }
     /**
      * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-     * @return The action.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.Event.Action getAction() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.Event.Action getAction() {
       com.rcjava.protos.Peer.Event.Action result = com.rcjava.protos.Peer.Event.Action.valueOf(action_);
       return result == null ? com.rcjava.protos.Peer.Event.Action.UNRECOGNIZED : result;
     }
@@ -544,24 +506,19 @@ public final class Peer {
     private com.rcjava.protos.Peer.Block blk_;
     /**
      * <code>.com.rcjava.protos.Block blk = 4;</code>
-     * @return Whether the blk field is set.
      */
-    @java.lang.Override
     public boolean hasBlk() {
       return blk_ != null;
     }
     /**
      * <code>.com.rcjava.protos.Block blk = 4;</code>
-     * @return The blk.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Block getBlk() {
       return blk_ == null ? com.rcjava.protos.Peer.Block.getDefaultInstance() : blk_;
     }
     /**
      * <code>.com.rcjava.protos.Block blk = 4;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.BlockOrBuilder getBlkOrBuilder() {
       return getBlk();
     }
@@ -570,9 +527,7 @@ public final class Peer {
     private volatile java.lang.Object contractEventContent_;
     /**
      * <code>string contract_event_content = 5;</code>
-     * @return The contractEventContent.
      */
-    @java.lang.Override
     public java.lang.String getContractEventContent() {
       java.lang.Object ref = contractEventContent_;
       if (ref instanceof java.lang.String) {
@@ -587,9 +542,7 @@ public final class Peer {
     }
     /**
      * <code>string contract_event_content = 5;</code>
-     * @return The bytes for contractEventContent.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getContractEventContentBytes() {
       java.lang.Object ref = contractEventContent_;
@@ -605,7 +558,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -615,7 +567,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getFromBytes().isEmpty()) {
@@ -636,7 +587,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -674,20 +624,21 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Event other = (com.rcjava.protos.Peer.Event) obj;
 
-      if (!getFrom()
-          .equals(other.getFrom())) return false;
-      if (!getTo()
-          .equals(other.getTo())) return false;
-      if (action_ != other.action_) return false;
-      if (hasBlk() != other.hasBlk()) return false;
+      boolean result = true;
+      result = result && getFrom()
+          .equals(other.getFrom());
+      result = result && getTo()
+          .equals(other.getTo());
+      result = result && action_ == other.action_;
+      result = result && (hasBlk() == other.hasBlk());
       if (hasBlk()) {
-        if (!getBlk()
-            .equals(other.getBlk())) return false;
+        result = result && getBlk()
+            .equals(other.getBlk());
       }
-      if (!getContractEventContent()
-          .equals(other.getContractEventContent())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && getContractEventContent()
+          .equals(other.getContractEventContent());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -784,7 +735,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -792,7 +742,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Event prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -820,7 +769,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Event_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Event_fieldAccessorTable
@@ -843,7 +791,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         from_ = "";
@@ -863,18 +810,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Event_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Event getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Event.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Event build() {
         com.rcjava.protos.Peer.Event result = buildPartial();
         if (!result.isInitialized()) {
@@ -883,7 +827,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Event buildPartial() {
         com.rcjava.protos.Peer.Event result = new com.rcjava.protos.Peer.Event(this);
         result.from_ = from_;
@@ -899,39 +842,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Event) {
           return mergeFrom((com.rcjava.protos.Peer.Event)other);
@@ -966,12 +902,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -997,7 +931,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string from = 1;</code>
-       * @return The from.
        */
       public java.lang.String getFrom() {
         java.lang.Object ref = from_;
@@ -1017,7 +950,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string from = 1;</code>
-       * @return The bytes for from.
        */
       public com.google.protobuf.ByteString
           getFromBytes() {
@@ -1038,8 +970,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string from = 1;</code>
-       * @param value The from to set.
-       * @return This builder for chaining.
        */
       public Builder setFrom(
           java.lang.String value) {
@@ -1057,7 +987,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string from = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearFrom() {
         
@@ -1071,8 +1000,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string from = 1;</code>
-       * @param value The bytes for from to set.
-       * @return This builder for chaining.
        */
       public Builder setFromBytes(
           com.google.protobuf.ByteString value) {
@@ -1093,7 +1020,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string to = 2;</code>
-       * @return The to.
        */
       public java.lang.String getTo() {
         java.lang.Object ref = to_;
@@ -1113,7 +1039,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string to = 2;</code>
-       * @return The bytes for to.
        */
       public com.google.protobuf.ByteString
           getToBytes() {
@@ -1134,8 +1059,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string to = 2;</code>
-       * @param value The to to set.
-       * @return This builder for chaining.
        */
       public Builder setTo(
           java.lang.String value) {
@@ -1153,7 +1076,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string to = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTo() {
         
@@ -1167,8 +1089,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string to = 2;</code>
-       * @param value The bytes for to to set.
-       * @return This builder for chaining.
        */
       public Builder setToBytes(
           com.google.protobuf.ByteString value) {
@@ -1185,36 +1105,27 @@ public final class Peer {
       private int action_ = 0;
       /**
        * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-       * @return The enum numeric value on the wire for action.
        */
-      @java.lang.Override public int getActionValue() {
+      public int getActionValue() {
         return action_;
       }
       /**
        * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-       * @param value The enum numeric value on the wire for action to set.
-       * @return This builder for chaining.
        */
       public Builder setActionValue(int value) {
-        
         action_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-       * @return The action.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.Event.Action getAction() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.Event.Action result = com.rcjava.protos.Peer.Event.Action.valueOf(action_);
         return result == null ? com.rcjava.protos.Peer.Event.Action.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-       * @param value The action to set.
-       * @return This builder for chaining.
        */
       public Builder setAction(com.rcjava.protos.Peer.Event.Action value) {
         if (value == null) {
@@ -1227,7 +1138,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.Event.Action action = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAction() {
         
@@ -1236,19 +1146,17 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.Block blk_;
+      private com.rcjava.protos.Peer.Block blk_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.Block, com.rcjava.protos.Peer.Block.Builder, com.rcjava.protos.Peer.BlockOrBuilder> blkBuilder_;
       /**
        * <code>.com.rcjava.protos.Block blk = 4;</code>
-       * @return Whether the blk field is set.
        */
       public boolean hasBlk() {
         return blkBuilder_ != null || blk_ != null;
       }
       /**
        * <code>.com.rcjava.protos.Block blk = 4;</code>
-       * @return The blk.
        */
       public com.rcjava.protos.Peer.Block getBlk() {
         if (blkBuilder_ == null) {
@@ -1358,7 +1266,6 @@ public final class Peer {
       private java.lang.Object contractEventContent_ = "";
       /**
        * <code>string contract_event_content = 5;</code>
-       * @return The contractEventContent.
        */
       public java.lang.String getContractEventContent() {
         java.lang.Object ref = contractEventContent_;
@@ -1374,7 +1281,6 @@ public final class Peer {
       }
       /**
        * <code>string contract_event_content = 5;</code>
-       * @return The bytes for contractEventContent.
        */
       public com.google.protobuf.ByteString
           getContractEventContentBytes() {
@@ -1391,8 +1297,6 @@ public final class Peer {
       }
       /**
        * <code>string contract_event_content = 5;</code>
-       * @param value The contractEventContent to set.
-       * @return This builder for chaining.
        */
       public Builder setContractEventContent(
           java.lang.String value) {
@@ -1406,7 +1310,6 @@ public final class Peer {
       }
       /**
        * <code>string contract_event_content = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearContractEventContent() {
         
@@ -1416,8 +1319,6 @@ public final class Peer {
       }
       /**
        * <code>string contract_event_content = 5;</code>
-       * @param value The bytes for contractEventContent to set.
-       * @return This builder for chaining.
        */
       public Builder setContractEventContentBytes(
           com.google.protobuf.ByteString value) {
@@ -1430,13 +1331,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1458,7 +1357,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Event>
         PARSER = new com.google.protobuf.AbstractParser<Event>() {
-      @java.lang.Override
       public Event parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1476,7 +1374,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Event getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1493,7 +1390,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -1502,7 +1398,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -1513,7 +1408,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 2;</code>
-     * @return The creditCode.
      */
     java.lang.String getCreditCode();
     /**
@@ -1522,7 +1416,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 2;</code>
-     * @return The bytes for creditCode.
      */
     com.google.protobuf.ByteString
         getCreditCodeBytes();
@@ -1533,7 +1426,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string mobile = 3;</code>
-     * @return The mobile.
      */
     java.lang.String getMobile();
     /**
@@ -1542,7 +1434,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string mobile = 3;</code>
-     * @return The bytes for mobile.
      */
     com.google.protobuf.ByteString
         getMobileBytes();
@@ -1553,7 +1444,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @return A list containing the certNames.
      */
     java.util.List<java.lang.String>
         getCertNamesList();
@@ -1563,7 +1453,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @return The count of certNames.
      */
     int getCertNamesCount();
     /**
@@ -1572,8 +1461,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @param index The index of the element to return.
-     * @return The certNames at the given index.
      */
     java.lang.String getCertNames(int index);
     /**
@@ -1582,8 +1469,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the certNames at the given index.
      */
     com.google.protobuf.ByteString
         getCertNamesBytes(int index);
@@ -1594,7 +1479,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @return A list containing the authorizeIds.
      */
     java.util.List<java.lang.String>
         getAuthorizeIdsList();
@@ -1604,7 +1488,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @return The count of authorizeIds.
      */
     int getAuthorizeIdsCount();
     /**
@@ -1613,8 +1496,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @param index The index of the element to return.
-     * @return The authorizeIds at the given index.
      */
     java.lang.String getAuthorizeIds(int index);
     /**
@@ -1623,8 +1504,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the authorizeIds at the given index.
      */
     com.google.protobuf.ByteString
         getAuthorizeIdsBytes(int index);
@@ -1635,7 +1514,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @return A list containing the operateIds.
      */
     java.util.List<java.lang.String>
         getOperateIdsList();
@@ -1645,7 +1523,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @return The count of operateIds.
      */
     int getOperateIdsCount();
     /**
@@ -1654,8 +1531,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @param index The index of the element to return.
-     * @return The operateIds at the given index.
      */
     java.lang.String getOperateIds(int index);
     /**
@@ -1664,8 +1539,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the operateIds at the given index.
      */
     com.google.protobuf.ByteString
         getOperateIdsBytes(int index);
@@ -1676,7 +1549,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @return A list containing the credentialMetadataIds.
      */
     java.util.List<java.lang.String>
         getCredentialMetadataIdsList();
@@ -1686,7 +1558,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @return The count of credentialMetadataIds.
      */
     int getCredentialMetadataIdsCount();
     /**
@@ -1695,8 +1566,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @param index The index of the element to return.
-     * @return The credentialMetadataIds at the given index.
      */
     java.lang.String getCredentialMetadataIds(int index);
     /**
@@ -1705,8 +1574,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the credentialMetadataIds at the given index.
      */
     com.google.protobuf.ByteString
         getCredentialMetadataIdsBytes(int index);
@@ -1761,7 +1628,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string signer_info = 9;</code>
-     * @return The signerInfo.
      */
     java.lang.String getSignerInfo();
     /**
@@ -1770,7 +1636,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string signer_info = 9;</code>
-     * @return The bytes for signerInfo.
      */
     com.google.protobuf.ByteString
         getSignerInfoBytes();
@@ -1781,7 +1646,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 10;</code>
-     * @return Whether the createTime field is set.
      */
     boolean hasCreateTime();
     /**
@@ -1790,7 +1654,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 10;</code>
-     * @return The createTime.
      */
     com.google.protobuf.Timestamp getCreateTime();
     /**
@@ -1808,7 +1671,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-     * @return Whether the disableTime field is set.
      */
     boolean hasDisableTime();
     /**
@@ -1817,7 +1679,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-     * @return The disableTime.
      */
     com.google.protobuf.Timestamp getDisableTime();
     /**
@@ -1835,7 +1696,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool signer_valid = 12;</code>
-     * @return The signerValid.
      */
     boolean getSignerValid();
 
@@ -1845,7 +1705,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 13;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -1854,7 +1713,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 13;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -1866,7 +1724,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.Signer}
    */
-  public static final class Signer extends
+  public  static final class Signer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Signer)
       SignerOrBuilder {
@@ -1885,14 +1743,8 @@ public final class Peer {
       credentialMetadataIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       authenticationCerts_ = java.util.Collections.emptyList();
       signerInfo_ = "";
+      signerValid_ = false;
       version_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Signer();
     }
 
     @java.lang.Override
@@ -1919,6 +1771,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1939,44 +1798,44 @@ public final class Peer {
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 certNames_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000008;
               }
               certNames_.add(s);
               break;
             }
             case 42: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 authorizeIds_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000010;
               }
               authorizeIds_.add(s);
               break;
             }
             case 50: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 operateIds_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000020;
               }
               operateIds_.add(s);
               break;
             }
             case 58: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 credentialMetadataIds_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000040;
               }
               credentialMetadataIds_.add(s);
               break;
             }
             case 66: {
-              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                 authenticationCerts_ = new java.util.ArrayList<com.rcjava.protos.Peer.Certificate>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000080;
               }
               authenticationCerts_.add(
                   input.readMessage(com.rcjava.protos.Peer.Certificate.parser(), extensionRegistry));
@@ -2025,13 +1884,6 @@ public final class Peer {
               version_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2040,19 +1892,19 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           certNames_ = certNames_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           authorizeIds_ = authorizeIds_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           operateIds_ = operateIds_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           credentialMetadataIds_ = credentialMetadataIds_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000010) != 0)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           authenticationCerts_ = java.util.Collections.unmodifiableList(authenticationCerts_);
         }
         this.unknownFields = unknownFields.build();
@@ -2064,7 +1916,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signer_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signer_fieldAccessorTable
@@ -2072,6 +1923,7 @@ public final class Peer {
               com.rcjava.protos.Peer.Signer.class, com.rcjava.protos.Peer.Signer.Builder.class);
     }
 
+    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
@@ -2080,9 +1932,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The name.
      */
-    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -2101,9 +1951,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The bytes for name.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -2126,9 +1974,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 2;</code>
-     * @return The creditCode.
      */
-    @java.lang.Override
     public java.lang.String getCreditCode() {
       java.lang.Object ref = creditCode_;
       if (ref instanceof java.lang.String) {
@@ -2147,9 +1993,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 2;</code>
-     * @return The bytes for creditCode.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreditCodeBytes() {
       java.lang.Object ref = creditCode_;
@@ -2172,9 +2016,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string mobile = 3;</code>
-     * @return The mobile.
      */
-    @java.lang.Override
     public java.lang.String getMobile() {
       java.lang.Object ref = mobile_;
       if (ref instanceof java.lang.String) {
@@ -2193,9 +2035,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string mobile = 3;</code>
-     * @return The bytes for mobile.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getMobileBytes() {
       java.lang.Object ref = mobile_;
@@ -2218,7 +2058,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @return A list containing the certNames.
      */
     public com.google.protobuf.ProtocolStringList
         getCertNamesList() {
@@ -2230,7 +2069,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @return The count of certNames.
      */
     public int getCertNamesCount() {
       return certNames_.size();
@@ -2241,8 +2079,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @param index The index of the element to return.
-     * @return The certNames at the given index.
      */
     public java.lang.String getCertNames(int index) {
       return certNames_.get(index);
@@ -2253,8 +2089,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string cert_names = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the certNames at the given index.
      */
     public com.google.protobuf.ByteString
         getCertNamesBytes(int index) {
@@ -2269,7 +2103,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @return A list containing the authorizeIds.
      */
     public com.google.protobuf.ProtocolStringList
         getAuthorizeIdsList() {
@@ -2281,7 +2114,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @return The count of authorizeIds.
      */
     public int getAuthorizeIdsCount() {
       return authorizeIds_.size();
@@ -2292,8 +2124,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @param index The index of the element to return.
-     * @return The authorizeIds at the given index.
      */
     public java.lang.String getAuthorizeIds(int index) {
       return authorizeIds_.get(index);
@@ -2304,8 +2134,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string authorize_ids = 5;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the authorizeIds at the given index.
      */
     public com.google.protobuf.ByteString
         getAuthorizeIdsBytes(int index) {
@@ -2320,7 +2148,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @return A list containing the operateIds.
      */
     public com.google.protobuf.ProtocolStringList
         getOperateIdsList() {
@@ -2332,7 +2159,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @return The count of operateIds.
      */
     public int getOperateIdsCount() {
       return operateIds_.size();
@@ -2343,8 +2169,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @param index The index of the element to return.
-     * @return The operateIds at the given index.
      */
     public java.lang.String getOperateIds(int index) {
       return operateIds_.get(index);
@@ -2355,8 +2179,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_ids = 6;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the operateIds at the given index.
      */
     public com.google.protobuf.ByteString
         getOperateIdsBytes(int index) {
@@ -2371,7 +2193,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @return A list containing the credentialMetadataIds.
      */
     public com.google.protobuf.ProtocolStringList
         getCredentialMetadataIdsList() {
@@ -2383,7 +2204,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @return The count of credentialMetadataIds.
      */
     public int getCredentialMetadataIdsCount() {
       return credentialMetadataIds_.size();
@@ -2394,8 +2214,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @param index The index of the element to return.
-     * @return The credentialMetadataIds at the given index.
      */
     public java.lang.String getCredentialMetadataIds(int index) {
       return credentialMetadataIds_.get(index);
@@ -2406,8 +2224,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string credential_metadata_ids = 7;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the credentialMetadataIds at the given index.
      */
     public com.google.protobuf.ByteString
         getCredentialMetadataIdsBytes(int index) {
@@ -2423,7 +2239,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Certificate authentication_certs = 8;</code>
      */
-    @java.lang.Override
     public java.util.List<com.rcjava.protos.Peer.Certificate> getAuthenticationCertsList() {
       return authenticationCerts_;
     }
@@ -2434,7 +2249,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Certificate authentication_certs = 8;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.rcjava.protos.Peer.CertificateOrBuilder> 
         getAuthenticationCertsOrBuilderList() {
       return authenticationCerts_;
@@ -2446,7 +2260,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Certificate authentication_certs = 8;</code>
      */
-    @java.lang.Override
     public int getAuthenticationCertsCount() {
       return authenticationCerts_.size();
     }
@@ -2457,7 +2270,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Certificate authentication_certs = 8;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Certificate getAuthenticationCerts(int index) {
       return authenticationCerts_.get(index);
     }
@@ -2468,7 +2280,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Certificate authentication_certs = 8;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertificateOrBuilder getAuthenticationCertsOrBuilder(
         int index) {
       return authenticationCerts_.get(index);
@@ -2482,9 +2293,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string signer_info = 9;</code>
-     * @return The signerInfo.
      */
-    @java.lang.Override
     public java.lang.String getSignerInfo() {
       java.lang.Object ref = signerInfo_;
       if (ref instanceof java.lang.String) {
@@ -2503,9 +2312,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string signer_info = 9;</code>
-     * @return The bytes for signerInfo.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSignerInfoBytes() {
       java.lang.Object ref = signerInfo_;
@@ -2528,9 +2335,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 10;</code>
-     * @return Whether the createTime field is set.
      */
-    @java.lang.Override
     public boolean hasCreateTime() {
       return createTime_ != null;
     }
@@ -2540,9 +2345,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 10;</code>
-     * @return The createTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getCreateTime() {
       return createTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createTime_;
     }
@@ -2553,7 +2356,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp create_time = 10;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getCreateTimeOrBuilder() {
       return getCreateTime();
     }
@@ -2566,9 +2368,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-     * @return Whether the disableTime field is set.
      */
-    @java.lang.Override
     public boolean hasDisableTime() {
       return disableTime_ != null;
     }
@@ -2578,9 +2378,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-     * @return The disableTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getDisableTime() {
       return disableTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : disableTime_;
     }
@@ -2591,7 +2389,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp disable_time = 11;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getDisableTimeOrBuilder() {
       return getDisableTime();
     }
@@ -2604,9 +2401,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool signer_valid = 12;</code>
-     * @return The signerValid.
      */
-    @java.lang.Override
     public boolean getSignerValid() {
       return signerValid_;
     }
@@ -2619,9 +2414,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 13;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -2640,9 +2433,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 13;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -2658,7 +2449,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2668,7 +2458,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -2713,7 +2502,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2797,40 +2585,41 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Signer other = (com.rcjava.protos.Peer.Signer) obj;
 
-      if (!getName()
-          .equals(other.getName())) return false;
-      if (!getCreditCode()
-          .equals(other.getCreditCode())) return false;
-      if (!getMobile()
-          .equals(other.getMobile())) return false;
-      if (!getCertNamesList()
-          .equals(other.getCertNamesList())) return false;
-      if (!getAuthorizeIdsList()
-          .equals(other.getAuthorizeIdsList())) return false;
-      if (!getOperateIdsList()
-          .equals(other.getOperateIdsList())) return false;
-      if (!getCredentialMetadataIdsList()
-          .equals(other.getCredentialMetadataIdsList())) return false;
-      if (!getAuthenticationCertsList()
-          .equals(other.getAuthenticationCertsList())) return false;
-      if (!getSignerInfo()
-          .equals(other.getSignerInfo())) return false;
-      if (hasCreateTime() != other.hasCreateTime()) return false;
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getCreditCode()
+          .equals(other.getCreditCode());
+      result = result && getMobile()
+          .equals(other.getMobile());
+      result = result && getCertNamesList()
+          .equals(other.getCertNamesList());
+      result = result && getAuthorizeIdsList()
+          .equals(other.getAuthorizeIdsList());
+      result = result && getOperateIdsList()
+          .equals(other.getOperateIdsList());
+      result = result && getCredentialMetadataIdsList()
+          .equals(other.getCredentialMetadataIdsList());
+      result = result && getAuthenticationCertsList()
+          .equals(other.getAuthenticationCertsList());
+      result = result && getSignerInfo()
+          .equals(other.getSignerInfo());
+      result = result && (hasCreateTime() == other.hasCreateTime());
       if (hasCreateTime()) {
-        if (!getCreateTime()
-            .equals(other.getCreateTime())) return false;
+        result = result && getCreateTime()
+            .equals(other.getCreateTime());
       }
-      if (hasDisableTime() != other.hasDisableTime()) return false;
+      result = result && (hasDisableTime() == other.hasDisableTime());
       if (hasDisableTime()) {
-        if (!getDisableTime()
-            .equals(other.getDisableTime())) return false;
+        result = result && getDisableTime()
+            .equals(other.getDisableTime());
       }
-      if (getSignerValid()
-          != other.getSignerValid()) return false;
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && (getSignerValid()
+          == other.getSignerValid());
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -2956,7 +2745,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2964,7 +2752,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Signer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2992,7 +2779,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signer_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signer_fieldAccessorTable
@@ -3016,7 +2802,6 @@ public final class Peer {
           getAuthenticationCertsFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -3026,16 +2811,16 @@ public final class Peer {
         mobile_ = "";
 
         certNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        authorizeIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        operateIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        credentialMetadataIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
+        authorizeIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        operateIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        credentialMetadataIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000040);
         if (authenticationCertsBuilder_ == null) {
           authenticationCerts_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           authenticationCertsBuilder_.clear();
         }
@@ -3060,18 +2845,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signer_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signer getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Signer.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signer build() {
         com.rcjava.protos.Peer.Signer result = buildPartial();
         if (!result.isInitialized()) {
@@ -3080,37 +2862,37 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signer buildPartial() {
         com.rcjava.protos.Peer.Signer result = new com.rcjava.protos.Peer.Signer(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.name_ = name_;
         result.creditCode_ = creditCode_;
         result.mobile_ = mobile_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           certNames_ = certNames_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.certNames_ = certNames_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
           authorizeIds_ = authorizeIds_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.authorizeIds_ = authorizeIds_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
           operateIds_ = operateIds_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.operateIds_ = operateIds_;
-        if (((bitField0_ & 0x00000008) != 0)) {
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
           credentialMetadataIds_ = credentialMetadataIds_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.credentialMetadataIds_ = credentialMetadataIds_;
         if (authenticationCertsBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) != 0)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             authenticationCerts_ = java.util.Collections.unmodifiableList(authenticationCerts_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.authenticationCerts_ = authenticationCerts_;
         } else {
@@ -3129,43 +2911,37 @@ public final class Peer {
         }
         result.signerValid_ = signerValid_;
         result.version_ = version_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Signer) {
           return mergeFrom((com.rcjava.protos.Peer.Signer)other);
@@ -3192,7 +2968,7 @@ public final class Peer {
         if (!other.certNames_.isEmpty()) {
           if (certNames_.isEmpty()) {
             certNames_ = other.certNames_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensureCertNamesIsMutable();
             certNames_.addAll(other.certNames_);
@@ -3202,7 +2978,7 @@ public final class Peer {
         if (!other.authorizeIds_.isEmpty()) {
           if (authorizeIds_.isEmpty()) {
             authorizeIds_ = other.authorizeIds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000010);
           } else {
             ensureAuthorizeIdsIsMutable();
             authorizeIds_.addAll(other.authorizeIds_);
@@ -3212,7 +2988,7 @@ public final class Peer {
         if (!other.operateIds_.isEmpty()) {
           if (operateIds_.isEmpty()) {
             operateIds_ = other.operateIds_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000020);
           } else {
             ensureOperateIdsIsMutable();
             operateIds_.addAll(other.operateIds_);
@@ -3222,7 +2998,7 @@ public final class Peer {
         if (!other.credentialMetadataIds_.isEmpty()) {
           if (credentialMetadataIds_.isEmpty()) {
             credentialMetadataIds_ = other.credentialMetadataIds_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000040);
           } else {
             ensureCredentialMetadataIdsIsMutable();
             credentialMetadataIds_.addAll(other.credentialMetadataIds_);
@@ -3233,7 +3009,7 @@ public final class Peer {
           if (!other.authenticationCerts_.isEmpty()) {
             if (authenticationCerts_.isEmpty()) {
               authenticationCerts_ = other.authenticationCerts_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensureAuthenticationCertsIsMutable();
               authenticationCerts_.addAll(other.authenticationCerts_);
@@ -3246,7 +3022,7 @@ public final class Peer {
               authenticationCertsBuilder_.dispose();
               authenticationCertsBuilder_ = null;
               authenticationCerts_ = other.authenticationCerts_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000080);
               authenticationCertsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getAuthenticationCertsFieldBuilder() : null;
@@ -3277,12 +3053,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3309,7 +3083,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -3329,7 +3102,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3350,8 +3122,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @param value The name to set.
-       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -3369,7 +3139,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -3383,8 +3152,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @param value The bytes for name to set.
-       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3405,7 +3172,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 2;</code>
-       * @return The creditCode.
        */
       public java.lang.String getCreditCode() {
         java.lang.Object ref = creditCode_;
@@ -3425,7 +3191,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 2;</code>
-       * @return The bytes for creditCode.
        */
       public com.google.protobuf.ByteString
           getCreditCodeBytes() {
@@ -3446,8 +3211,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 2;</code>
-       * @param value The creditCode to set.
-       * @return This builder for chaining.
        */
       public Builder setCreditCode(
           java.lang.String value) {
@@ -3465,7 +3228,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreditCode() {
         
@@ -3479,8 +3241,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 2;</code>
-       * @param value The bytes for creditCode to set.
-       * @return This builder for chaining.
        */
       public Builder setCreditCodeBytes(
           com.google.protobuf.ByteString value) {
@@ -3501,7 +3261,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string mobile = 3;</code>
-       * @return The mobile.
        */
       public java.lang.String getMobile() {
         java.lang.Object ref = mobile_;
@@ -3521,7 +3280,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string mobile = 3;</code>
-       * @return The bytes for mobile.
        */
       public com.google.protobuf.ByteString
           getMobileBytes() {
@@ -3542,8 +3300,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string mobile = 3;</code>
-       * @param value The mobile to set.
-       * @return This builder for chaining.
        */
       public Builder setMobile(
           java.lang.String value) {
@@ -3561,7 +3317,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string mobile = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearMobile() {
         
@@ -3575,8 +3330,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string mobile = 3;</code>
-       * @param value The bytes for mobile to set.
-       * @return This builder for chaining.
        */
       public Builder setMobileBytes(
           com.google.protobuf.ByteString value) {
@@ -3592,9 +3345,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList certNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureCertNamesIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           certNames_ = new com.google.protobuf.LazyStringArrayList(certNames_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000008;
          }
       }
       /**
@@ -3603,7 +3356,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @return A list containing the certNames.
        */
       public com.google.protobuf.ProtocolStringList
           getCertNamesList() {
@@ -3615,7 +3367,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @return The count of certNames.
        */
       public int getCertNamesCount() {
         return certNames_.size();
@@ -3626,8 +3377,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param index The index of the element to return.
-       * @return The certNames at the given index.
        */
       public java.lang.String getCertNames(int index) {
         return certNames_.get(index);
@@ -3638,8 +3387,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the certNames at the given index.
        */
       public com.google.protobuf.ByteString
           getCertNamesBytes(int index) {
@@ -3651,9 +3398,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param index The index to set the value at.
-       * @param value The certNames to set.
-       * @return This builder for chaining.
        */
       public Builder setCertNames(
           int index, java.lang.String value) {
@@ -3671,8 +3415,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param value The certNames to add.
-       * @return This builder for chaining.
        */
       public Builder addCertNames(
           java.lang.String value) {
@@ -3690,8 +3432,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param values The certNames to add.
-       * @return This builder for chaining.
        */
       public Builder addAllCertNames(
           java.lang.Iterable<java.lang.String> values) {
@@ -3707,11 +3447,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertNames() {
         certNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -3721,8 +3460,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string cert_names = 4;</code>
-       * @param value The bytes of the certNames to add.
-       * @return This builder for chaining.
        */
       public Builder addCertNamesBytes(
           com.google.protobuf.ByteString value) {
@@ -3738,9 +3475,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList authorizeIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureAuthorizeIdsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           authorizeIds_ = new com.google.protobuf.LazyStringArrayList(authorizeIds_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000010;
          }
       }
       /**
@@ -3749,7 +3486,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @return A list containing the authorizeIds.
        */
       public com.google.protobuf.ProtocolStringList
           getAuthorizeIdsList() {
@@ -3761,7 +3497,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @return The count of authorizeIds.
        */
       public int getAuthorizeIdsCount() {
         return authorizeIds_.size();
@@ -3772,8 +3507,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param index The index of the element to return.
-       * @return The authorizeIds at the given index.
        */
       public java.lang.String getAuthorizeIds(int index) {
         return authorizeIds_.get(index);
@@ -3784,8 +3517,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the authorizeIds at the given index.
        */
       public com.google.protobuf.ByteString
           getAuthorizeIdsBytes(int index) {
@@ -3797,9 +3528,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param index The index to set the value at.
-       * @param value The authorizeIds to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthorizeIds(
           int index, java.lang.String value) {
@@ -3817,8 +3545,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param value The authorizeIds to add.
-       * @return This builder for chaining.
        */
       public Builder addAuthorizeIds(
           java.lang.String value) {
@@ -3836,8 +3562,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param values The authorizeIds to add.
-       * @return This builder for chaining.
        */
       public Builder addAllAuthorizeIds(
           java.lang.Iterable<java.lang.String> values) {
@@ -3853,11 +3577,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAuthorizeIds() {
         authorizeIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000010);
         onChanged();
         return this;
       }
@@ -3867,8 +3590,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string authorize_ids = 5;</code>
-       * @param value The bytes of the authorizeIds to add.
-       * @return This builder for chaining.
        */
       public Builder addAuthorizeIdsBytes(
           com.google.protobuf.ByteString value) {
@@ -3884,9 +3605,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList operateIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureOperateIdsIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           operateIds_ = new com.google.protobuf.LazyStringArrayList(operateIds_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000020;
          }
       }
       /**
@@ -3895,7 +3616,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @return A list containing the operateIds.
        */
       public com.google.protobuf.ProtocolStringList
           getOperateIdsList() {
@@ -3907,7 +3627,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @return The count of operateIds.
        */
       public int getOperateIdsCount() {
         return operateIds_.size();
@@ -3918,8 +3637,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param index The index of the element to return.
-       * @return The operateIds at the given index.
        */
       public java.lang.String getOperateIds(int index) {
         return operateIds_.get(index);
@@ -3930,8 +3647,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the operateIds at the given index.
        */
       public com.google.protobuf.ByteString
           getOperateIdsBytes(int index) {
@@ -3943,9 +3658,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param index The index to set the value at.
-       * @param value The operateIds to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateIds(
           int index, java.lang.String value) {
@@ -3963,8 +3675,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param value The operateIds to add.
-       * @return This builder for chaining.
        */
       public Builder addOperateIds(
           java.lang.String value) {
@@ -3982,8 +3692,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param values The operateIds to add.
-       * @return This builder for chaining.
        */
       public Builder addAllOperateIds(
           java.lang.Iterable<java.lang.String> values) {
@@ -3999,11 +3707,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOperateIds() {
         operateIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -4013,8 +3720,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_ids = 6;</code>
-       * @param value The bytes of the operateIds to add.
-       * @return This builder for chaining.
        */
       public Builder addOperateIdsBytes(
           com.google.protobuf.ByteString value) {
@@ -4030,9 +3735,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList credentialMetadataIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureCredentialMetadataIdsIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           credentialMetadataIds_ = new com.google.protobuf.LazyStringArrayList(credentialMetadataIds_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000040;
          }
       }
       /**
@@ -4041,7 +3746,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @return A list containing the credentialMetadataIds.
        */
       public com.google.protobuf.ProtocolStringList
           getCredentialMetadataIdsList() {
@@ -4053,7 +3757,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @return The count of credentialMetadataIds.
        */
       public int getCredentialMetadataIdsCount() {
         return credentialMetadataIds_.size();
@@ -4064,8 +3767,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param index The index of the element to return.
-       * @return The credentialMetadataIds at the given index.
        */
       public java.lang.String getCredentialMetadataIds(int index) {
         return credentialMetadataIds_.get(index);
@@ -4076,8 +3777,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the credentialMetadataIds at the given index.
        */
       public com.google.protobuf.ByteString
           getCredentialMetadataIdsBytes(int index) {
@@ -4089,9 +3788,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param index The index to set the value at.
-       * @param value The credentialMetadataIds to set.
-       * @return This builder for chaining.
        */
       public Builder setCredentialMetadataIds(
           int index, java.lang.String value) {
@@ -4109,8 +3805,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param value The credentialMetadataIds to add.
-       * @return This builder for chaining.
        */
       public Builder addCredentialMetadataIds(
           java.lang.String value) {
@@ -4128,8 +3822,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param values The credentialMetadataIds to add.
-       * @return This builder for chaining.
        */
       public Builder addAllCredentialMetadataIds(
           java.lang.Iterable<java.lang.String> values) {
@@ -4145,11 +3837,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCredentialMetadataIds() {
         credentialMetadataIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
@@ -4159,8 +3850,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string credential_metadata_ids = 7;</code>
-       * @param value The bytes of the credentialMetadataIds to add.
-       * @return This builder for chaining.
        */
       public Builder addCredentialMetadataIdsBytes(
           com.google.protobuf.ByteString value) {
@@ -4177,9 +3866,9 @@ public final class Peer {
       private java.util.List<com.rcjava.protos.Peer.Certificate> authenticationCerts_ =
         java.util.Collections.emptyList();
       private void ensureAuthenticationCertsIsMutable() {
-        if (!((bitField0_ & 0x00000010) != 0)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           authenticationCerts_ = new java.util.ArrayList<com.rcjava.protos.Peer.Certificate>(authenticationCerts_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -4373,7 +4062,7 @@ public final class Peer {
       public Builder clearAuthenticationCerts() {
         if (authenticationCertsBuilder_ == null) {
           authenticationCerts_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           authenticationCertsBuilder_.clear();
@@ -4478,7 +4167,7 @@ public final class Peer {
           authenticationCertsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.rcjava.protos.Peer.Certificate, com.rcjava.protos.Peer.Certificate.Builder, com.rcjava.protos.Peer.CertificateOrBuilder>(
                   authenticationCerts_,
-                  ((bitField0_ & 0x00000010) != 0),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           authenticationCerts_ = null;
@@ -4493,7 +4182,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string signer_info = 9;</code>
-       * @return The signerInfo.
        */
       public java.lang.String getSignerInfo() {
         java.lang.Object ref = signerInfo_;
@@ -4513,7 +4201,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string signer_info = 9;</code>
-       * @return The bytes for signerInfo.
        */
       public com.google.protobuf.ByteString
           getSignerInfoBytes() {
@@ -4534,8 +4221,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string signer_info = 9;</code>
-       * @param value The signerInfo to set.
-       * @return This builder for chaining.
        */
       public Builder setSignerInfo(
           java.lang.String value) {
@@ -4553,7 +4238,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string signer_info = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSignerInfo() {
         
@@ -4567,8 +4251,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string signer_info = 9;</code>
-       * @param value The bytes for signerInfo to set.
-       * @return This builder for chaining.
        */
       public Builder setSignerInfoBytes(
           com.google.protobuf.ByteString value) {
@@ -4582,7 +4264,7 @@ public final class Peer {
         return this;
       }
 
-      private com.google.protobuf.Timestamp createTime_;
+      private com.google.protobuf.Timestamp createTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> createTimeBuilder_;
       /**
@@ -4591,7 +4273,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 10;</code>
-       * @return Whether the createTime field is set.
        */
       public boolean hasCreateTime() {
         return createTimeBuilder_ != null || createTime_ != null;
@@ -4602,7 +4283,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 10;</code>
-       * @return The createTime.
        */
       public com.google.protobuf.Timestamp getCreateTime() {
         if (createTimeBuilder_ == null) {
@@ -4737,7 +4417,7 @@ public final class Peer {
         return createTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp disableTime_;
+      private com.google.protobuf.Timestamp disableTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> disableTimeBuilder_;
       /**
@@ -4746,7 +4426,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-       * @return Whether the disableTime field is set.
        */
       public boolean hasDisableTime() {
         return disableTimeBuilder_ != null || disableTime_ != null;
@@ -4757,7 +4436,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 11;</code>
-       * @return The disableTime.
        */
       public com.google.protobuf.Timestamp getDisableTime() {
         if (disableTimeBuilder_ == null) {
@@ -4899,9 +4577,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool signer_valid = 12;</code>
-       * @return The signerValid.
        */
-      @java.lang.Override
       public boolean getSignerValid() {
         return signerValid_;
       }
@@ -4911,8 +4587,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool signer_valid = 12;</code>
-       * @param value The signerValid to set.
-       * @return This builder for chaining.
        */
       public Builder setSignerValid(boolean value) {
         
@@ -4926,7 +4600,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool signer_valid = 12;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSignerValid() {
         
@@ -4942,7 +4615,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 13;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -4962,7 +4634,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 13;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -4983,8 +4654,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 13;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -5002,7 +4671,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 13;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -5016,8 +4684,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 13;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -5030,13 +4696,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5058,7 +4722,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Signer>
         PARSER = new com.google.protobuf.AbstractParser<Signer>() {
-      @java.lang.Override
       public Signer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5076,7 +4739,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Signer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5093,7 +4755,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 1;</code>
-     * @return The creditCode.
      */
     java.lang.String getCreditCode();
     /**
@@ -5102,7 +4763,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 1;</code>
-     * @return The bytes for creditCode.
      */
     com.google.protobuf.ByteString
         getCreditCodeBytes();
@@ -5113,7 +4773,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_name = 2;</code>
-     * @return The certName.
      */
     java.lang.String getCertName();
     /**
@@ -5122,7 +4781,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_name = 2;</code>
-     * @return The bytes for certName.
      */
     com.google.protobuf.ByteString
         getCertNameBytes();
@@ -5133,7 +4791,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -5142,7 +4799,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -5154,7 +4810,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.CertId}
    */
-  public static final class CertId extends
+  public  static final class CertId extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.CertId)
       CertIdOrBuilder {
@@ -5170,13 +4826,6 @@ public final class Peer {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CertId();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5189,6 +4838,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5199,6 +4849,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -5215,13 +4872,6 @@ public final class Peer {
               java.lang.String s = input.readStringRequireUtf8();
 
               version_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -5241,7 +4891,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CertId_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CertId_fieldAccessorTable
@@ -5257,9 +4906,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 1;</code>
-     * @return The creditCode.
      */
-    @java.lang.Override
     public java.lang.String getCreditCode() {
       java.lang.Object ref = creditCode_;
       if (ref instanceof java.lang.String) {
@@ -5278,9 +4925,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string credit_code = 1;</code>
-     * @return The bytes for creditCode.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreditCodeBytes() {
       java.lang.Object ref = creditCode_;
@@ -5303,9 +4948,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_name = 2;</code>
-     * @return The certName.
      */
-    @java.lang.Override
     public java.lang.String getCertName() {
       java.lang.Object ref = certName_;
       if (ref instanceof java.lang.String) {
@@ -5324,9 +4967,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_name = 2;</code>
-     * @return The bytes for certName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCertNameBytes() {
       java.lang.Object ref = certName_;
@@ -5349,9 +4990,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -5370,9 +5009,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -5388,7 +5025,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5398,7 +5034,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getCreditCodeBytes().isEmpty()) {
@@ -5413,7 +5048,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5443,14 +5077,15 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.CertId other = (com.rcjava.protos.Peer.CertId) obj;
 
-      if (!getCreditCode()
-          .equals(other.getCreditCode())) return false;
-      if (!getCertName()
-          .equals(other.getCertName())) return false;
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getCreditCode()
+          .equals(other.getCreditCode());
+      result = result && getCertName()
+          .equals(other.getCertName());
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -5541,7 +5176,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5549,7 +5183,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.CertId prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5577,7 +5210,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CertId_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CertId_fieldAccessorTable
@@ -5600,7 +5232,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         creditCode_ = "";
@@ -5612,18 +5243,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CertId_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CertId getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.CertId.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CertId build() {
         com.rcjava.protos.Peer.CertId result = buildPartial();
         if (!result.isInitialized()) {
@@ -5632,7 +5260,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CertId buildPartial() {
         com.rcjava.protos.Peer.CertId result = new com.rcjava.protos.Peer.CertId(this);
         result.creditCode_ = creditCode_;
@@ -5642,39 +5269,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.CertId) {
           return mergeFrom((com.rcjava.protos.Peer.CertId)other);
@@ -5703,12 +5323,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5734,7 +5352,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 1;</code>
-       * @return The creditCode.
        */
       public java.lang.String getCreditCode() {
         java.lang.Object ref = creditCode_;
@@ -5754,7 +5371,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 1;</code>
-       * @return The bytes for creditCode.
        */
       public com.google.protobuf.ByteString
           getCreditCodeBytes() {
@@ -5775,8 +5391,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 1;</code>
-       * @param value The creditCode to set.
-       * @return This builder for chaining.
        */
       public Builder setCreditCode(
           java.lang.String value) {
@@ -5794,7 +5408,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreditCode() {
         
@@ -5808,8 +5421,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string credit_code = 1;</code>
-       * @param value The bytes for creditCode to set.
-       * @return This builder for chaining.
        */
       public Builder setCreditCodeBytes(
           com.google.protobuf.ByteString value) {
@@ -5830,7 +5441,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_name = 2;</code>
-       * @return The certName.
        */
       public java.lang.String getCertName() {
         java.lang.Object ref = certName_;
@@ -5850,7 +5460,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_name = 2;</code>
-       * @return The bytes for certName.
        */
       public com.google.protobuf.ByteString
           getCertNameBytes() {
@@ -5871,8 +5480,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_name = 2;</code>
-       * @param value The certName to set.
-       * @return This builder for chaining.
        */
       public Builder setCertName(
           java.lang.String value) {
@@ -5890,7 +5497,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_name = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertName() {
         
@@ -5904,8 +5510,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_name = 2;</code>
-       * @param value The bytes for certName to set.
-       * @return This builder for chaining.
        */
       public Builder setCertNameBytes(
           com.google.protobuf.ByteString value) {
@@ -5926,7 +5530,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -5946,7 +5549,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -5967,8 +5569,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -5986,7 +5586,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -6000,8 +5599,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -6014,13 +5611,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6042,7 +5637,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<CertId>
         PARSER = new com.google.protobuf.AbstractParser<CertId>() {
-      @java.lang.Override
       public CertId parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6060,7 +5654,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertId getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6077,7 +5670,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string certificate = 1;</code>
-     * @return The certificate.
      */
     java.lang.String getCertificate();
     /**
@@ -6086,7 +5678,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string certificate = 1;</code>
-     * @return The bytes for certificate.
      */
     com.google.protobuf.ByteString
         getCertificateBytes();
@@ -6097,7 +5688,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string alg_type = 2;</code>
-     * @return The algType.
      */
     java.lang.String getAlgType();
     /**
@@ -6106,7 +5696,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string alg_type = 2;</code>
-     * @return The bytes for algType.
      */
     com.google.protobuf.ByteString
         getAlgTypeBytes();
@@ -6117,7 +5706,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool cert_valid = 3;</code>
-     * @return The certValid.
      */
     boolean getCertValid();
 
@@ -6127,7 +5715,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-     * @return Whether the regTime field is set.
      */
     boolean hasRegTime();
     /**
@@ -6136,7 +5723,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-     * @return The regTime.
      */
     com.google.protobuf.Timestamp getRegTime();
     /**
@@ -6154,7 +5740,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-     * @return Whether the unregTime field is set.
      */
     boolean hasUnregTime();
     /**
@@ -6163,7 +5748,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-     * @return The unregTime.
      */
     com.google.protobuf.Timestamp getUnregTime();
     /**
@@ -6181,7 +5765,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-     * @return The enum numeric value on the wire for certType.
      */
     int getCertTypeValue();
     /**
@@ -6190,7 +5773,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-     * @return The certType.
      */
     com.rcjava.protos.Peer.Certificate.CertType getCertType();
 
@@ -6200,7 +5782,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId id = 7;</code>
-     * @return Whether the id field is set.
      */
     boolean hasId();
     /**
@@ -6209,7 +5790,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId id = 7;</code>
-     * @return The id.
      */
     com.rcjava.protos.Peer.CertId getId();
     /**
@@ -6227,7 +5807,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_hash = 8;</code>
-     * @return The certHash.
      */
     java.lang.String getCertHash();
     /**
@@ -6236,7 +5815,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_hash = 8;</code>
-     * @return The bytes for certHash.
      */
     com.google.protobuf.ByteString
         getCertHashBytes();
@@ -6247,7 +5825,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -6256,7 +5833,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -6268,7 +5844,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.Certificate}
    */
-  public static final class Certificate extends
+  public  static final class Certificate extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Certificate)
       CertificateOrBuilder {
@@ -6280,16 +5856,10 @@ public final class Peer {
     private Certificate() {
       certificate_ = "";
       algType_ = "";
+      certValid_ = false;
       certType_ = 0;
       certHash_ = "";
       version_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Certificate();
     }
 
     @java.lang.Override
@@ -6305,6 +5875,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6315,6 +5886,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -6389,13 +5967,6 @@ public final class Peer {
               version_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6413,7 +5984,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Certificate_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Certificate_fieldAccessorTable
@@ -6464,8 +6034,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6473,10 +6041,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static CertType forNumber(int value) {
         switch (value) {
           case 0: return CERT_UNDEFINED;
@@ -6500,10 +6064,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -6546,9 +6106,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string certificate = 1;</code>
-     * @return The certificate.
      */
-    @java.lang.Override
     public java.lang.String getCertificate() {
       java.lang.Object ref = certificate_;
       if (ref instanceof java.lang.String) {
@@ -6567,9 +6125,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string certificate = 1;</code>
-     * @return The bytes for certificate.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCertificateBytes() {
       java.lang.Object ref = certificate_;
@@ -6592,9 +6148,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string alg_type = 2;</code>
-     * @return The algType.
      */
-    @java.lang.Override
     public java.lang.String getAlgType() {
       java.lang.Object ref = algType_;
       if (ref instanceof java.lang.String) {
@@ -6613,9 +6167,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string alg_type = 2;</code>
-     * @return The bytes for algType.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getAlgTypeBytes() {
       java.lang.Object ref = algType_;
@@ -6638,9 +6190,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool cert_valid = 3;</code>
-     * @return The certValid.
      */
-    @java.lang.Override
     public boolean getCertValid() {
       return certValid_;
     }
@@ -6653,9 +6203,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-     * @return Whether the regTime field is set.
      */
-    @java.lang.Override
     public boolean hasRegTime() {
       return regTime_ != null;
     }
@@ -6665,9 +6213,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-     * @return The regTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getRegTime() {
       return regTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : regTime_;
     }
@@ -6678,7 +6224,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getRegTimeOrBuilder() {
       return getRegTime();
     }
@@ -6691,9 +6236,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-     * @return Whether the unregTime field is set.
      */
-    @java.lang.Override
     public boolean hasUnregTime() {
       return unregTime_ != null;
     }
@@ -6703,9 +6246,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-     * @return The unregTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getUnregTime() {
       return unregTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : unregTime_;
     }
@@ -6716,7 +6257,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getUnregTimeOrBuilder() {
       return getUnregTime();
     }
@@ -6729,9 +6269,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-     * @return The enum numeric value on the wire for certType.
      */
-    @java.lang.Override public int getCertTypeValue() {
+    public int getCertTypeValue() {
       return certType_;
     }
     /**
@@ -6740,10 +6279,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-     * @return The certType.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.Certificate.CertType getCertType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.Certificate.CertType getCertType() {
       com.rcjava.protos.Peer.Certificate.CertType result = com.rcjava.protos.Peer.Certificate.CertType.valueOf(certType_);
       return result == null ? com.rcjava.protos.Peer.Certificate.CertType.UNRECOGNIZED : result;
     }
@@ -6756,9 +6293,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId id = 7;</code>
-     * @return Whether the id field is set.
      */
-    @java.lang.Override
     public boolean hasId() {
       return id_ != null;
     }
@@ -6768,9 +6303,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId id = 7;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertId getId() {
       return id_ == null ? com.rcjava.protos.Peer.CertId.getDefaultInstance() : id_;
     }
@@ -6781,7 +6314,6 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.CertId id = 7;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertIdOrBuilder getIdOrBuilder() {
       return getId();
     }
@@ -6794,9 +6326,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_hash = 8;</code>
-     * @return The certHash.
      */
-    @java.lang.Override
     public java.lang.String getCertHash() {
       java.lang.Object ref = certHash_;
       if (ref instanceof java.lang.String) {
@@ -6815,9 +6345,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string cert_hash = 8;</code>
-     * @return The bytes for certHash.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCertHashBytes() {
       java.lang.Object ref = certHash_;
@@ -6840,9 +6368,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -6861,9 +6387,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -6879,7 +6403,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6889,7 +6412,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getCertificateBytes().isEmpty()) {
@@ -6922,7 +6444,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6975,34 +6496,35 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Certificate other = (com.rcjava.protos.Peer.Certificate) obj;
 
-      if (!getCertificate()
-          .equals(other.getCertificate())) return false;
-      if (!getAlgType()
-          .equals(other.getAlgType())) return false;
-      if (getCertValid()
-          != other.getCertValid()) return false;
-      if (hasRegTime() != other.hasRegTime()) return false;
+      boolean result = true;
+      result = result && getCertificate()
+          .equals(other.getCertificate());
+      result = result && getAlgType()
+          .equals(other.getAlgType());
+      result = result && (getCertValid()
+          == other.getCertValid());
+      result = result && (hasRegTime() == other.hasRegTime());
       if (hasRegTime()) {
-        if (!getRegTime()
-            .equals(other.getRegTime())) return false;
+        result = result && getRegTime()
+            .equals(other.getRegTime());
       }
-      if (hasUnregTime() != other.hasUnregTime()) return false;
+      result = result && (hasUnregTime() == other.hasUnregTime());
       if (hasUnregTime()) {
-        if (!getUnregTime()
-            .equals(other.getUnregTime())) return false;
+        result = result && getUnregTime()
+            .equals(other.getUnregTime());
       }
-      if (certType_ != other.certType_) return false;
-      if (hasId() != other.hasId()) return false;
+      result = result && certType_ == other.certType_;
+      result = result && (hasId() == other.hasId());
       if (hasId()) {
-        if (!getId()
-            .equals(other.getId())) return false;
+        result = result && getId()
+            .equals(other.getId());
       }
-      if (!getCertHash()
-          .equals(other.getCertHash())) return false;
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && getCertHash()
+          .equals(other.getCertHash());
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -7112,7 +6634,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7120,7 +6641,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Certificate prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7148,7 +6668,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Certificate_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Certificate_fieldAccessorTable
@@ -7171,7 +6690,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         certificate_ = "";
@@ -7207,18 +6725,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Certificate_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Certificate getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Certificate.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Certificate build() {
         com.rcjava.protos.Peer.Certificate result = buildPartial();
         if (!result.isInitialized()) {
@@ -7227,7 +6742,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Certificate buildPartial() {
         com.rcjava.protos.Peer.Certificate result = new com.rcjava.protos.Peer.Certificate(this);
         result.certificate_ = certificate_;
@@ -7255,39 +6769,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Certificate) {
           return mergeFrom((com.rcjava.protos.Peer.Certificate)other);
@@ -7335,12 +6842,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7366,7 +6871,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string certificate = 1;</code>
-       * @return The certificate.
        */
       public java.lang.String getCertificate() {
         java.lang.Object ref = certificate_;
@@ -7386,7 +6890,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string certificate = 1;</code>
-       * @return The bytes for certificate.
        */
       public com.google.protobuf.ByteString
           getCertificateBytes() {
@@ -7407,8 +6910,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string certificate = 1;</code>
-       * @param value The certificate to set.
-       * @return This builder for chaining.
        */
       public Builder setCertificate(
           java.lang.String value) {
@@ -7426,7 +6927,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string certificate = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertificate() {
         
@@ -7440,8 +6940,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string certificate = 1;</code>
-       * @param value The bytes for certificate to set.
-       * @return This builder for chaining.
        */
       public Builder setCertificateBytes(
           com.google.protobuf.ByteString value) {
@@ -7462,7 +6960,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string alg_type = 2;</code>
-       * @return The algType.
        */
       public java.lang.String getAlgType() {
         java.lang.Object ref = algType_;
@@ -7482,7 +6979,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string alg_type = 2;</code>
-       * @return The bytes for algType.
        */
       public com.google.protobuf.ByteString
           getAlgTypeBytes() {
@@ -7503,8 +6999,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string alg_type = 2;</code>
-       * @param value The algType to set.
-       * @return This builder for chaining.
        */
       public Builder setAlgType(
           java.lang.String value) {
@@ -7522,7 +7016,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string alg_type = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAlgType() {
         
@@ -7536,8 +7029,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string alg_type = 2;</code>
-       * @param value The bytes for algType to set.
-       * @return This builder for chaining.
        */
       public Builder setAlgTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -7558,9 +7049,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool cert_valid = 3;</code>
-       * @return The certValid.
        */
-      @java.lang.Override
       public boolean getCertValid() {
         return certValid_;
       }
@@ -7570,8 +7059,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool cert_valid = 3;</code>
-       * @param value The certValid to set.
-       * @return This builder for chaining.
        */
       public Builder setCertValid(boolean value) {
         
@@ -7585,7 +7072,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool cert_valid = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertValid() {
         
@@ -7594,7 +7080,7 @@ public final class Peer {
         return this;
       }
 
-      private com.google.protobuf.Timestamp regTime_;
+      private com.google.protobuf.Timestamp regTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> regTimeBuilder_;
       /**
@@ -7603,7 +7089,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-       * @return Whether the regTime field is set.
        */
       public boolean hasRegTime() {
         return regTimeBuilder_ != null || regTime_ != null;
@@ -7614,7 +7099,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp reg_Time = 4;</code>
-       * @return The regTime.
        */
       public com.google.protobuf.Timestamp getRegTime() {
         if (regTimeBuilder_ == null) {
@@ -7749,7 +7233,7 @@ public final class Peer {
         return regTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp unregTime_;
+      private com.google.protobuf.Timestamp unregTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> unregTimeBuilder_;
       /**
@@ -7758,7 +7242,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-       * @return Whether the unregTime field is set.
        */
       public boolean hasUnregTime() {
         return unregTimeBuilder_ != null || unregTime_ != null;
@@ -7769,7 +7252,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp unreg_Time = 5;</code>
-       * @return The unregTime.
        */
       public com.google.protobuf.Timestamp getUnregTime() {
         if (unregTimeBuilder_ == null) {
@@ -7911,9 +7393,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-       * @return The enum numeric value on the wire for certType.
        */
-      @java.lang.Override public int getCertTypeValue() {
+      public int getCertTypeValue() {
         return certType_;
       }
       /**
@@ -7922,11 +7403,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-       * @param value The enum numeric value on the wire for certType to set.
-       * @return This builder for chaining.
        */
       public Builder setCertTypeValue(int value) {
-        
         certType_ = value;
         onChanged();
         return this;
@@ -7937,11 +7415,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-       * @return The certType.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.Certificate.CertType getCertType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.Certificate.CertType result = com.rcjava.protos.Peer.Certificate.CertType.valueOf(certType_);
         return result == null ? com.rcjava.protos.Peer.Certificate.CertType.UNRECOGNIZED : result;
       }
@@ -7951,8 +7426,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-       * @param value The certType to set.
-       * @return This builder for chaining.
        */
       public Builder setCertType(com.rcjava.protos.Peer.Certificate.CertType value) {
         if (value == null) {
@@ -7969,7 +7442,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Certificate.CertType cert_type = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertType() {
         
@@ -7978,7 +7450,7 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.CertId id_;
+      private com.rcjava.protos.Peer.CertId id_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.CertId, com.rcjava.protos.Peer.CertId.Builder, com.rcjava.protos.Peer.CertIdOrBuilder> idBuilder_;
       /**
@@ -7987,7 +7459,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId id = 7;</code>
-       * @return Whether the id field is set.
        */
       public boolean hasId() {
         return idBuilder_ != null || id_ != null;
@@ -7998,7 +7469,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId id = 7;</code>
-       * @return The id.
        */
       public com.rcjava.protos.Peer.CertId getId() {
         if (idBuilder_ == null) {
@@ -8140,7 +7610,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_hash = 8;</code>
-       * @return The certHash.
        */
       public java.lang.String getCertHash() {
         java.lang.Object ref = certHash_;
@@ -8160,7 +7629,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_hash = 8;</code>
-       * @return The bytes for certHash.
        */
       public com.google.protobuf.ByteString
           getCertHashBytes() {
@@ -8181,8 +7649,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_hash = 8;</code>
-       * @param value The certHash to set.
-       * @return This builder for chaining.
        */
       public Builder setCertHash(
           java.lang.String value) {
@@ -8200,7 +7666,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_hash = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCertHash() {
         
@@ -8214,8 +7679,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string cert_hash = 8;</code>
-       * @param value The bytes for certHash to set.
-       * @return This builder for chaining.
        */
       public Builder setCertHashBytes(
           com.google.protobuf.ByteString value) {
@@ -8236,7 +7699,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -8256,7 +7718,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -8277,8 +7738,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -8296,7 +7755,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -8310,8 +7768,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -8324,13 +7780,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8352,7 +7806,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Certificate>
         PARSER = new com.google.protobuf.AbstractParser<Certificate>() {
-      @java.lang.Override
       public Certificate parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8370,7 +7823,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Certificate getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8387,7 +7839,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string op_id = 1;</code>
-     * @return The opId.
      */
     java.lang.String getOpId();
     /**
@@ -8396,7 +7847,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string op_id = 1;</code>
-     * @return The bytes for opId.
      */
     com.google.protobuf.ByteString
         getOpIdBytes();
@@ -8407,7 +7857,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 2;</code>
-     * @return The description.
      */
     java.lang.String getDescription();
     /**
@@ -8416,7 +7865,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 2;</code>
-     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -8427,7 +7875,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string register = 3;</code>
-     * @return The register.
      */
     java.lang.String getRegister();
     /**
@@ -8436,7 +7883,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string register = 3;</code>
-     * @return The bytes for register.
      */
     com.google.protobuf.ByteString
         getRegisterBytes();
@@ -8447,7 +7893,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool is_publish = 4;</code>
-     * @return The isPublish.
      */
     boolean getIsPublish();
 
@@ -8457,7 +7902,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-     * @return The enum numeric value on the wire for operateType.
      */
     int getOperateTypeValue();
     /**
@@ -8466,7 +7910,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-     * @return The operateType.
      */
     com.rcjava.protos.Peer.Operate.OperateType getOperateType();
 
@@ -8476,7 +7919,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @return A list containing the operateServiceName.
      */
     java.util.List<java.lang.String>
         getOperateServiceNameList();
@@ -8486,7 +7928,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @return The count of operateServiceName.
      */
     int getOperateServiceNameCount();
     /**
@@ -8495,8 +7936,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @param index The index of the element to return.
-     * @return The operateServiceName at the given index.
      */
     java.lang.String getOperateServiceName(int index);
     /**
@@ -8505,8 +7944,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the operateServiceName at the given index.
      */
     com.google.protobuf.ByteString
         getOperateServiceNameBytes(int index);
@@ -8517,7 +7954,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string operate_endpoint = 7;</code>
-     * @return The operateEndpoint.
      */
     java.lang.String getOperateEndpoint();
     /**
@@ -8526,7 +7962,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string operate_endpoint = 7;</code>
-     * @return The bytes for operateEndpoint.
      */
     com.google.protobuf.ByteString
         getOperateEndpointBytes();
@@ -8537,7 +7972,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string auth_full_name = 8;</code>
-     * @return The authFullName.
      */
     java.lang.String getAuthFullName();
     /**
@@ -8546,7 +7980,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string auth_full_name = 8;</code>
-     * @return The bytes for authFullName.
      */
     com.google.protobuf.ByteString
         getAuthFullNameBytes();
@@ -8557,7 +7990,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 9;</code>
-     * @return Whether the createTime field is set.
      */
     boolean hasCreateTime();
     /**
@@ -8566,7 +7998,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 9;</code>
-     * @return The createTime.
      */
     com.google.protobuf.Timestamp getCreateTime();
     /**
@@ -8584,7 +8015,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-     * @return Whether the disableTime field is set.
      */
     boolean hasDisableTime();
     /**
@@ -8593,7 +8023,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-     * @return The disableTime.
      */
     com.google.protobuf.Timestamp getDisableTime();
     /**
@@ -8611,7 +8040,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool op_valid = 11;</code>
-     * @return The opValid.
      */
     boolean getOpValid();
 
@@ -8621,7 +8049,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 12;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -8630,7 +8057,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 12;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -8638,7 +8064,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.Operate}
    */
-  public static final class Operate extends
+  public  static final class Operate extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Operate)
       OperateOrBuilder {
@@ -8651,18 +8077,13 @@ public final class Peer {
       opId_ = "";
       description_ = "";
       register_ = "";
+      isPublish_ = false;
       operateType_ = 0;
       operateServiceName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       operateEndpoint_ = "";
       authFullName_ = "";
+      opValid_ = false;
       version_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Operate();
     }
 
     @java.lang.Override
@@ -8689,6 +8110,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -8720,9 +8148,9 @@ public final class Peer {
             }
             case 50: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 operateServiceName_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000020;
               }
               operateServiceName_.add(s);
               break;
@@ -8776,13 +8204,6 @@ public final class Peer {
               version_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8791,7 +8212,7 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           operateServiceName_ = operateServiceName_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -8803,7 +8224,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Operate_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Operate_fieldAccessorTable
@@ -8854,8 +8274,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -8863,10 +8281,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static OperateType forNumber(int value) {
         switch (value) {
           case 0: return OPERATE_UNDEFINED;
@@ -8890,10 +8304,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -8928,6 +8338,7 @@ public final class Peer {
       // @@protoc_insertion_point(enum_scope:com.rcjava.protos.Operate.OperateType)
     }
 
+    private int bitField0_;
     public static final int OP_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object opId_;
     /**
@@ -8936,9 +8347,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string op_id = 1;</code>
-     * @return The opId.
      */
-    @java.lang.Override
     public java.lang.String getOpId() {
       java.lang.Object ref = opId_;
       if (ref instanceof java.lang.String) {
@@ -8957,9 +8366,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string op_id = 1;</code>
-     * @return The bytes for opId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getOpIdBytes() {
       java.lang.Object ref = opId_;
@@ -8982,9 +8389,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 2;</code>
-     * @return The description.
      */
-    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -9003,9 +8408,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 2;</code>
-     * @return The bytes for description.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -9028,9 +8431,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string register = 3;</code>
-     * @return The register.
      */
-    @java.lang.Override
     public java.lang.String getRegister() {
       java.lang.Object ref = register_;
       if (ref instanceof java.lang.String) {
@@ -9049,9 +8450,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string register = 3;</code>
-     * @return The bytes for register.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getRegisterBytes() {
       java.lang.Object ref = register_;
@@ -9074,9 +8473,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool is_publish = 4;</code>
-     * @return The isPublish.
      */
-    @java.lang.Override
     public boolean getIsPublish() {
       return isPublish_;
     }
@@ -9089,9 +8486,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-     * @return The enum numeric value on the wire for operateType.
      */
-    @java.lang.Override public int getOperateTypeValue() {
+    public int getOperateTypeValue() {
       return operateType_;
     }
     /**
@@ -9100,10 +8496,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-     * @return The operateType.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.Operate.OperateType getOperateType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.Operate.OperateType getOperateType() {
       com.rcjava.protos.Peer.Operate.OperateType result = com.rcjava.protos.Peer.Operate.OperateType.valueOf(operateType_);
       return result == null ? com.rcjava.protos.Peer.Operate.OperateType.UNRECOGNIZED : result;
     }
@@ -9116,7 +8510,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @return A list containing the operateServiceName.
      */
     public com.google.protobuf.ProtocolStringList
         getOperateServiceNameList() {
@@ -9128,7 +8521,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @return The count of operateServiceName.
      */
     public int getOperateServiceNameCount() {
       return operateServiceName_.size();
@@ -9139,8 +8531,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @param index The index of the element to return.
-     * @return The operateServiceName at the given index.
      */
     public java.lang.String getOperateServiceName(int index) {
       return operateServiceName_.get(index);
@@ -9151,8 +8541,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string operate_service_name = 6;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the operateServiceName at the given index.
      */
     public com.google.protobuf.ByteString
         getOperateServiceNameBytes(int index) {
@@ -9167,9 +8555,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string operate_endpoint = 7;</code>
-     * @return The operateEndpoint.
      */
-    @java.lang.Override
     public java.lang.String getOperateEndpoint() {
       java.lang.Object ref = operateEndpoint_;
       if (ref instanceof java.lang.String) {
@@ -9188,9 +8574,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string operate_endpoint = 7;</code>
-     * @return The bytes for operateEndpoint.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getOperateEndpointBytes() {
       java.lang.Object ref = operateEndpoint_;
@@ -9213,9 +8597,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string auth_full_name = 8;</code>
-     * @return The authFullName.
      */
-    @java.lang.Override
     public java.lang.String getAuthFullName() {
       java.lang.Object ref = authFullName_;
       if (ref instanceof java.lang.String) {
@@ -9234,9 +8616,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string auth_full_name = 8;</code>
-     * @return The bytes for authFullName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getAuthFullNameBytes() {
       java.lang.Object ref = authFullName_;
@@ -9259,9 +8639,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 9;</code>
-     * @return Whether the createTime field is set.
      */
-    @java.lang.Override
     public boolean hasCreateTime() {
       return createTime_ != null;
     }
@@ -9271,9 +8649,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 9;</code>
-     * @return The createTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getCreateTime() {
       return createTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createTime_;
     }
@@ -9284,7 +8660,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp create_time = 9;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getCreateTimeOrBuilder() {
       return getCreateTime();
     }
@@ -9297,9 +8672,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-     * @return Whether the disableTime field is set.
      */
-    @java.lang.Override
     public boolean hasDisableTime() {
       return disableTime_ != null;
     }
@@ -9309,9 +8682,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-     * @return The disableTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getDisableTime() {
       return disableTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : disableTime_;
     }
@@ -9322,7 +8693,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp disable_time = 10;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getDisableTimeOrBuilder() {
       return getDisableTime();
     }
@@ -9335,9 +8705,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool op_valid = 11;</code>
-     * @return The opValid.
      */
-    @java.lang.Override
     public boolean getOpValid() {
       return opValid_;
     }
@@ -9350,9 +8718,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 12;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -9371,9 +8737,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 12;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -9389,7 +8753,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9399,7 +8762,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getOpIdBytes().isEmpty()) {
@@ -9441,7 +8803,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9508,37 +8869,38 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Operate other = (com.rcjava.protos.Peer.Operate) obj;
 
-      if (!getOpId()
-          .equals(other.getOpId())) return false;
-      if (!getDescription()
-          .equals(other.getDescription())) return false;
-      if (!getRegister()
-          .equals(other.getRegister())) return false;
-      if (getIsPublish()
-          != other.getIsPublish()) return false;
-      if (operateType_ != other.operateType_) return false;
-      if (!getOperateServiceNameList()
-          .equals(other.getOperateServiceNameList())) return false;
-      if (!getOperateEndpoint()
-          .equals(other.getOperateEndpoint())) return false;
-      if (!getAuthFullName()
-          .equals(other.getAuthFullName())) return false;
-      if (hasCreateTime() != other.hasCreateTime()) return false;
+      boolean result = true;
+      result = result && getOpId()
+          .equals(other.getOpId());
+      result = result && getDescription()
+          .equals(other.getDescription());
+      result = result && getRegister()
+          .equals(other.getRegister());
+      result = result && (getIsPublish()
+          == other.getIsPublish());
+      result = result && operateType_ == other.operateType_;
+      result = result && getOperateServiceNameList()
+          .equals(other.getOperateServiceNameList());
+      result = result && getOperateEndpoint()
+          .equals(other.getOperateEndpoint());
+      result = result && getAuthFullName()
+          .equals(other.getAuthFullName());
+      result = result && (hasCreateTime() == other.hasCreateTime());
       if (hasCreateTime()) {
-        if (!getCreateTime()
-            .equals(other.getCreateTime())) return false;
+        result = result && getCreateTime()
+            .equals(other.getCreateTime());
       }
-      if (hasDisableTime() != other.hasDisableTime()) return false;
+      result = result && (hasDisableTime() == other.hasDisableTime());
       if (hasDisableTime()) {
-        if (!getDisableTime()
-            .equals(other.getDisableTime())) return false;
+        result = result && getDisableTime()
+            .equals(other.getDisableTime());
       }
-      if (getOpValid()
-          != other.getOpValid()) return false;
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && (getOpValid()
+          == other.getOpValid());
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -9655,7 +9017,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9663,7 +9024,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Operate prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9687,7 +9047,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Operate_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Operate_fieldAccessorTable
@@ -9710,7 +9069,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         opId_ = "";
@@ -9724,7 +9082,7 @@ public final class Peer {
         operateType_ = 0;
 
         operateServiceName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000020);
         operateEndpoint_ = "";
 
         authFullName_ = "";
@@ -9748,18 +9106,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Operate_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Operate getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Operate.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Operate build() {
         com.rcjava.protos.Peer.Operate result = buildPartial();
         if (!result.isInitialized()) {
@@ -9768,18 +9123,18 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Operate buildPartial() {
         com.rcjava.protos.Peer.Operate result = new com.rcjava.protos.Peer.Operate(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.opId_ = opId_;
         result.description_ = description_;
         result.register_ = register_;
         result.isPublish_ = isPublish_;
         result.operateType_ = operateType_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
           operateServiceName_ = operateServiceName_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.operateServiceName_ = operateServiceName_;
         result.operateEndpoint_ = operateEndpoint_;
@@ -9796,43 +9151,37 @@ public final class Peer {
         }
         result.opValid_ = opValid_;
         result.version_ = version_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Operate) {
           return mergeFrom((com.rcjava.protos.Peer.Operate)other);
@@ -9865,7 +9214,7 @@ public final class Peer {
         if (!other.operateServiceName_.isEmpty()) {
           if (operateServiceName_.isEmpty()) {
             operateServiceName_ = other.operateServiceName_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000020);
           } else {
             ensureOperateServiceNameIsMutable();
             operateServiceName_.addAll(other.operateServiceName_);
@@ -9898,12 +9247,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9930,7 +9277,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string op_id = 1;</code>
-       * @return The opId.
        */
       public java.lang.String getOpId() {
         java.lang.Object ref = opId_;
@@ -9950,7 +9296,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string op_id = 1;</code>
-       * @return The bytes for opId.
        */
       public com.google.protobuf.ByteString
           getOpIdBytes() {
@@ -9971,8 +9316,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string op_id = 1;</code>
-       * @param value The opId to set.
-       * @return This builder for chaining.
        */
       public Builder setOpId(
           java.lang.String value) {
@@ -9990,7 +9333,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string op_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOpId() {
         
@@ -10004,8 +9346,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string op_id = 1;</code>
-       * @param value The bytes for opId to set.
-       * @return This builder for chaining.
        */
       public Builder setOpIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10026,7 +9366,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 2;</code>
-       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -10046,7 +9385,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 2;</code>
-       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -10067,8 +9405,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 2;</code>
-       * @param value The description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -10086,7 +9422,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -10100,8 +9435,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 2;</code>
-       * @param value The bytes for description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -10122,7 +9455,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string register = 3;</code>
-       * @return The register.
        */
       public java.lang.String getRegister() {
         java.lang.Object ref = register_;
@@ -10142,7 +9474,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string register = 3;</code>
-       * @return The bytes for register.
        */
       public com.google.protobuf.ByteString
           getRegisterBytes() {
@@ -10163,8 +9494,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string register = 3;</code>
-       * @param value The register to set.
-       * @return This builder for chaining.
        */
       public Builder setRegister(
           java.lang.String value) {
@@ -10182,7 +9511,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string register = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRegister() {
         
@@ -10196,8 +9524,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string register = 3;</code>
-       * @param value The bytes for register to set.
-       * @return This builder for chaining.
        */
       public Builder setRegisterBytes(
           com.google.protobuf.ByteString value) {
@@ -10218,9 +9544,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_publish = 4;</code>
-       * @return The isPublish.
        */
-      @java.lang.Override
       public boolean getIsPublish() {
         return isPublish_;
       }
@@ -10230,8 +9554,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_publish = 4;</code>
-       * @param value The isPublish to set.
-       * @return This builder for chaining.
        */
       public Builder setIsPublish(boolean value) {
         
@@ -10245,7 +9567,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_publish = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsPublish() {
         
@@ -10261,9 +9582,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-       * @return The enum numeric value on the wire for operateType.
        */
-      @java.lang.Override public int getOperateTypeValue() {
+      public int getOperateTypeValue() {
         return operateType_;
       }
       /**
@@ -10272,11 +9592,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-       * @param value The enum numeric value on the wire for operateType to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateTypeValue(int value) {
-        
         operateType_ = value;
         onChanged();
         return this;
@@ -10287,11 +9604,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-       * @return The operateType.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.Operate.OperateType getOperateType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.Operate.OperateType result = com.rcjava.protos.Peer.Operate.OperateType.valueOf(operateType_);
         return result == null ? com.rcjava.protos.Peer.Operate.OperateType.UNRECOGNIZED : result;
       }
@@ -10301,8 +9615,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-       * @param value The operateType to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateType(com.rcjava.protos.Peer.Operate.OperateType value) {
         if (value == null) {
@@ -10319,7 +9631,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Operate.OperateType operate_type = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOperateType() {
         
@@ -10330,9 +9641,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList operateServiceName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureOperateServiceNameIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           operateServiceName_ = new com.google.protobuf.LazyStringArrayList(operateServiceName_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000020;
          }
       }
       /**
@@ -10341,7 +9652,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @return A list containing the operateServiceName.
        */
       public com.google.protobuf.ProtocolStringList
           getOperateServiceNameList() {
@@ -10353,7 +9663,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @return The count of operateServiceName.
        */
       public int getOperateServiceNameCount() {
         return operateServiceName_.size();
@@ -10364,8 +9673,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param index The index of the element to return.
-       * @return The operateServiceName at the given index.
        */
       public java.lang.String getOperateServiceName(int index) {
         return operateServiceName_.get(index);
@@ -10376,8 +9683,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the operateServiceName at the given index.
        */
       public com.google.protobuf.ByteString
           getOperateServiceNameBytes(int index) {
@@ -10389,9 +9694,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param index The index to set the value at.
-       * @param value The operateServiceName to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateServiceName(
           int index, java.lang.String value) {
@@ -10409,8 +9711,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param value The operateServiceName to add.
-       * @return This builder for chaining.
        */
       public Builder addOperateServiceName(
           java.lang.String value) {
@@ -10428,8 +9728,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param values The operateServiceName to add.
-       * @return This builder for chaining.
        */
       public Builder addAllOperateServiceName(
           java.lang.Iterable<java.lang.String> values) {
@@ -10445,11 +9743,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOperateServiceName() {
         operateServiceName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -10459,8 +9756,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string operate_service_name = 6;</code>
-       * @param value The bytes of the operateServiceName to add.
-       * @return This builder for chaining.
        */
       public Builder addOperateServiceNameBytes(
           com.google.protobuf.ByteString value) {
@@ -10481,7 +9776,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string operate_endpoint = 7;</code>
-       * @return The operateEndpoint.
        */
       public java.lang.String getOperateEndpoint() {
         java.lang.Object ref = operateEndpoint_;
@@ -10501,7 +9795,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string operate_endpoint = 7;</code>
-       * @return The bytes for operateEndpoint.
        */
       public com.google.protobuf.ByteString
           getOperateEndpointBytes() {
@@ -10522,8 +9815,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string operate_endpoint = 7;</code>
-       * @param value The operateEndpoint to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateEndpoint(
           java.lang.String value) {
@@ -10541,7 +9832,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string operate_endpoint = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOperateEndpoint() {
         
@@ -10555,8 +9845,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string operate_endpoint = 7;</code>
-       * @param value The bytes for operateEndpoint to set.
-       * @return This builder for chaining.
        */
       public Builder setOperateEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -10577,7 +9865,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string auth_full_name = 8;</code>
-       * @return The authFullName.
        */
       public java.lang.String getAuthFullName() {
         java.lang.Object ref = authFullName_;
@@ -10597,7 +9884,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string auth_full_name = 8;</code>
-       * @return The bytes for authFullName.
        */
       public com.google.protobuf.ByteString
           getAuthFullNameBytes() {
@@ -10618,8 +9904,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string auth_full_name = 8;</code>
-       * @param value The authFullName to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthFullName(
           java.lang.String value) {
@@ -10637,7 +9921,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string auth_full_name = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAuthFullName() {
         
@@ -10651,8 +9934,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string auth_full_name = 8;</code>
-       * @param value The bytes for authFullName to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthFullNameBytes(
           com.google.protobuf.ByteString value) {
@@ -10666,7 +9947,7 @@ public final class Peer {
         return this;
       }
 
-      private com.google.protobuf.Timestamp createTime_;
+      private com.google.protobuf.Timestamp createTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> createTimeBuilder_;
       /**
@@ -10675,7 +9956,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 9;</code>
-       * @return Whether the createTime field is set.
        */
       public boolean hasCreateTime() {
         return createTimeBuilder_ != null || createTime_ != null;
@@ -10686,7 +9966,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 9;</code>
-       * @return The createTime.
        */
       public com.google.protobuf.Timestamp getCreateTime() {
         if (createTimeBuilder_ == null) {
@@ -10821,7 +10100,7 @@ public final class Peer {
         return createTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp disableTime_;
+      private com.google.protobuf.Timestamp disableTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> disableTimeBuilder_;
       /**
@@ -10830,7 +10109,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-       * @return Whether the disableTime field is set.
        */
       public boolean hasDisableTime() {
         return disableTimeBuilder_ != null || disableTime_ != null;
@@ -10841,7 +10119,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 10;</code>
-       * @return The disableTime.
        */
       public com.google.protobuf.Timestamp getDisableTime() {
         if (disableTimeBuilder_ == null) {
@@ -10983,9 +10260,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool op_valid = 11;</code>
-       * @return The opValid.
        */
-      @java.lang.Override
       public boolean getOpValid() {
         return opValid_;
       }
@@ -10995,8 +10270,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool op_valid = 11;</code>
-       * @param value The opValid to set.
-       * @return This builder for chaining.
        */
       public Builder setOpValid(boolean value) {
         
@@ -11010,7 +10283,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool op_valid = 11;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOpValid() {
         
@@ -11026,7 +10298,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 12;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -11046,7 +10317,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 12;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -11067,8 +10337,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 12;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -11086,7 +10354,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 12;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -11100,8 +10367,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 12;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -11114,13 +10379,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11142,7 +10405,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Operate>
         PARSER = new com.google.protobuf.AbstractParser<Operate>() {
-      @java.lang.Override
       public Operate parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11160,7 +10422,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Operate getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11177,7 +10438,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 1;</code>
-     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -11186,7 +10446,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 1;</code>
-     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -11197,7 +10456,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string grant = 2;</code>
-     * @return The grant.
      */
     java.lang.String getGrant();
     /**
@@ -11206,7 +10464,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string grant = 2;</code>
-     * @return The bytes for grant.
      */
     com.google.protobuf.ByteString
         getGrantBytes();
@@ -11217,7 +10474,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @return A list containing the granted.
      */
     java.util.List<java.lang.String>
         getGrantedList();
@@ -11227,7 +10483,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @return The count of granted.
      */
     int getGrantedCount();
     /**
@@ -11236,8 +10491,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @param index The index of the element to return.
-     * @return The granted at the given index.
      */
     java.lang.String getGranted(int index);
     /**
@@ -11246,8 +10499,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the granted at the given index.
      */
     com.google.protobuf.ByteString
         getGrantedBytes(int index);
@@ -11258,7 +10509,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @return A list containing the opId.
      */
     java.util.List<java.lang.String>
         getOpIdList();
@@ -11268,7 +10518,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @return The count of opId.
      */
     int getOpIdCount();
     /**
@@ -11277,8 +10526,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @param index The index of the element to return.
-     * @return The opId at the given index.
      */
     java.lang.String getOpId(int index);
     /**
@@ -11287,8 +10534,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the opId at the given index.
      */
     com.google.protobuf.ByteString
         getOpIdBytes(int index);
@@ -11299,7 +10544,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-     * @return The enum numeric value on the wire for isTransfer.
      */
     int getIsTransferValue();
     /**
@@ -11308,7 +10552,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-     * @return The isTransfer.
      */
     com.rcjava.protos.Peer.Authorize.TransferType getIsTransfer();
 
@@ -11318,7 +10561,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 6;</code>
-     * @return Whether the createTime field is set.
      */
     boolean hasCreateTime();
     /**
@@ -11327,7 +10569,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 6;</code>
-     * @return The createTime.
      */
     com.google.protobuf.Timestamp getCreateTime();
     /**
@@ -11345,7 +10586,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-     * @return Whether the disableTime field is set.
      */
     boolean hasDisableTime();
     /**
@@ -11354,7 +10594,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-     * @return The disableTime.
      */
     com.google.protobuf.Timestamp getDisableTime();
     /**
@@ -11372,7 +10611,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool authorize_valid = 8;</code>
-     * @return The authorizeValid.
      */
     boolean getAuthorizeValid();
 
@@ -11382,7 +10620,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -11391,7 +10628,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -11399,7 +10635,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.Authorize}
    */
-  public static final class Authorize extends
+  public  static final class Authorize extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Authorize)
       AuthorizeOrBuilder {
@@ -11414,14 +10650,8 @@ public final class Peer {
       granted_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       opId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       isTransfer_ = 0;
+      authorizeValid_ = false;
       version_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Authorize();
     }
 
     @java.lang.Override
@@ -11448,6 +10678,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -11462,18 +10699,18 @@ public final class Peer {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 granted_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000004;
               }
               granted_.add(s);
               break;
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 opId_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000008;
               }
               opId_.add(s);
               break;
@@ -11521,13 +10758,6 @@ public final class Peer {
               version_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11536,10 +10766,10 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           granted_ = granted_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           opId_ = opId_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -11551,7 +10781,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Authorize_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Authorize_fieldAccessorTable
@@ -11602,8 +10831,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -11611,10 +10838,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static TransferType forNumber(int value) {
         switch (value) {
           case 0: return TRANSFER_DISABLE;
@@ -11638,10 +10861,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -11676,6 +10895,7 @@ public final class Peer {
       // @@protoc_insertion_point(enum_scope:com.rcjava.protos.Authorize.TransferType)
     }
 
+    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
@@ -11684,9 +10904,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 1;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -11705,9 +10923,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 1;</code>
-     * @return The bytes for id.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -11730,9 +10946,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string grant = 2;</code>
-     * @return The grant.
      */
-    @java.lang.Override
     public java.lang.String getGrant() {
       java.lang.Object ref = grant_;
       if (ref instanceof java.lang.String) {
@@ -11751,9 +10965,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string grant = 2;</code>
-     * @return The bytes for grant.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGrantBytes() {
       java.lang.Object ref = grant_;
@@ -11776,7 +10988,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @return A list containing the granted.
      */
     public com.google.protobuf.ProtocolStringList
         getGrantedList() {
@@ -11788,7 +10999,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @return The count of granted.
      */
     public int getGrantedCount() {
       return granted_.size();
@@ -11799,8 +11009,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @param index The index of the element to return.
-     * @return The granted at the given index.
      */
     public java.lang.String getGranted(int index) {
       return granted_.get(index);
@@ -11811,8 +11019,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string granted = 3;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the granted at the given index.
      */
     public com.google.protobuf.ByteString
         getGrantedBytes(int index) {
@@ -11827,7 +11033,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @return A list containing the opId.
      */
     public com.google.protobuf.ProtocolStringList
         getOpIdList() {
@@ -11839,7 +11044,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @return The count of opId.
      */
     public int getOpIdCount() {
       return opId_.size();
@@ -11850,8 +11054,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @param index The index of the element to return.
-     * @return The opId at the given index.
      */
     public java.lang.String getOpId(int index) {
       return opId_.get(index);
@@ -11862,8 +11064,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string op_id = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the opId at the given index.
      */
     public com.google.protobuf.ByteString
         getOpIdBytes(int index) {
@@ -11878,9 +11078,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-     * @return The enum numeric value on the wire for isTransfer.
      */
-    @java.lang.Override public int getIsTransferValue() {
+    public int getIsTransferValue() {
       return isTransfer_;
     }
     /**
@@ -11889,10 +11088,8 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-     * @return The isTransfer.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.Authorize.TransferType getIsTransfer() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.Authorize.TransferType getIsTransfer() {
       com.rcjava.protos.Peer.Authorize.TransferType result = com.rcjava.protos.Peer.Authorize.TransferType.valueOf(isTransfer_);
       return result == null ? com.rcjava.protos.Peer.Authorize.TransferType.UNRECOGNIZED : result;
     }
@@ -11905,9 +11102,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 6;</code>
-     * @return Whether the createTime field is set.
      */
-    @java.lang.Override
     public boolean hasCreateTime() {
       return createTime_ != null;
     }
@@ -11917,9 +11112,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp create_time = 6;</code>
-     * @return The createTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getCreateTime() {
       return createTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createTime_;
     }
@@ -11930,7 +11123,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp create_time = 6;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getCreateTimeOrBuilder() {
       return getCreateTime();
     }
@@ -11943,9 +11135,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-     * @return Whether the disableTime field is set.
      */
-    @java.lang.Override
     public boolean hasDisableTime() {
       return disableTime_ != null;
     }
@@ -11955,9 +11145,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-     * @return The disableTime.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getDisableTime() {
       return disableTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : disableTime_;
     }
@@ -11968,7 +11156,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp disable_time = 7;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getDisableTimeOrBuilder() {
       return getDisableTime();
     }
@@ -11981,9 +11168,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool authorize_valid = 8;</code>
-     * @return The authorizeValid.
      */
-    @java.lang.Override
     public boolean getAuthorizeValid() {
       return authorizeValid_;
     }
@@ -11996,9 +11181,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -12017,9 +11200,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 9;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -12035,7 +11216,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12045,7 +11225,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -12078,7 +11257,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12140,31 +11318,32 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Authorize other = (com.rcjava.protos.Peer.Authorize) obj;
 
-      if (!getId()
-          .equals(other.getId())) return false;
-      if (!getGrant()
-          .equals(other.getGrant())) return false;
-      if (!getGrantedList()
-          .equals(other.getGrantedList())) return false;
-      if (!getOpIdList()
-          .equals(other.getOpIdList())) return false;
-      if (isTransfer_ != other.isTransfer_) return false;
-      if (hasCreateTime() != other.hasCreateTime()) return false;
+      boolean result = true;
+      result = result && getId()
+          .equals(other.getId());
+      result = result && getGrant()
+          .equals(other.getGrant());
+      result = result && getGrantedList()
+          .equals(other.getGrantedList());
+      result = result && getOpIdList()
+          .equals(other.getOpIdList());
+      result = result && isTransfer_ == other.isTransfer_;
+      result = result && (hasCreateTime() == other.hasCreateTime());
       if (hasCreateTime()) {
-        if (!getCreateTime()
-            .equals(other.getCreateTime())) return false;
+        result = result && getCreateTime()
+            .equals(other.getCreateTime());
       }
-      if (hasDisableTime() != other.hasDisableTime()) return false;
+      result = result && (hasDisableTime() == other.hasDisableTime());
       if (hasDisableTime()) {
-        if (!getDisableTime()
-            .equals(other.getDisableTime())) return false;
+        result = result && getDisableTime()
+            .equals(other.getDisableTime());
       }
-      if (getAuthorizeValid()
-          != other.getAuthorizeValid()) return false;
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && (getAuthorizeValid()
+          == other.getAuthorizeValid());
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -12276,7 +11455,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12284,7 +11462,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Authorize prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12308,7 +11485,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Authorize_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Authorize_fieldAccessorTable
@@ -12331,7 +11507,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -12339,9 +11514,9 @@ public final class Peer {
         grant_ = "";
 
         granted_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         opId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000008);
         isTransfer_ = 0;
 
         if (createTimeBuilder_ == null) {
@@ -12363,18 +11538,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Authorize_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Authorize getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Authorize.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Authorize build() {
         com.rcjava.protos.Peer.Authorize result = buildPartial();
         if (!result.isInitialized()) {
@@ -12383,20 +11555,20 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Authorize buildPartial() {
         com.rcjava.protos.Peer.Authorize result = new com.rcjava.protos.Peer.Authorize(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.id_ = id_;
         result.grant_ = grant_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           granted_ = granted_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.granted_ = granted_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           opId_ = opId_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.opId_ = opId_;
         result.isTransfer_ = isTransfer_;
@@ -12412,43 +11584,37 @@ public final class Peer {
         }
         result.authorizeValid_ = authorizeValid_;
         result.version_ = version_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Authorize) {
           return mergeFrom((com.rcjava.protos.Peer.Authorize)other);
@@ -12471,7 +11637,7 @@ public final class Peer {
         if (!other.granted_.isEmpty()) {
           if (granted_.isEmpty()) {
             granted_ = other.granted_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensureGrantedIsMutable();
             granted_.addAll(other.granted_);
@@ -12481,7 +11647,7 @@ public final class Peer {
         if (!other.opId_.isEmpty()) {
           if (opId_.isEmpty()) {
             opId_ = other.opId_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensureOpIdIsMutable();
             opId_.addAll(other.opId_);
@@ -12509,12 +11675,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12541,7 +11705,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 1;</code>
-       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -12561,7 +11724,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 1;</code>
-       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -12582,8 +11744,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -12601,7 +11761,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -12615,8 +11774,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 1;</code>
-       * @param value The bytes for id to set.
-       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -12637,7 +11794,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string grant = 2;</code>
-       * @return The grant.
        */
       public java.lang.String getGrant() {
         java.lang.Object ref = grant_;
@@ -12657,7 +11813,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string grant = 2;</code>
-       * @return The bytes for grant.
        */
       public com.google.protobuf.ByteString
           getGrantBytes() {
@@ -12678,8 +11833,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string grant = 2;</code>
-       * @param value The grant to set.
-       * @return This builder for chaining.
        */
       public Builder setGrant(
           java.lang.String value) {
@@ -12697,7 +11850,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string grant = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGrant() {
         
@@ -12711,8 +11863,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string grant = 2;</code>
-       * @param value The bytes for grant to set.
-       * @return This builder for chaining.
        */
       public Builder setGrantBytes(
           com.google.protobuf.ByteString value) {
@@ -12728,9 +11878,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList granted_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureGrantedIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           granted_ = new com.google.protobuf.LazyStringArrayList(granted_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000004;
          }
       }
       /**
@@ -12739,7 +11889,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @return A list containing the granted.
        */
       public com.google.protobuf.ProtocolStringList
           getGrantedList() {
@@ -12751,7 +11900,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @return The count of granted.
        */
       public int getGrantedCount() {
         return granted_.size();
@@ -12762,8 +11910,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param index The index of the element to return.
-       * @return The granted at the given index.
        */
       public java.lang.String getGranted(int index) {
         return granted_.get(index);
@@ -12774,8 +11920,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the granted at the given index.
        */
       public com.google.protobuf.ByteString
           getGrantedBytes(int index) {
@@ -12787,9 +11931,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param index The index to set the value at.
-       * @param value The granted to set.
-       * @return This builder for chaining.
        */
       public Builder setGranted(
           int index, java.lang.String value) {
@@ -12807,8 +11948,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param value The granted to add.
-       * @return This builder for chaining.
        */
       public Builder addGranted(
           java.lang.String value) {
@@ -12826,8 +11965,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param values The granted to add.
-       * @return This builder for chaining.
        */
       public Builder addAllGranted(
           java.lang.Iterable<java.lang.String> values) {
@@ -12843,11 +11980,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGranted() {
         granted_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -12857,8 +11993,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string granted = 3;</code>
-       * @param value The bytes of the granted to add.
-       * @return This builder for chaining.
        */
       public Builder addGrantedBytes(
           com.google.protobuf.ByteString value) {
@@ -12874,9 +12008,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList opId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureOpIdIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           opId_ = new com.google.protobuf.LazyStringArrayList(opId_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000008;
          }
       }
       /**
@@ -12885,7 +12019,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @return A list containing the opId.
        */
       public com.google.protobuf.ProtocolStringList
           getOpIdList() {
@@ -12897,7 +12030,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @return The count of opId.
        */
       public int getOpIdCount() {
         return opId_.size();
@@ -12908,8 +12040,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param index The index of the element to return.
-       * @return The opId at the given index.
        */
       public java.lang.String getOpId(int index) {
         return opId_.get(index);
@@ -12920,8 +12050,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the opId at the given index.
        */
       public com.google.protobuf.ByteString
           getOpIdBytes(int index) {
@@ -12933,9 +12061,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param index The index to set the value at.
-       * @param value The opId to set.
-       * @return This builder for chaining.
        */
       public Builder setOpId(
           int index, java.lang.String value) {
@@ -12953,8 +12078,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param value The opId to add.
-       * @return This builder for chaining.
        */
       public Builder addOpId(
           java.lang.String value) {
@@ -12972,8 +12095,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param values The opId to add.
-       * @return This builder for chaining.
        */
       public Builder addAllOpId(
           java.lang.Iterable<java.lang.String> values) {
@@ -12989,11 +12110,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOpId() {
         opId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -13003,8 +12123,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string op_id = 4;</code>
-       * @param value The bytes of the opId to add.
-       * @return This builder for chaining.
        */
       public Builder addOpIdBytes(
           com.google.protobuf.ByteString value) {
@@ -13025,9 +12143,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-       * @return The enum numeric value on the wire for isTransfer.
        */
-      @java.lang.Override public int getIsTransferValue() {
+      public int getIsTransferValue() {
         return isTransfer_;
       }
       /**
@@ -13036,11 +12153,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-       * @param value The enum numeric value on the wire for isTransfer to set.
-       * @return This builder for chaining.
        */
       public Builder setIsTransferValue(int value) {
-        
         isTransfer_ = value;
         onChanged();
         return this;
@@ -13051,11 +12165,8 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-       * @return The isTransfer.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.Authorize.TransferType getIsTransfer() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.Authorize.TransferType result = com.rcjava.protos.Peer.Authorize.TransferType.valueOf(isTransfer_);
         return result == null ? com.rcjava.protos.Peer.Authorize.TransferType.UNRECOGNIZED : result;
       }
@@ -13065,8 +12176,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-       * @param value The isTransfer to set.
-       * @return This builder for chaining.
        */
       public Builder setIsTransfer(com.rcjava.protos.Peer.Authorize.TransferType value) {
         if (value == null) {
@@ -13083,7 +12192,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Authorize.TransferType is_transfer = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsTransfer() {
         
@@ -13092,7 +12200,7 @@ public final class Peer {
         return this;
       }
 
-      private com.google.protobuf.Timestamp createTime_;
+      private com.google.protobuf.Timestamp createTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> createTimeBuilder_;
       /**
@@ -13101,7 +12209,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 6;</code>
-       * @return Whether the createTime field is set.
        */
       public boolean hasCreateTime() {
         return createTimeBuilder_ != null || createTime_ != null;
@@ -13112,7 +12219,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp create_time = 6;</code>
-       * @return The createTime.
        */
       public com.google.protobuf.Timestamp getCreateTime() {
         if (createTimeBuilder_ == null) {
@@ -13247,7 +12353,7 @@ public final class Peer {
         return createTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp disableTime_;
+      private com.google.protobuf.Timestamp disableTime_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> disableTimeBuilder_;
       /**
@@ -13256,7 +12362,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-       * @return Whether the disableTime field is set.
        */
       public boolean hasDisableTime() {
         return disableTimeBuilder_ != null || disableTime_ != null;
@@ -13267,7 +12372,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp disable_time = 7;</code>
-       * @return The disableTime.
        */
       public com.google.protobuf.Timestamp getDisableTime() {
         if (disableTimeBuilder_ == null) {
@@ -13409,9 +12513,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool authorize_valid = 8;</code>
-       * @return The authorizeValid.
        */
-      @java.lang.Override
       public boolean getAuthorizeValid() {
         return authorizeValid_;
       }
@@ -13421,8 +12523,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool authorize_valid = 8;</code>
-       * @param value The authorizeValid to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthorizeValid(boolean value) {
         
@@ -13436,7 +12536,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool authorize_valid = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAuthorizeValid() {
         
@@ -13452,7 +12551,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -13472,7 +12570,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -13493,8 +12590,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -13512,7 +12607,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -13526,8 +12620,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 9;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -13540,13 +12632,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13568,7 +12658,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Authorize>
         PARSER = new com.google.protobuf.AbstractParser<Authorize>() {
-      @java.lang.Override
       public Authorize parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13586,7 +12675,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Authorize getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13603,7 +12691,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string authorize_id = 1;</code>
-     * @return The authorizeId.
      */
     java.lang.String getAuthorizeId();
     /**
@@ -13612,7 +12699,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string authorize_id = 1;</code>
-     * @return The bytes for authorizeId.
      */
     com.google.protobuf.ByteString
         getAuthorizeIdBytes();
@@ -13622,7 +12708,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId granted = 2;</code>
-     * @return Whether the granted field is set.
      */
     boolean hasGranted();
     /**
@@ -13630,7 +12715,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId granted = 2;</code>
-     * @return The granted.
      */
     com.rcjava.protos.Peer.CertId getGranted();
     /**
@@ -13647,7 +12731,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -13656,7 +12739,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -13664,7 +12746,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.BindCertToAuthorize}
    */
-  public static final class BindCertToAuthorize extends
+  public  static final class BindCertToAuthorize extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.BindCertToAuthorize)
       BindCertToAuthorizeOrBuilder {
@@ -13676,13 +12758,6 @@ public final class Peer {
     private BindCertToAuthorize() {
       authorizeId_ = "";
       version_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new BindCertToAuthorize();
     }
 
     @java.lang.Override
@@ -13698,6 +12773,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13708,6 +12784,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -13733,13 +12816,6 @@ public final class Peer {
               version_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13757,7 +12833,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BindCertToAuthorize_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BindCertToAuthorize_fieldAccessorTable
@@ -13773,9 +12848,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string authorize_id = 1;</code>
-     * @return The authorizeId.
      */
-    @java.lang.Override
     public java.lang.String getAuthorizeId() {
       java.lang.Object ref = authorizeId_;
       if (ref instanceof java.lang.String) {
@@ -13794,9 +12867,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string authorize_id = 1;</code>
-     * @return The bytes for authorizeId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getAuthorizeIdBytes() {
       java.lang.Object ref = authorizeId_;
@@ -13818,9 +12889,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId granted = 2;</code>
-     * @return Whether the granted field is set.
      */
-    @java.lang.Override
     public boolean hasGranted() {
       return granted_ != null;
     }
@@ -13829,9 +12898,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId granted = 2;</code>
-     * @return The granted.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertId getGranted() {
       return granted_ == null ? com.rcjava.protos.Peer.CertId.getDefaultInstance() : granted_;
     }
@@ -13841,7 +12908,6 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.CertId granted = 2;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertIdOrBuilder getGrantedOrBuilder() {
       return getGranted();
     }
@@ -13854,9 +12920,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -13875,9 +12939,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 3;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -13893,7 +12955,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13903,7 +12964,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getAuthorizeIdBytes().isEmpty()) {
@@ -13918,7 +12978,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13949,17 +13008,18 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.BindCertToAuthorize other = (com.rcjava.protos.Peer.BindCertToAuthorize) obj;
 
-      if (!getAuthorizeId()
-          .equals(other.getAuthorizeId())) return false;
-      if (hasGranted() != other.hasGranted()) return false;
+      boolean result = true;
+      result = result && getAuthorizeId()
+          .equals(other.getAuthorizeId());
+      result = result && (hasGranted() == other.hasGranted());
       if (hasGranted()) {
-        if (!getGranted()
-            .equals(other.getGranted())) return false;
+        result = result && getGranted()
+            .equals(other.getGranted());
       }
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -14052,7 +13112,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14060,7 +13119,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.BindCertToAuthorize prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14084,7 +13142,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BindCertToAuthorize_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BindCertToAuthorize_fieldAccessorTable
@@ -14107,7 +13164,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         authorizeId_ = "";
@@ -14123,18 +13179,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BindCertToAuthorize_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BindCertToAuthorize getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.BindCertToAuthorize.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BindCertToAuthorize build() {
         com.rcjava.protos.Peer.BindCertToAuthorize result = buildPartial();
         if (!result.isInitialized()) {
@@ -14143,7 +13196,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BindCertToAuthorize buildPartial() {
         com.rcjava.protos.Peer.BindCertToAuthorize result = new com.rcjava.protos.Peer.BindCertToAuthorize(this);
         result.authorizeId_ = authorizeId_;
@@ -14157,39 +13209,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.BindCertToAuthorize) {
           return mergeFrom((com.rcjava.protos.Peer.BindCertToAuthorize)other);
@@ -14217,12 +13262,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14248,7 +13291,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string authorize_id = 1;</code>
-       * @return The authorizeId.
        */
       public java.lang.String getAuthorizeId() {
         java.lang.Object ref = authorizeId_;
@@ -14268,7 +13310,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string authorize_id = 1;</code>
-       * @return The bytes for authorizeId.
        */
       public com.google.protobuf.ByteString
           getAuthorizeIdBytes() {
@@ -14289,8 +13330,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string authorize_id = 1;</code>
-       * @param value The authorizeId to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthorizeId(
           java.lang.String value) {
@@ -14308,7 +13347,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string authorize_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearAuthorizeId() {
         
@@ -14322,8 +13360,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string authorize_id = 1;</code>
-       * @param value The bytes for authorizeId to set.
-       * @return This builder for chaining.
        */
       public Builder setAuthorizeIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14337,7 +13373,7 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.CertId granted_;
+      private com.rcjava.protos.Peer.CertId granted_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.CertId, com.rcjava.protos.Peer.CertId.Builder, com.rcjava.protos.Peer.CertIdOrBuilder> grantedBuilder_;
       /**
@@ -14345,7 +13381,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId granted = 2;</code>
-       * @return Whether the granted field is set.
        */
       public boolean hasGranted() {
         return grantedBuilder_ != null || granted_ != null;
@@ -14355,7 +13390,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId granted = 2;</code>
-       * @return The granted.
        */
       public com.rcjava.protos.Peer.CertId getGranted() {
         if (grantedBuilder_ == null) {
@@ -14490,7 +13524,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -14510,7 +13543,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -14531,8 +13563,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -14550,7 +13580,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -14564,8 +13593,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 3;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -14578,13 +13605,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -14606,7 +13631,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<BindCertToAuthorize>
         PARSER = new com.google.protobuf.AbstractParser<BindCertToAuthorize>() {
-      @java.lang.Override
       public BindCertToAuthorize parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14624,7 +13648,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.BindCertToAuthorize getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -14641,7 +13664,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -14650,7 +13672,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -14661,7 +13682,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -14670,7 +13690,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -14681,7 +13700,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 3;</code>
-     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -14690,7 +13708,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 3;</code>
-     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -14701,7 +13718,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string ccs_version = 4;</code>
-     * @return The ccsVersion.
      */
     java.lang.String getCcsVersion();
     /**
@@ -14710,7 +13726,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string ccs_version = 4;</code>
-     * @return The bytes for ccsVersion.
      */
     com.google.protobuf.ByteString
         getCcsVersionBytes();
@@ -14721,7 +13736,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 5;</code>
-     * @return The description.
      */
     java.lang.String getDescription();
     /**
@@ -14730,7 +13744,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 5;</code>
-     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -14741,7 +13754,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 6;</code>
-     * @return The creator.
      */
     java.lang.String getCreator();
     /**
@@ -14750,7 +13762,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 6;</code>
-     * @return The bytes for creator.
      */
     com.google.protobuf.ByteString
         getCreatorBytes();
@@ -14761,7 +13772,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string created = 7;</code>
-     * @return The created.
      */
     java.lang.String getCreated();
     /**
@@ -14770,7 +13780,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string created = 7;</code>
-     * @return The bytes for created.
      */
     com.google.protobuf.ByteString
         getCreatedBytes();
@@ -14781,7 +13790,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool valid = 8;</code>
-     * @return The valid.
      */
     boolean getValid();
 
@@ -14836,7 +13844,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.CreClaStruct}
    */
-  public static final class CreClaStruct extends
+  public  static final class CreClaStruct extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.CreClaStruct)
       CreClaStructOrBuilder {
@@ -14853,14 +13861,8 @@ public final class Peer {
       description_ = "";
       creator_ = "";
       created_ = "";
+      valid_ = false;
       attributes_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CreClaStruct();
     }
 
     @java.lang.Override
@@ -14887,6 +13889,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -14935,19 +13944,12 @@ public final class Peer {
               break;
             }
             case 74: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 attributes_ = new java.util.ArrayList<com.rcjava.protos.Peer.CreAttr>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000100;
               }
               attributes_.add(
                   input.readMessage(com.rcjava.protos.Peer.CreAttr.parser(), extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -14958,7 +13960,7 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           attributes_ = java.util.Collections.unmodifiableList(attributes_);
         }
         this.unknownFields = unknownFields.build();
@@ -14970,7 +13972,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreClaStruct_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreClaStruct_fieldAccessorTable
@@ -14978,6 +13979,7 @@ public final class Peer {
               com.rcjava.protos.Peer.CreClaStruct.class, com.rcjava.protos.Peer.CreClaStruct.Builder.class);
     }
 
+    private int bitField0_;
     public static final int VERSION_FIELD_NUMBER = 1;
     private volatile java.lang.Object version_;
     /**
@@ -14986,9 +13988,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -15007,9 +14007,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -15032,9 +14030,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -15053,9 +14049,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The bytes for id.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -15078,9 +14072,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 3;</code>
-     * @return The name.
      */
-    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -15099,9 +14091,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 3;</code>
-     * @return The bytes for name.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -15124,9 +14114,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string ccs_version = 4;</code>
-     * @return The ccsVersion.
      */
-    @java.lang.Override
     public java.lang.String getCcsVersion() {
       java.lang.Object ref = ccsVersion_;
       if (ref instanceof java.lang.String) {
@@ -15145,9 +14133,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string ccs_version = 4;</code>
-     * @return The bytes for ccsVersion.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCcsVersionBytes() {
       java.lang.Object ref = ccsVersion_;
@@ -15170,9 +14156,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 5;</code>
-     * @return The description.
      */
-    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -15191,9 +14175,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 5;</code>
-     * @return The bytes for description.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -15216,9 +14198,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 6;</code>
-     * @return The creator.
      */
-    @java.lang.Override
     public java.lang.String getCreator() {
       java.lang.Object ref = creator_;
       if (ref instanceof java.lang.String) {
@@ -15237,9 +14217,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 6;</code>
-     * @return The bytes for creator.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreatorBytes() {
       java.lang.Object ref = creator_;
@@ -15262,9 +14240,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string created = 7;</code>
-     * @return The created.
      */
-    @java.lang.Override
     public java.lang.String getCreated() {
       java.lang.Object ref = created_;
       if (ref instanceof java.lang.String) {
@@ -15283,9 +14259,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string created = 7;</code>
-     * @return The bytes for created.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreatedBytes() {
       java.lang.Object ref = created_;
@@ -15308,9 +14282,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool valid = 8;</code>
-     * @return The valid.
      */
-    @java.lang.Override
     public boolean getValid() {
       return valid_;
     }
@@ -15324,7 +14296,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.CreAttr attributes = 9;</code>
      */
-    @java.lang.Override
     public java.util.List<com.rcjava.protos.Peer.CreAttr> getAttributesList() {
       return attributes_;
     }
@@ -15335,7 +14306,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.CreAttr attributes = 9;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.rcjava.protos.Peer.CreAttrOrBuilder> 
         getAttributesOrBuilderList() {
       return attributes_;
@@ -15347,7 +14317,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.CreAttr attributes = 9;</code>
      */
-    @java.lang.Override
     public int getAttributesCount() {
       return attributes_.size();
     }
@@ -15358,7 +14327,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.CreAttr attributes = 9;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CreAttr getAttributes(int index) {
       return attributes_.get(index);
     }
@@ -15369,14 +14337,12 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.CreAttr attributes = 9;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CreAttrOrBuilder getAttributesOrBuilder(
         int index) {
       return attributes_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -15386,7 +14352,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getVersionBytes().isEmpty()) {
@@ -15419,7 +14384,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -15469,26 +14433,27 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.CreClaStruct other = (com.rcjava.protos.Peer.CreClaStruct) obj;
 
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!getId()
-          .equals(other.getId())) return false;
-      if (!getName()
-          .equals(other.getName())) return false;
-      if (!getCcsVersion()
-          .equals(other.getCcsVersion())) return false;
-      if (!getDescription()
-          .equals(other.getDescription())) return false;
-      if (!getCreator()
-          .equals(other.getCreator())) return false;
-      if (!getCreated()
-          .equals(other.getCreated())) return false;
-      if (getValid()
-          != other.getValid()) return false;
-      if (!getAttributesList()
-          .equals(other.getAttributesList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && getId()
+          .equals(other.getId());
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getCcsVersion()
+          .equals(other.getCcsVersion());
+      result = result && getDescription()
+          .equals(other.getDescription());
+      result = result && getCreator()
+          .equals(other.getCreator());
+      result = result && getCreated()
+          .equals(other.getCreated());
+      result = result && (getValid()
+          == other.getValid());
+      result = result && getAttributesList()
+          .equals(other.getAttributesList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -15594,7 +14559,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -15602,7 +14566,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.CreClaStruct prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -15630,7 +14593,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreClaStruct_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreClaStruct_fieldAccessorTable
@@ -15654,7 +14616,6 @@ public final class Peer {
           getAttributesFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         version_ = "";
@@ -15675,25 +14636,22 @@ public final class Peer {
 
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000100);
         } else {
           attributesBuilder_.clear();
         }
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreClaStruct_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreClaStruct getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.CreClaStruct.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreClaStruct build() {
         com.rcjava.protos.Peer.CreClaStruct result = buildPartial();
         if (!result.isInitialized()) {
@@ -15702,10 +14660,10 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreClaStruct buildPartial() {
         com.rcjava.protos.Peer.CreClaStruct result = new com.rcjava.protos.Peer.CreClaStruct(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.version_ = version_;
         result.id_ = id_;
         result.name_ = name_;
@@ -15715,51 +14673,45 @@ public final class Peer {
         result.created_ = created_;
         result.valid_ = valid_;
         if (attributesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
             attributes_ = java.util.Collections.unmodifiableList(attributes_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000100);
           }
           result.attributes_ = attributes_;
         } else {
           result.attributes_ = attributesBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.CreClaStruct) {
           return mergeFrom((com.rcjava.protos.Peer.CreClaStruct)other);
@@ -15806,7 +14758,7 @@ public final class Peer {
           if (!other.attributes_.isEmpty()) {
             if (attributes_.isEmpty()) {
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000100);
             } else {
               ensureAttributesIsMutable();
               attributes_.addAll(other.attributes_);
@@ -15819,7 +14771,7 @@ public final class Peer {
               attributesBuilder_.dispose();
               attributesBuilder_ = null;
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000100);
               attributesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getAttributesFieldBuilder() : null;
@@ -15833,12 +14785,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15865,7 +14815,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -15885,7 +14834,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -15906,8 +14854,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -15925,7 +14871,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -15939,8 +14884,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -15961,7 +14904,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -15981,7 +14923,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -16002,8 +14943,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -16021,7 +14960,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -16035,8 +14973,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @param value The bytes for id to set.
-       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -16057,7 +14993,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 3;</code>
-       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -16077,7 +15012,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 3;</code>
-       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -16098,8 +15032,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 3;</code>
-       * @param value The name to set.
-       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -16117,7 +15049,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -16131,8 +15062,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 3;</code>
-       * @param value The bytes for name to set.
-       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -16153,7 +15082,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string ccs_version = 4;</code>
-       * @return The ccsVersion.
        */
       public java.lang.String getCcsVersion() {
         java.lang.Object ref = ccsVersion_;
@@ -16173,7 +15101,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string ccs_version = 4;</code>
-       * @return The bytes for ccsVersion.
        */
       public com.google.protobuf.ByteString
           getCcsVersionBytes() {
@@ -16194,8 +15121,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string ccs_version = 4;</code>
-       * @param value The ccsVersion to set.
-       * @return This builder for chaining.
        */
       public Builder setCcsVersion(
           java.lang.String value) {
@@ -16213,7 +15138,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string ccs_version = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCcsVersion() {
         
@@ -16227,8 +15151,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string ccs_version = 4;</code>
-       * @param value The bytes for ccsVersion to set.
-       * @return This builder for chaining.
        */
       public Builder setCcsVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -16249,7 +15171,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 5;</code>
-       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -16269,7 +15190,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 5;</code>
-       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -16290,8 +15210,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 5;</code>
-       * @param value The description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -16309,7 +15227,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -16323,8 +15240,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 5;</code>
-       * @param value The bytes for description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -16345,7 +15260,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 6;</code>
-       * @return The creator.
        */
       public java.lang.String getCreator() {
         java.lang.Object ref = creator_;
@@ -16365,7 +15279,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 6;</code>
-       * @return The bytes for creator.
        */
       public com.google.protobuf.ByteString
           getCreatorBytes() {
@@ -16386,8 +15299,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 6;</code>
-       * @param value The creator to set.
-       * @return This builder for chaining.
        */
       public Builder setCreator(
           java.lang.String value) {
@@ -16405,7 +15316,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreator() {
         
@@ -16419,8 +15329,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 6;</code>
-       * @param value The bytes for creator to set.
-       * @return This builder for chaining.
        */
       public Builder setCreatorBytes(
           com.google.protobuf.ByteString value) {
@@ -16441,7 +15349,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string created = 7;</code>
-       * @return The created.
        */
       public java.lang.String getCreated() {
         java.lang.Object ref = created_;
@@ -16461,7 +15368,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string created = 7;</code>
-       * @return The bytes for created.
        */
       public com.google.protobuf.ByteString
           getCreatedBytes() {
@@ -16482,8 +15388,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string created = 7;</code>
-       * @param value The created to set.
-       * @return This builder for chaining.
        */
       public Builder setCreated(
           java.lang.String value) {
@@ -16501,7 +15405,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string created = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreated() {
         
@@ -16515,8 +15418,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string created = 7;</code>
-       * @param value The bytes for created to set.
-       * @return This builder for chaining.
        */
       public Builder setCreatedBytes(
           com.google.protobuf.ByteString value) {
@@ -16537,9 +15438,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool valid = 8;</code>
-       * @return The valid.
        */
-      @java.lang.Override
       public boolean getValid() {
         return valid_;
       }
@@ -16549,8 +15448,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool valid = 8;</code>
-       * @param value The valid to set.
-       * @return This builder for chaining.
        */
       public Builder setValid(boolean value) {
         
@@ -16564,7 +15461,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool valid = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearValid() {
         
@@ -16576,9 +15472,9 @@ public final class Peer {
       private java.util.List<com.rcjava.protos.Peer.CreAttr> attributes_ =
         java.util.Collections.emptyList();
       private void ensureAttributesIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           attributes_ = new java.util.ArrayList<com.rcjava.protos.Peer.CreAttr>(attributes_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000100;
          }
       }
 
@@ -16772,7 +15668,7 @@ public final class Peer {
       public Builder clearAttributes() {
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000100);
           onChanged();
         } else {
           attributesBuilder_.clear();
@@ -16877,20 +15773,18 @@ public final class Peer {
           attributesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.rcjava.protos.Peer.CreAttr, com.rcjava.protos.Peer.CreAttr.Builder, com.rcjava.protos.Peer.CreAttrOrBuilder>(
                   attributes_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000100) == 0x00000100),
                   getParentForChildren(),
                   isClean());
           attributes_ = null;
         }
         return attributesBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -16912,7 +15806,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<CreClaStruct>
         PARSER = new com.google.protobuf.AbstractParser<CreClaStruct>() {
-      @java.lang.Override
       public CreClaStruct parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16930,7 +15823,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.CreClaStruct getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -16947,7 +15839,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -16956,7 +15847,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -16967,7 +15857,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string type = 2;</code>
-     * @return The type.
      */
     java.lang.String getType();
     /**
@@ -16976,7 +15865,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string type = 2;</code>
-     * @return The bytes for type.
      */
     com.google.protobuf.ByteString
         getTypeBytes();
@@ -16987,7 +15875,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool required = 3;</code>
-     * @return The required.
      */
     boolean getRequired();
 
@@ -16997,7 +15884,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 4;</code>
-     * @return The description.
      */
     java.lang.String getDescription();
     /**
@@ -17006,7 +15892,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 4;</code>
-     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -17014,7 +15899,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.CreAttr}
    */
-  public static final class CreAttr extends
+  public  static final class CreAttr extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.CreAttr)
       CreAttrOrBuilder {
@@ -17026,14 +15911,8 @@ public final class Peer {
     private CreAttr() {
       name_ = "";
       type_ = "";
+      required_ = false;
       description_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CreAttr();
     }
 
     @java.lang.Override
@@ -17049,6 +15928,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17059,6 +15939,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -17082,13 +15969,6 @@ public final class Peer {
               description_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -17106,7 +15986,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreAttr_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreAttr_fieldAccessorTable
@@ -17122,9 +16001,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The name.
      */
-    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -17143,9 +16020,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string name = 1;</code>
-     * @return The bytes for name.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -17168,9 +16043,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string type = 2;</code>
-     * @return The type.
      */
-    @java.lang.Override
     public java.lang.String getType() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
@@ -17189,9 +16062,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string type = 2;</code>
-     * @return The bytes for type.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeBytes() {
       java.lang.Object ref = type_;
@@ -17214,9 +16085,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bool required = 3;</code>
-     * @return The required.
      */
-    @java.lang.Override
     public boolean getRequired() {
       return required_;
     }
@@ -17229,9 +16098,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 4;</code>
-     * @return The description.
      */
-    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -17250,9 +16117,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string description = 4;</code>
-     * @return The bytes for description.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -17268,7 +16133,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17278,7 +16142,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -17296,7 +16159,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -17330,16 +16192,17 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.CreAttr other = (com.rcjava.protos.Peer.CreAttr) obj;
 
-      if (!getName()
-          .equals(other.getName())) return false;
-      if (!getType()
-          .equals(other.getType())) return false;
-      if (getRequired()
-          != other.getRequired()) return false;
-      if (!getDescription()
-          .equals(other.getDescription())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getType()
+          .equals(other.getType());
+      result = result && (getRequired()
+          == other.getRequired());
+      result = result && getDescription()
+          .equals(other.getDescription());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -17433,7 +16296,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -17441,7 +16303,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.CreAttr prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17465,7 +16326,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreAttr_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreAttr_fieldAccessorTable
@@ -17488,7 +16348,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -17502,18 +16361,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_CreAttr_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreAttr getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.CreAttr.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreAttr build() {
         com.rcjava.protos.Peer.CreAttr result = buildPartial();
         if (!result.isInitialized()) {
@@ -17522,7 +16378,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.CreAttr buildPartial() {
         com.rcjava.protos.Peer.CreAttr result = new com.rcjava.protos.Peer.CreAttr(this);
         result.name_ = name_;
@@ -17533,39 +16388,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.CreAttr) {
           return mergeFrom((com.rcjava.protos.Peer.CreAttr)other);
@@ -17597,12 +16445,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17628,7 +16474,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -17648,7 +16493,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -17669,8 +16513,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @param value The name to set.
-       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -17688,7 +16530,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -17702,8 +16543,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string name = 1;</code>
-       * @param value The bytes for name to set.
-       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -17724,7 +16563,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string type = 2;</code>
-       * @return The type.
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -17744,7 +16582,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string type = 2;</code>
-       * @return The bytes for type.
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -17765,8 +16602,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string type = 2;</code>
-       * @param value The type to set.
-       * @return This builder for chaining.
        */
       public Builder setType(
           java.lang.String value) {
@@ -17784,7 +16619,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string type = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -17798,8 +16632,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string type = 2;</code>
-       * @param value The bytes for type to set.
-       * @return This builder for chaining.
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -17820,9 +16652,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool required = 3;</code>
-       * @return The required.
        */
-      @java.lang.Override
       public boolean getRequired() {
         return required_;
       }
@@ -17832,8 +16662,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool required = 3;</code>
-       * @param value The required to set.
-       * @return This builder for chaining.
        */
       public Builder setRequired(boolean value) {
         
@@ -17847,7 +16675,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool required = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRequired() {
         
@@ -17863,7 +16690,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 4;</code>
-       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -17883,7 +16709,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 4;</code>
-       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -17904,8 +16729,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 4;</code>
-       * @param value The description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -17923,7 +16746,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -17937,8 +16759,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string description = 4;</code>
-       * @param value The bytes for description to set.
-       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -17951,13 +16771,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -17979,7 +16797,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<CreAttr>
         PARSER = new com.google.protobuf.AbstractParser<CreAttr>() {
-      @java.lang.Override
       public CreAttr parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17997,7 +16814,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.CreAttr getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18014,7 +16830,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The version.
      */
     java.lang.String getVersion();
     /**
@@ -18023,7 +16838,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The bytes for version.
      */
     com.google.protobuf.ByteString
         getVersionBytes();
@@ -18034,7 +16848,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -18043,7 +16856,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -18054,7 +16866,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string status = 3;</code>
-     * @return The status.
      */
     java.lang.String getStatus();
     /**
@@ -18063,7 +16874,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string status = 3;</code>
-     * @return The bytes for status.
      */
     com.google.protobuf.ByteString
         getStatusBytes();
@@ -18074,7 +16884,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @return A list containing the revokedClaimIndex.
      */
     java.util.List<java.lang.String>
         getRevokedClaimIndexList();
@@ -18084,7 +16893,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @return The count of revokedClaimIndex.
      */
     int getRevokedClaimIndexCount();
     /**
@@ -18093,8 +16901,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @param index The index of the element to return.
-     * @return The revokedClaimIndex at the given index.
      */
     java.lang.String getRevokedClaimIndex(int index);
     /**
@@ -18103,8 +16909,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the revokedClaimIndex at the given index.
      */
     com.google.protobuf.ByteString
         getRevokedClaimIndexBytes(int index);
@@ -18115,7 +16919,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 5;</code>
-     * @return The creator.
      */
     java.lang.String getCreator();
     /**
@@ -18124,7 +16927,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 5;</code>
-     * @return The bytes for creator.
      */
     com.google.protobuf.ByteString
         getCreatorBytes();
@@ -18136,7 +16938,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.VerCreStatus}
    */
-  public static final class VerCreStatus extends
+  public  static final class VerCreStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.VerCreStatus)
       VerCreStatusOrBuilder {
@@ -18151,13 +16953,6 @@ public final class Peer {
       status_ = "";
       revokedClaimIndex_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       creator_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new VerCreStatus();
     }
 
     @java.lang.Override
@@ -18184,6 +16979,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -18204,9 +17006,9 @@ public final class Peer {
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 revokedClaimIndex_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000008;
               }
               revokedClaimIndex_.add(s);
               break;
@@ -18217,13 +17019,6 @@ public final class Peer {
               creator_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -18232,7 +17027,7 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           revokedClaimIndex_ = revokedClaimIndex_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -18244,7 +17039,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_VerCreStatus_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_VerCreStatus_fieldAccessorTable
@@ -18252,6 +17046,7 @@ public final class Peer {
               com.rcjava.protos.Peer.VerCreStatus.class, com.rcjava.protos.Peer.VerCreStatus.Builder.class);
     }
 
+    private int bitField0_;
     public static final int VERSION_FIELD_NUMBER = 1;
     private volatile java.lang.Object version_;
     /**
@@ -18260,9 +17055,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public java.lang.String getVersion() {
       java.lang.Object ref = version_;
       if (ref instanceof java.lang.String) {
@@ -18281,9 +17074,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string version = 1;</code>
-     * @return The bytes for version.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getVersionBytes() {
       java.lang.Object ref = version_;
@@ -18306,9 +17097,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -18327,9 +17116,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string id = 2;</code>
-     * @return The bytes for id.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -18352,9 +17139,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string status = 3;</code>
-     * @return The status.
      */
-    @java.lang.Override
     public java.lang.String getStatus() {
       java.lang.Object ref = status_;
       if (ref instanceof java.lang.String) {
@@ -18373,9 +17158,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string status = 3;</code>
-     * @return The bytes for status.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getStatusBytes() {
       java.lang.Object ref = status_;
@@ -18398,7 +17181,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @return A list containing the revokedClaimIndex.
      */
     public com.google.protobuf.ProtocolStringList
         getRevokedClaimIndexList() {
@@ -18410,7 +17192,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @return The count of revokedClaimIndex.
      */
     public int getRevokedClaimIndexCount() {
       return revokedClaimIndex_.size();
@@ -18421,8 +17202,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @param index The index of the element to return.
-     * @return The revokedClaimIndex at the given index.
      */
     public java.lang.String getRevokedClaimIndex(int index) {
       return revokedClaimIndex_.get(index);
@@ -18433,8 +17212,6 @@ public final class Peer {
      * </pre>
      *
      * <code>repeated string revokedClaimIndex = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the revokedClaimIndex at the given index.
      */
     public com.google.protobuf.ByteString
         getRevokedClaimIndexBytes(int index) {
@@ -18449,9 +17226,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 5;</code>
-     * @return The creator.
      */
-    @java.lang.Override
     public java.lang.String getCreator() {
       java.lang.Object ref = creator_;
       if (ref instanceof java.lang.String) {
@@ -18470,9 +17245,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string creator = 5;</code>
-     * @return The bytes for creator.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreatorBytes() {
       java.lang.Object ref = creator_;
@@ -18488,7 +17261,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -18498,7 +17270,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getVersionBytes().isEmpty()) {
@@ -18519,7 +17290,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -18560,18 +17330,19 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.VerCreStatus other = (com.rcjava.protos.Peer.VerCreStatus) obj;
 
-      if (!getVersion()
-          .equals(other.getVersion())) return false;
-      if (!getId()
-          .equals(other.getId())) return false;
-      if (!getStatus()
-          .equals(other.getStatus())) return false;
-      if (!getRevokedClaimIndexList()
-          .equals(other.getRevokedClaimIndexList())) return false;
-      if (!getCreator()
-          .equals(other.getCreator())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getVersion()
+          .equals(other.getVersion());
+      result = result && getId()
+          .equals(other.getId());
+      result = result && getStatus()
+          .equals(other.getStatus());
+      result = result && getRevokedClaimIndexList()
+          .equals(other.getRevokedClaimIndexList());
+      result = result && getCreator()
+          .equals(other.getCreator());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -18668,7 +17439,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -18676,7 +17446,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.VerCreStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -18704,7 +17473,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_VerCreStatus_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_VerCreStatus_fieldAccessorTable
@@ -18727,7 +17495,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         version_ = "";
@@ -18737,24 +17504,21 @@ public final class Peer {
         status_ = "";
 
         revokedClaimIndex_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000008);
         creator_ = "";
 
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_VerCreStatus_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.VerCreStatus getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.VerCreStatus.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.VerCreStatus build() {
         com.rcjava.protos.Peer.VerCreStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -18763,56 +17527,50 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.VerCreStatus buildPartial() {
         com.rcjava.protos.Peer.VerCreStatus result = new com.rcjava.protos.Peer.VerCreStatus(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.version_ = version_;
         result.id_ = id_;
         result.status_ = status_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           revokedClaimIndex_ = revokedClaimIndex_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.revokedClaimIndex_ = revokedClaimIndex_;
         result.creator_ = creator_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.VerCreStatus) {
           return mergeFrom((com.rcjava.protos.Peer.VerCreStatus)other);
@@ -18839,7 +17597,7 @@ public final class Peer {
         if (!other.revokedClaimIndex_.isEmpty()) {
           if (revokedClaimIndex_.isEmpty()) {
             revokedClaimIndex_ = other.revokedClaimIndex_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensureRevokedClaimIndexIsMutable();
             revokedClaimIndex_.addAll(other.revokedClaimIndex_);
@@ -18855,12 +17613,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18887,7 +17643,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return The version.
        */
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
@@ -18907,7 +17662,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return The bytes for version.
        */
       public com.google.protobuf.ByteString
           getVersionBytes() {
@@ -18928,8 +17682,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(
           java.lang.String value) {
@@ -18947,7 +17699,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -18961,8 +17712,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string version = 1;</code>
-       * @param value The bytes for version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -18983,7 +17732,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -19003,7 +17751,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -19024,8 +17771,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -19043,7 +17788,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -19057,8 +17801,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string id = 2;</code>
-       * @param value The bytes for id to set.
-       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -19079,7 +17821,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string status = 3;</code>
-       * @return The status.
        */
       public java.lang.String getStatus() {
         java.lang.Object ref = status_;
@@ -19099,7 +17840,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string status = 3;</code>
-       * @return The bytes for status.
        */
       public com.google.protobuf.ByteString
           getStatusBytes() {
@@ -19120,8 +17860,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string status = 3;</code>
-       * @param value The status to set.
-       * @return This builder for chaining.
        */
       public Builder setStatus(
           java.lang.String value) {
@@ -19139,7 +17877,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string status = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -19153,8 +17890,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string status = 3;</code>
-       * @param value The bytes for status to set.
-       * @return This builder for chaining.
        */
       public Builder setStatusBytes(
           com.google.protobuf.ByteString value) {
@@ -19170,9 +17905,9 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList revokedClaimIndex_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureRevokedClaimIndexIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           revokedClaimIndex_ = new com.google.protobuf.LazyStringArrayList(revokedClaimIndex_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000008;
          }
       }
       /**
@@ -19181,7 +17916,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @return A list containing the revokedClaimIndex.
        */
       public com.google.protobuf.ProtocolStringList
           getRevokedClaimIndexList() {
@@ -19193,7 +17927,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @return The count of revokedClaimIndex.
        */
       public int getRevokedClaimIndexCount() {
         return revokedClaimIndex_.size();
@@ -19204,8 +17937,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param index The index of the element to return.
-       * @return The revokedClaimIndex at the given index.
        */
       public java.lang.String getRevokedClaimIndex(int index) {
         return revokedClaimIndex_.get(index);
@@ -19216,8 +17947,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the revokedClaimIndex at the given index.
        */
       public com.google.protobuf.ByteString
           getRevokedClaimIndexBytes(int index) {
@@ -19229,9 +17958,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param index The index to set the value at.
-       * @param value The revokedClaimIndex to set.
-       * @return This builder for chaining.
        */
       public Builder setRevokedClaimIndex(
           int index, java.lang.String value) {
@@ -19249,8 +17975,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param value The revokedClaimIndex to add.
-       * @return This builder for chaining.
        */
       public Builder addRevokedClaimIndex(
           java.lang.String value) {
@@ -19268,8 +17992,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param values The revokedClaimIndex to add.
-       * @return This builder for chaining.
        */
       public Builder addAllRevokedClaimIndex(
           java.lang.Iterable<java.lang.String> values) {
@@ -19285,11 +18007,10 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRevokedClaimIndex() {
         revokedClaimIndex_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -19299,8 +18020,6 @@ public final class Peer {
        * </pre>
        *
        * <code>repeated string revokedClaimIndex = 4;</code>
-       * @param value The bytes of the revokedClaimIndex to add.
-       * @return This builder for chaining.
        */
       public Builder addRevokedClaimIndexBytes(
           com.google.protobuf.ByteString value) {
@@ -19321,7 +18040,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 5;</code>
-       * @return The creator.
        */
       public java.lang.String getCreator() {
         java.lang.Object ref = creator_;
@@ -19341,7 +18059,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 5;</code>
-       * @return The bytes for creator.
        */
       public com.google.protobuf.ByteString
           getCreatorBytes() {
@@ -19362,8 +18079,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 5;</code>
-       * @param value The creator to set.
-       * @return This builder for chaining.
        */
       public Builder setCreator(
           java.lang.String value) {
@@ -19381,7 +18096,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreator() {
         
@@ -19395,8 +18109,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string creator = 5;</code>
-       * @param value The bytes for creator to set.
-       * @return This builder for chaining.
        */
       public Builder setCreatorBytes(
           com.google.protobuf.ByteString value) {
@@ -19409,13 +18121,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -19437,7 +18147,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<VerCreStatus>
         PARSER = new com.google.protobuf.AbstractParser<VerCreStatus>() {
-      @java.lang.Override
       public VerCreStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19455,7 +18164,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.VerCreStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -19472,7 +18180,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-     * @return Whether the certId field is set.
      */
     boolean hasCertId();
     /**
@@ -19481,7 +18188,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-     * @return The certId.
      */
     com.rcjava.protos.Peer.CertId getCertId();
     /**
@@ -19499,7 +18205,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-     * @return Whether the tmLocal field is set.
      */
     boolean hasTmLocal();
     /**
@@ -19508,7 +18213,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-     * @return The tmLocal.
      */
     com.google.protobuf.Timestamp getTmLocal();
     /**
@@ -19526,7 +18230,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes signature = 3;</code>
-     * @return The signature.
      */
     com.google.protobuf.ByteString getSignature();
   }
@@ -19537,7 +18240,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.Signature}
    */
-  public static final class Signature extends
+  public  static final class Signature extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Signature)
       SignatureOrBuilder {
@@ -19548,13 +18251,6 @@ public final class Peer {
     }
     private Signature() {
       signature_ = com.google.protobuf.ByteString.EMPTY;
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Signature();
     }
 
     @java.lang.Override
@@ -19570,6 +18266,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -19580,6 +18277,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               com.rcjava.protos.Peer.CertId.Builder subBuilder = null;
               if (certId_ != null) {
@@ -19611,13 +18315,6 @@ public final class Peer {
               signature_ = input.readBytes();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19635,7 +18332,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signature_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signature_fieldAccessorTable
@@ -19651,9 +18347,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-     * @return Whether the certId field is set.
      */
-    @java.lang.Override
     public boolean hasCertId() {
       return certId_ != null;
     }
@@ -19663,9 +18357,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-     * @return The certId.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertId getCertId() {
       return certId_ == null ? com.rcjava.protos.Peer.CertId.getDefaultInstance() : certId_;
     }
@@ -19676,7 +18368,6 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.CertIdOrBuilder getCertIdOrBuilder() {
       return getCertId();
     }
@@ -19689,9 +18380,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-     * @return Whether the tmLocal field is set.
      */
-    @java.lang.Override
     public boolean hasTmLocal() {
       return tmLocal_ != null;
     }
@@ -19701,9 +18390,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-     * @return The tmLocal.
      */
-    @java.lang.Override
     public com.google.protobuf.Timestamp getTmLocal() {
       return tmLocal_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : tmLocal_;
     }
@@ -19714,7 +18401,6 @@ public final class Peer {
      *
      * <code>.google.protobuf.Timestamp tm_local = 2;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getTmLocalOrBuilder() {
       return getTmLocal();
     }
@@ -19727,15 +18413,12 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes signature = 3;</code>
-     * @return The signature.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getSignature() {
       return signature_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -19745,7 +18428,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (certId_ != null) {
@@ -19760,7 +18442,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -19793,20 +18474,21 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Signature other = (com.rcjava.protos.Peer.Signature) obj;
 
-      if (hasCertId() != other.hasCertId()) return false;
+      boolean result = true;
+      result = result && (hasCertId() == other.hasCertId());
       if (hasCertId()) {
-        if (!getCertId()
-            .equals(other.getCertId())) return false;
+        result = result && getCertId()
+            .equals(other.getCertId());
       }
-      if (hasTmLocal() != other.hasTmLocal()) return false;
+      result = result && (hasTmLocal() == other.hasTmLocal());
       if (hasTmLocal()) {
-        if (!getTmLocal()
-            .equals(other.getTmLocal())) return false;
+        result = result && getTmLocal()
+            .equals(other.getTmLocal());
       }
-      if (!getSignature()
-          .equals(other.getSignature())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && getSignature()
+          .equals(other.getSignature());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -19901,7 +18583,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19909,7 +18590,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Signature prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -19937,7 +18617,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signature_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signature_fieldAccessorTable
@@ -19960,7 +18639,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (certIdBuilder_ == null) {
@@ -19980,18 +18658,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Signature_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signature getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Signature.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signature build() {
         com.rcjava.protos.Peer.Signature result = buildPartial();
         if (!result.isInitialized()) {
@@ -20000,7 +18675,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Signature buildPartial() {
         com.rcjava.protos.Peer.Signature result = new com.rcjava.protos.Peer.Signature(this);
         if (certIdBuilder_ == null) {
@@ -20018,39 +18692,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Signature) {
           return mergeFrom((com.rcjava.protos.Peer.Signature)other);
@@ -20076,12 +18743,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20100,7 +18765,7 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.CertId certId_;
+      private com.rcjava.protos.Peer.CertId certId_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.CertId, com.rcjava.protos.Peer.CertId.Builder, com.rcjava.protos.Peer.CertIdOrBuilder> certIdBuilder_;
       /**
@@ -20109,7 +18774,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-       * @return Whether the certId field is set.
        */
       public boolean hasCertId() {
         return certIdBuilder_ != null || certId_ != null;
@@ -20120,7 +18784,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.CertId cert_id = 1;</code>
-       * @return The certId.
        */
       public com.rcjava.protos.Peer.CertId getCertId() {
         if (certIdBuilder_ == null) {
@@ -20255,7 +18918,7 @@ public final class Peer {
         return certIdBuilder_;
       }
 
-      private com.google.protobuf.Timestamp tmLocal_;
+      private com.google.protobuf.Timestamp tmLocal_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> tmLocalBuilder_;
       /**
@@ -20264,7 +18927,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-       * @return Whether the tmLocal field is set.
        */
       public boolean hasTmLocal() {
         return tmLocalBuilder_ != null || tmLocal_ != null;
@@ -20275,7 +18937,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.google.protobuf.Timestamp tm_local = 2;</code>
-       * @return The tmLocal.
        */
       public com.google.protobuf.Timestamp getTmLocal() {
         if (tmLocalBuilder_ == null) {
@@ -20417,9 +19078,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes signature = 3;</code>
-       * @return The signature.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getSignature() {
         return signature_;
       }
@@ -20429,8 +19088,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes signature = 3;</code>
-       * @param value The signature to set.
-       * @return This builder for chaining.
        */
       public Builder setSignature(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -20447,7 +19104,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes signature = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSignature() {
         
@@ -20455,13 +19111,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20483,7 +19137,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Signature>
         PARSER = new com.google.protobuf.AbstractParser<Signature>() {
-      @java.lang.Override
       public Signature parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20501,7 +19154,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Signature getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20514,37 +19166,29 @@ public final class Peer {
 
     /**
      * <code>string function = 1;</code>
-     * @return The function.
      */
     java.lang.String getFunction();
     /**
      * <code>string function = 1;</code>
-     * @return The bytes for function.
      */
     com.google.protobuf.ByteString
         getFunctionBytes();
 
     /**
      * <code>repeated string args = 2;</code>
-     * @return A list containing the args.
      */
     java.util.List<java.lang.String>
         getArgsList();
     /**
      * <code>repeated string args = 2;</code>
-     * @return The count of args.
      */
     int getArgsCount();
     /**
      * <code>repeated string args = 2;</code>
-     * @param index The index of the element to return.
-     * @return The args at the given index.
      */
     java.lang.String getArgs(int index);
     /**
      * <code>repeated string args = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the args at the given index.
      */
     com.google.protobuf.ByteString
         getArgsBytes(int index);
@@ -20556,7 +19200,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.ChaincodeInput}
    */
-  public static final class ChaincodeInput extends
+  public  static final class ChaincodeInput extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.ChaincodeInput)
       ChaincodeInputOrBuilder {
@@ -20568,13 +19212,6 @@ public final class Peer {
     private ChaincodeInput() {
       function_ = "";
       args_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ChaincodeInput();
     }
 
     @java.lang.Override
@@ -20601,6 +19238,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -20609,18 +19253,11 @@ public final class Peer {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 args_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               args_.add(s);
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -20631,7 +19268,7 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           args_ = args_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -20643,7 +19280,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeInput_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeInput_fieldAccessorTable
@@ -20651,13 +19287,12 @@ public final class Peer {
               com.rcjava.protos.Peer.ChaincodeInput.class, com.rcjava.protos.Peer.ChaincodeInput.Builder.class);
     }
 
+    private int bitField0_;
     public static final int FUNCTION_FIELD_NUMBER = 1;
     private volatile java.lang.Object function_;
     /**
      * <code>string function = 1;</code>
-     * @return The function.
      */
-    @java.lang.Override
     public java.lang.String getFunction() {
       java.lang.Object ref = function_;
       if (ref instanceof java.lang.String) {
@@ -20672,9 +19307,7 @@ public final class Peer {
     }
     /**
      * <code>string function = 1;</code>
-     * @return The bytes for function.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getFunctionBytes() {
       java.lang.Object ref = function_;
@@ -20693,7 +19326,6 @@ public final class Peer {
     private com.google.protobuf.LazyStringList args_;
     /**
      * <code>repeated string args = 2;</code>
-     * @return A list containing the args.
      */
     public com.google.protobuf.ProtocolStringList
         getArgsList() {
@@ -20701,23 +19333,18 @@ public final class Peer {
     }
     /**
      * <code>repeated string args = 2;</code>
-     * @return The count of args.
      */
     public int getArgsCount() {
       return args_.size();
     }
     /**
      * <code>repeated string args = 2;</code>
-     * @param index The index of the element to return.
-     * @return The args at the given index.
      */
     public java.lang.String getArgs(int index) {
       return args_.get(index);
     }
     /**
      * <code>repeated string args = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the args at the given index.
      */
     public com.google.protobuf.ByteString
         getArgsBytes(int index) {
@@ -20725,7 +19352,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -20735,7 +19361,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getFunctionBytes().isEmpty()) {
@@ -20747,7 +19372,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -20779,12 +19403,13 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.ChaincodeInput other = (com.rcjava.protos.Peer.ChaincodeInput) obj;
 
-      if (!getFunction()
-          .equals(other.getFunction())) return false;
-      if (!getArgsList()
-          .equals(other.getArgsList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getFunction()
+          .equals(other.getFunction());
+      result = result && getArgsList()
+          .equals(other.getArgsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -20875,7 +19500,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -20883,7 +19507,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.ChaincodeInput prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -20911,7 +19534,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeInput_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeInput_fieldAccessorTable
@@ -20934,28 +19556,24 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         function_ = "";
 
         args_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeInput_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeInput getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.ChaincodeInput.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeInput build() {
         com.rcjava.protos.Peer.ChaincodeInput result = buildPartial();
         if (!result.isInitialized()) {
@@ -20964,53 +19582,47 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeInput buildPartial() {
         com.rcjava.protos.Peer.ChaincodeInput result = new com.rcjava.protos.Peer.ChaincodeInput(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.function_ = function_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           args_ = args_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.args_ = args_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.ChaincodeInput) {
           return mergeFrom((com.rcjava.protos.Peer.ChaincodeInput)other);
@@ -21029,7 +19641,7 @@ public final class Peer {
         if (!other.args_.isEmpty()) {
           if (args_.isEmpty()) {
             args_ = other.args_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureArgsIsMutable();
             args_.addAll(other.args_);
@@ -21041,12 +19653,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21069,7 +19679,6 @@ public final class Peer {
       private java.lang.Object function_ = "";
       /**
        * <code>string function = 1;</code>
-       * @return The function.
        */
       public java.lang.String getFunction() {
         java.lang.Object ref = function_;
@@ -21085,7 +19694,6 @@ public final class Peer {
       }
       /**
        * <code>string function = 1;</code>
-       * @return The bytes for function.
        */
       public com.google.protobuf.ByteString
           getFunctionBytes() {
@@ -21102,8 +19710,6 @@ public final class Peer {
       }
       /**
        * <code>string function = 1;</code>
-       * @param value The function to set.
-       * @return This builder for chaining.
        */
       public Builder setFunction(
           java.lang.String value) {
@@ -21117,7 +19723,6 @@ public final class Peer {
       }
       /**
        * <code>string function = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearFunction() {
         
@@ -21127,8 +19732,6 @@ public final class Peer {
       }
       /**
        * <code>string function = 1;</code>
-       * @param value The bytes for function to set.
-       * @return This builder for chaining.
        */
       public Builder setFunctionBytes(
           com.google.protobuf.ByteString value) {
@@ -21144,14 +19747,13 @@ public final class Peer {
 
       private com.google.protobuf.LazyStringList args_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureArgsIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           args_ = new com.google.protobuf.LazyStringArrayList(args_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @return A list containing the args.
        */
       public com.google.protobuf.ProtocolStringList
           getArgsList() {
@@ -21159,23 +19761,18 @@ public final class Peer {
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @return The count of args.
        */
       public int getArgsCount() {
         return args_.size();
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param index The index of the element to return.
-       * @return The args at the given index.
        */
       public java.lang.String getArgs(int index) {
         return args_.get(index);
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the args at the given index.
        */
       public com.google.protobuf.ByteString
           getArgsBytes(int index) {
@@ -21183,9 +19780,6 @@ public final class Peer {
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param index The index to set the value at.
-       * @param value The args to set.
-       * @return This builder for chaining.
        */
       public Builder setArgs(
           int index, java.lang.String value) {
@@ -21199,8 +19793,6 @@ public final class Peer {
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param value The args to add.
-       * @return This builder for chaining.
        */
       public Builder addArgs(
           java.lang.String value) {
@@ -21214,8 +19806,6 @@ public final class Peer {
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param values The args to add.
-       * @return This builder for chaining.
        */
       public Builder addAllArgs(
           java.lang.Iterable<java.lang.String> values) {
@@ -21227,18 +19817,15 @@ public final class Peer {
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearArgs() {
         args_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string args = 2;</code>
-       * @param value The bytes of the args to add.
-       * @return This builder for chaining.
        */
       public Builder addArgsBytes(
           com.google.protobuf.ByteString value) {
@@ -21251,13 +19838,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21279,7 +19864,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<ChaincodeInput>
         PARSER = new com.google.protobuf.AbstractParser<ChaincodeInput>() {
-      @java.lang.Override
       public ChaincodeInput parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21297,7 +19881,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeInput getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21310,19 +19893,16 @@ public final class Peer {
 
     /**
      * <code>string chaincodeName = 1;</code>
-     * @return The chaincodeName.
      */
     java.lang.String getChaincodeName();
     /**
      * <code>string chaincodeName = 1;</code>
-     * @return The bytes for chaincodeName.
      */
     com.google.protobuf.ByteString
         getChaincodeNameBytes();
 
     /**
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
     int getVersion();
   }
@@ -21333,7 +19913,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.ChaincodeId}
    */
-  public static final class ChaincodeId extends
+  public  static final class ChaincodeId extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.ChaincodeId)
       ChaincodeIdOrBuilder {
@@ -21344,13 +19924,7 @@ public final class Peer {
     }
     private ChaincodeId() {
       chaincodeName_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ChaincodeId();
+      version_ = 0;
     }
 
     @java.lang.Override
@@ -21366,6 +19940,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -21376,6 +19951,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -21385,13 +19967,6 @@ public final class Peer {
             case 16: {
 
               version_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -21411,7 +19986,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeId_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeId_fieldAccessorTable
@@ -21423,9 +19997,7 @@ public final class Peer {
     private volatile java.lang.Object chaincodeName_;
     /**
      * <code>string chaincodeName = 1;</code>
-     * @return The chaincodeName.
      */
-    @java.lang.Override
     public java.lang.String getChaincodeName() {
       java.lang.Object ref = chaincodeName_;
       if (ref instanceof java.lang.String) {
@@ -21440,9 +20012,7 @@ public final class Peer {
     }
     /**
      * <code>string chaincodeName = 1;</code>
-     * @return The bytes for chaincodeName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChaincodeNameBytes() {
       java.lang.Object ref = chaincodeName_;
@@ -21461,15 +20031,12 @@ public final class Peer {
     private int version_;
     /**
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -21479,7 +20046,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getChaincodeNameBytes().isEmpty()) {
@@ -21491,7 +20057,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -21519,12 +20084,13 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.ChaincodeId other = (com.rcjava.protos.Peer.ChaincodeId) obj;
 
-      if (!getChaincodeName()
-          .equals(other.getChaincodeName())) return false;
-      if (getVersion()
-          != other.getVersion()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getChaincodeName()
+          .equals(other.getChaincodeName());
+      result = result && (getVersion()
+          == other.getVersion());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -21613,7 +20179,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -21621,7 +20186,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.ChaincodeId prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -21649,7 +20213,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeId_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeId_fieldAccessorTable
@@ -21672,7 +20235,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         chaincodeName_ = "";
@@ -21682,18 +20244,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeId_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeId getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.ChaincodeId.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeId build() {
         com.rcjava.protos.Peer.ChaincodeId result = buildPartial();
         if (!result.isInitialized()) {
@@ -21702,7 +20261,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeId buildPartial() {
         com.rcjava.protos.Peer.ChaincodeId result = new com.rcjava.protos.Peer.ChaincodeId(this);
         result.chaincodeName_ = chaincodeName_;
@@ -21711,39 +20269,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.ChaincodeId) {
           return mergeFrom((com.rcjava.protos.Peer.ChaincodeId)other);
@@ -21767,12 +20318,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21794,7 +20343,6 @@ public final class Peer {
       private java.lang.Object chaincodeName_ = "";
       /**
        * <code>string chaincodeName = 1;</code>
-       * @return The chaincodeName.
        */
       public java.lang.String getChaincodeName() {
         java.lang.Object ref = chaincodeName_;
@@ -21810,7 +20358,6 @@ public final class Peer {
       }
       /**
        * <code>string chaincodeName = 1;</code>
-       * @return The bytes for chaincodeName.
        */
       public com.google.protobuf.ByteString
           getChaincodeNameBytes() {
@@ -21827,8 +20374,6 @@ public final class Peer {
       }
       /**
        * <code>string chaincodeName = 1;</code>
-       * @param value The chaincodeName to set.
-       * @return This builder for chaining.
        */
       public Builder setChaincodeName(
           java.lang.String value) {
@@ -21842,7 +20387,6 @@ public final class Peer {
       }
       /**
        * <code>string chaincodeName = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearChaincodeName() {
         
@@ -21852,8 +20396,6 @@ public final class Peer {
       }
       /**
        * <code>string chaincodeName = 1;</code>
-       * @param value The bytes for chaincodeName to set.
-       * @return This builder for chaining.
        */
       public Builder setChaincodeNameBytes(
           com.google.protobuf.ByteString value) {
@@ -21870,16 +20412,12 @@ public final class Peer {
       private int version_ ;
       /**
        * <code>int32 version = 2;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
       /**
        * <code>int32 version = 2;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -21889,7 +20427,6 @@ public final class Peer {
       }
       /**
        * <code>int32 version = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -21897,13 +20434,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21925,7 +20460,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<ChaincodeId>
         PARSER = new com.google.protobuf.AbstractParser<ChaincodeId>() {
-      @java.lang.Override
       public ChaincodeId parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21943,7 +20477,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeId getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21960,7 +20493,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-     * @return Whether the header field is set.
      */
     boolean hasHeader();
     /**
@@ -21969,7 +20501,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-     * @return The header.
      */
     com.rcjava.protos.Peer.BlockHeader getHeader();
     /**
@@ -22080,7 +20611,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-     * @return Whether the regTx field is set.
      */
     boolean hasRegTx();
     /**
@@ -22094,7 +20624,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-     * @return The regTx.
      */
     com.rcjava.protos.Peer.Transaction getRegTx();
     /**
@@ -22114,7 +20643,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.Block}
    */
-  public static final class Block extends
+  public  static final class Block extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Block)
       BlockOrBuilder {
@@ -22126,13 +20655,6 @@ public final class Peer {
     private Block() {
       transactions_ = java.util.Collections.emptyList();
       transactionResults_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Block();
     }
 
     @java.lang.Override
@@ -22159,6 +20681,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               com.rcjava.protos.Peer.BlockHeader.Builder subBuilder = null;
               if (header_ != null) {
@@ -22173,18 +20702,18 @@ public final class Peer {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 transactions_ = new java.util.ArrayList<com.rcjava.protos.Peer.Transaction>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               transactions_.add(
                   input.readMessage(com.rcjava.protos.Peer.Transaction.parser(), extensionRegistry));
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 transactionResults_ = new java.util.ArrayList<com.rcjava.protos.Peer.TransactionResult>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               transactionResults_.add(
                   input.readMessage(com.rcjava.protos.Peer.TransactionResult.parser(), extensionRegistry));
@@ -22203,13 +20732,6 @@ public final class Peer {
 
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -22218,10 +20740,10 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           transactions_ = java.util.Collections.unmodifiableList(transactions_);
         }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           transactionResults_ = java.util.Collections.unmodifiableList(transactionResults_);
         }
         this.unknownFields = unknownFields.build();
@@ -22233,7 +20755,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Block_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Block_fieldAccessorTable
@@ -22241,6 +20762,7 @@ public final class Peer {
               com.rcjava.protos.Peer.Block.class, com.rcjava.protos.Peer.Block.Builder.class);
     }
 
+    private int bitField0_;
     public static final int HEADER_FIELD_NUMBER = 1;
     private com.rcjava.protos.Peer.BlockHeader header_;
     /**
@@ -22249,9 +20771,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-     * @return Whether the header field is set.
      */
-    @java.lang.Override
     public boolean hasHeader() {
       return header_ != null;
     }
@@ -22261,9 +20781,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-     * @return The header.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.BlockHeader getHeader() {
       return header_ == null ? com.rcjava.protos.Peer.BlockHeader.getDefaultInstance() : header_;
     }
@@ -22274,7 +20792,6 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.BlockHeaderOrBuilder getHeaderOrBuilder() {
       return getHeader();
     }
@@ -22288,7 +20805,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Transaction transactions = 3;</code>
      */
-    @java.lang.Override
     public java.util.List<com.rcjava.protos.Peer.Transaction> getTransactionsList() {
       return transactions_;
     }
@@ -22299,7 +20815,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Transaction transactions = 3;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.rcjava.protos.Peer.TransactionOrBuilder> 
         getTransactionsOrBuilderList() {
       return transactions_;
@@ -22311,7 +20826,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Transaction transactions = 3;</code>
      */
-    @java.lang.Override
     public int getTransactionsCount() {
       return transactions_.size();
     }
@@ -22322,7 +20836,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Transaction transactions = 3;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Transaction getTransactions(int index) {
       return transactions_.get(index);
     }
@@ -22333,7 +20846,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Transaction transactions = 3;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionOrBuilder getTransactionsOrBuilder(
         int index) {
       return transactions_.get(index);
@@ -22348,7 +20860,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.TransactionResult transaction_results = 4;</code>
      */
-    @java.lang.Override
     public java.util.List<com.rcjava.protos.Peer.TransactionResult> getTransactionResultsList() {
       return transactionResults_;
     }
@@ -22359,7 +20870,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.TransactionResult transaction_results = 4;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.rcjava.protos.Peer.TransactionResultOrBuilder> 
         getTransactionResultsOrBuilderList() {
       return transactionResults_;
@@ -22371,7 +20881,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.TransactionResult transaction_results = 4;</code>
      */
-    @java.lang.Override
     public int getTransactionResultsCount() {
       return transactionResults_.size();
     }
@@ -22382,7 +20891,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.TransactionResult transaction_results = 4;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionResult getTransactionResults(int index) {
       return transactionResults_.get(index);
     }
@@ -22393,7 +20901,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.TransactionResult transaction_results = 4;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionResultOrBuilder getTransactionResultsOrBuilder(
         int index) {
       return transactionResults_.get(index);
@@ -22412,9 +20919,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-     * @return Whether the regTx field is set.
      */
-    @java.lang.Override
     public boolean hasRegTx() {
       return regTx_ != null;
     }
@@ -22429,9 +20934,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-     * @return The regTx.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Transaction getRegTx() {
       return regTx_ == null ? com.rcjava.protos.Peer.Transaction.getDefaultInstance() : regTx_;
     }
@@ -22447,13 +20950,11 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionOrBuilder getRegTxOrBuilder() {
       return getRegTx();
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -22463,7 +20964,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (header_ != null) {
@@ -22481,7 +20981,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -22518,22 +21017,23 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Block other = (com.rcjava.protos.Peer.Block) obj;
 
-      if (hasHeader() != other.hasHeader()) return false;
+      boolean result = true;
+      result = result && (hasHeader() == other.hasHeader());
       if (hasHeader()) {
-        if (!getHeader()
-            .equals(other.getHeader())) return false;
+        result = result && getHeader()
+            .equals(other.getHeader());
       }
-      if (!getTransactionsList()
-          .equals(other.getTransactionsList())) return false;
-      if (!getTransactionResultsList()
-          .equals(other.getTransactionResultsList())) return false;
-      if (hasRegTx() != other.hasRegTx()) return false;
+      result = result && getTransactionsList()
+          .equals(other.getTransactionsList());
+      result = result && getTransactionResultsList()
+          .equals(other.getTransactionResultsList());
+      result = result && (hasRegTx() == other.hasRegTx());
       if (hasRegTx()) {
-        if (!getRegTx()
-            .equals(other.getRegTx())) return false;
+        result = result && getRegTx()
+            .equals(other.getRegTx());
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -22634,7 +21134,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -22642,7 +21141,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Block prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -22666,7 +21164,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Block_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Block_fieldAccessorTable
@@ -22691,7 +21188,6 @@ public final class Peer {
           getTransactionResultsFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (headerBuilder_ == null) {
@@ -22702,13 +21198,13 @@ public final class Peer {
         }
         if (transactionsBuilder_ == null) {
           transactions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           transactionsBuilder_.clear();
         }
         if (transactionResultsBuilder_ == null) {
           transactionResults_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           transactionResultsBuilder_.clear();
         }
@@ -22721,18 +21217,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Block_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Block getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Block.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Block build() {
         com.rcjava.protos.Peer.Block result = buildPartial();
         if (!result.isInitialized()) {
@@ -22741,28 +21234,28 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Block buildPartial() {
         com.rcjava.protos.Peer.Block result = new com.rcjava.protos.Peer.Block(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (headerBuilder_ == null) {
           result.header_ = header_;
         } else {
           result.header_ = headerBuilder_.build();
         }
         if (transactionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             transactions_ = java.util.Collections.unmodifiableList(transactions_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.transactions_ = transactions_;
         } else {
           result.transactions_ = transactionsBuilder_.build();
         }
         if (transactionResultsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             transactionResults_ = java.util.Collections.unmodifiableList(transactionResults_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.transactionResults_ = transactionResults_;
         } else {
@@ -22773,43 +21266,37 @@ public final class Peer {
         } else {
           result.regTx_ = regTxBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Block) {
           return mergeFrom((com.rcjava.protos.Peer.Block)other);
@@ -22828,7 +21315,7 @@ public final class Peer {
           if (!other.transactions_.isEmpty()) {
             if (transactions_.isEmpty()) {
               transactions_ = other.transactions_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureTransactionsIsMutable();
               transactions_.addAll(other.transactions_);
@@ -22841,7 +21328,7 @@ public final class Peer {
               transactionsBuilder_.dispose();
               transactionsBuilder_ = null;
               transactions_ = other.transactions_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               transactionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTransactionsFieldBuilder() : null;
@@ -22854,7 +21341,7 @@ public final class Peer {
           if (!other.transactionResults_.isEmpty()) {
             if (transactionResults_.isEmpty()) {
               transactionResults_ = other.transactionResults_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureTransactionResultsIsMutable();
               transactionResults_.addAll(other.transactionResults_);
@@ -22867,7 +21354,7 @@ public final class Peer {
               transactionResultsBuilder_.dispose();
               transactionResultsBuilder_ = null;
               transactionResults_ = other.transactionResults_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               transactionResultsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTransactionResultsFieldBuilder() : null;
@@ -22884,12 +21371,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -22909,7 +21394,7 @@ public final class Peer {
       }
       private int bitField0_;
 
-      private com.rcjava.protos.Peer.BlockHeader header_;
+      private com.rcjava.protos.Peer.BlockHeader header_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.BlockHeader, com.rcjava.protos.Peer.BlockHeader.Builder, com.rcjava.protos.Peer.BlockHeaderOrBuilder> headerBuilder_;
       /**
@@ -22918,7 +21403,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-       * @return Whether the header field is set.
        */
       public boolean hasHeader() {
         return headerBuilder_ != null || header_ != null;
@@ -22929,7 +21413,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.BlockHeader header = 1;</code>
-       * @return The header.
        */
       public com.rcjava.protos.Peer.BlockHeader getHeader() {
         if (headerBuilder_ == null) {
@@ -23067,9 +21550,9 @@ public final class Peer {
       private java.util.List<com.rcjava.protos.Peer.Transaction> transactions_ =
         java.util.Collections.emptyList();
       private void ensureTransactionsIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           transactions_ = new java.util.ArrayList<com.rcjava.protos.Peer.Transaction>(transactions_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -23263,7 +21746,7 @@ public final class Peer {
       public Builder clearTransactions() {
         if (transactionsBuilder_ == null) {
           transactions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           transactionsBuilder_.clear();
@@ -23368,7 +21851,7 @@ public final class Peer {
           transactionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.rcjava.protos.Peer.Transaction, com.rcjava.protos.Peer.Transaction.Builder, com.rcjava.protos.Peer.TransactionOrBuilder>(
                   transactions_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           transactions_ = null;
@@ -23379,9 +21862,9 @@ public final class Peer {
       private java.util.List<com.rcjava.protos.Peer.TransactionResult> transactionResults_ =
         java.util.Collections.emptyList();
       private void ensureTransactionResultsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           transactionResults_ = new java.util.ArrayList<com.rcjava.protos.Peer.TransactionResult>(transactionResults_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -23575,7 +22058,7 @@ public final class Peer {
       public Builder clearTransactionResults() {
         if (transactionResultsBuilder_ == null) {
           transactionResults_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           transactionResultsBuilder_.clear();
@@ -23680,7 +22163,7 @@ public final class Peer {
           transactionResultsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.rcjava.protos.Peer.TransactionResult, com.rcjava.protos.Peer.TransactionResult.Builder, com.rcjava.protos.Peer.TransactionResultOrBuilder>(
                   transactionResults_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           transactionResults_ = null;
@@ -23688,7 +22171,7 @@ public final class Peer {
         return transactionResultsBuilder_;
       }
 
-      private com.rcjava.protos.Peer.Transaction regTx_;
+      private com.rcjava.protos.Peer.Transaction regTx_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.Transaction, com.rcjava.protos.Peer.Transaction.Builder, com.rcjava.protos.Peer.TransactionOrBuilder> regTxBuilder_;
       /**
@@ -23702,7 +22185,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-       * @return Whether the regTx field is set.
        */
       public boolean hasRegTx() {
         return regTxBuilder_ != null || regTx_ != null;
@@ -23718,7 +22200,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Transaction reg_tx = 15;</code>
-       * @return The regTx.
        */
       public com.rcjava.protos.Peer.Transaction getRegTx() {
         if (regTxBuilder_ == null) {
@@ -23887,13 +22368,11 @@ public final class Peer {
         }
         return regTxBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -23915,7 +22394,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Block>
         PARSER = new com.google.protobuf.AbstractParser<Block>() {
-      @java.lang.Override
       public Block parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -23933,7 +22411,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Block getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -23950,7 +22427,6 @@ public final class Peer {
      * </pre>
      *
      * <code>uint32 version = 1;</code>
-     * @return The version.
      */
     int getVersion();
 
@@ -23960,7 +22436,6 @@ public final class Peer {
      * </pre>
      *
      * <code>uint64 height = 2;</code>
-     * @return The height.
      */
     long getHeight();
 
@@ -23970,7 +22445,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_tx = 3;</code>
-     * @return The commitTx.
      */
     com.google.protobuf.ByteString getCommitTx();
 
@@ -23983,7 +22457,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_tx_result = 4;</code>
-     * @return The commitTxResult.
      */
     com.google.protobuf.ByteString getCommitTxResult();
 
@@ -23993,7 +22466,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes hash_present = 5;</code>
-     * @return The hashPresent.
      */
     com.google.protobuf.ByteString getHashPresent();
 
@@ -24003,7 +22475,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes hash_previous = 6;</code>
-     * @return The hashPrevious.
      */
     com.google.protobuf.ByteString getHashPrevious();
 
@@ -24013,7 +22484,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_state = 7;</code>
-     * @return The commitState.
      */
     com.google.protobuf.ByteString getCommitState();
 
@@ -24024,7 +22494,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_state_global = 8;</code>
-     * @return The commitStateGlobal.
      */
     com.google.protobuf.ByteString getCommitStateGlobal();
 
@@ -24034,7 +22503,6 @@ public final class Peer {
      * </pre>
      *
      * <code>uint64 height_expired = 9;</code>
-     * @return The heightExpired.
      */
     long getHeightExpired();
 
@@ -24085,7 +22553,7 @@ public final class Peer {
   /**
    * Protobuf type {@code com.rcjava.protos.BlockHeader}
    */
-  public static final class BlockHeader extends
+  public  static final class BlockHeader extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.BlockHeader)
       BlockHeaderOrBuilder {
@@ -24095,20 +22563,16 @@ public final class Peer {
       super(builder);
     }
     private BlockHeader() {
+      version_ = 0;
+      height_ = 0L;
       commitTx_ = com.google.protobuf.ByteString.EMPTY;
       commitTxResult_ = com.google.protobuf.ByteString.EMPTY;
       hashPresent_ = com.google.protobuf.ByteString.EMPTY;
       hashPrevious_ = com.google.protobuf.ByteString.EMPTY;
       commitState_ = com.google.protobuf.ByteString.EMPTY;
       commitStateGlobal_ = com.google.protobuf.ByteString.EMPTY;
+      heightExpired_ = 0L;
       endorsements_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new BlockHeader();
     }
 
     @java.lang.Override
@@ -24135,6 +22599,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
 
               version_ = input.readUInt32();
@@ -24181,19 +22652,12 @@ public final class Peer {
               break;
             }
             case 82: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
                 endorsements_ = new java.util.ArrayList<com.rcjava.protos.Peer.Signature>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000200;
               }
               endorsements_.add(
                   input.readMessage(com.rcjava.protos.Peer.Signature.parser(), extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -24204,7 +22668,7 @@ public final class Peer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           endorsements_ = java.util.Collections.unmodifiableList(endorsements_);
         }
         this.unknownFields = unknownFields.build();
@@ -24216,7 +22680,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockHeader_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockHeader_fieldAccessorTable
@@ -24224,6 +22687,7 @@ public final class Peer {
               com.rcjava.protos.Peer.BlockHeader.class, com.rcjava.protos.Peer.BlockHeader.Builder.class);
     }
 
+    private int bitField0_;
     public static final int VERSION_FIELD_NUMBER = 1;
     private int version_;
     /**
@@ -24232,9 +22696,7 @@ public final class Peer {
      * </pre>
      *
      * <code>uint32 version = 1;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -24247,9 +22709,7 @@ public final class Peer {
      * </pre>
      *
      * <code>uint64 height = 2;</code>
-     * @return The height.
      */
-    @java.lang.Override
     public long getHeight() {
       return height_;
     }
@@ -24262,9 +22722,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_tx = 3;</code>
-     * @return The commitTx.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCommitTx() {
       return commitTx_;
     }
@@ -24280,9 +22738,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_tx_result = 4;</code>
-     * @return The commitTxResult.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCommitTxResult() {
       return commitTxResult_;
     }
@@ -24295,9 +22751,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes hash_present = 5;</code>
-     * @return The hashPresent.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getHashPresent() {
       return hashPresent_;
     }
@@ -24310,9 +22764,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes hash_previous = 6;</code>
-     * @return The hashPrevious.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getHashPrevious() {
       return hashPrevious_;
     }
@@ -24325,9 +22777,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_state = 7;</code>
-     * @return The commitState.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCommitState() {
       return commitState_;
     }
@@ -24341,9 +22791,7 @@ public final class Peer {
      * </pre>
      *
      * <code>bytes commit_state_global = 8;</code>
-     * @return The commitStateGlobal.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCommitStateGlobal() {
       return commitStateGlobal_;
     }
@@ -24356,9 +22804,7 @@ public final class Peer {
      * </pre>
      *
      * <code>uint64 height_expired = 9;</code>
-     * @return The heightExpired.
      */
-    @java.lang.Override
     public long getHeightExpired() {
       return heightExpired_;
     }
@@ -24372,7 +22818,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Signature endorsements = 10;</code>
      */
-    @java.lang.Override
     public java.util.List<com.rcjava.protos.Peer.Signature> getEndorsementsList() {
       return endorsements_;
     }
@@ -24383,7 +22828,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Signature endorsements = 10;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.rcjava.protos.Peer.SignatureOrBuilder> 
         getEndorsementsOrBuilderList() {
       return endorsements_;
@@ -24395,7 +22839,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Signature endorsements = 10;</code>
      */
-    @java.lang.Override
     public int getEndorsementsCount() {
       return endorsements_.size();
     }
@@ -24406,7 +22849,6 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Signature endorsements = 10;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Signature getEndorsements(int index) {
       return endorsements_.get(index);
     }
@@ -24417,14 +22859,12 @@ public final class Peer {
      *
      * <code>repeated .com.rcjava.protos.Signature endorsements = 10;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.SignatureOrBuilder getEndorsementsOrBuilder(
         int index) {
       return endorsements_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -24434,7 +22874,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (version_ != 0) {
@@ -24470,7 +22909,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -24531,28 +22969,29 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.BlockHeader other = (com.rcjava.protos.Peer.BlockHeader) obj;
 
-      if (getVersion()
-          != other.getVersion()) return false;
-      if (getHeight()
-          != other.getHeight()) return false;
-      if (!getCommitTx()
-          .equals(other.getCommitTx())) return false;
-      if (!getCommitTxResult()
-          .equals(other.getCommitTxResult())) return false;
-      if (!getHashPresent()
-          .equals(other.getHashPresent())) return false;
-      if (!getHashPrevious()
-          .equals(other.getHashPrevious())) return false;
-      if (!getCommitState()
-          .equals(other.getCommitState())) return false;
-      if (!getCommitStateGlobal()
-          .equals(other.getCommitStateGlobal())) return false;
-      if (getHeightExpired()
-          != other.getHeightExpired()) return false;
-      if (!getEndorsementsList()
-          .equals(other.getEndorsementsList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && (getVersion()
+          == other.getVersion());
+      result = result && (getHeight()
+          == other.getHeight());
+      result = result && getCommitTx()
+          .equals(other.getCommitTx());
+      result = result && getCommitTxResult()
+          .equals(other.getCommitTxResult());
+      result = result && getHashPresent()
+          .equals(other.getHashPresent());
+      result = result && getHashPrevious()
+          .equals(other.getHashPrevious());
+      result = result && getCommitState()
+          .equals(other.getCommitState());
+      result = result && getCommitStateGlobal()
+          .equals(other.getCommitStateGlobal());
+      result = result && (getHeightExpired()
+          == other.getHeightExpired());
+      result = result && getEndorsementsList()
+          .equals(other.getEndorsementsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -24661,7 +23100,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -24669,7 +23107,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.BlockHeader prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -24693,7 +23130,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockHeader_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockHeader_fieldAccessorTable
@@ -24717,7 +23153,6 @@ public final class Peer {
           getEndorsementsFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         version_ = 0;
@@ -24740,25 +23175,22 @@ public final class Peer {
 
         if (endorsementsBuilder_ == null) {
           endorsements_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000200);
         } else {
           endorsementsBuilder_.clear();
         }
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockHeader_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockHeader getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.BlockHeader.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockHeader build() {
         com.rcjava.protos.Peer.BlockHeader result = buildPartial();
         if (!result.isInitialized()) {
@@ -24767,10 +23199,10 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockHeader buildPartial() {
         com.rcjava.protos.Peer.BlockHeader result = new com.rcjava.protos.Peer.BlockHeader(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.version_ = version_;
         result.height_ = height_;
         result.commitTx_ = commitTx_;
@@ -24781,51 +23213,45 @@ public final class Peer {
         result.commitStateGlobal_ = commitStateGlobal_;
         result.heightExpired_ = heightExpired_;
         if (endorsementsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000200) == 0x00000200)) {
             endorsements_ = java.util.Collections.unmodifiableList(endorsements_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000200);
           }
           result.endorsements_ = endorsements_;
         } else {
           result.endorsements_ = endorsementsBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.BlockHeader) {
           return mergeFrom((com.rcjava.protos.Peer.BlockHeader)other);
@@ -24868,7 +23294,7 @@ public final class Peer {
           if (!other.endorsements_.isEmpty()) {
             if (endorsements_.isEmpty()) {
               endorsements_ = other.endorsements_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000200);
             } else {
               ensureEndorsementsIsMutable();
               endorsements_.addAll(other.endorsements_);
@@ -24881,7 +23307,7 @@ public final class Peer {
               endorsementsBuilder_.dispose();
               endorsementsBuilder_ = null;
               endorsements_ = other.endorsements_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000200);
               endorsementsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getEndorsementsFieldBuilder() : null;
@@ -24895,12 +23321,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -24927,9 +23351,7 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 version = 1;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -24939,8 +23361,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 version = 1;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -24954,7 +23374,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 version = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -24970,9 +23389,7 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height = 2;</code>
-       * @return The height.
        */
-      @java.lang.Override
       public long getHeight() {
         return height_;
       }
@@ -24982,8 +23399,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height = 2;</code>
-       * @param value The height to set.
-       * @return This builder for chaining.
        */
       public Builder setHeight(long value) {
         
@@ -24997,7 +23412,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHeight() {
         
@@ -25013,9 +23427,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx = 3;</code>
-       * @return The commitTx.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCommitTx() {
         return commitTx_;
       }
@@ -25025,8 +23437,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx = 3;</code>
-       * @param value The commitTx to set.
-       * @return This builder for chaining.
        */
       public Builder setCommitTx(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25043,7 +23453,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCommitTx() {
         
@@ -25062,9 +23471,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx_result = 4;</code>
-       * @return The commitTxResult.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCommitTxResult() {
         return commitTxResult_;
       }
@@ -25077,8 +23484,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx_result = 4;</code>
-       * @param value The commitTxResult to set.
-       * @return This builder for chaining.
        */
       public Builder setCommitTxResult(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25098,7 +23503,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_tx_result = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCommitTxResult() {
         
@@ -25114,9 +23518,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_present = 5;</code>
-       * @return The hashPresent.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getHashPresent() {
         return hashPresent_;
       }
@@ -25126,8 +23528,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_present = 5;</code>
-       * @param value The hashPresent to set.
-       * @return This builder for chaining.
        */
       public Builder setHashPresent(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25144,7 +23544,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_present = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHashPresent() {
         
@@ -25160,9 +23559,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_previous = 6;</code>
-       * @return The hashPrevious.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getHashPrevious() {
         return hashPrevious_;
       }
@@ -25172,8 +23569,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_previous = 6;</code>
-       * @param value The hashPrevious to set.
-       * @return This builder for chaining.
        */
       public Builder setHashPrevious(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25190,7 +23585,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes hash_previous = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHashPrevious() {
         
@@ -25206,9 +23600,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state = 7;</code>
-       * @return The commitState.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCommitState() {
         return commitState_;
       }
@@ -25218,8 +23610,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state = 7;</code>
-       * @param value The commitState to set.
-       * @return This builder for chaining.
        */
       public Builder setCommitState(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25236,7 +23626,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCommitState() {
         
@@ -25253,9 +23642,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state_global = 8;</code>
-       * @return The commitStateGlobal.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCommitStateGlobal() {
         return commitStateGlobal_;
       }
@@ -25266,8 +23653,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state_global = 8;</code>
-       * @param value The commitStateGlobal to set.
-       * @return This builder for chaining.
        */
       public Builder setCommitStateGlobal(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -25285,7 +23670,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bytes commit_state_global = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCommitStateGlobal() {
         
@@ -25301,9 +23685,7 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height_expired = 9;</code>
-       * @return The heightExpired.
        */
-      @java.lang.Override
       public long getHeightExpired() {
         return heightExpired_;
       }
@@ -25313,8 +23695,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height_expired = 9;</code>
-       * @param value The heightExpired to set.
-       * @return This builder for chaining.
        */
       public Builder setHeightExpired(long value) {
         
@@ -25328,7 +23708,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint64 height_expired = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHeightExpired() {
         
@@ -25340,9 +23719,9 @@ public final class Peer {
       private java.util.List<com.rcjava.protos.Peer.Signature> endorsements_ =
         java.util.Collections.emptyList();
       private void ensureEndorsementsIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
           endorsements_ = new java.util.ArrayList<com.rcjava.protos.Peer.Signature>(endorsements_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000200;
          }
       }
 
@@ -25536,7 +23915,7 @@ public final class Peer {
       public Builder clearEndorsements() {
         if (endorsementsBuilder_ == null) {
           endorsements_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000200);
           onChanged();
         } else {
           endorsementsBuilder_.clear();
@@ -25641,20 +24020,18 @@ public final class Peer {
           endorsementsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.rcjava.protos.Peer.Signature, com.rcjava.protos.Peer.Signature.Builder, com.rcjava.protos.Peer.SignatureOrBuilder>(
                   endorsements_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000200) == 0x00000200),
                   getParentForChildren(),
                   isClean());
           endorsements_ = null;
         }
         return endorsementsBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -25676,7 +24053,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<BlockHeader>
         PARSER = new com.google.protobuf.AbstractParser<BlockHeader>() {
-      @java.lang.Override
       public BlockHeader parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -25694,7 +24070,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.BlockHeader getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -25711,7 +24086,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The txId.
      */
     java.lang.String getTxId();
     /**
@@ -25720,7 +24094,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -25731,7 +24104,6 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 code = 2;</code>
-     * @return The code.
      */
     int getCode();
 
@@ -25741,7 +24113,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * @return The reason.
      */
     java.lang.String getReason();
     /**
@@ -25750,7 +24121,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * @return The bytes for reason.
      */
     com.google.protobuf.ByteString
         getReasonBytes();
@@ -25762,7 +24132,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.TransactionError}
    */
-  public static final class TransactionError extends
+  public  static final class TransactionError extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.TransactionError)
       TransactionErrorOrBuilder {
@@ -25773,14 +24143,8 @@ public final class Peer {
     }
     private TransactionError() {
       txId_ = "";
+      code_ = 0;
       reason_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new TransactionError();
     }
 
     @java.lang.Override
@@ -25796,6 +24160,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -25806,6 +24171,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -25821,13 +24193,6 @@ public final class Peer {
               java.lang.String s = input.readStringRequireUtf8();
 
               reason_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -25847,7 +24212,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionError_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionError_fieldAccessorTable
@@ -25863,9 +24227,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The txId.
      */
-    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -25884,9 +24246,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The bytes for txId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -25909,9 +24269,7 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 code = 2;</code>
-     * @return The code.
      */
-    @java.lang.Override
     public int getCode() {
       return code_;
     }
@@ -25924,9 +24282,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * @return The reason.
      */
-    @java.lang.Override
     public java.lang.String getReason() {
       java.lang.Object ref = reason_;
       if (ref instanceof java.lang.String) {
@@ -25945,9 +24301,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * @return The bytes for reason.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getReasonBytes() {
       java.lang.Object ref = reason_;
@@ -25963,7 +24317,6 @@ public final class Peer {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -25973,7 +24326,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -25988,7 +24340,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -26019,14 +24370,15 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.TransactionError other = (com.rcjava.protos.Peer.TransactionError) obj;
 
-      if (!getTxId()
-          .equals(other.getTxId())) return false;
-      if (getCode()
-          != other.getCode()) return false;
-      if (!getReason()
-          .equals(other.getReason())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getTxId()
+          .equals(other.getTxId());
+      result = result && (getCode()
+          == other.getCode());
+      result = result && getReason()
+          .equals(other.getReason());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -26117,7 +24469,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -26125,7 +24476,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.TransactionError prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -26153,7 +24503,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionError_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionError_fieldAccessorTable
@@ -26176,7 +24525,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -26188,18 +24536,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionError_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionError getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.TransactionError.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionError build() {
         com.rcjava.protos.Peer.TransactionError result = buildPartial();
         if (!result.isInitialized()) {
@@ -26208,7 +24553,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionError buildPartial() {
         com.rcjava.protos.Peer.TransactionError result = new com.rcjava.protos.Peer.TransactionError(this);
         result.txId_ = txId_;
@@ -26218,39 +24562,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.TransactionError) {
           return mergeFrom((com.rcjava.protos.Peer.TransactionError)other);
@@ -26278,12 +24615,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -26309,7 +24644,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -26329,7 +24663,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -26350,8 +24683,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @param value The txId to set.
-       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -26369,7 +24700,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -26383,8 +24713,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @param value The bytes for txId to set.
-       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -26405,9 +24733,7 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 2;</code>
-       * @return The code.
        */
-      @java.lang.Override
       public int getCode() {
         return code_;
       }
@@ -26417,8 +24743,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 2;</code>
-       * @param value The code to set.
-       * @return This builder for chaining.
        */
       public Builder setCode(int value) {
         
@@ -26432,7 +24756,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCode() {
         
@@ -26448,7 +24771,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * @return The reason.
        */
       public java.lang.String getReason() {
         java.lang.Object ref = reason_;
@@ -26468,7 +24790,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * @return The bytes for reason.
        */
       public com.google.protobuf.ByteString
           getReasonBytes() {
@@ -26489,8 +24810,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * @param value The reason to set.
-       * @return This builder for chaining.
        */
       public Builder setReason(
           java.lang.String value) {
@@ -26508,7 +24827,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearReason() {
         
@@ -26522,8 +24840,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * @param value The bytes for reason to set.
-       * @return This builder for chaining.
        */
       public Builder setReasonBytes(
           com.google.protobuf.ByteString value) {
@@ -26536,13 +24852,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -26564,7 +24878,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<TransactionError>
         PARSER = new com.google.protobuf.AbstractParser<TransactionError>() {
-      @java.lang.Override
       public TransactionError parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -26582,7 +24895,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionError getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -26599,7 +24911,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The txId.
      */
     java.lang.String getTxId();
     /**
@@ -26608,7 +24919,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -26777,12 +25087,10 @@ public final class Peer {
 
     /**
      * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-     * @return Whether the err field is set.
      */
     boolean hasErr();
     /**
      * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-     * @return The err.
      */
     com.rcjava.protos.Peer.ActionResult getErr();
     /**
@@ -26797,7 +25105,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.TransactionResult}
    */
-  public static final class TransactionResult extends
+  public  static final class TransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.TransactionResult)
       TransactionResultOrBuilder {
@@ -26808,13 +25116,6 @@ public final class Peer {
     }
     private TransactionResult() {
       txId_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new TransactionResult();
     }
 
     @java.lang.Override
@@ -26841,6 +25142,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -26848,10 +25156,10 @@ public final class Peer {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 statesGet_ = com.google.protobuf.MapField.newMapField(
                     StatesGetDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               statesGet__ = input.readMessage(
@@ -26861,10 +25169,10 @@ public final class Peer {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 statesSet_ = com.google.protobuf.MapField.newMapField(
                     StatesSetDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               statesSet__ = input.readMessage(
@@ -26874,10 +25182,10 @@ public final class Peer {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 statesDel_ = com.google.protobuf.MapField.newMapField(
                     StatesDelDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               statesDel__ = input.readMessage(
@@ -26899,13 +25207,6 @@ public final class Peer {
 
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -26924,7 +25225,6 @@ public final class Peer {
     }
 
     @SuppressWarnings({"rawtypes"})
-    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -26939,7 +25239,6 @@ public final class Peer {
               "Invalid map field number: " + number);
       }
     }
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionResult_fieldAccessorTable
@@ -26947,6 +25246,7 @@ public final class Peer {
               com.rcjava.protos.Peer.TransactionResult.class, com.rcjava.protos.Peer.TransactionResult.Builder.class);
     }
 
+    private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private volatile java.lang.Object txId_;
     /**
@@ -26955,9 +25255,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The txId.
      */
-    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -26976,9 +25274,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string txId = 1;</code>
-     * @return The bytes for txId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -27027,7 +25323,6 @@ public final class Peer {
      * <code>map&lt;string, bytes&gt; states_get = 2;</code>
      */
 
-    @java.lang.Override
     public boolean containsStatesGet(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -27036,7 +25331,6 @@ public final class Peer {
     /**
      * Use {@link #getStatesGetMap()} instead.
      */
-    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesGet() {
       return getStatesGetMap();
@@ -27048,7 +25342,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_get = 2;</code>
      */
-    @java.lang.Override
 
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesGetMap() {
       return internalGetStatesGet().getMap();
@@ -27060,7 +25353,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_get = 2;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesGetOrDefault(
         java.lang.String key,
@@ -27077,7 +25369,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_get = 2;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesGetOrThrow(
         java.lang.String key) {
@@ -27124,7 +25415,6 @@ public final class Peer {
      * <code>map&lt;string, bytes&gt; states_set = 3;</code>
      */
 
-    @java.lang.Override
     public boolean containsStatesSet(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -27133,7 +25423,6 @@ public final class Peer {
     /**
      * Use {@link #getStatesSetMap()} instead.
      */
-    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesSet() {
       return getStatesSetMap();
@@ -27145,7 +25434,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_set = 3;</code>
      */
-    @java.lang.Override
 
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesSetMap() {
       return internalGetStatesSet().getMap();
@@ -27157,7 +25445,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_set = 3;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesSetOrDefault(
         java.lang.String key,
@@ -27174,7 +25461,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_set = 3;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesSetOrThrow(
         java.lang.String key) {
@@ -27221,7 +25507,6 @@ public final class Peer {
      * <code>map&lt;string, bytes&gt; states_del = 4;</code>
      */
 
-    @java.lang.Override
     public boolean containsStatesDel(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -27230,7 +25515,6 @@ public final class Peer {
     /**
      * Use {@link #getStatesDelMap()} instead.
      */
-    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDel() {
       return getStatesDelMap();
@@ -27242,7 +25526,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_del = 4;</code>
      */
-    @java.lang.Override
 
     public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDelMap() {
       return internalGetStatesDel().getMap();
@@ -27254,7 +25537,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_del = 4;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesDelOrDefault(
         java.lang.String key,
@@ -27271,7 +25553,6 @@ public final class Peer {
      *
      * <code>map&lt;string, bytes&gt; states_del = 4;</code>
      */
-    @java.lang.Override
 
     public com.google.protobuf.ByteString getStatesDelOrThrow(
         java.lang.String key) {
@@ -27288,30 +25569,24 @@ public final class Peer {
     private com.rcjava.protos.Peer.ActionResult err_;
     /**
      * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-     * @return Whether the err field is set.
      */
-    @java.lang.Override
     public boolean hasErr() {
       return err_ != null;
     }
     /**
      * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-     * @return The err.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ActionResult getErr() {
       return err_ == null ? com.rcjava.protos.Peer.ActionResult.getDefaultInstance() : err_;
     }
     /**
      * <code>.com.rcjava.protos.ActionResult err = 5;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ActionResultOrBuilder getErrOrBuilder() {
       return getErr();
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -27321,7 +25596,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -27351,7 +25625,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -27409,21 +25682,22 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.TransactionResult other = (com.rcjava.protos.Peer.TransactionResult) obj;
 
-      if (!getTxId()
-          .equals(other.getTxId())) return false;
-      if (!internalGetStatesGet().equals(
-          other.internalGetStatesGet())) return false;
-      if (!internalGetStatesSet().equals(
-          other.internalGetStatesSet())) return false;
-      if (!internalGetStatesDel().equals(
-          other.internalGetStatesDel())) return false;
-      if (hasErr() != other.hasErr()) return false;
+      boolean result = true;
+      result = result && getTxId()
+          .equals(other.getTxId());
+      result = result && internalGetStatesGet().equals(
+          other.internalGetStatesGet());
+      result = result && internalGetStatesSet().equals(
+          other.internalGetStatesSet());
+      result = result && internalGetStatesDel().equals(
+          other.internalGetStatesDel());
+      result = result && (hasErr() == other.hasErr());
       if (hasErr()) {
-        if (!getErr()
-            .equals(other.getErr())) return false;
+        result = result && getErr()
+            .equals(other.getErr());
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -27526,7 +25800,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -27534,7 +25807,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.TransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -27592,7 +25864,6 @@ public final class Peer {
                 "Invalid map field number: " + number);
         }
       }
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionResult_fieldAccessorTable
@@ -27615,7 +25886,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -27632,18 +25902,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_TransactionResult_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionResult getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.TransactionResult.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionResult build() {
         com.rcjava.protos.Peer.TransactionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -27652,10 +25919,10 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.TransactionResult buildPartial() {
         com.rcjava.protos.Peer.TransactionResult result = new com.rcjava.protos.Peer.TransactionResult(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.txId_ = txId_;
         result.statesGet_ = internalGetStatesGet();
         result.statesGet_.makeImmutable();
@@ -27668,43 +25935,37 @@ public final class Peer {
         } else {
           result.err_ = errBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.TransactionResult) {
           return mergeFrom((com.rcjava.protos.Peer.TransactionResult)other);
@@ -27734,12 +25995,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -27766,7 +26025,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -27786,7 +26044,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -27807,8 +26064,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @param value The txId to set.
-       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -27826,7 +26081,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -27840,8 +26094,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string txId = 1;</code>
-       * @param value The bytes for txId to set.
-       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -27889,7 +26141,6 @@ public final class Peer {
        * <code>map&lt;string, bytes&gt; states_get = 2;</code>
        */
 
-      @java.lang.Override
       public boolean containsStatesGet(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -27898,7 +26149,6 @@ public final class Peer {
       /**
        * Use {@link #getStatesGetMap()} instead.
        */
-      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesGet() {
         return getStatesGetMap();
@@ -27910,7 +26160,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_get = 2;</code>
        */
-      @java.lang.Override
 
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesGetMap() {
         return internalGetStatesGet().getMap();
@@ -27922,7 +26171,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_get = 2;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesGetOrDefault(
           java.lang.String key,
@@ -27939,7 +26187,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_get = 2;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesGetOrThrow(
           java.lang.String key) {
@@ -28045,7 +26292,6 @@ public final class Peer {
        * <code>map&lt;string, bytes&gt; states_set = 3;</code>
        */
 
-      @java.lang.Override
       public boolean containsStatesSet(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -28054,7 +26300,6 @@ public final class Peer {
       /**
        * Use {@link #getStatesSetMap()} instead.
        */
-      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesSet() {
         return getStatesSetMap();
@@ -28066,7 +26311,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_set = 3;</code>
        */
-      @java.lang.Override
 
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesSetMap() {
         return internalGetStatesSet().getMap();
@@ -28078,7 +26322,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_set = 3;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesSetOrDefault(
           java.lang.String key,
@@ -28095,7 +26338,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_set = 3;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesSetOrThrow(
           java.lang.String key) {
@@ -28201,7 +26443,6 @@ public final class Peer {
        * <code>map&lt;string, bytes&gt; states_del = 4;</code>
        */
 
-      @java.lang.Override
       public boolean containsStatesDel(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -28210,7 +26451,6 @@ public final class Peer {
       /**
        * Use {@link #getStatesDelMap()} instead.
        */
-      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDel() {
         return getStatesDelMap();
@@ -28222,7 +26462,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_del = 4;</code>
        */
-      @java.lang.Override
 
       public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getStatesDelMap() {
         return internalGetStatesDel().getMap();
@@ -28234,7 +26473,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_del = 4;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesDelOrDefault(
           java.lang.String key,
@@ -28251,7 +26489,6 @@ public final class Peer {
        *
        * <code>map&lt;string, bytes&gt; states_del = 4;</code>
        */
-      @java.lang.Override
 
       public com.google.protobuf.ByteString getStatesDelOrThrow(
           java.lang.String key) {
@@ -28323,19 +26560,17 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.ActionResult err_;
+      private com.rcjava.protos.Peer.ActionResult err_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.ActionResult, com.rcjava.protos.Peer.ActionResult.Builder, com.rcjava.protos.Peer.ActionResultOrBuilder> errBuilder_;
       /**
        * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-       * @return Whether the err field is set.
        */
       public boolean hasErr() {
         return errBuilder_ != null || err_ != null;
       }
       /**
        * <code>.com.rcjava.protos.ActionResult err = 5;</code>
-       * @return The err.
        */
       public com.rcjava.protos.Peer.ActionResult getErr() {
         if (errBuilder_ == null) {
@@ -28441,13 +26676,11 @@ public final class Peer {
         }
         return errBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -28469,7 +26702,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<TransactionResult>
         PARSER = new com.google.protobuf.AbstractParser<TransactionResult>() {
-      @java.lang.Override
       public TransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -28487,7 +26719,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.TransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -28500,24 +26731,20 @@ public final class Peer {
 
     /**
      * <code>string id = 1;</code>
-     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
-     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-     * @return The enum numeric value on the wire for type.
      */
     int getTypeValue();
     /**
      * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-     * @return The type.
      */
     com.rcjava.protos.Peer.Transaction.Type getType();
 
@@ -28527,7 +26754,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-     * @return Whether the cid field is set.
      */
     boolean hasCid();
     /**
@@ -28536,7 +26762,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-     * @return The cid.
      */
     com.rcjava.protos.Peer.ChaincodeId getCid();
     /**
@@ -28550,12 +26775,10 @@ public final class Peer {
 
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-     * @return Whether the spec field is set.
      */
     boolean hasSpec();
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-     * @return The spec.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy getSpec();
     /**
@@ -28565,12 +26788,10 @@ public final class Peer {
 
     /**
      * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-     * @return Whether the ipt field is set.
      */
     boolean hasIpt();
     /**
      * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-     * @return The ipt.
      */
     com.rcjava.protos.Peer.ChaincodeInput getIpt();
     /**
@@ -28580,12 +26801,6 @@ public final class Peer {
 
     /**
      * <code>bool state = 6;</code>
-     * @return Whether the state field is set.
-     */
-    boolean hasState();
-    /**
-     * <code>bool state = 6;</code>
-     * @return The state.
      */
     boolean getState();
 
@@ -28595,7 +26810,6 @@ public final class Peer {
      * </pre>
      *
      * <code>uint32 gas_limit = 7;</code>
-     * @return The gasLimit.
      */
     int getGasLimit();
 
@@ -28607,7 +26821,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string oid = 8;</code>
-     * @return The oid.
      */
     java.lang.String getOid();
     /**
@@ -28618,7 +26831,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string oid = 8;</code>
-     * @return The bytes for oid.
      */
     com.google.protobuf.ByteString
         getOidBytes();
@@ -28629,7 +26841,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Signature signature = 9;</code>
-     * @return Whether the signature field is set.
      */
     boolean hasSignature();
     /**
@@ -28638,7 +26849,6 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Signature signature = 9;</code>
-     * @return The signature.
      */
     com.rcjava.protos.Peer.Signature getSignature();
     /**
@@ -28659,7 +26869,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.Transaction}
    */
-  public static final class Transaction extends
+  public  static final class Transaction extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.Transaction)
       TransactionOrBuilder {
@@ -28671,14 +26881,8 @@ public final class Peer {
     private Transaction() {
       id_ = "";
       type_ = 0;
+      gasLimit_ = 0;
       oid_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Transaction();
     }
 
     @java.lang.Override
@@ -28694,6 +26898,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -28704,6 +26909,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -28786,13 +26998,6 @@ public final class Peer {
 
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -28810,7 +27015,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Transaction_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Transaction_fieldAccessorTable
@@ -28893,8 +27097,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -28902,10 +27104,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static Type forNumber(int value) {
         switch (value) {
           case 0: return UNDEFINED;
@@ -28930,10 +27128,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -28971,8 +27165,7 @@ public final class Peer {
     private int paraCase_ = 0;
     private java.lang.Object para_;
     public enum ParaCase
-        implements com.google.protobuf.Internal.EnumLite,
-            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+        implements com.google.protobuf.Internal.EnumLite {
       SPEC(4),
       IPT(5),
       STATE(6),
@@ -28982,8 +27175,6 @@ public final class Peer {
         this.value = value;
       }
       /**
-       * @param value The number of the enum to look for.
-       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -29015,9 +27206,7 @@ public final class Peer {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -29032,9 +27221,7 @@ public final class Peer {
     }
     /**
      * <code>string id = 1;</code>
-     * @return The bytes for id.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -29053,17 +27240,14 @@ public final class Peer {
     private int type_;
     /**
      * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-     * @return The enum numeric value on the wire for type.
      */
-    @java.lang.Override public int getTypeValue() {
+    public int getTypeValue() {
       return type_;
     }
     /**
      * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-     * @return The type.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.Transaction.Type getType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.Transaction.Type getType() {
       com.rcjava.protos.Peer.Transaction.Type result = com.rcjava.protos.Peer.Transaction.Type.valueOf(type_);
       return result == null ? com.rcjava.protos.Peer.Transaction.Type.UNRECOGNIZED : result;
     }
@@ -29076,9 +27260,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-     * @return Whether the cid field is set.
      */
-    @java.lang.Override
     public boolean hasCid() {
       return cid_ != null;
     }
@@ -29088,9 +27270,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-     * @return The cid.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeId getCid() {
       return cid_ == null ? com.rcjava.protos.Peer.ChaincodeId.getDefaultInstance() : cid_;
     }
@@ -29101,7 +27281,6 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeIdOrBuilder getCidOrBuilder() {
       return getCid();
     }
@@ -29109,17 +27288,13 @@ public final class Peer {
     public static final int SPEC_FIELD_NUMBER = 4;
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-     * @return Whether the spec field is set.
      */
-    @java.lang.Override
     public boolean hasSpec() {
       return paraCase_ == 4;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-     * @return The spec.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeDeploy getSpec() {
       if (paraCase_ == 4) {
          return (com.rcjava.protos.Peer.ChaincodeDeploy) para_;
@@ -29129,7 +27304,6 @@ public final class Peer {
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeDeployOrBuilder getSpecOrBuilder() {
       if (paraCase_ == 4) {
          return (com.rcjava.protos.Peer.ChaincodeDeploy) para_;
@@ -29140,17 +27314,13 @@ public final class Peer {
     public static final int IPT_FIELD_NUMBER = 5;
     /**
      * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-     * @return Whether the ipt field is set.
      */
-    @java.lang.Override
     public boolean hasIpt() {
       return paraCase_ == 5;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-     * @return The ipt.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeInput getIpt() {
       if (paraCase_ == 5) {
          return (com.rcjava.protos.Peer.ChaincodeInput) para_;
@@ -29160,7 +27330,6 @@ public final class Peer {
     /**
      * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeInputOrBuilder getIptOrBuilder() {
       if (paraCase_ == 5) {
          return (com.rcjava.protos.Peer.ChaincodeInput) para_;
@@ -29171,17 +27340,7 @@ public final class Peer {
     public static final int STATE_FIELD_NUMBER = 6;
     /**
      * <code>bool state = 6;</code>
-     * @return Whether the state field is set.
      */
-    @java.lang.Override
-    public boolean hasState() {
-      return paraCase_ == 6;
-    }
-    /**
-     * <code>bool state = 6;</code>
-     * @return The state.
-     */
-    @java.lang.Override
     public boolean getState() {
       if (paraCase_ == 6) {
         return (java.lang.Boolean) para_;
@@ -29197,9 +27356,7 @@ public final class Peer {
      * </pre>
      *
      * <code>uint32 gas_limit = 7;</code>
-     * @return The gasLimit.
      */
-    @java.lang.Override
     public int getGasLimit() {
       return gasLimit_;
     }
@@ -29214,9 +27371,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string oid = 8;</code>
-     * @return The oid.
      */
-    @java.lang.Override
     public java.lang.String getOid() {
       java.lang.Object ref = oid_;
       if (ref instanceof java.lang.String) {
@@ -29237,9 +27392,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string oid = 8;</code>
-     * @return The bytes for oid.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getOidBytes() {
       java.lang.Object ref = oid_;
@@ -29262,9 +27415,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Signature signature = 9;</code>
-     * @return Whether the signature field is set.
      */
-    @java.lang.Override
     public boolean hasSignature() {
       return signature_ != null;
     }
@@ -29274,9 +27425,7 @@ public final class Peer {
      * </pre>
      *
      * <code>.com.rcjava.protos.Signature signature = 9;</code>
-     * @return The signature.
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.Signature getSignature() {
       return signature_ == null ? com.rcjava.protos.Peer.Signature.getDefaultInstance() : signature_;
     }
@@ -29287,13 +27436,11 @@ public final class Peer {
      *
      * <code>.com.rcjava.protos.Signature signature = 9;</code>
      */
-    @java.lang.Override
     public com.rcjava.protos.Peer.SignatureOrBuilder getSignatureOrBuilder() {
       return getSignature();
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -29303,7 +27450,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -29337,7 +27483,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -29393,42 +27538,45 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.Transaction other = (com.rcjava.protos.Peer.Transaction) obj;
 
-      if (!getId()
-          .equals(other.getId())) return false;
-      if (type_ != other.type_) return false;
-      if (hasCid() != other.hasCid()) return false;
+      boolean result = true;
+      result = result && getId()
+          .equals(other.getId());
+      result = result && type_ == other.type_;
+      result = result && (hasCid() == other.hasCid());
       if (hasCid()) {
-        if (!getCid()
-            .equals(other.getCid())) return false;
+        result = result && getCid()
+            .equals(other.getCid());
       }
-      if (getGasLimit()
-          != other.getGasLimit()) return false;
-      if (!getOid()
-          .equals(other.getOid())) return false;
-      if (hasSignature() != other.hasSignature()) return false;
+      result = result && (getGasLimit()
+          == other.getGasLimit());
+      result = result && getOid()
+          .equals(other.getOid());
+      result = result && (hasSignature() == other.hasSignature());
       if (hasSignature()) {
-        if (!getSignature()
-            .equals(other.getSignature())) return false;
+        result = result && getSignature()
+            .equals(other.getSignature());
       }
-      if (!getParaCase().equals(other.getParaCase())) return false;
+      result = result && getParaCase().equals(
+          other.getParaCase());
+      if (!result) return false;
       switch (paraCase_) {
         case 4:
-          if (!getSpec()
-              .equals(other.getSpec())) return false;
+          result = result && getSpec()
+              .equals(other.getSpec());
           break;
         case 5:
-          if (!getIpt()
-              .equals(other.getIpt())) return false;
+          result = result && getIpt()
+              .equals(other.getIpt());
           break;
         case 6:
-          if (getState()
-              != other.getState()) return false;
+          result = result && (getState()
+              == other.getState());
           break;
         case 0:
         default:
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -29546,7 +27694,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -29554,7 +27701,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.Transaction prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -29582,7 +27728,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Transaction_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Transaction_fieldAccessorTable
@@ -29605,7 +27750,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -29633,18 +27777,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_Transaction_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Transaction getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.Transaction.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Transaction build() {
         com.rcjava.protos.Peer.Transaction result = buildPartial();
         if (!result.isInitialized()) {
@@ -29653,7 +27794,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.Transaction buildPartial() {
         com.rcjava.protos.Peer.Transaction result = new com.rcjava.protos.Peer.Transaction(this);
         result.id_ = id_;
@@ -29692,39 +27832,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.Transaction) {
           return mergeFrom((com.rcjava.protos.Peer.Transaction)other);
@@ -29778,12 +27911,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -29820,7 +27951,6 @@ public final class Peer {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
-       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -29836,7 +27966,6 @@ public final class Peer {
       }
       /**
        * <code>string id = 1;</code>
-       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -29853,8 +27982,6 @@ public final class Peer {
       }
       /**
        * <code>string id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -29868,7 +27995,6 @@ public final class Peer {
       }
       /**
        * <code>string id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -29878,8 +28004,6 @@ public final class Peer {
       }
       /**
        * <code>string id = 1;</code>
-       * @param value The bytes for id to set.
-       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -29896,36 +28020,27 @@ public final class Peer {
       private int type_ = 0;
       /**
        * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-       * @return The enum numeric value on the wire for type.
        */
-      @java.lang.Override public int getTypeValue() {
+      public int getTypeValue() {
         return type_;
       }
       /**
        * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-       * @param value The enum numeric value on the wire for type to set.
-       * @return This builder for chaining.
        */
       public Builder setTypeValue(int value) {
-        
         type_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-       * @return The type.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.Transaction.Type getType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.Transaction.Type result = com.rcjava.protos.Peer.Transaction.Type.valueOf(type_);
         return result == null ? com.rcjava.protos.Peer.Transaction.Type.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-       * @param value The type to set.
-       * @return This builder for chaining.
        */
       public Builder setType(com.rcjava.protos.Peer.Transaction.Type value) {
         if (value == null) {
@@ -29938,7 +28053,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.Transaction.Type type = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -29947,7 +28061,7 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.ChaincodeId cid_;
+      private com.rcjava.protos.Peer.ChaincodeId cid_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.ChaincodeId, com.rcjava.protos.Peer.ChaincodeId.Builder, com.rcjava.protos.Peer.ChaincodeIdOrBuilder> cidBuilder_;
       /**
@@ -29956,7 +28070,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-       * @return Whether the cid field is set.
        */
       public boolean hasCid() {
         return cidBuilder_ != null || cid_ != null;
@@ -29967,7 +28080,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.ChaincodeId cid = 3;</code>
-       * @return The cid.
        */
       public com.rcjava.protos.Peer.ChaincodeId getCid() {
         if (cidBuilder_ == null) {
@@ -30106,17 +28218,13 @@ public final class Peer {
           com.rcjava.protos.Peer.ChaincodeDeploy, com.rcjava.protos.Peer.ChaincodeDeploy.Builder, com.rcjava.protos.Peer.ChaincodeDeployOrBuilder> specBuilder_;
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-       * @return Whether the spec field is set.
        */
-      @java.lang.Override
       public boolean hasSpec() {
         return paraCase_ == 4;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
-       * @return The spec.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy getSpec() {
         if (specBuilder_ == null) {
           if (paraCase_ == 4) {
@@ -30210,7 +28318,6 @@ public final class Peer {
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy spec = 4;</code>
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeployOrBuilder getSpecOrBuilder() {
         if ((paraCase_ == 4) && (specBuilder_ != null)) {
           return specBuilder_.getMessageOrBuilder();
@@ -30247,17 +28354,13 @@ public final class Peer {
           com.rcjava.protos.Peer.ChaincodeInput, com.rcjava.protos.Peer.ChaincodeInput.Builder, com.rcjava.protos.Peer.ChaincodeInputOrBuilder> iptBuilder_;
       /**
        * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-       * @return Whether the ipt field is set.
        */
-      @java.lang.Override
       public boolean hasIpt() {
         return paraCase_ == 5;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
-       * @return The ipt.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeInput getIpt() {
         if (iptBuilder_ == null) {
           if (paraCase_ == 5) {
@@ -30351,7 +28454,6 @@ public final class Peer {
       /**
        * <code>.com.rcjava.protos.ChaincodeInput ipt = 5;</code>
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeInputOrBuilder getIptOrBuilder() {
         if ((paraCase_ == 5) && (iptBuilder_ != null)) {
           return iptBuilder_.getMessageOrBuilder();
@@ -30386,14 +28488,6 @@ public final class Peer {
 
       /**
        * <code>bool state = 6;</code>
-       * @return Whether the state field is set.
-       */
-      public boolean hasState() {
-        return paraCase_ == 6;
-      }
-      /**
-       * <code>bool state = 6;</code>
-       * @return The state.
        */
       public boolean getState() {
         if (paraCase_ == 6) {
@@ -30403,8 +28497,6 @@ public final class Peer {
       }
       /**
        * <code>bool state = 6;</code>
-       * @param value The state to set.
-       * @return This builder for chaining.
        */
       public Builder setState(boolean value) {
         paraCase_ = 6;
@@ -30414,7 +28506,6 @@ public final class Peer {
       }
       /**
        * <code>bool state = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearState() {
         if (paraCase_ == 6) {
@@ -30432,9 +28523,7 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 gas_limit = 7;</code>
-       * @return The gasLimit.
        */
-      @java.lang.Override
       public int getGasLimit() {
         return gasLimit_;
       }
@@ -30444,8 +28533,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 gas_limit = 7;</code>
-       * @param value The gasLimit to set.
-       * @return This builder for chaining.
        */
       public Builder setGasLimit(int value) {
         
@@ -30459,7 +28546,6 @@ public final class Peer {
        * </pre>
        *
        * <code>uint32 gas_limit = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGasLimit() {
         
@@ -30477,7 +28563,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string oid = 8;</code>
-       * @return The oid.
        */
       public java.lang.String getOid() {
         java.lang.Object ref = oid_;
@@ -30499,7 +28584,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string oid = 8;</code>
-       * @return The bytes for oid.
        */
       public com.google.protobuf.ByteString
           getOidBytes() {
@@ -30522,8 +28606,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string oid = 8;</code>
-       * @param value The oid to set.
-       * @return This builder for chaining.
        */
       public Builder setOid(
           java.lang.String value) {
@@ -30543,7 +28625,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string oid = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOid() {
         
@@ -30559,8 +28640,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string oid = 8;</code>
-       * @param value The bytes for oid to set.
-       * @return This builder for chaining.
        */
       public Builder setOidBytes(
           com.google.protobuf.ByteString value) {
@@ -30574,7 +28653,7 @@ public final class Peer {
         return this;
       }
 
-      private com.rcjava.protos.Peer.Signature signature_;
+      private com.rcjava.protos.Peer.Signature signature_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.rcjava.protos.Peer.Signature, com.rcjava.protos.Peer.Signature.Builder, com.rcjava.protos.Peer.SignatureOrBuilder> signatureBuilder_;
       /**
@@ -30583,7 +28662,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Signature signature = 9;</code>
-       * @return Whether the signature field is set.
        */
       public boolean hasSignature() {
         return signatureBuilder_ != null || signature_ != null;
@@ -30594,7 +28672,6 @@ public final class Peer {
        * </pre>
        *
        * <code>.com.rcjava.protos.Signature signature = 9;</code>
-       * @return The signature.
        */
       public com.rcjava.protos.Peer.Signature getSignature() {
         if (signatureBuilder_ == null) {
@@ -30728,13 +28805,11 @@ public final class Peer {
         }
         return signatureBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -30756,7 +28831,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<Transaction>
         PARSER = new com.google.protobuf.AbstractParser<Transaction>() {
-      @java.lang.Override
       public Transaction parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -30774,7 +28848,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.Transaction getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -30791,7 +28864,6 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 timeout = 1;</code>
-     * @return The timeout.
      */
     int getTimeout();
 
@@ -30801,7 +28873,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string code_package = 2;</code>
-     * @return The codePackage.
      */
     java.lang.String getCodePackage();
     /**
@@ -30810,7 +28881,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string code_package = 2;</code>
-     * @return The bytes for codePackage.
      */
     com.google.protobuf.ByteString
         getCodePackageBytes();
@@ -30821,7 +28891,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string legal_prose = 3;</code>
-     * @return The legalProse.
      */
     java.lang.String getLegalProse();
     /**
@@ -30830,64 +28899,53 @@ public final class Peer {
      * </pre>
      *
      * <code>string legal_prose = 3;</code>
-     * @return The bytes for legalProse.
      */
     com.google.protobuf.ByteString
         getLegalProseBytes();
 
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-     * @return The enum numeric value on the wire for cType.
      */
     int getCTypeValue();
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-     * @return The cType.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy.CodeType getCType();
 
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-     * @return The enum numeric value on the wire for rType.
      */
     int getRTypeValue();
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-     * @return The rType.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy.RunType getRType();
 
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-     * @return The enum numeric value on the wire for sType.
      */
     int getSTypeValue();
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-     * @return The sType.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy.StateType getSType();
 
     /**
      * <code>string init_parameter = 7;</code>
-     * @return The initParameter.
      */
     java.lang.String getInitParameter();
     /**
      * <code>string init_parameter = 7;</code>
-     * @return The bytes for initParameter.
      */
     com.google.protobuf.ByteString
         getInitParameterBytes();
 
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-     * @return The enum numeric value on the wire for cclassification.
      */
     int getCclassificationValue();
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-     * @return The cclassification.
      */
     com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification getCclassification();
 
@@ -30897,7 +28955,6 @@ public final class Peer {
      * </pre>
      *
      * <code>bool is_called_by_other_contracts = 9;</code>
-     * @return The isCalledByOtherContracts.
      */
     boolean getIsCalledByOtherContracts();
   }
@@ -30908,7 +28965,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.ChaincodeDeploy}
    */
-  public static final class ChaincodeDeploy extends
+  public  static final class ChaincodeDeploy extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.ChaincodeDeploy)
       ChaincodeDeployOrBuilder {
@@ -30918,6 +28975,7 @@ public final class Peer {
       super(builder);
     }
     private ChaincodeDeploy() {
+      timeout_ = 0;
       codePackage_ = "";
       legalProse_ = "";
       cType_ = 0;
@@ -30925,13 +28983,7 @@ public final class Peer {
       sType_ = 0;
       initParameter_ = "";
       cclassification_ = 0;
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ChaincodeDeploy();
+      isCalledByOtherContracts_ = false;
     }
 
     @java.lang.Override
@@ -30947,6 +28999,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -30957,6 +29010,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
 
               timeout_ = input.readInt32();
@@ -31009,13 +29069,6 @@ public final class Peer {
               isCalledByOtherContracts_ = input.readBool();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -31033,7 +29086,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeDeploy_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeDeploy_fieldAccessorTable
@@ -31154,8 +29206,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -31163,10 +29213,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static CodeType forNumber(int value) {
         switch (value) {
           case 0: return CODE_UNDEFINED;
@@ -31194,10 +29240,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -31311,8 +29353,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -31320,10 +29360,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static RunType forNumber(int value) {
         switch (value) {
           case 0: return RUN_UNDEFINED;
@@ -31348,10 +29384,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -31434,8 +29466,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -31443,10 +29473,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static StateType forNumber(int value) {
         switch (value) {
           case 0: return STATE_UNDEFINED;
@@ -31470,10 +29496,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -31555,8 +29577,6 @@ public final class Peer {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -31564,10 +29584,6 @@ public final class Peer {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static ContractClassification forNumber(int value) {
         switch (value) {
           case 0: return CONTRACT_UNDEFINED;
@@ -31591,10 +29607,6 @@ public final class Peer {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -31637,9 +29649,7 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 timeout = 1;</code>
-     * @return The timeout.
      */
-    @java.lang.Override
     public int getTimeout() {
       return timeout_;
     }
@@ -31652,9 +29662,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string code_package = 2;</code>
-     * @return The codePackage.
      */
-    @java.lang.Override
     public java.lang.String getCodePackage() {
       java.lang.Object ref = codePackage_;
       if (ref instanceof java.lang.String) {
@@ -31673,9 +29681,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string code_package = 2;</code>
-     * @return The bytes for codePackage.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCodePackageBytes() {
       java.lang.Object ref = codePackage_;
@@ -31698,9 +29704,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string legal_prose = 3;</code>
-     * @return The legalProse.
      */
-    @java.lang.Override
     public java.lang.String getLegalProse() {
       java.lang.Object ref = legalProse_;
       if (ref instanceof java.lang.String) {
@@ -31719,9 +29723,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string legal_prose = 3;</code>
-     * @return The bytes for legalProse.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getLegalProseBytes() {
       java.lang.Object ref = legalProse_;
@@ -31740,17 +29742,14 @@ public final class Peer {
     private int cType_;
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-     * @return The enum numeric value on the wire for cType.
      */
-    @java.lang.Override public int getCTypeValue() {
+    public int getCTypeValue() {
       return cType_;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-     * @return The cType.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.ChaincodeDeploy.CodeType getCType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.ChaincodeDeploy.CodeType getCType() {
       com.rcjava.protos.Peer.ChaincodeDeploy.CodeType result = com.rcjava.protos.Peer.ChaincodeDeploy.CodeType.valueOf(cType_);
       return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.CodeType.UNRECOGNIZED : result;
     }
@@ -31759,17 +29758,14 @@ public final class Peer {
     private int rType_;
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-     * @return The enum numeric value on the wire for rType.
      */
-    @java.lang.Override public int getRTypeValue() {
+    public int getRTypeValue() {
       return rType_;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-     * @return The rType.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.ChaincodeDeploy.RunType getRType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.ChaincodeDeploy.RunType getRType() {
       com.rcjava.protos.Peer.ChaincodeDeploy.RunType result = com.rcjava.protos.Peer.ChaincodeDeploy.RunType.valueOf(rType_);
       return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.RunType.UNRECOGNIZED : result;
     }
@@ -31778,17 +29774,14 @@ public final class Peer {
     private int sType_;
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-     * @return The enum numeric value on the wire for sType.
      */
-    @java.lang.Override public int getSTypeValue() {
+    public int getSTypeValue() {
       return sType_;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-     * @return The sType.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.ChaincodeDeploy.StateType getSType() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.ChaincodeDeploy.StateType getSType() {
       com.rcjava.protos.Peer.ChaincodeDeploy.StateType result = com.rcjava.protos.Peer.ChaincodeDeploy.StateType.valueOf(sType_);
       return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.StateType.UNRECOGNIZED : result;
     }
@@ -31797,9 +29790,7 @@ public final class Peer {
     private volatile java.lang.Object initParameter_;
     /**
      * <code>string init_parameter = 7;</code>
-     * @return The initParameter.
      */
-    @java.lang.Override
     public java.lang.String getInitParameter() {
       java.lang.Object ref = initParameter_;
       if (ref instanceof java.lang.String) {
@@ -31814,9 +29805,7 @@ public final class Peer {
     }
     /**
      * <code>string init_parameter = 7;</code>
-     * @return The bytes for initParameter.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getInitParameterBytes() {
       java.lang.Object ref = initParameter_;
@@ -31835,17 +29824,14 @@ public final class Peer {
     private int cclassification_;
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-     * @return The enum numeric value on the wire for cclassification.
      */
-    @java.lang.Override public int getCclassificationValue() {
+    public int getCclassificationValue() {
       return cclassification_;
     }
     /**
      * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-     * @return The cclassification.
      */
-    @java.lang.Override public com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification getCclassification() {
-      @SuppressWarnings("deprecation")
+    public com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification getCclassification() {
       com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification result = com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.valueOf(cclassification_);
       return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.UNRECOGNIZED : result;
     }
@@ -31858,15 +29844,12 @@ public final class Peer {
      * </pre>
      *
      * <code>bool is_called_by_other_contracts = 9;</code>
-     * @return The isCalledByOtherContracts.
      */
-    @java.lang.Override
     public boolean getIsCalledByOtherContracts() {
       return isCalledByOtherContracts_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -31876,7 +29859,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (timeout_ != 0) {
@@ -31909,7 +29891,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -31963,22 +29944,23 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.ChaincodeDeploy other = (com.rcjava.protos.Peer.ChaincodeDeploy) obj;
 
-      if (getTimeout()
-          != other.getTimeout()) return false;
-      if (!getCodePackage()
-          .equals(other.getCodePackage())) return false;
-      if (!getLegalProse()
-          .equals(other.getLegalProse())) return false;
-      if (cType_ != other.cType_) return false;
-      if (rType_ != other.rType_) return false;
-      if (sType_ != other.sType_) return false;
-      if (!getInitParameter()
-          .equals(other.getInitParameter())) return false;
-      if (cclassification_ != other.cclassification_) return false;
-      if (getIsCalledByOtherContracts()
-          != other.getIsCalledByOtherContracts()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && (getTimeout()
+          == other.getTimeout());
+      result = result && getCodePackage()
+          .equals(other.getCodePackage());
+      result = result && getLegalProse()
+          .equals(other.getLegalProse());
+      result = result && cType_ == other.cType_;
+      result = result && rType_ == other.rType_;
+      result = result && sType_ == other.sType_;
+      result = result && getInitParameter()
+          .equals(other.getInitParameter());
+      result = result && cclassification_ == other.cclassification_;
+      result = result && (getIsCalledByOtherContracts()
+          == other.getIsCalledByOtherContracts());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -32082,7 +30064,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -32090,7 +30071,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.ChaincodeDeploy prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -32118,7 +30098,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeDeploy_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeDeploy_fieldAccessorTable
@@ -32141,7 +30120,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         timeout_ = 0;
@@ -32165,18 +30143,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ChaincodeDeploy_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.ChaincodeDeploy.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy build() {
         com.rcjava.protos.Peer.ChaincodeDeploy result = buildPartial();
         if (!result.isInitialized()) {
@@ -32185,7 +30160,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy buildPartial() {
         com.rcjava.protos.Peer.ChaincodeDeploy result = new com.rcjava.protos.Peer.ChaincodeDeploy(this);
         result.timeout_ = timeout_;
@@ -32201,39 +30175,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.ChaincodeDeploy) {
           return mergeFrom((com.rcjava.protos.Peer.ChaincodeDeploy)other);
@@ -32280,12 +30247,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -32311,9 +30276,7 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 timeout = 1;</code>
-       * @return The timeout.
        */
-      @java.lang.Override
       public int getTimeout() {
         return timeout_;
       }
@@ -32323,8 +30286,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 timeout = 1;</code>
-       * @param value The timeout to set.
-       * @return This builder for chaining.
        */
       public Builder setTimeout(int value) {
         
@@ -32338,7 +30299,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 timeout = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTimeout() {
         
@@ -32354,7 +30314,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string code_package = 2;</code>
-       * @return The codePackage.
        */
       public java.lang.String getCodePackage() {
         java.lang.Object ref = codePackage_;
@@ -32374,7 +30333,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string code_package = 2;</code>
-       * @return The bytes for codePackage.
        */
       public com.google.protobuf.ByteString
           getCodePackageBytes() {
@@ -32395,8 +30353,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string code_package = 2;</code>
-       * @param value The codePackage to set.
-       * @return This builder for chaining.
        */
       public Builder setCodePackage(
           java.lang.String value) {
@@ -32414,7 +30370,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string code_package = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCodePackage() {
         
@@ -32428,8 +30383,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string code_package = 2;</code>
-       * @param value The bytes for codePackage to set.
-       * @return This builder for chaining.
        */
       public Builder setCodePackageBytes(
           com.google.protobuf.ByteString value) {
@@ -32450,7 +30403,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string legal_prose = 3;</code>
-       * @return The legalProse.
        */
       public java.lang.String getLegalProse() {
         java.lang.Object ref = legalProse_;
@@ -32470,7 +30422,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string legal_prose = 3;</code>
-       * @return The bytes for legalProse.
        */
       public com.google.protobuf.ByteString
           getLegalProseBytes() {
@@ -32491,8 +30442,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string legal_prose = 3;</code>
-       * @param value The legalProse to set.
-       * @return This builder for chaining.
        */
       public Builder setLegalProse(
           java.lang.String value) {
@@ -32510,7 +30459,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string legal_prose = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLegalProse() {
         
@@ -32524,8 +30472,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string legal_prose = 3;</code>
-       * @param value The bytes for legalProse to set.
-       * @return This builder for chaining.
        */
       public Builder setLegalProseBytes(
           com.google.protobuf.ByteString value) {
@@ -32542,36 +30488,27 @@ public final class Peer {
       private int cType_ = 0;
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-       * @return The enum numeric value on the wire for cType.
        */
-      @java.lang.Override public int getCTypeValue() {
+      public int getCTypeValue() {
         return cType_;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-       * @param value The enum numeric value on the wire for cType to set.
-       * @return This builder for chaining.
        */
       public Builder setCTypeValue(int value) {
-        
         cType_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-       * @return The cType.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy.CodeType getCType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.ChaincodeDeploy.CodeType result = com.rcjava.protos.Peer.ChaincodeDeploy.CodeType.valueOf(cType_);
         return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.CodeType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-       * @param value The cType to set.
-       * @return This builder for chaining.
        */
       public Builder setCType(com.rcjava.protos.Peer.ChaincodeDeploy.CodeType value) {
         if (value == null) {
@@ -32584,7 +30521,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.CodeType c_type = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCType() {
         
@@ -32596,36 +30532,27 @@ public final class Peer {
       private int rType_ = 0;
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-       * @return The enum numeric value on the wire for rType.
        */
-      @java.lang.Override public int getRTypeValue() {
+      public int getRTypeValue() {
         return rType_;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-       * @param value The enum numeric value on the wire for rType to set.
-       * @return This builder for chaining.
        */
       public Builder setRTypeValue(int value) {
-        
         rType_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-       * @return The rType.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy.RunType getRType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.ChaincodeDeploy.RunType result = com.rcjava.protos.Peer.ChaincodeDeploy.RunType.valueOf(rType_);
         return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.RunType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-       * @param value The rType to set.
-       * @return This builder for chaining.
        */
       public Builder setRType(com.rcjava.protos.Peer.ChaincodeDeploy.RunType value) {
         if (value == null) {
@@ -32638,7 +30565,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.RunType r_type = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRType() {
         
@@ -32650,36 +30576,27 @@ public final class Peer {
       private int sType_ = 0;
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-       * @return The enum numeric value on the wire for sType.
        */
-      @java.lang.Override public int getSTypeValue() {
+      public int getSTypeValue() {
         return sType_;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-       * @param value The enum numeric value on the wire for sType to set.
-       * @return This builder for chaining.
        */
       public Builder setSTypeValue(int value) {
-        
         sType_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-       * @return The sType.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy.StateType getSType() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.ChaincodeDeploy.StateType result = com.rcjava.protos.Peer.ChaincodeDeploy.StateType.valueOf(sType_);
         return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.StateType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-       * @param value The sType to set.
-       * @return This builder for chaining.
        */
       public Builder setSType(com.rcjava.protos.Peer.ChaincodeDeploy.StateType value) {
         if (value == null) {
@@ -32692,7 +30609,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.StateType s_type = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSType() {
         
@@ -32704,7 +30620,6 @@ public final class Peer {
       private java.lang.Object initParameter_ = "";
       /**
        * <code>string init_parameter = 7;</code>
-       * @return The initParameter.
        */
       public java.lang.String getInitParameter() {
         java.lang.Object ref = initParameter_;
@@ -32720,7 +30635,6 @@ public final class Peer {
       }
       /**
        * <code>string init_parameter = 7;</code>
-       * @return The bytes for initParameter.
        */
       public com.google.protobuf.ByteString
           getInitParameterBytes() {
@@ -32737,8 +30651,6 @@ public final class Peer {
       }
       /**
        * <code>string init_parameter = 7;</code>
-       * @param value The initParameter to set.
-       * @return This builder for chaining.
        */
       public Builder setInitParameter(
           java.lang.String value) {
@@ -32752,7 +30664,6 @@ public final class Peer {
       }
       /**
        * <code>string init_parameter = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearInitParameter() {
         
@@ -32762,8 +30673,6 @@ public final class Peer {
       }
       /**
        * <code>string init_parameter = 7;</code>
-       * @param value The bytes for initParameter to set.
-       * @return This builder for chaining.
        */
       public Builder setInitParameterBytes(
           com.google.protobuf.ByteString value) {
@@ -32780,36 +30689,27 @@ public final class Peer {
       private int cclassification_ = 0;
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-       * @return The enum numeric value on the wire for cclassification.
        */
-      @java.lang.Override public int getCclassificationValue() {
+      public int getCclassificationValue() {
         return cclassification_;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-       * @param value The enum numeric value on the wire for cclassification to set.
-       * @return This builder for chaining.
        */
       public Builder setCclassificationValue(int value) {
-        
         cclassification_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-       * @return The cclassification.
        */
-      @java.lang.Override
       public com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification getCclassification() {
-        @SuppressWarnings("deprecation")
         com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification result = com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.valueOf(cclassification_);
         return result == null ? com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-       * @param value The cclassification to set.
-       * @return This builder for chaining.
        */
       public Builder setCclassification(com.rcjava.protos.Peer.ChaincodeDeploy.ContractClassification value) {
         if (value == null) {
@@ -32822,7 +30722,6 @@ public final class Peer {
       }
       /**
        * <code>.com.rcjava.protos.ChaincodeDeploy.ContractClassification cclassification = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCclassification() {
         
@@ -32838,9 +30737,7 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_called_by_other_contracts = 9;</code>
-       * @return The isCalledByOtherContracts.
        */
-      @java.lang.Override
       public boolean getIsCalledByOtherContracts() {
         return isCalledByOtherContracts_;
       }
@@ -32850,8 +30747,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_called_by_other_contracts = 9;</code>
-       * @param value The isCalledByOtherContracts to set.
-       * @return This builder for chaining.
        */
       public Builder setIsCalledByOtherContracts(boolean value) {
         
@@ -32865,7 +30760,6 @@ public final class Peer {
        * </pre>
        *
        * <code>bool is_called_by_other_contracts = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsCalledByOtherContracts() {
         
@@ -32873,13 +30767,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -32901,7 +30793,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<ChaincodeDeploy>
         PARSER = new com.google.protobuf.AbstractParser<ChaincodeDeploy>() {
-      @java.lang.Override
       public ChaincodeDeploy parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -32919,7 +30810,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.ChaincodeDeploy getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -32936,7 +30826,6 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 code = 1;</code>
-     * @return The code.
      */
     int getCode();
 
@@ -32946,7 +30835,6 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 2;</code>
-     * @return The reason.
      */
     java.lang.String getReason();
     /**
@@ -32955,10 +30843,27 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 2;</code>
-     * @return The bytes for reason.
      */
     com.google.protobuf.ByteString
         getReasonBytes();
+
+    /**
+     * <pre>
+     *可选返回数据
+     * </pre>
+     *
+     * <code>string data = 3;</code>
+     */
+    java.lang.String getData();
+    /**
+     * <pre>
+     *可选返回数据
+     * </pre>
+     *
+     * <code>string data = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getDataBytes();
   }
   /**
    * <pre>
@@ -32967,7 +30872,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.ActionResult}
    */
-  public static final class ActionResult extends
+  public  static final class ActionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.ActionResult)
       ActionResultOrBuilder {
@@ -32977,14 +30882,9 @@ public final class Peer {
       super(builder);
     }
     private ActionResult() {
+      code_ = 0;
       reason_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ActionResult();
+      data_ = "";
     }
 
     @java.lang.Override
@@ -33000,6 +30900,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -33010,6 +30911,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
 
               code_ = input.readInt32();
@@ -33021,11 +30929,10 @@ public final class Peer {
               reason_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              data_ = s;
               break;
             }
           }
@@ -33045,7 +30952,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ActionResult_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ActionResult_fieldAccessorTable
@@ -33061,9 +30967,7 @@ public final class Peer {
      * </pre>
      *
      * <code>int32 code = 1;</code>
-     * @return The code.
      */
-    @java.lang.Override
     public int getCode() {
       return code_;
     }
@@ -33076,9 +30980,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 2;</code>
-     * @return The reason.
      */
-    @java.lang.Override
     public java.lang.String getReason() {
       java.lang.Object ref = reason_;
       if (ref instanceof java.lang.String) {
@@ -33097,9 +30999,7 @@ public final class Peer {
      * </pre>
      *
      * <code>string reason = 2;</code>
-     * @return The bytes for reason.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getReasonBytes() {
       java.lang.Object ref = reason_;
@@ -33114,8 +31014,49 @@ public final class Peer {
       }
     }
 
+    public static final int DATA_FIELD_NUMBER = 3;
+    private volatile java.lang.Object data_;
+    /**
+     * <pre>
+     *可选返回数据
+     * </pre>
+     *
+     * <code>string data = 3;</code>
+     */
+    public java.lang.String getData() {
+      java.lang.Object ref = data_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        data_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *可选返回数据
+     * </pre>
+     *
+     * <code>string data = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDataBytes() {
+      java.lang.Object ref = data_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        data_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -33125,7 +31066,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (code_ != 0) {
@@ -33134,10 +31074,12 @@ public final class Peer {
       if (!getReasonBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, reason_);
       }
+      if (!getDataBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, data_);
+      }
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -33149,6 +31091,9 @@ public final class Peer {
       }
       if (!getReasonBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, reason_);
+      }
+      if (!getDataBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, data_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -33165,12 +31110,15 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.ActionResult other = (com.rcjava.protos.Peer.ActionResult) obj;
 
-      if (getCode()
-          != other.getCode()) return false;
-      if (!getReason()
-          .equals(other.getReason())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && (getCode()
+          == other.getCode());
+      result = result && getReason()
+          .equals(other.getReason());
+      result = result && getData()
+          .equals(other.getData());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -33184,6 +31132,8 @@ public final class Peer {
       hash = (53 * hash) + getCode();
       hash = (37 * hash) + REASON_FIELD_NUMBER;
       hash = (53 * hash) + getReason().hashCode();
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -33259,7 +31209,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -33267,7 +31216,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.ActionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -33295,7 +31243,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ActionResult_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ActionResult_fieldAccessorTable
@@ -33318,28 +31265,26 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         code_ = 0;
 
         reason_ = "";
 
+        data_ = "";
+
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_ActionResult_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ActionResult getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.ActionResult.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ActionResult build() {
         com.rcjava.protos.Peer.ActionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -33348,48 +31293,41 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.ActionResult buildPartial() {
         com.rcjava.protos.Peer.ActionResult result = new com.rcjava.protos.Peer.ActionResult(this);
         result.code_ = code_;
         result.reason_ = reason_;
+        result.data_ = data_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.ActionResult) {
           return mergeFrom((com.rcjava.protos.Peer.ActionResult)other);
@@ -33408,17 +31346,19 @@ public final class Peer {
           reason_ = other.reason_;
           onChanged();
         }
+        if (!other.getData().isEmpty()) {
+          data_ = other.data_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -33444,9 +31384,7 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 1;</code>
-       * @return The code.
        */
-      @java.lang.Override
       public int getCode() {
         return code_;
       }
@@ -33456,8 +31394,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 1;</code>
-       * @param value The code to set.
-       * @return This builder for chaining.
        */
       public Builder setCode(int value) {
         
@@ -33471,7 +31407,6 @@ public final class Peer {
        * </pre>
        *
        * <code>int32 code = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCode() {
         
@@ -33487,7 +31422,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 2;</code>
-       * @return The reason.
        */
       public java.lang.String getReason() {
         java.lang.Object ref = reason_;
@@ -33507,7 +31441,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 2;</code>
-       * @return The bytes for reason.
        */
       public com.google.protobuf.ByteString
           getReasonBytes() {
@@ -33528,8 +31461,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 2;</code>
-       * @param value The reason to set.
-       * @return This builder for chaining.
        */
       public Builder setReason(
           java.lang.String value) {
@@ -33547,7 +31478,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearReason() {
         
@@ -33561,8 +31491,6 @@ public final class Peer {
        * </pre>
        *
        * <code>string reason = 2;</code>
-       * @param value The bytes for reason to set.
-       * @return This builder for chaining.
        */
       public Builder setReasonBytes(
           com.google.protobuf.ByteString value) {
@@ -33575,13 +31503,100 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
+
+      private java.lang.Object data_ = "";
+      /**
+       * <pre>
+       *可选返回数据
+       * </pre>
+       *
+       * <code>string data = 3;</code>
+       */
+      public java.lang.String getData() {
+        java.lang.Object ref = data_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          data_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *可选返回数据
+       * </pre>
+       *
+       * <code>string data = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDataBytes() {
+        java.lang.Object ref = data_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          data_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *可选返回数据
+       * </pre>
+       *
+       * <code>string data = 3;</code>
+       */
+      public Builder setData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        data_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *可选返回数据
+       * </pre>
+       *
+       * <code>string data = 3;</code>
+       */
+      public Builder clearData() {
+        
+        data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *可选返回数据
+       * </pre>
+       *
+       * <code>string data = 3;</code>
+       */
+      public Builder setDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        data_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -33603,7 +31618,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<ActionResult>
         PARSER = new com.google.protobuf.AbstractParser<ActionResult>() {
-      @java.lang.Override
       public ActionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -33621,7 +31635,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.ActionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -33634,25 +31647,21 @@ public final class Peer {
 
     /**
      * <code>string key = 1;</code>
-     * @return The key.
      */
     java.lang.String getKey();
     /**
      * <code>string key = 1;</code>
-     * @return The bytes for key.
      */
     com.google.protobuf.ByteString
         getKeyBytes();
 
     /**
      * <code>bytes value = 2;</code>
-     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
 
     /**
      * <code>bytes proof = 3;</code>
-     * @return The proof.
      */
     com.google.protobuf.ByteString getProof();
   }
@@ -33663,7 +31672,7 @@ public final class Peer {
    *
    * Protobuf type {@code com.rcjava.protos.StateProof}
    */
-  public static final class StateProof extends
+  public  static final class StateProof extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.StateProof)
       StateProofOrBuilder {
@@ -33679,13 +31688,6 @@ public final class Peer {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new StateProof();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -33698,6 +31700,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -33708,6 +31711,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -33722,13 +31732,6 @@ public final class Peer {
             case 26: {
 
               proof_ = input.readBytes();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -33748,7 +31751,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_StateProof_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_StateProof_fieldAccessorTable
@@ -33760,9 +31762,7 @@ public final class Peer {
     private volatile java.lang.Object key_;
     /**
      * <code>string key = 1;</code>
-     * @return The key.
      */
-    @java.lang.Override
     public java.lang.String getKey() {
       java.lang.Object ref = key_;
       if (ref instanceof java.lang.String) {
@@ -33777,9 +31777,7 @@ public final class Peer {
     }
     /**
      * <code>string key = 1;</code>
-     * @return The bytes for key.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getKeyBytes() {
       java.lang.Object ref = key_;
@@ -33798,9 +31796,7 @@ public final class Peer {
     private com.google.protobuf.ByteString value_;
     /**
      * <code>bytes value = 2;</code>
-     * @return The value.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
@@ -33809,15 +31805,12 @@ public final class Peer {
     private com.google.protobuf.ByteString proof_;
     /**
      * <code>bytes proof = 3;</code>
-     * @return The proof.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getProof() {
       return proof_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -33827,7 +31820,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getKeyBytes().isEmpty()) {
@@ -33842,7 +31834,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -33874,14 +31865,15 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.StateProof other = (com.rcjava.protos.Peer.StateProof) obj;
 
-      if (!getKey()
-          .equals(other.getKey())) return false;
-      if (!getValue()
-          .equals(other.getValue())) return false;
-      if (!getProof()
-          .equals(other.getProof())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getKey()
+          .equals(other.getKey());
+      result = result && getValue()
+          .equals(other.getValue());
+      result = result && getProof()
+          .equals(other.getProof());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -33972,7 +31964,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -33980,7 +31971,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.StateProof prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -34008,7 +31998,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_StateProof_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_StateProof_fieldAccessorTable
@@ -34031,7 +32020,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = "";
@@ -34043,18 +32031,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_StateProof_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.StateProof getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.StateProof.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.StateProof build() {
         com.rcjava.protos.Peer.StateProof result = buildPartial();
         if (!result.isInitialized()) {
@@ -34063,7 +32048,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.StateProof buildPartial() {
         com.rcjava.protos.Peer.StateProof result = new com.rcjava.protos.Peer.StateProof(this);
         result.key_ = key_;
@@ -34073,39 +32057,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.StateProof) {
           return mergeFrom((com.rcjava.protos.Peer.StateProof)other);
@@ -34132,12 +32109,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -34159,7 +32134,6 @@ public final class Peer {
       private java.lang.Object key_ = "";
       /**
        * <code>string key = 1;</code>
-       * @return The key.
        */
       public java.lang.String getKey() {
         java.lang.Object ref = key_;
@@ -34175,7 +32149,6 @@ public final class Peer {
       }
       /**
        * <code>string key = 1;</code>
-       * @return The bytes for key.
        */
       public com.google.protobuf.ByteString
           getKeyBytes() {
@@ -34192,8 +32165,6 @@ public final class Peer {
       }
       /**
        * <code>string key = 1;</code>
-       * @param value The key to set.
-       * @return This builder for chaining.
        */
       public Builder setKey(
           java.lang.String value) {
@@ -34207,7 +32178,6 @@ public final class Peer {
       }
       /**
        * <code>string key = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearKey() {
         
@@ -34217,8 +32187,6 @@ public final class Peer {
       }
       /**
        * <code>string key = 1;</code>
-       * @param value The bytes for key to set.
-       * @return This builder for chaining.
        */
       public Builder setKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -34235,16 +32203,12 @@ public final class Peer {
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes value = 2;</code>
-       * @return The value.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>bytes value = 2;</code>
-       * @param value The value to set.
-       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -34257,7 +32221,6 @@ public final class Peer {
       }
       /**
        * <code>bytes value = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearValue() {
         
@@ -34269,16 +32232,12 @@ public final class Peer {
       private com.google.protobuf.ByteString proof_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes proof = 3;</code>
-       * @return The proof.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getProof() {
         return proof_;
       }
       /**
        * <code>bytes proof = 3;</code>
-       * @param value The proof to set.
-       * @return This builder for chaining.
        */
       public Builder setProof(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -34291,7 +32250,6 @@ public final class Peer {
       }
       /**
        * <code>bytes proof = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearProof() {
         
@@ -34299,13 +32257,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -34327,7 +32283,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<StateProof>
         PARSER = new com.google.protobuf.AbstractParser<StateProof>() {
-      @java.lang.Override
       public StateProof parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -34345,7 +32300,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.StateProof getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -34358,38 +32312,33 @@ public final class Peer {
 
     /**
      * <code>uint64 height = 1;</code>
-     * @return The height.
      */
     long getHeight();
 
     /**
      * <code>uint64 totalTransactions = 2;</code>
-     * @return The totalTransactions.
      */
     long getTotalTransactions();
 
     /**
      * <code>bytes currentBlockHash = 3;</code>
-     * @return The currentBlockHash.
      */
     com.google.protobuf.ByteString getCurrentBlockHash();
 
     /**
      * <code>bytes previousBlockHash = 4;</code>
-     * @return The previousBlockHash.
      */
     com.google.protobuf.ByteString getPreviousBlockHash();
 
     /**
      * <code>bytes currentStateHash = 5;</code>
-     * @return The currentStateHash.
      */
     com.google.protobuf.ByteString getCurrentStateHash();
   }
   /**
    * Protobuf type {@code com.rcjava.protos.BlockchainInfo}
    */
-  public static final class BlockchainInfo extends
+  public  static final class BlockchainInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.rcjava.protos.BlockchainInfo)
       BlockchainInfoOrBuilder {
@@ -34399,16 +32348,11 @@ public final class Peer {
       super(builder);
     }
     private BlockchainInfo() {
+      height_ = 0L;
+      totalTransactions_ = 0L;
       currentBlockHash_ = com.google.protobuf.ByteString.EMPTY;
       previousBlockHash_ = com.google.protobuf.ByteString.EMPTY;
       currentStateHash_ = com.google.protobuf.ByteString.EMPTY;
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new BlockchainInfo();
     }
 
     @java.lang.Override
@@ -34424,6 +32368,7 @@ public final class Peer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -34434,6 +32379,13 @@ public final class Peer {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
 
               height_ = input.readUInt64();
@@ -34459,13 +32411,6 @@ public final class Peer {
               currentStateHash_ = input.readBytes();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -34483,7 +32428,6 @@ public final class Peer {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockchainInfo_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockchainInfo_fieldAccessorTable
@@ -34495,9 +32439,7 @@ public final class Peer {
     private long height_;
     /**
      * <code>uint64 height = 1;</code>
-     * @return The height.
      */
-    @java.lang.Override
     public long getHeight() {
       return height_;
     }
@@ -34506,9 +32448,7 @@ public final class Peer {
     private long totalTransactions_;
     /**
      * <code>uint64 totalTransactions = 2;</code>
-     * @return The totalTransactions.
      */
-    @java.lang.Override
     public long getTotalTransactions() {
       return totalTransactions_;
     }
@@ -34517,9 +32457,7 @@ public final class Peer {
     private com.google.protobuf.ByteString currentBlockHash_;
     /**
      * <code>bytes currentBlockHash = 3;</code>
-     * @return The currentBlockHash.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCurrentBlockHash() {
       return currentBlockHash_;
     }
@@ -34528,9 +32466,7 @@ public final class Peer {
     private com.google.protobuf.ByteString previousBlockHash_;
     /**
      * <code>bytes previousBlockHash = 4;</code>
-     * @return The previousBlockHash.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getPreviousBlockHash() {
       return previousBlockHash_;
     }
@@ -34539,15 +32475,12 @@ public final class Peer {
     private com.google.protobuf.ByteString currentStateHash_;
     /**
      * <code>bytes currentStateHash = 5;</code>
-     * @return The currentStateHash.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getCurrentStateHash() {
       return currentStateHash_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -34557,7 +32490,6 @@ public final class Peer {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (height_ != 0L) {
@@ -34578,7 +32510,6 @@ public final class Peer {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -34619,18 +32550,19 @@ public final class Peer {
       }
       com.rcjava.protos.Peer.BlockchainInfo other = (com.rcjava.protos.Peer.BlockchainInfo) obj;
 
-      if (getHeight()
-          != other.getHeight()) return false;
-      if (getTotalTransactions()
-          != other.getTotalTransactions()) return false;
-      if (!getCurrentBlockHash()
-          .equals(other.getCurrentBlockHash())) return false;
-      if (!getPreviousBlockHash()
-          .equals(other.getPreviousBlockHash())) return false;
-      if (!getCurrentStateHash()
-          .equals(other.getCurrentStateHash())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && (getHeight()
+          == other.getHeight());
+      result = result && (getTotalTransactions()
+          == other.getTotalTransactions());
+      result = result && getCurrentBlockHash()
+          .equals(other.getCurrentBlockHash());
+      result = result && getPreviousBlockHash()
+          .equals(other.getPreviousBlockHash());
+      result = result && getCurrentStateHash()
+          .equals(other.getCurrentStateHash());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -34727,7 +32659,6 @@ public final class Peer {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -34735,7 +32666,6 @@ public final class Peer {
     public static Builder newBuilder(com.rcjava.protos.Peer.BlockchainInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -34759,7 +32689,6 @@ public final class Peer {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockchainInfo_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockchainInfo_fieldAccessorTable
@@ -34782,7 +32711,6 @@ public final class Peer {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         height_ = 0L;
@@ -34798,18 +32726,15 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.rcjava.protos.Peer.internal_static_com_rcjava_protos_BlockchainInfo_descriptor;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockchainInfo getDefaultInstanceForType() {
         return com.rcjava.protos.Peer.BlockchainInfo.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockchainInfo build() {
         com.rcjava.protos.Peer.BlockchainInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -34818,7 +32743,6 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public com.rcjava.protos.Peer.BlockchainInfo buildPartial() {
         com.rcjava.protos.Peer.BlockchainInfo result = new com.rcjava.protos.Peer.BlockchainInfo(this);
         result.height_ = height_;
@@ -34830,39 +32754,32 @@ public final class Peer {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.rcjava.protos.Peer.BlockchainInfo) {
           return mergeFrom((com.rcjava.protos.Peer.BlockchainInfo)other);
@@ -34894,12 +32811,10 @@ public final class Peer {
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -34921,16 +32836,12 @@ public final class Peer {
       private long height_ ;
       /**
        * <code>uint64 height = 1;</code>
-       * @return The height.
        */
-      @java.lang.Override
       public long getHeight() {
         return height_;
       }
       /**
        * <code>uint64 height = 1;</code>
-       * @param value The height to set.
-       * @return This builder for chaining.
        */
       public Builder setHeight(long value) {
         
@@ -34940,7 +32851,6 @@ public final class Peer {
       }
       /**
        * <code>uint64 height = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHeight() {
         
@@ -34952,16 +32862,12 @@ public final class Peer {
       private long totalTransactions_ ;
       /**
        * <code>uint64 totalTransactions = 2;</code>
-       * @return The totalTransactions.
        */
-      @java.lang.Override
       public long getTotalTransactions() {
         return totalTransactions_;
       }
       /**
        * <code>uint64 totalTransactions = 2;</code>
-       * @param value The totalTransactions to set.
-       * @return This builder for chaining.
        */
       public Builder setTotalTransactions(long value) {
         
@@ -34971,7 +32877,6 @@ public final class Peer {
       }
       /**
        * <code>uint64 totalTransactions = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTotalTransactions() {
         
@@ -34983,16 +32888,12 @@ public final class Peer {
       private com.google.protobuf.ByteString currentBlockHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes currentBlockHash = 3;</code>
-       * @return The currentBlockHash.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCurrentBlockHash() {
         return currentBlockHash_;
       }
       /**
        * <code>bytes currentBlockHash = 3;</code>
-       * @param value The currentBlockHash to set.
-       * @return This builder for chaining.
        */
       public Builder setCurrentBlockHash(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -35005,7 +32906,6 @@ public final class Peer {
       }
       /**
        * <code>bytes currentBlockHash = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCurrentBlockHash() {
         
@@ -35017,16 +32917,12 @@ public final class Peer {
       private com.google.protobuf.ByteString previousBlockHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes previousBlockHash = 4;</code>
-       * @return The previousBlockHash.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getPreviousBlockHash() {
         return previousBlockHash_;
       }
       /**
        * <code>bytes previousBlockHash = 4;</code>
-       * @param value The previousBlockHash to set.
-       * @return This builder for chaining.
        */
       public Builder setPreviousBlockHash(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -35039,7 +32935,6 @@ public final class Peer {
       }
       /**
        * <code>bytes previousBlockHash = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPreviousBlockHash() {
         
@@ -35051,16 +32946,12 @@ public final class Peer {
       private com.google.protobuf.ByteString currentStateHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes currentStateHash = 5;</code>
-       * @return The currentStateHash.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getCurrentStateHash() {
         return currentStateHash_;
       }
       /**
        * <code>bytes currentStateHash = 5;</code>
-       * @param value The currentStateHash to set.
-       * @return This builder for chaining.
        */
       public Builder setCurrentStateHash(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -35073,7 +32964,6 @@ public final class Peer {
       }
       /**
        * <code>bytes currentStateHash = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCurrentStateHash() {
         
@@ -35081,13 +32971,11 @@ public final class Peer {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -35109,7 +32997,6 @@ public final class Peer {
 
     private static final com.google.protobuf.Parser<BlockchainInfo>
         PARSER = new com.google.protobuf.AbstractParser<BlockchainInfo>() {
-      @java.lang.Override
       public BlockchainInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -35127,7 +33014,6 @@ public final class Peer {
       return PARSER;
     }
 
-    @java.lang.Override
     public com.rcjava.protos.Peer.BlockchainInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -35268,145 +33154,154 @@ public final class Peer {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\npeer.proto\022\021com.rcjava.protos\032\017timesta" +
-      "mp.proto\"\221\003\n\005Event\022\014\n\004from\030\001 \001(\t\022\n\n\002to\030\002" +
-      " \001(\t\022/\n\006action\030\003 \001(\0162\037.com.rcjava.protos" +
-      ".Event.Action\022%\n\003blk\030\004 \001(\0132\030.com.rcjava." +
-      "protos.Block\022\036\n\026contract_event_content\030\005" +
-      " \001(\t\"\365\001\n\006Action\022\023\n\017SUBSCRIBE_TOPIC\020\000\022\017\n\013" +
-      "TRANSACTION\020\001\022\r\n\tBLOCK_NEW\020\002\022\025\n\021BLOCK_EN" +
-      "DORSEMENT\020\003\022\017\n\013ENDORSEMENT\020\004\022\r\n\tMEMBER_U" +
-      "P\020\005\022\017\n\013MEMBER_DOWN\020\006\022\016\n\nCANDIDATOR\020\007\022\021\n\r" +
-      "GENESIS_BLOCK\020\010\022\016\n\nBLOCK_SYNC\020\t\022\023\n\017BLOCK" +
-      "_SYNC_DATA\020\n\022\022\n\016BLOCK_SYNC_SUC\020\013\022\022\n\016CONT" +
-      "RACT_EVENT\020\014\"\371\002\n\006Signer\022\014\n\004name\030\001 \001(\t\022\023\n" +
-      "\013credit_code\030\002 \001(\t\022\016\n\006mobile\030\003 \001(\t\022\022\n\nce" +
-      "rt_names\030\004 \003(\t\022\025\n\rauthorize_ids\030\005 \003(\t\022\023\n" +
-      "\013operate_ids\030\006 \003(\t\022\037\n\027credential_metadat" +
-      "a_ids\030\007 \003(\t\022<\n\024authentication_certs\030\010 \003(" +
-      "\0132\036.com.rcjava.protos.Certificate\022\023\n\013sig" +
-      "ner_info\030\t \001(\t\022/\n\013create_time\030\n \001(\0132\032.go" +
-      "ogle.protobuf.Timestamp\0220\n\014disable_time\030" +
-      "\013 \001(\0132\032.google.protobuf.Timestamp\022\024\n\014sig" +
-      "ner_valid\030\014 \001(\010\022\017\n\007version\030\r \001(\t\"A\n\006Cert" +
-      "Id\022\023\n\013credit_code\030\001 \001(\t\022\021\n\tcert_name\030\002 \001" +
-      "(\t\022\017\n\007version\030\003 \001(\t\"\367\002\n\013Certificate\022\023\n\013c" +
-      "ertificate\030\001 \001(\t\022\020\n\010alg_type\030\002 \001(\t\022\022\n\nce" +
-      "rt_valid\030\003 \001(\010\022,\n\010reg_Time\030\004 \001(\0132\032.googl" +
-      "e.protobuf.Timestamp\022.\n\nunreg_Time\030\005 \001(\013" +
-      "2\032.google.protobuf.Timestamp\022:\n\tcert_typ" +
-      "e\030\006 \001(\0162\'.com.rcjava.protos.Certificate." +
-      "CertType\022%\n\002id\030\007 \001(\0132\031.com.rcjava.protos" +
-      ".CertId\022\021\n\tcert_hash\030\010 \001(\t\022\017\n\007version\030\t " +
-      "\001(\t\"H\n\010CertType\022\022\n\016CERT_UNDEFINED\020\000\022\027\n\023C" +
-      "ERT_AUTHENTICATION\020\001\022\017\n\013CERT_CUSTOM\020\002\"\270\003" +
-      "\n\007Operate\022\r\n\005op_id\030\001 \001(\t\022\023\n\013description\030" +
-      "\002 \001(\t\022\020\n\010register\030\003 \001(\t\022\022\n\nis_publish\030\004 " +
-      "\001(\010\022<\n\014operate_type\030\005 \001(\0162&.com.rcjava.p" +
-      "rotos.Operate.OperateType\022\034\n\024operate_ser" +
-      "vice_name\030\006 \003(\t\022\030\n\020operate_endpoint\030\007 \001(" +
-      "\t\022\026\n\016auth_full_name\030\010 \001(\t\022/\n\013create_time" +
-      "\030\t \001(\0132\032.google.protobuf.Timestamp\0220\n\014di" +
-      "sable_time\030\n \001(\0132\032.google.protobuf.Times" +
-      "tamp\022\020\n\010op_valid\030\013 \001(\010\022\017\n\007version\030\014 \001(\t\"" +
-      "O\n\013OperateType\022\025\n\021OPERATE_UNDEFINED\020\000\022\024\n" +
-      "\020OPERATE_CONTRACT\020\001\022\023\n\017OPERATE_SERVICE\020\002" +
-      "\"\345\002\n\tAuthorize\022\n\n\002id\030\001 \001(\t\022\r\n\005grant\030\002 \001(" +
-      "\t\022\017\n\007granted\030\003 \003(\t\022\r\n\005op_id\030\004 \003(\t\022>\n\013is_" +
-      "transfer\030\005 \001(\0162).com.rcjava.protos.Autho" +
-      "rize.TransferType\022/\n\013create_time\030\006 \001(\0132\032" +
-      ".google.protobuf.Timestamp\0220\n\014disable_ti" +
-      "me\030\007 \001(\0132\032.google.protobuf.Timestamp\022\027\n\017" +
-      "authorize_valid\030\010 \001(\010\022\017\n\007version\030\t \001(\t\"P" +
-      "\n\014TransferType\022\024\n\020TRANSFER_DISABLE\020\000\022\021\n\r" +
-      "TRANSFER_ONCE\020\001\022\027\n\023TRANSFER_REPEATEDLY\020\002" +
-      "\"h\n\023BindCertToAuthorize\022\024\n\014authorize_id\030" +
-      "\001 \001(\t\022*\n\007granted\030\002 \001(\0132\031.com.rcjava.prot" +
-      "os.CertId\022\017\n\007version\030\003 \001(\t\"\304\001\n\014CreClaStr" +
-      "uct\022\017\n\007version\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\022\014\n\004name" +
-      "\030\003 \001(\t\022\023\n\013ccs_version\030\004 \001(\t\022\023\n\013descripti" +
-      "on\030\005 \001(\t\022\017\n\007creator\030\006 \001(\t\022\017\n\007created\030\007 \001" +
-      "(\t\022\r\n\005valid\030\010 \001(\010\022.\n\nattributes\030\t \003(\0132\032." +
-      "com.rcjava.protos.CreAttr\"L\n\007CreAttr\022\014\n\004" +
-      "name\030\001 \001(\t\022\014\n\004type\030\002 \001(\t\022\020\n\010required\030\003 \001" +
-      "(\010\022\023\n\013description\030\004 \001(\t\"g\n\014VerCreStatus\022" +
-      "\017\n\007version\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\022\016\n\006status\030\003" +
-      " \001(\t\022\031\n\021revokedClaimIndex\030\004 \003(\t\022\017\n\007creat" +
-      "or\030\005 \001(\t\"x\n\tSignature\022*\n\007cert_id\030\001 \001(\0132\031" +
-      ".com.rcjava.protos.CertId\022,\n\010tm_local\030\002 " +
-      "\001(\0132\032.google.protobuf.Timestamp\022\021\n\tsigna" +
-      "ture\030\003 \001(\014\"0\n\016ChaincodeInput\022\020\n\010function" +
-      "\030\001 \001(\t\022\014\n\004args\030\002 \003(\t\"5\n\013ChaincodeId\022\025\n\rc" +
-      "haincodeName\030\001 \001(\t\022\017\n\007version\030\002 \001(\005\"\340\001\n\005" +
-      "Block\022.\n\006header\030\001 \001(\0132\036.com.rcjava.proto" +
-      "s.BlockHeader\0224\n\014transactions\030\003 \003(\0132\036.co" +
-      "m.rcjava.protos.Transaction\022A\n\023transacti" +
-      "on_results\030\004 \003(\0132$.com.rcjava.protos.Tra" +
-      "nsactionResult\022.\n\006reg_tx\030\017 \001(\0132\036.com.rcj" +
-      "ava.protos.Transaction\"\207\002\n\013BlockHeader\022\017" +
-      "\n\007version\030\001 \001(\r\022\016\n\006height\030\002 \001(\004\022\021\n\tcommi" +
-      "t_tx\030\003 \001(\014\022\030\n\020commit_tx_result\030\004 \001(\014\022\024\n\014" +
-      "hash_present\030\005 \001(\014\022\025\n\rhash_previous\030\006 \001(" +
-      "\014\022\024\n\014commit_state\030\007 \001(\014\022\033\n\023commit_state_" +
-      "global\030\010 \001(\014\022\026\n\016height_expired\030\t \001(\004\0222\n\014" +
-      "endorsements\030\n \003(\0132\034.com.rcjava.protos.S" +
-      "ignature\">\n\020TransactionError\022\014\n\004txId\030\001 \001" +
-      "(\t\022\014\n\004code\030\002 \001(\005\022\016\n\006reason\030\003 \001(\t\"\300\003\n\021Tra" +
-      "nsactionResult\022\014\n\004txId\030\001 \001(\t\022G\n\nstates_g" +
-      "et\030\002 \003(\01323.com.rcjava.protos.Transaction" +
-      "Result.StatesGetEntry\022G\n\nstates_set\030\003 \003(" +
-      "\01323.com.rcjava.protos.TransactionResult." +
-      "StatesSetEntry\022G\n\nstates_del\030\004 \003(\01323.com" +
-      ".rcjava.protos.TransactionResult.StatesD" +
-      "elEntry\022,\n\003err\030\005 \001(\0132\037.com.rcjava.protos" +
-      ".ActionResult\0320\n\016StatesGetEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016StatesSetEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\0320\n\016Sta" +
-      "tesDelEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:" +
-      "\0028\001\"\245\003\n\013Transaction\022\n\n\002id\030\001 \001(\t\0221\n\004type\030" +
-      "\002 \001(\0162#.com.rcjava.protos.Transaction.Ty" +
-      "pe\022+\n\003cid\030\003 \001(\0132\036.com.rcjava.protos.Chai" +
-      "ncodeId\0222\n\004spec\030\004 \001(\0132\".com.rcjava.proto" +
-      "s.ChaincodeDeployH\000\0220\n\003ipt\030\005 \001(\0132!.com.r" +
-      "cjava.protos.ChaincodeInputH\000\022\017\n\005state\030\006" +
-      " \001(\010H\000\022\021\n\tgas_limit\030\007 \001(\r\022\013\n\003oid\030\010 \001(\t\022/" +
-      "\n\tsignature\030\t \001(\0132\034.com.rcjava.protos.Si" +
-      "gnature\"Z\n\004Type\022\r\n\tUNDEFINED\020\000\022\024\n\020CHAINC" +
-      "ODE_DEPLOY\020\001\022\024\n\020CHAINCODE_INVOKE\020\002\022\027\n\023CH" +
-      "AINCODE_SET_STATE\020\003B\006\n\004para\"\225\006\n\017Chaincod" +
-      "eDeploy\022\017\n\007timeout\030\001 \001(\005\022\024\n\014code_package" +
-      "\030\002 \001(\t\022\023\n\013legal_prose\030\003 \001(\t\022;\n\006c_type\030\004 " +
-      "\001(\0162+.com.rcjava.protos.ChaincodeDeploy." +
-      "CodeType\022:\n\006r_type\030\005 \001(\0162*.com.rcjava.pr" +
-      "otos.ChaincodeDeploy.RunType\022<\n\006s_type\030\006" +
-      " \001(\0162,.com.rcjava.protos.ChaincodeDeploy" +
-      ".StateType\022\026\n\016init_parameter\030\007 \001(\t\022R\n\017cc" +
-      "lassification\030\010 \001(\01629.com.rcjava.protos." +
-      "ChaincodeDeploy.ContractClassification\022$" +
-      "\n\034is_called_by_other_contracts\030\t \001(\010\"\211\001\n" +
-      "\010CodeType\022\022\n\016CODE_UNDEFINED\020\000\022\023\n\017CODE_JA" +
-      "VASCRIPT\020\001\022\016\n\nCODE_SCALA\020\002\022\020\n\014CODE_VCL_D" +
-      "LL\020\003\022\020\n\014CODE_VCL_EXE\020\004\022\021\n\rCODE_VCL_WASM\020" +
-      "\005\022\r\n\tCODE_WASM\020\006\"P\n\007RunType\022\021\n\rRUN_UNDEF" +
-      "INED\020\000\022\016\n\nRUN_SERIAL\020\001\022\020\n\014RUN_PARALLEL\020\002" +
-      "\022\020\n\014RUN_OPTIONAL\020\003\"C\n\tStateType\022\023\n\017STATE" +
-      "_UNDEFINED\020\000\022\017\n\013STATE_BLOCK\020\001\022\020\n\014STATE_G" +
-      "LOBAL\020\002\"Z\n\026ContractClassification\022\026\n\022CON" +
-      "TRACT_UNDEFINED\020\000\022\023\n\017CONTRACT_SYSTEM\020\001\022\023" +
-      "\n\017CONTRACT_CUSTOM\020\002\",\n\014ActionResult\022\014\n\004c" +
-      "ode\030\001 \001(\005\022\016\n\006reason\030\002 \001(\t\"7\n\nStateProof\022" +
-      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001" +
-      "(\014\"\212\001\n\016BlockchainInfo\022\016\n\006height\030\001 \001(\004\022\031\n" +
-      "\021totalTransactions\030\002 \001(\004\022\030\n\020currentBlock" +
-      "Hash\030\003 \001(\014\022\031\n\021previousBlockHash\030\004 \001(\014\022\030\n" +
-      "\020currentStateHash\030\005 \001(\014B\023\n\021com.rcjava.pr" +
-      "otosb\006proto3"
+      "\n\npeer.proto\022\021com.rcjava.protos\032\037google/" +
+      "protobuf/timestamp.proto\"\221\003\n\005Event\022\014\n\004fr" +
+      "om\030\001 \001(\t\022\n\n\002to\030\002 \001(\t\022/\n\006action\030\003 \001(\0162\037.c" +
+      "om.rcjava.protos.Event.Action\022%\n\003blk\030\004 \001" +
+      "(\0132\030.com.rcjava.protos.Block\022\036\n\026contract" +
+      "_event_content\030\005 \001(\t\"\365\001\n\006Action\022\023\n\017SUBSC" +
+      "RIBE_TOPIC\020\000\022\017\n\013TRANSACTION\020\001\022\r\n\tBLOCK_N" +
+      "EW\020\002\022\025\n\021BLOCK_ENDORSEMENT\020\003\022\017\n\013ENDORSEME" +
+      "NT\020\004\022\r\n\tMEMBER_UP\020\005\022\017\n\013MEMBER_DOWN\020\006\022\016\n\n" +
+      "CANDIDATOR\020\007\022\021\n\rGENESIS_BLOCK\020\010\022\016\n\nBLOCK" +
+      "_SYNC\020\t\022\023\n\017BLOCK_SYNC_DATA\020\n\022\022\n\016BLOCK_SY" +
+      "NC_SUC\020\013\022\022\n\016CONTRACT_EVENT\020\014\"\371\002\n\006Signer\022" +
+      "\014\n\004name\030\001 \001(\t\022\023\n\013credit_code\030\002 \001(\t\022\016\n\006mo" +
+      "bile\030\003 \001(\t\022\022\n\ncert_names\030\004 \003(\t\022\025\n\rauthor" +
+      "ize_ids\030\005 \003(\t\022\023\n\013operate_ids\030\006 \003(\t\022\037\n\027cr" +
+      "edential_metadata_ids\030\007 \003(\t\022<\n\024authentic" +
+      "ation_certs\030\010 \003(\0132\036.com.rcjava.protos.Ce" +
+      "rtificate\022\023\n\013signer_info\030\t \001(\t\022/\n\013create" +
+      "_time\030\n \001(\0132\032.google.protobuf.Timestamp\022" +
+      "0\n\014disable_time\030\013 \001(\0132\032.google.protobuf." +
+      "Timestamp\022\024\n\014signer_valid\030\014 \001(\010\022\017\n\007versi" +
+      "on\030\r \001(\t\"A\n\006CertId\022\023\n\013credit_code\030\001 \001(\t\022" +
+      "\021\n\tcert_name\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\"\367\002\n\013" +
+      "Certificate\022\023\n\013certificate\030\001 \001(\t\022\020\n\010alg_" +
+      "type\030\002 \001(\t\022\022\n\ncert_valid\030\003 \001(\010\022,\n\010reg_Ti" +
+      "me\030\004 \001(\0132\032.google.protobuf.Timestamp\022.\n\n" +
+      "unreg_Time\030\005 \001(\0132\032.google.protobuf.Times" +
+      "tamp\022:\n\tcert_type\030\006 \001(\0162\'.com.rcjava.pro" +
+      "tos.Certificate.CertType\022%\n\002id\030\007 \001(\0132\031.c" +
+      "om.rcjava.protos.CertId\022\021\n\tcert_hash\030\010 \001" +
+      "(\t\022\017\n\007version\030\t \001(\t\"H\n\010CertType\022\022\n\016CERT_" +
+      "UNDEFINED\020\000\022\027\n\023CERT_AUTHENTICATION\020\001\022\017\n\013" +
+      "CERT_CUSTOM\020\002\"\270\003\n\007Operate\022\r\n\005op_id\030\001 \001(\t" +
+      "\022\023\n\013description\030\002 \001(\t\022\020\n\010register\030\003 \001(\t\022" +
+      "\022\n\nis_publish\030\004 \001(\010\022<\n\014operate_type\030\005 \001(" +
+      "\0162&.com.rcjava.protos.Operate.OperateTyp" +
+      "e\022\034\n\024operate_service_name\030\006 \003(\t\022\030\n\020opera" +
+      "te_endpoint\030\007 \001(\t\022\026\n\016auth_full_name\030\010 \001(" +
+      "\t\022/\n\013create_time\030\t \001(\0132\032.google.protobuf" +
+      ".Timestamp\0220\n\014disable_time\030\n \001(\0132\032.googl" +
+      "e.protobuf.Timestamp\022\020\n\010op_valid\030\013 \001(\010\022\017" +
+      "\n\007version\030\014 \001(\t\"O\n\013OperateType\022\025\n\021OPERAT" +
+      "E_UNDEFINED\020\000\022\024\n\020OPERATE_CONTRACT\020\001\022\023\n\017O" +
+      "PERATE_SERVICE\020\002\"\345\002\n\tAuthorize\022\n\n\002id\030\001 \001" +
+      "(\t\022\r\n\005grant\030\002 \001(\t\022\017\n\007granted\030\003 \003(\t\022\r\n\005op" +
+      "_id\030\004 \003(\t\022>\n\013is_transfer\030\005 \001(\0162).com.rcj" +
+      "ava.protos.Authorize.TransferType\022/\n\013cre" +
+      "ate_time\030\006 \001(\0132\032.google.protobuf.Timesta" +
+      "mp\0220\n\014disable_time\030\007 \001(\0132\032.google.protob" +
+      "uf.Timestamp\022\027\n\017authorize_valid\030\010 \001(\010\022\017\n" +
+      "\007version\030\t \001(\t\"P\n\014TransferType\022\024\n\020TRANSF" +
+      "ER_DISABLE\020\000\022\021\n\rTRANSFER_ONCE\020\001\022\027\n\023TRANS" +
+      "FER_REPEATEDLY\020\002\"h\n\023BindCertToAuthorize\022" +
+      "\024\n\014authorize_id\030\001 \001(\t\022*\n\007granted\030\002 \001(\0132\031" +
+      ".com.rcjava.protos.CertId\022\017\n\007version\030\003 \001" +
+      "(\t\"\304\001\n\014CreClaStruct\022\017\n\007version\030\001 \001(\t\022\n\n\002" +
+      "id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\023\n\013ccs_version\030\004 " +
+      "\001(\t\022\023\n\013description\030\005 \001(\t\022\017\n\007creator\030\006 \001(" +
+      "\t\022\017\n\007created\030\007 \001(\t\022\r\n\005valid\030\010 \001(\010\022.\n\natt" +
+      "ributes\030\t \003(\0132\032.com.rcjava.protos.CreAtt" +
+      "r\"L\n\007CreAttr\022\014\n\004name\030\001 \001(\t\022\014\n\004type\030\002 \001(\t" +
+      "\022\020\n\010required\030\003 \001(\010\022\023\n\013description\030\004 \001(\t\"" +
+      "g\n\014VerCreStatus\022\017\n\007version\030\001 \001(\t\022\n\n\002id\030\002" +
+      " \001(\t\022\016\n\006status\030\003 \001(\t\022\031\n\021revokedClaimInde" +
+      "x\030\004 \003(\t\022\017\n\007creator\030\005 \001(\t\"x\n\tSignature\022*\n" +
+      "\007cert_id\030\001 \001(\0132\031.com.rcjava.protos.CertI" +
+      "d\022,\n\010tm_local\030\002 \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\022\021\n\tsignature\030\003 \001(\014\"0\n\016ChaincodeI" +
+      "nput\022\020\n\010function\030\001 \001(\t\022\014\n\004args\030\002 \003(\t\"5\n\013" +
+      "ChaincodeId\022\025\n\rchaincodeName\030\001 \001(\t\022\017\n\007ve" +
+      "rsion\030\002 \001(\005\"\340\001\n\005Block\022.\n\006header\030\001 \001(\0132\036." +
+      "com.rcjava.protos.BlockHeader\0224\n\014transac" +
+      "tions\030\003 \003(\0132\036.com.rcjava.protos.Transact" +
+      "ion\022A\n\023transaction_results\030\004 \003(\0132$.com.r" +
+      "cjava.protos.TransactionResult\022.\n\006reg_tx" +
+      "\030\017 \001(\0132\036.com.rcjava.protos.Transaction\"\207" +
+      "\002\n\013BlockHeader\022\017\n\007version\030\001 \001(\r\022\016\n\006heigh" +
+      "t\030\002 \001(\004\022\021\n\tcommit_tx\030\003 \001(\014\022\030\n\020commit_tx_" +
+      "result\030\004 \001(\014\022\024\n\014hash_present\030\005 \001(\014\022\025\n\rha" +
+      "sh_previous\030\006 \001(\014\022\024\n\014commit_state\030\007 \001(\014\022" +
+      "\033\n\023commit_state_global\030\010 \001(\014\022\026\n\016height_e" +
+      "xpired\030\t \001(\004\0222\n\014endorsements\030\n \003(\0132\034.com" +
+      ".rcjava.protos.Signature\">\n\020TransactionE" +
+      "rror\022\014\n\004txId\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022\016\n\006reas" +
+      "on\030\003 \001(\t\"\300\003\n\021TransactionResult\022\014\n\004txId\030\001" +
+      " \001(\t\022G\n\nstates_get\030\002 \003(\01323.com.rcjava.pr" +
+      "otos.TransactionResult.StatesGetEntry\022G\n" +
+      "\nstates_set\030\003 \003(\01323.com.rcjava.protos.Tr" +
+      "ansactionResult.StatesSetEntry\022G\n\nstates" +
+      "_del\030\004 \003(\01323.com.rcjava.protos.Transacti" +
+      "onResult.StatesDelEntry\022,\n\003err\030\005 \001(\0132\037.c" +
+      "om.rcjava.protos.ActionResult\0320\n\016StatesG" +
+      "etEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\032" +
+      "0\n\016StatesSetEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\014:\0028\001\0320\n\016StatesDelEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\014:\0028\001\"\245\003\n\013Transaction\022\n\n\002i" +
+      "d\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.com.rcjava.proto" +
+      "s.Transaction.Type\022+\n\003cid\030\003 \001(\0132\036.com.rc" +
+      "java.protos.ChaincodeId\0222\n\004spec\030\004 \001(\0132\"." +
+      "com.rcjava.protos.ChaincodeDeployH\000\0220\n\003i" +
+      "pt\030\005 \001(\0132!.com.rcjava.protos.ChaincodeIn" +
+      "putH\000\022\017\n\005state\030\006 \001(\010H\000\022\021\n\tgas_limit\030\007 \001(" +
+      "\r\022\013\n\003oid\030\010 \001(\t\022/\n\tsignature\030\t \001(\0132\034.com." +
+      "rcjava.protos.Signature\"Z\n\004Type\022\r\n\tUNDEF" +
+      "INED\020\000\022\024\n\020CHAINCODE_DEPLOY\020\001\022\024\n\020CHAINCOD" +
+      "E_INVOKE\020\002\022\027\n\023CHAINCODE_SET_STATE\020\003B\006\n\004p" +
+      "ara\"\225\006\n\017ChaincodeDeploy\022\017\n\007timeout\030\001 \001(\005" +
+      "\022\024\n\014code_package\030\002 \001(\t\022\023\n\013legal_prose\030\003 " +
+      "\001(\t\022;\n\006c_type\030\004 \001(\0162+.com.rcjava.protos." +
+      "ChaincodeDeploy.CodeType\022:\n\006r_type\030\005 \001(\016" +
+      "2*.com.rcjava.protos.ChaincodeDeploy.Run" +
+      "Type\022<\n\006s_type\030\006 \001(\0162,.com.rcjava.protos" +
+      ".ChaincodeDeploy.StateType\022\026\n\016init_param" +
+      "eter\030\007 \001(\t\022R\n\017cclassification\030\010 \001(\01629.co" +
+      "m.rcjava.protos.ChaincodeDeploy.Contract" +
+      "Classification\022$\n\034is_called_by_other_con" +
+      "tracts\030\t \001(\010\"\211\001\n\010CodeType\022\022\n\016CODE_UNDEFI" +
+      "NED\020\000\022\023\n\017CODE_JAVASCRIPT\020\001\022\016\n\nCODE_SCALA" +
+      "\020\002\022\020\n\014CODE_VCL_DLL\020\003\022\020\n\014CODE_VCL_EXE\020\004\022\021" +
+      "\n\rCODE_VCL_WASM\020\005\022\r\n\tCODE_WASM\020\006\"P\n\007RunT" +
+      "ype\022\021\n\rRUN_UNDEFINED\020\000\022\016\n\nRUN_SERIAL\020\001\022\020" +
+      "\n\014RUN_PARALLEL\020\002\022\020\n\014RUN_OPTIONAL\020\003\"C\n\tSt" +
+      "ateType\022\023\n\017STATE_UNDEFINED\020\000\022\017\n\013STATE_BL" +
+      "OCK\020\001\022\020\n\014STATE_GLOBAL\020\002\"Z\n\026ContractClass" +
+      "ification\022\026\n\022CONTRACT_UNDEFINED\020\000\022\023\n\017CON" +
+      "TRACT_SYSTEM\020\001\022\023\n\017CONTRACT_CUSTOM\020\002\":\n\014A" +
+      "ctionResult\022\014\n\004code\030\001 \001(\005\022\016\n\006reason\030\002 \001(" +
+      "\t\022\014\n\004data\030\003 \001(\t\"7\n\nStateProof\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\014\022\r\n\005proof\030\003 \001(\014\"\212\001\n\016Blo" +
+      "ckchainInfo\022\016\n\006height\030\001 \001(\004\022\031\n\021totalTran" +
+      "sactions\030\002 \001(\004\022\030\n\020currentBlockHash\030\003 \001(\014" +
+      "\022\031\n\021previousBlockHash\030\004 \001(\014\022\030\n\020currentSt" +
+      "ateHash\030\005 \001(\014B\023\n\021com.rcjava.protosb\006prot" +
+      "o3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.TimestampProto.getDescriptor(),
-        });
+        }, assigner);
     internal_static_com_rcjava_protos_Event_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_rcjava_protos_Event_fieldAccessorTable = new
@@ -35544,7 +33439,7 @@ public final class Peer {
     internal_static_com_rcjava_protos_ActionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_rcjava_protos_ActionResult_descriptor,
-        new java.lang.String[] { "Code", "Reason", });
+        new java.lang.String[] { "Code", "Reason", "Data", });
     internal_static_com_rcjava_protos_StateProof_descriptor =
       getDescriptor().getMessageTypes().get(20);
     internal_static_com_rcjava_protos_StateProof_fieldAccessorTable = new

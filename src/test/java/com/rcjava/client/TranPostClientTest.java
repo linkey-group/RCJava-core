@@ -12,6 +12,7 @@ import com.rcjava.protos.Peer.Transaction;
 import com.rcjava.tran.TranCreator;
 import com.rcjava.tran.impl.DeployTran;
 import com.rcjava.util.CertUtil;
+import com.rcjava.util.StateUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -190,5 +191,53 @@ public class TranPostClientTest {
         Peer.Transaction signedDeployTran = tranCreator.createDeployTran(deployTran);
         JSONObject deployRes = tranPostClient.postSignedTran(signedDeployTran);
         System.out.println(deployRes);
+    }
+
+    @Test
+    @DisplayName("测试提交交易-字符串，写操作")
+    void testPostTranByString_1() {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+        HashMap<String, String> proof = new HashMap<>();
+//        proof.put(UUID.randomUUID().toString(), "123-TEST");
+        proof.put("511876b4-9567-44a7-8fab-8e1cf6ce260fk", "1234-TEST");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "putProof", JSON.toJSONString(proof), 0, "");
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+
+        JSONObject res = tranPostClient.postSignedTran(tranHex);
+
+        assertThat(res.getString("txid")).isEqualTo(tran.getId());
+    }
+
+    @Test
+    @DisplayName("测试提交交易-字符串，只读操作")
+    void testQueryTranByString_2() {
+
+        String tranId = UUID.randomUUID().toString().replace("-", "");
+        HashMap<String, String> proof = new HashMap<>();
+        proof.put("511876b4-9567-44a7-8fab-8e1cf6ce260fk", "123-TEST");
+
+        Transaction tran = tranCreator.createInvokeTran(tranId, certId, contractAssetsId, "putProof", JSON.toJSONString(proof), 0, "");
+        String tranHex = Hex.encodeHexString(tran.toByteArray());
+
+        JSONObject res = tranPostClient.querySignedTran(tranHex);
+
+        System.out.println(res);
+        System.out.println(res.getJSONObject("result"));
+
+        Peer.TransactionResult.Builder transactionResultBuilder = Peer.TransactionResult.newBuilder();
+        String tranResultJson = res.getJSONObject("result").getJSONObject("data").toJSONString();
+        try {
+            JsonFormat.parser().merge(tranResultJson, transactionResultBuilder);
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("construct TransactionResult occurs error, errorMsg is {}", e.getMessage(), e);
+        }
+        Peer.TransactionResult transactionResult = transactionResultBuilder.build();
+
+        transactionResult.getStatesGetMap().forEach((key, value) -> {
+            String valueStr = StateUtil.toInstance(value.toByteArray(), String.class);
+            System.out.println(key + ": " + valueStr);
+        });
     }
 }
