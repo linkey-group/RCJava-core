@@ -57,6 +57,7 @@ public class ChainInfoClient {
         String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         String url = String.format("%s://%s/chaininfo", protocol, host);
         JSONObject result = client.getJObject(url);
+        result = result.getJSONObject("result");
         BlockchainInfo.Builder chainInfoBuilder = BlockchainInfo.newBuilder();
         String json = result.toJSONString();
         try {
@@ -78,6 +79,7 @@ public class ChainInfoClient {
         String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         String url = String.format("%s://%s/chaininfo/node", protocol, host);
         JSONObject jsonObject = client.getJObject(url);
+        jsonObject = jsonObject.getJSONObject("result");
         NodesNum nodesNum = new NodesNum(jsonObject.getInteger("consensusnodes"), jsonObject.getInteger("nodes"));
         return nodesNum;
     }
@@ -86,6 +88,7 @@ public class ChainInfoClient {
         String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         String url = String.format("%s://%s/chaininfo/nodesinfo", protocol, host);
         JSONObject jsonObject = client.getJObject(url);
+        jsonObject = jsonObject.getJSONObject("result");
         AllNodesInfo allNodesInfo = jsonObject.to(AllNodesInfo.class);
         return allNodesInfo;
     }
@@ -102,6 +105,7 @@ public class ChainInfoClient {
         // 根据高度获取块数据
         String url = String.format("%s://%s/block/%s", protocol, host, height);
         JSONObject result = client.getJObject(url);
+        result = result.getJSONObject("result");
         return genBlockFromJobject(result);
     }
 
@@ -143,6 +147,7 @@ public class ChainInfoClient {
         // 根据高度获取块数据
         String url = String.format("%s://%s/block/header/%s", protocol, host, height);
         JSONObject result = client.getJObject(url);
+        result = result.getJSONObject("result");
         return genBlockHeaderFromJobject(result);
     }
 
@@ -156,6 +161,7 @@ public class ChainInfoClient {
         String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         String url = String.format("%s://%s/block/hash/%s", protocol, host, blockHash);
         JSONObject result = client.getJObject(url);
+        result = result.getJSONObject("result");
         return genBlockFromJobject(result);
     }
 
@@ -169,6 +175,7 @@ public class ChainInfoClient {
         String protocol = useSsl ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
         String url = String.format("%s://%s/block/header/hash/%s", protocol, host, blockHash);
         JSONObject result = client.getJObject(url);
+        result = result.getJSONObject("result");
         return genBlockHeaderFromJobject(result);
     }
 
@@ -237,6 +244,7 @@ public class ChainInfoClient {
         if (result == null || result.isEmpty()) {
             return null;
         } else {
+            result = result.getJSONObject("result");
             CreateTime createTime = new CreateTime(result.getString("createTime"), result.getString("createTimeUtc"));
             return createTime;
         }
@@ -255,6 +263,7 @@ public class ChainInfoClient {
         if (result == null || result.isEmpty()) {
             return null;
         }
+        result = result.getJSONObject("result");
         Transaction.Builder builder = Transaction.newBuilder();
         try {
             String json = result.toJSONString();
@@ -304,6 +313,8 @@ public class ChainInfoClient {
         JSONObject result = client.getJObject(url);
         if (result == null || result.isEmpty()) {
             return null;
+        } else {
+            result = result.getJSONObject("result");
         }
         Transaction.Builder tranBuilder = Transaction.newBuilder();
         try {

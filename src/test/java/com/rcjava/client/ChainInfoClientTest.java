@@ -8,6 +8,7 @@ import com.rcjava.protos.Peer.Block;
 import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
+import com.rcjava.util.StateUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContexts;
@@ -16,11 +17,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
-import java.security.*;
+import java.security.PublicKey;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.rcjava.util.StateUtil.toInstance;
-import static com.rcjava.util.StateUtil.toJsonString;
 
 
 /**
@@ -54,6 +53,7 @@ public class ChainInfoClientTest {
     @DisplayName("测试根据高度获取块, 并验证节点背书")
     void testGetBlockByHeight() throws Exception {
         Block block = chainInfoClient.getBlockByHeight(1);
+        String data = block.getTransactionResults(0).getErr().getData();
 
         Peer.Signature signature = block.getHeader().getEndorsements(0);
         Peer.BlockHeader blockHeader = block.getHeader();
@@ -82,7 +82,7 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试根据交易ID获取入块时间")
     void testGetBlockTimeByTranId() {
-        ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("d8ed4810-615f-4f8f-bf94-21b5a98ebf97");
+        ChainInfoClient.CreateTime createTime = chainInfoClient.getBlockTimeByTranId("c57250fd-7521-4855-bb61-0153abd38b79");
         if (null != createTime) {
             System.out.println(createTime.getCreateTime());
             System.out.println(createTime.getCreateTimeUtc());
@@ -92,16 +92,19 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("查询RepChain的leveldb/rocksdb中的数据")
     void testQueryDB() {
-//        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "identity-net:121000005l35120456");
+        Object res = chainInfoClient.queryDB("identity-net", "ContractAssetsTPL", "", "identity-net:121000005l35120456");
 //        Object res = chainInfoClient.queryDB("credence-net", "GuangfuProof", "", "136e8e96-dbe4-456d-81f7-c191029b60b2");
-        Object res = chainInfoClient.queryDB("credence-net", "GuangfuProof", "", "568e8c50-8e57-41f3-8c88-38464686bbe6");
+//        Object res = chainInfoClient.queryDB("credence-net", "GuangfuProof", "", "568e8c50-8e57-41f3-8c88-38464686bbe6");
         System.out.println(res);
     }
 
     @Test
     @DisplayName("测试获取nodes数量")
     void testGetNodesNum() {
-        assertThat(chainInfoClient.getChainInfoNode().getNodes()).isEqualTo(5);
+        ChainInfoClient.NodesNum nodesNum = chainInfoClient.getChainInfoNode();
+        String nodesNumJsonString = JSONObject.toJSONString(nodesNum);
+        System.out.println(nodesNumJsonString);
+        assertThat(nodesNum.getNodes()).isEqualTo(5);
     }
 
     /**
@@ -110,9 +113,10 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试获得所有nodes的信息")
     void testGetAllNodesInfo() {
-        System.out.println(chainInfoClient.getAllNodeInfo().getConsensusNodes());
-        assertThat(chainInfoClient.getAllNodeInfo().getConsensusNodes().size()).isEqualTo(4);
-        assertThat(chainInfoClient.getAllNodeInfo().getNodes().size()).isEqualTo(5);
+        ChainInfoClient.AllNodesInfo allNodesInfo = chainInfoClient.getAllNodeInfo();
+        System.out.println(allNodesInfo.getConsensusNodes());
+        assertThat(allNodesInfo.getConsensusNodes().size()).isEqualTo(5);
+        assertThat(allNodesInfo.getNodes().size()).isEqualTo(5);
     }
 
     @Test
@@ -145,7 +149,7 @@ public class ChainInfoClientTest {
     @Test
     @DisplayName("测试验签，使用与签名交易对应的证书或公钥来验签即可")
     void testVerify() {
-        Peer.Transaction tran = chainInfoClient.getTranByTranId("5c1bcd72-2b2e-48d3-a8c5-28aa5cf36821");
+        Peer.Transaction tran = chainInfoClient.getTranByTranId("836e3775-0f1c-4305-8450-5f1c2c7438fa");
         byte[] sigData = tran.getSignature().getSignature().toByteArray();
         Peer.Transaction tranWithOutSig = tran.toBuilder().clearSignature().build();
         PublicKey publicKey = CertUtil.genX509CertPrivateKey(
@@ -164,6 +168,7 @@ public class ChainInfoClientTest {
         String blockUrl = "http://127.0.0.1:9081/block/1";
         BaseClient client = new RCJavaClient();
         JSONObject jsonObject = client.getJObject(blockUrl);
+        jsonObject = jsonObject.getJSONObject("result");
         Block.Builder builder = Block.newBuilder();
         JsonFormat.parser().merge(jsonObject.toJSONString(), builder);
         Block block = builder.build();
@@ -187,8 +192,8 @@ public class ChainInfoClientTest {
         Peer.TransactionResult result = chainInfoClient.getTranResultByTranId("f59593db-ab79-4d4e-b57f-a8e7c954e536");
         ChainInfoClient.TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
         byte[] bytes = result.getStatesSetMap().get("identity-net_RdidOperateAuthorizeTPL___signer-identity-net:951002007l78123233").toByteArray();
-        String json = toJsonString(bytes);
-        Object object = toInstance(bytes);
+        String json = StateUtil.toJsonString(bytes);
+        Object object = StateUtil.toInstance(bytes);
         System.out.println(json);
         System.out.println(object);
         // System.out.println(((rep.proto.rc2.Signer) object).authenticationCerts().apply(0).certificate());
