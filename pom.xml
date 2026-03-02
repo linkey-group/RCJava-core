@@ -25,6 +25,15 @@
         <version.fastjson>2.0.6</version.fastjson>
         <version.slf4j-api>1.8.0-beta4</version.slf4j-api>
         <version.slf4j-log4j12>1.8.0-beta4</version.slf4j-log4j12>
+
+        <!-- Scala / ScalaPB -->
+        <scala.version>2.12.10</scala.version>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scalapb.version>0.10.0-M2</scalapb.version>
+        <!-- scalapbc 解压目标目录（target/ 下，mvn clean 后从 .m2 缓存快速恢复） -->
+        <scalapbc.home>${project.build.directory}/scalapbc-${scalapb.version}</scalapbc.home>
+        <!-- 是否跳过 scalapbc 下载与代码生成（JitPack 构建时自动设为 true） -->
+        <scalapbc.skip>false</scalapbc.skip>
     </properties>
     <build>
         <plugins>
@@ -51,24 +60,64 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.7.1</version>
             </plugin>
-            <!-- Protobuf Maven Plugin for automatic code generation -->
+            <!-- Protobuf Maven Plugin：Java 类生成（peer.proto -> com.rcjava.protos） -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.6.1</version>
-                <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.5.1:exe:${os.detected.classifier}</protocArtifact>
-                    <protoSourceRoot>${project.basedir}/src/main/resources/protobuf</protoSourceRoot>
-                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-                    <clearOutputDirectory>false</clearOutputDirectory>
-                </configuration>
+                <executions>
+                    <!-- 从 src/main/resources/protobuf 生成 Java 类 (com.rcjava.protos) -->
+                    <execution>
+                        <id>compile-java-protos</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <protocArtifact>com.google.protobuf:protoc:3.5.1:exe:${os.detected.classifier}</protocArtifact>
+                            <protoSourceRoot>${project.basedir}/src/main/resources/protobuf</protoSourceRoot>
+                            <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                            <clearOutputDirectory>false</clearOutputDirectory>
+                            <!-- 仅处理 peer.proto，rc2.proto 由 scalapbc 生成 Scala 类 -->
+                            <includes>
+                                <include>peer.proto</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- scala-maven-plugin：支持 Scala 与 Java 混合编译
+                 scalapbc 代码生成通过 OS profile 注入（见 scalapb-windows / scalapb-unix profile）-->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.8.1</version>
                 <executions>
                     <execution>
+                        <id>scala-add-source</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-compile</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <!-- sendJavaToScalac=false: Java 文件由 javac 单独编译，避免 zinc 分析 Java 文件时因注解类缺失导致 name-hash 错误 -->
+                    <sendJavaToScalac>false</sendJavaToScalac>
+                    <args>
+                        <arg>-target:jvm-1.8</arg>
+                        <arg>-encoding</arg>
+                        <arg>UTF-8</arg>
+                    </args>
+                </configuration>
             </plugin>
             <!-- Delete generated com.google.protobuf files (use Maven dependency instead) -->
             <plugin>
@@ -214,10 +263,17 @@
             <artifactId>json4s-jackson_2.12</artifactId>
             <version>3.6.7</version>
         </dependency>
+        <!-- Scala 标准库：compile scope（Maven默认值）同时覆盖编译期与运行期，无需单独指定 runtime -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <!-- ScalaPB 运行时：支持 rep.proto.rc2.* 生成类的序列化 / 反序列化 -->
         <dependency>
             <groupId>com.thesamet.scalapb</groupId>
             <artifactId>scalapb-runtime_2.12</artifactId>
-            <version>0.10.0-M2</version>
+            <version>${scalapb.version}</version>
         </dependency>
         <dependency>
             <groupId>com.twitter</groupId>
@@ -252,6 +308,202 @@
         </snapshotRepository>
     </distributionManagement>
     <profiles>
+        <!-- Windows：自动下载 scalapbc 并生成 Scala 代码 -->
+        <profile>
+            <id>scalapb-windows</id>
+            <activation><os><family>windows</family></os></activation>
+            <build>
+                <plugins>
+                    <!-- 步骤1：从 GitHub Releases 下载并解压 scalapbc 到 target/（ZIP 缓存在 .m2，mvn clean 后秒恢复） -->
+                    <plugin>
+                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                        <artifactId>download-maven-plugin</artifactId>
+                        <version>1.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>download-scalapbc-windows</id>
+                                <phase>initialize</phase>
+                                <goals><goal>wget</goal></goals>
+                                <configuration>
+                                    <url>https://github.com/scalapb/ScalaPB/releases/download/v${scalapb.version}/scalapbc-${scalapb.version}.zip</url>
+                                    <unpack>true</unpack>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <skipCache>false</skipCache>
+                                    <skip>${scalapbc.skip}</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 步骤2：调用解压后的 scalapbc.bat 生成 Scala 源码 -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>generate-scalapb-sources</id>
+                                <phase>generate-sources</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${scalapbc.skip}</skip>
+                                    <executable>cmd</executable>
+                                    <arguments>
+                                        <argument>/c</argument>
+                                        <argument>${scalapbc.home}/bin/scalapbc.bat</argument>
+                                        <argument>-I=${project.basedir}/src/main/resources/protobuf</argument>
+                                        <argument>-I=${project.basedir}/src/main/resources</argument>
+                                        <argument>--scala_out=flat_package:${project.basedir}/src/main/scala</argument>
+                                        <argument>${project.basedir}/src/main/resources/protobuf/rc2.proto</argument>
+                                    </arguments>
+                                    <environmentVariables>
+                                        <SCALAPBC_HOME>${scalapbc.home}</SCALAPBC_HOME>
+                                    </environmentVariables>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Unix / macOS：自动下载 scalapbc 并生成 Scala 代码 -->
+        <profile>
+            <id>scalapb-unix</id>
+            <activation><os><family>unix</family></os></activation>
+            <build>
+                <plugins>
+                    <!-- 步骤1：从 GitHub Releases 下载并解压 scalapbc 到 target/ -->
+                    <plugin>
+                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                        <artifactId>download-maven-plugin</artifactId>
+                        <version>1.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>download-scalapbc-unix</id>
+                                <phase>initialize</phase>
+                                <goals><goal>wget</goal></goals>
+                                <configuration>
+                                    <url>https://github.com/scalapb/ScalaPB/releases/download/v${scalapb.version}/scalapbc-${scalapb.version}.zip</url>
+                                    <unpack>true</unpack>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <skipCache>false</skipCache>
+                                    <skip>${scalapbc.skip}</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 步骤2：调用解压后的 scalapbc 脚本生成 Scala 源码，先赋予执行权限 -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>chmod-scalapbc</id>
+                                <phase>initialize</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${scalapbc.skip}</skip>
+                                    <executable>chmod</executable>
+                                    <arguments>
+                                        <argument>+x</argument>
+                                        <argument>${scalapbc.home}/bin/scalapbc</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-scalapb-sources</id>
+                                <phase>generate-sources</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${scalapbc.skip}</skip>
+                                    <executable>sh</executable>
+                                    <arguments>
+                                        <argument>${scalapbc.home}/bin/scalapbc</argument>
+                                        <argument>-I=${project.basedir}/src/main/resources/protobuf</argument>
+                                        <argument>-I=${project.basedir}/src/main/resources</argument>
+                                        <argument>--scala_out=flat_package:${project.basedir}/src/main/scala</argument>
+                                        <argument>${project.basedir}/src/main/resources/protobuf/rc2.proto</argument>
+                                    </arguments>
+                                    <environmentVariables>
+                                        <SCALAPBC_HOME>${scalapbc.home}</SCALAPBC_HOME>
+                                    </environmentVariables>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- 实验方案A：xolstice protobuf-maven-plugin 的 compile-custom
+             步骤1：maven-dependency-plugin 从 Maven 仓库下载 protoc-gen-scala.bat 到 target/，保留 .bat 后缀
+             步骤2：xolstice compile-custom 通过 pluginExecutable 指向该文件，protoc 可正确调用
+             该方案无需在项目目录手动放置任何文件。 -->
+        <profile>
+            <id>scalapb-xolstice</id>
+            <build>
+                <plugins>
+                    <!-- 步骤1：下载 protoc-gen-scala.bat 到 target/，保留 .bat 后缀 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-protoc-gen-scala</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.thesamet.scalapb</groupId>
+                                            <artifactId>protoc-gen-scala</artifactId>
+                                            <version>${scalapb.version}</version>
+                                            <classifier>windows</classifier>
+                                            <type>bat</type>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <destFileName>protoc-gen-scala.bat</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 步骤2：调用 protoc，插件路径指向保留了 .bat 后缀的文件 -->
+                    <plugin>
+                        <groupId>org.xolstice.maven.plugins</groupId>
+                        <artifactId>protobuf-maven-plugin</artifactId>
+                        <version>0.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>compile-scala-protos-custom</id>
+                                <goals>
+                                    <goal>compile-custom</goal>
+                                </goals>
+                                <configuration>
+                                    <protocArtifact>com.google.protobuf:protoc:3.5.1:exe:${os.detected.classifier}</protocArtifact>
+                                    <protoSourceRoot>${project.basedir}/src/main/resources/protobuf</protoSourceRoot>
+                                    <additionalProtoPathElements>
+                                        <additionalProtoPathElement>${project.basedir}/src/main/resources</additionalProtoPathElement>
+                                    </additionalProtoPathElements>
+                                    <outputDirectory>${project.basedir}/src/main/scala</outputDirectory>
+                                    <clearOutputDirectory>false</clearOutputDirectory>
+                                    <pluginId>scala</pluginId>
+                                    <pluginExecutable>${project.build.directory}/protoc-gen-scala.bat</pluginExecutable>
+                                    <pluginParameter>flat_package</pluginParameter>
+                                    <includes>
+                                        <include>rc2.proto</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
@@ -305,6 +557,18 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <!-- JitPack 构建时自动跳过 scalapbc 下载与代码生成（生成的 Scala 源码已提交到 Git） -->
+        <profile>
+            <id>jitpack</id>
+            <activation>
+                <property>
+                    <name>env.JITPACK</name>
+                </property>
+            </activation>
+            <properties>
+                <scalapbc.skip>true</scalapbc.skip>
+            </properties>
         </profile>
     </profiles>
     <developers>
