@@ -518,27 +518,9 @@
   rSubClient.connect();
   ```
 
-* 解析区块的StateMap里的数据(指RepChain的proto文件中定义的结构数据，如Signer、Certificate、Operate、Authorize)需要用到`rc-proto.jar`(RepChain端proto-scala编译好的class)，可从本页面右侧"发行版"找到打包好的对应版本
+* 解析区块的StateMap里的数据(指RepChain的proto文件中定义的结构数据，如Signer、Certificate、Operate、Authorize)
 
-  > 1. 从release中下载对应版本的`rc-proto.jar`
-  >
-  > 2. 将`rc-proto.jar`安装到本地maven库
-  >
-  >    ```shell
-  >    mvn install:install-file -DgroupId=repchain -DartifactId=rc-proto -Dversion=2.0.0 -Dpackaging=jar -Dfile=rc-proto.jar
-  >    ```
-  >
-  > 3. 在项目中引入依赖
-  >
-  >    ```java
-  >    <dependency>
-  >        <groupId>repchain</groupId>
-  >        <artifactId>rc-proto</artifactId>
-  >        <version>2.0.0</version>
-  >    </dependency>
-  >    ```
-  >
-  > 4. 通过`StateUtil`工具类来解析
+  > 当前版本已无需额外引入`rc-proto.jar`，相关的 ScalaPB 编译生成类（`rep.proto.rc2.*`）已内置于项目的 `src/main/scala/rep/proto/rc2/` 目录下，直接通过`StateUtil`工具类解析即可
   
 * 国密的引入和使用
 
