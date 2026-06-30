@@ -6,6 +6,7 @@ import com.rcjava.exception.ConstructTranException;
 import com.rcjava.protos.Peer.*;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.sign.impl.GMSign;
+import com.rcjava.sign.impl.PqcSign;
 
 import java.security.PrivateKey;
 
@@ -30,6 +31,8 @@ public class TranSigner {
         byte[] sig;
         if (signAlgorithm.equalsIgnoreCase("SM3withSM2")) {
             sig = new GMSign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
+        } else if (isPqcSignAlgorithm(signAlgorithm)) {
+            sig = new PqcSign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
         } else {
             sig = new ECDSASign(signAlgorithm).sign(privateKey, tranWithOutSign.toByteArray());
         }
@@ -54,6 +57,10 @@ public class TranSigner {
      */
     private static boolean isInitial (PrivateKey privateKey, String signAlgorithm) {
         return privateKey != null && signAlgorithm != null;
+    }
+
+    private static boolean isPqcSignAlgorithm(String signAlgorithm) {
+        return signAlgorithm != null && signAlgorithm.trim().toUpperCase().startsWith("ML-DSA");
     }
 
     // TODO

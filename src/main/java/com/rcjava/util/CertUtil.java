@@ -1,5 +1,6 @@
 package com.rcjava.util;
 
+import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
@@ -157,10 +158,15 @@ public class CertUtil extends ProviderUtil {
      */
     public static X509Certificate generateX509Cert(InputStream certStream) {
         try {
-            CertificateFactory certF = CertificateFactory.getInstance("X.509");
-            X509Certificate x509Cert = (X509Certificate) certF.generateCertificate(certStream);
-            return x509Cert;
-        } catch (CertificateException cfEx) {
+            byte[] certBytes = IOUtils.toByteArray(certStream);
+            try {
+                CertificateFactory certF = CertificateFactory.getInstance("X.509");
+                return (X509Certificate) certF.generateCertificate(new ByteArrayInputStream(certBytes));
+            } catch (CertificateException cfEx) {
+                CertificateFactory certF = CertificateFactory.getInstance("X.509", "BC");
+                return (X509Certificate) certF.generateCertificate(new ByteArrayInputStream(certBytes));
+            }
+        } catch (Exception cfEx) {
             logger.error("根据certPath中构造x509证书异常：{}", cfEx.getMessage(), cfEx);
         } finally {
             if (certStream != null) {
@@ -184,12 +190,16 @@ public class CertUtil extends ProviderUtil {
     public static X509Certificate generateX509Cert(String certPem) throws Exception {
         StringReader stringReader = new StringReader(certPem);
         PemReader pemReader = new PemReader(stringReader);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
         byte[] certByte = pemReader.readPemObject().getContent();
-        X509Certificate x509Cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certByte));
         pemReader.close();
         stringReader.close();
-        return x509Cert;
+        try {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certByte));
+        } catch (CertificateException cfEx) {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
+            return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certByte));
+        }
     }
 
     /**

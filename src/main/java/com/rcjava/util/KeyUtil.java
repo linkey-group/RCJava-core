@@ -1,9 +1,7 @@
 package com.rcjava.util;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
-import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
-import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
 import org.bouncycastle.jce.spec.ECParameterSpec;
@@ -21,6 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.*;
@@ -82,6 +82,20 @@ public class KeyUtil extends ProviderUtil {
         }
         privateKeyPEMWriter.flush();
 
+    }
+
+    public static PrivateKey generatePrivateKey(@Nonnull File pemFile, @Nullable String pass)
+            throws IOException, OperatorCreationException, PKCSException {
+        try (PEMParser privateKeyPEMParser = new PEMParser(new FileReader(pemFile))) {
+            return generatePrivateKey(privateKeyPEMParser, pass);
+        }
+    }
+
+    public static PrivateKey generatePrivateKey(@Nonnull String pemString, @Nullable String pass)
+            throws IOException, OperatorCreationException, PKCSException {
+        try (PEMParser privateKeyPEMParser = new PEMParser(new StringReader(pemString))) {
+            return generatePrivateKey(privateKeyPEMParser, pass);
+        }
     }
 
     /**
