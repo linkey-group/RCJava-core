@@ -9,17 +9,21 @@ import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
 import com.rcjava.util.StateUtil;
+import com.rcjava.util.StateUtilScala;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContexts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import rep.proto.rc2.Certificate;
+import rep.proto.rc2.Signer;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.security.PublicKey;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.rcjava.util.StateUtil.toInstance;
 
 
 /**
@@ -179,7 +183,8 @@ public class ChainInfoClientTest {
                         if (k.startsWith("identity-net_RdidOperateAuthorizeTPL___cert-identity-net")) {
                             String nodeName = k.split(":")[1];
                             System.out.println(nodeName);
-                            // System.out.println(((rep.proto.rc2.Certificate) toInstance(v.toByteArray())).certificate());
+                            System.out.println(((Certificate) toInstance(v.toByteArray())).certificate());
+                            System.out.println(((Certificate) toInstance(v.toByteArray())).getId().certName());
                         }
                     });
                 }
@@ -193,9 +198,12 @@ public class ChainInfoClientTest {
         ChainInfoClient.TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
         byte[] bytes = result.getStatesSetMap().get("identity-net_RdidOperateAuthorizeTPL___signer-identity-net:951002007l78123233").toByteArray();
         String json = StateUtil.toJsonString(bytes);
-        Object object = StateUtil.toInstance(bytes);
+        Signer signer = (Signer) StateUtil.toInstance(bytes);
+        System.out.println(signer.name());
+        System.out.println(signer.creditCode());
+        json = StateUtilScala.toJsonString(bytes).get();
         System.out.println(json);
-        System.out.println(object);
-        // System.out.println(((rep.proto.rc2.Signer) object).authenticationCerts().apply(0).certificate());
+        System.out.println(signer);
+        System.out.println(signer.authenticationCerts().apply(0).certificate());
     }
 }
