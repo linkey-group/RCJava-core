@@ -12,7 +12,7 @@ import com.rcjava.protos.Peer.Transaction;
 import com.rcjava.tran.TranCreator;
 import com.rcjava.tran.impl.DeployTran;
 import com.rcjava.util.CertUtil;
-import com.rcjava.util.StateUtilScala;
+import com.rcjava.util.StateUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -128,8 +128,7 @@ public class TranPostClientTest {
 
         transactionResult.getStatesGetMap().forEach((key, value) -> {
             if (!key.contains("signer")) {
-//                Integer valueStr = StateUtil.toInstance(value.toByteArray(), Integer.class);
-                Integer valueStr = ((Integer) StateUtilScala.toInstance(value.toByteArray()).get());
+                Integer valueStr = StateUtil.toInstance(value.toByteArray(), Integer.class);
                 System.out.println(key + ": " + valueStr);
             }
         });
@@ -238,8 +237,7 @@ public class TranPostClientTest {
         Peer.TransactionResult transactionResult = transactionResultBuilder.build();
 
         transactionResult.getStatesGetMap().forEach((key, value) -> {
-//            String valueStr = StateUtil.toInstance(value.toByteArray(), String.class);
-            String valueStr = (String) StateUtilScala.toInstance(value.toByteArray()).get();
+            String valueStr = StateUtil.toInstance(value.toByteArray(), String.class);
             System.out.println(key + ": " + valueStr);
         });
     }

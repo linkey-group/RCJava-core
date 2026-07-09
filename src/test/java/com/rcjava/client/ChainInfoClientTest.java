@@ -9,7 +9,6 @@ import com.rcjava.protos.Peer.BlockchainInfo;
 import com.rcjava.sign.impl.ECDSASign;
 import com.rcjava.util.CertUtil;
 import com.rcjava.util.StateUtil;
-import com.rcjava.util.StateUtilScala;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContexts;
@@ -198,12 +197,11 @@ public class ChainInfoClientTest {
         ChainInfoClient.TranAndTranResult tranAndTranResult = chainInfoClient.getTranAndResultByTranId("1376cbbf-edc1-463b-82af-e643d2257159");
         byte[] bytes = result.getStatesSetMap().get("identity-net_RdidOperateAuthorizeTPL___signer-identity-net:951002007l78123233").toByteArray();
         String json = StateUtil.toJsonString(bytes);
+        System.out.println(json);
         Signer signer = (Signer) StateUtil.toInstance(bytes);
+        System.out.println(signer);
         System.out.println(signer.name());
         System.out.println(signer.creditCode());
-        json = StateUtilScala.toJsonString(bytes).get();
-        System.out.println(json);
-        System.out.println(signer);
         System.out.println(signer.authenticationCerts().apply(0).certificate());
     }
 }
